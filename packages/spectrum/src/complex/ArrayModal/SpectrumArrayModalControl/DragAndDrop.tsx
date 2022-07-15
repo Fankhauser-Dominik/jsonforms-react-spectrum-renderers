@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Flex } from '@adobe/react-spectrum';
 import DragHandle from '@spectrum-icons/workflow/DragHandle';
 import SpectrumArrayModalItem from '../SpectrumArrayModalItem';
@@ -68,7 +68,7 @@ export default function DragAndDrop({
   const [springs, api] = useSprings(data?.length, fn(order.current[0]));
   const DragHandleRef = useSpringRef();
 
-  const [grabbedIndex, setGrabbedIndex] = useState(null);
+  const [grabbedIndex, setGrabbedIndex] = React.useState(null);
   const bind: any = useDrag(
     ({ args: [originalIndex], active, movement: [, y] }) => {
       console.log(y);

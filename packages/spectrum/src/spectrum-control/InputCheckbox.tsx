@@ -26,55 +26,53 @@ import { SpectrumInputProps } from './index';
 import { DimensionValue } from '@react-types/shared';
 import SpectrumProvider from '../additional/SpectrumProvider';
 
-export const InputCheckbox = React.memo(({
-  config,
-  data,
-  enabled,
-  handleChange,
-  id,
-  isValid,
-  label,
-  path,
-  required,
-  schema,
-  uischema,
-}: CellProps & SpectrumInputProps) => {
-  const appliedUiSchemaOptions = merge({}, config, uischema.options);
+export const InputCheckbox = React.memo(
+  ({
+    config,
+    data,
+    enabled,
+    handleChange,
+    id,
+    isValid,
+    label,
+    path,
+    required,
+    schema,
+    uischema,
+  }: CellProps & SpectrumInputProps) => {
+    const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
-  const width: DimensionValue = appliedUiSchemaOptions.trim
-    ? undefined
-    : '100%';
+    const width: DimensionValue = appliedUiSchemaOptions.trim
+      ? undefined
+      : '100%';
 
-  let [isSelected, setSelected] = React.useState(
-    data ?? schema?.default ?? false
-  );
-
-  React.useEffect(() => {
-    handleChange(path, isSelected);
-  }, [isSelected]);
-
-  return (
-    <SpectrumProvider width={width}>
-      <Checkbox
-        autoFocus={appliedUiSchemaOptions.focus}
-        id={id}
-        isDisabled={enabled === undefined ? false : !enabled}
-        isEmphasized={appliedUiSchemaOptions.isEmphasized ?? false}
-        isReadOnly={appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false}
-        isRequired={required}
-        isSelected={isSelected}
-        onChange={setSelected}
-        validationState={isValid ? 'valid' : 'invalid'}
-        value={data ?? schema?.default}
-        width={width}
-      >
-        {label}
-      </Checkbox>
-      {appliedUiSchemaOptions.description ? (
-        <div style={{ fontStyle: 'italic' }}>
-          {appliedUiSchemaOptions.description}
-        </div>
-      ) : null}
-    </SpectrumProvider>
-  );
-});
+    return (
+      <SpectrumProvider width={width}>
+        <Checkbox
+          autoFocus={appliedUiSchemaOptions.focus}
+          id={id}
+          isDisabled={enabled === undefined ? false : !enabled}
+          isEmphasized={appliedUiSchemaOptions.isEmphasized ?? false}
+          isReadOnly={
+            appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false
+          }
+          isRequired={required}
+          isSelected={data}
+          onChange={() => {
+            handleChange(path, !data);
+          }}
+          validationState={isValid ? 'valid' : 'invalid'}
+          value={data ?? schema?.default ?? false}
+          width={width}
+        >
+          {label}
+        </Checkbox>
+        {appliedUiSchemaOptions.description ? (
+          <div style={{ fontStyle: 'italic' }}>
+            {appliedUiSchemaOptions.description}
+          </div>
+        ) : null}
+      </SpectrumProvider>
+    );
+  }
+);

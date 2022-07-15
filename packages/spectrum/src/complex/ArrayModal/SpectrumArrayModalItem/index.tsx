@@ -1,4 +1,4 @@
-import React, { ComponentType } from 'react';
+import React from 'react';
 import SpectrumArrayModalItem from './ModalItemComponent';
 import {
   ControlElement,
@@ -85,8 +85,8 @@ export const ctxToSpectrumArrayModalItemProps = (
 ) => mapStateToSpectrumArrayModalItemProps({ jsonforms: { ...ctx } }, ownProps);
 
 const withContextToSpectrumArrayModalItemProps = (
-  Component: ComponentType<StatePropsOfSpectrumArrayModalItem>
-): ComponentType<OwnPropsOfSpectrumArrayModalItem> => ({
+  Component: React.ComponentType<StatePropsOfSpectrumArrayModalItem>
+): React.ComponentType<OwnPropsOfSpectrumArrayModalItem> => ({
   ctx,
   props,
 }: JsonFormsStateContext & StatePropsOfSpectrumArrayModalItem) => {
@@ -95,8 +95,8 @@ const withContextToSpectrumArrayModalItemProps = (
 };
 
 export const withJsonFormsSpectrumArrayModalItemProps = (
-  Component: ComponentType<StatePropsOfSpectrumArrayModalItem>
-): ComponentType<any> =>
+  Component: React.ComponentType<StatePropsOfSpectrumArrayModalItem>
+): React.ComponentType<any> =>
   withJsonFormsContext(
     withContextToSpectrumArrayModalItemProps(
       React.memo(

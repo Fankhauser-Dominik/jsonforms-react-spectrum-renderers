@@ -26,51 +26,50 @@ import { SpectrumInputProps } from './index';
 import { DimensionValue } from '@react-types/shared';
 import SpectrumProvider from '../additional/SpectrumProvider';
 
-export const InputBooleanButton = React.memo(({
-  config,
-  data,
-  enabled,
-  handleChange,
-  id,
-  label,
-  path,
-  schema,
-  uischema,
-}: CellProps & SpectrumInputProps) => {
-  const appliedUiSchemaOptions = merge({}, config, uischema.options);
-  const autoFocus = !!appliedUiSchemaOptions.focus;
-  let [isSelected, setSelected] = React.useState(
-    data ?? schema?.default ?? false
-  );
-  const width: DimensionValue = appliedUiSchemaOptions.trim
-    ? undefined
-    : '100%';
+export const InputBooleanButton = React.memo(
+  ({
+    config,
+    data,
+    enabled,
+    handleChange,
+    id,
+    label,
+    path,
+    schema,
+    uischema,
+  }: CellProps & SpectrumInputProps) => {
+    const appliedUiSchemaOptions = merge({}, config, uischema.options);
+    const autoFocus = !!appliedUiSchemaOptions.focus;
 
-  React.useEffect(() => {
-    handleChange(path, isSelected);
-  }, [isSelected]);
+    const width: DimensionValue = appliedUiSchemaOptions.trim
+      ? undefined
+      : '100%';
 
-  return (
-    <SpectrumProvider width={width}>
-      <ToggleButton
-        aria-label={label ? undefined : path}
-        autoFocus={autoFocus}
-        id={id}
-        isDisabled={enabled === undefined ? false : !enabled}
-        isEmphasized={appliedUiSchemaOptions.isEmphasized ?? false}
-        isSelected={isSelected}
-        onChange={setSelected}
-        isQuiet={appliedUiSchemaOptions.isQuiet ?? false}
-        staticColor={appliedUiSchemaOptions.staticColor ?? null}
-        width={width}
-      >
-        {label}
-      </ToggleButton>
-      {appliedUiSchemaOptions.description ? (
-        <div style={{ fontStyle: 'italic' }}>
-          {appliedUiSchemaOptions.description}
-        </div>
-      ) : null}
-    </SpectrumProvider>
-  );
-});
+    return (
+      <SpectrumProvider width={width}>
+        <ToggleButton
+          aria-label={label ? undefined : path}
+          autoFocus={autoFocus}
+          id={id}
+          isDisabled={enabled === undefined ? false : !enabled}
+          isEmphasized={appliedUiSchemaOptions.isEmphasized ?? false}
+          isSelected={data}
+          // onChange={setSelected}
+          onChange={() => {
+            handleChange(path, !data);
+          }}
+          isQuiet={appliedUiSchemaOptions.isQuiet ?? false}
+          staticColor={appliedUiSchemaOptions.staticColor ?? null}
+          width={width}
+        >
+          {label}
+        </ToggleButton>
+        {appliedUiSchemaOptions.description ? (
+          <div style={{ fontStyle: 'italic' }}>
+            {appliedUiSchemaOptions.description}
+          </div>
+        ) : null}
+      </SpectrumProvider>
+    );
+  }
+);

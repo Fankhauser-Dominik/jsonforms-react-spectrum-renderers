@@ -25,7 +25,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React, { useCallback, useState, useMemo } from 'react';
+import React from 'react';
 import {
   ArrayControlProps,
   CombinatorProps,
@@ -61,11 +61,11 @@ export const SpectrumArrayModalControl = React.memo(
     uischema,
     uischemas,
   }: ArrayControlProps & CombinatorProps) => {
-    const _schema = useMemo(
+    const _schema = React.useMemo(
       () => resolveSubSchemas(schema, rootSchema, oneOf),
       [schema, rootSchema, oneOf]
     );
-    const oneOfRenderInfos = useMemo(
+    const oneOfRenderInfos = React.useMemo(
       () =>
         createCombinatorRenderInfos(
           (_schema as JsonSchema).oneOf,
@@ -78,11 +78,14 @@ export const SpectrumArrayModalControl = React.memo(
       [_schema, rootSchema, oneOf, uischema, uischemas, path]
     );
 
-    const [selectedIndex, setSelectedIndex] = useState(0);
-    const [open, setOpen] = useState(false);
+    const [selectedIndex, setSelectedIndex] = React.useState(0);
+    const [open, setOpen] = React.useState(false);
     const handleClose = () => setOpen(false);
 
-    const [indexOfFittingSchemaArray, setIndexOfFittingSchemaArray] = useState(
+    const [
+      indexOfFittingSchemaArray,
+      setIndexOfFittingSchemaArray,
+    ] = React.useState(
       data?.map((boundData: any) => (boundData ? undefined : 999)) ?? []
     );
 
@@ -92,7 +95,7 @@ export const SpectrumArrayModalControl = React.memo(
       );
     }, []);
 
-    const handleRemoveItem = useCallback(
+    const handleRemoveItem = React.useCallback(
       (path: string, value: any) => () => {
         removeItems(path, [value])();
         indexOfFittingSchemaArray.splice(value, 1);
@@ -121,7 +124,7 @@ export const SpectrumArrayModalControl = React.memo(
           <Heading level={4}>{label}</Heading>
           <Button
             alignSelf='center'
-            onPress={useCallback(() => {
+            onPress={React.useCallback(() => {
               setOpen(true);
             }, [open])}
             variant='primary'
@@ -172,7 +175,7 @@ export const SpectrumArrayModalControl = React.memo(
                       schema={schema}
                       uischema={uischema}
                       uischemas={uischemas}
-                    ></SpectrumArrayModalItem>
+                    />
                     {uischema.options?.showSortButtons && (
                       <SortButtons
                         data={data}

@@ -22,7 +22,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React, { useEffect } from 'react';
+import React from 'react';
 import { CellProps } from '@jsonforms/core';
 import merge from 'lodash/merge';
 import { NumberField } from '@adobe/react-spectrum';
@@ -64,7 +64,7 @@ export const InputNumber = React.memo(
 
     const stepValue = appliedUiSchemaOptions.step ?? 0.1;
 
-    useEffect(() => {
+    React.useEffect(() => {
       if (!data && schema?.default) {
         handleChange(path, schema.default);
       }

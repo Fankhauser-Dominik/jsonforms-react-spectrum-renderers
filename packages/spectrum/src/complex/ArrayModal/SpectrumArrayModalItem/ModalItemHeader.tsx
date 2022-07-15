@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   ActionButton,
   ActionMenu,
@@ -41,7 +41,7 @@ export default function ModalItemHeader({
   duplicateItem,
   childLabel,
 }: ArrayModalItemHeaderProps) {
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
 
   const actionMenuTriggered = (action: string) => {
     const testArr = action.split('-');

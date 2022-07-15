@@ -26,7 +26,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { View } from '@adobe/react-spectrum';
 import { CombinatorProps, composePaths, findUISchema } from '@jsonforms/core';
 import { ResolvedJsonFormsDispatch } from '@jsonforms/react';
@@ -65,8 +65,8 @@ const SpectrumArrayModalItem = React.memo(
     NonEmptyRowProps) => {
     const foundUISchema = findUISchema(uischemas, schema, uischema.scope, path);
     const childPath = composePaths(path, `${index}`);
-    const [expanded, setExpanded] = useState(false);
-    const [isAnimating, setIsAnimating] = useState(false);
+    const [expanded, setExpanded] = React.useState(false);
+    const [isAnimating, setIsAnimating] = React.useState(false);
 
     const handleExpand = () => {
       setIsAnimating(true);
@@ -82,7 +82,7 @@ const SpectrumArrayModalItem = React.memo(
 
     const enableDetailedView = uischema?.options?.enableDetailedView;
 
-    useEffect(() => {
+    React.useEffect(() => {
       indexOfFittingSchemaObject[childPath] =
         indexOfFittingSchema ??
         findValue(childData, 'indexOfFittingSchema') ??
@@ -100,6 +100,7 @@ schema.map((item,index) => item.componentType.title === childData.componentType 
       openItemWhenInQueryParam(path, index, childLabel, handleExpand);
     }, []);
 
+    console.log('\x1b[31m~ index', index);
     return (
       <SpectrumProvider flex='auto' width={'100%'}>
         <ModalItemAnimatedWrapper
@@ -128,6 +129,7 @@ schema.map((item,index) => item.componentType.title === childData.componentType 
             />
             {expanded && !isAnimating ? (
               <View UNSAFE_className='json-dispatch-wrapper'>
+                {console.log('\x1b[31m~ json-dispatch', index)}
                 <ResolvedJsonFormsDispatch
                   key={childPath}
                   path={childPath}

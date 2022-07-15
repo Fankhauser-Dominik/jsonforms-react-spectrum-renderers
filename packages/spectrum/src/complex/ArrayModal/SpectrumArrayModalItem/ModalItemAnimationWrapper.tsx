@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import { useSpring, animated, easings } from 'react-spring';
 
 interface AnimationWrapperProps {
@@ -15,14 +15,14 @@ export default function ModalItemAnimationWrapper({
   children,
 }: AnimationWrapperProps) {
   // initial values for animation
-  const refForPosition = useRef<HTMLDivElement>();
+  const refForPosition = React.useRef<HTMLDivElement>();
 
-  const [baseHeight, setBaseHeight] = useState('66px');
-  const [baseWidth, setBaseWidth] = useState('100%');
-  const [baseTop, setBaseTop] = useState(0);
-  const [baseLeft, setBaseLeft] = useState(0);
+  const [baseHeight, setBaseHeight] = React.useState('66px');
+  const [baseWidth, setBaseWidth] = React.useState('100%');
+  const [baseTop, setBaseTop] = React.useState(0);
+  const [baseLeft, setBaseLeft] = React.useState(0);
 
-  useEffect(() => {
+  React.useEffect(() => {
     // saving initial position of array item, for reference when animating back.
     if (refForPosition.current) {
       setBaseHeight(refForPosition.current.clientHeight + 'px');

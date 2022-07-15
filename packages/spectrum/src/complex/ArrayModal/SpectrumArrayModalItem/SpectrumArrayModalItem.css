@@ -75,3 +75,7 @@ button {
   z-index: 1;
   border-bottom: 2px solid var(--spectrum-global-color-gray-200);
 }
+
+.list-array-item .json-dispatch-wrapper {
+  border: 2px solid crimson;
+}
