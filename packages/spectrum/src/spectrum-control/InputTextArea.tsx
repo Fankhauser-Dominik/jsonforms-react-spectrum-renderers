@@ -51,23 +51,30 @@ export const InputTextArea = React.memo(
       ? undefined
       : '100%';
 
-    const isValidCheck = () => {
+    const [inputText, onChange] = useDebouncedChange(
+      handleChange,
+      schema?.default ?? '',
+      data,
+      path
+    );
+
+    const isValidCheck = React.useMemo(() => {
       let minLength = appliedUiSchemaOptions.minLength ?? (required ? 1 : 0);
       let maxLength = appliedUiSchemaOptions.maxLength ?? Infinity;
-      if (isValid && !data && minLength === 0) {
-        return 'valid';
-      } else if (!data) {
-        return 'invalid';
+      if (isValid && !inputText && minLength === 0) {
+        return true;
+      } else if (!inputText) {
+        return false;
       } else if (
         isValid &&
-        data.length >= minLength &&
-        data.length <= maxLength
+        inputText.length >= minLength &&
+        inputText.length <= maxLength
       ) {
-        return 'valid';
+        return true;
       } else {
-        return 'invalid';
+        return false;
       }
-    };
+    }, [inputText]);
 
     const errorMessage = () => {
       let minLength = appliedUiSchemaOptions.minLength ?? (required ? 1 : null);
@@ -87,7 +94,7 @@ export const InputTextArea = React.memo(
       }
     }, [!data, schema?.default]);
 
-    useEffect(() => {
+    /* useEffect(() => {
       if (
         !data &&
         !schema?.default &&
@@ -95,22 +102,15 @@ export const InputTextArea = React.memo(
       ) {
         handleChange(path, appliedUiSchemaOptions.NonFocusPlaceholder);
       }
-    }, [appliedUiSchemaOptions.NonFocusPlaceholder]);
+    }, [appliedUiSchemaOptions.NonFocusPlaceholder]); */
 
-    const clearNonFocusPlaceholder = () => {
+    /* const clearNonFocusPlaceholder = () => {
       if (data === appliedUiSchemaOptions.NonFocusPlaceholder) {
         handleChange(path, '');
       } else if (!data && !schema?.default) {
         handleChange(path, appliedUiSchemaOptions.NonFocusPlaceholder);
       }
-    };
-
-    const [inputText, onChange] = useDebouncedChange(
-      handleChange,
-      schema?.default ?? '',
-      data,
-      path
-    );
+    }; */
 
     return (
       <SpectrumProvider width={width}>
@@ -135,10 +135,10 @@ export const InputTextArea = React.memo(
           necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
           onChange={onChange}
           type={appliedUiSchemaOptions.format ?? 'text'}
-          validationState={isValidCheck()}
+          validationState={isValidCheck ? 'valid' : 'invalid'}
           value={inputText}
           width={width}
-          onFocusChange={clearNonFocusPlaceholder}
+          //onFocusChange={clearNonFocusPlaceholder}
         />
       </SpectrumProvider>
     );
