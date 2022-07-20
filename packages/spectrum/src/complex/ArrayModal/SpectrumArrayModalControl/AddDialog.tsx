@@ -15,7 +15,7 @@ interface ArrayModalControlAddDialogProps {
   uischema: any;
   handleClose: any;
   selectedIndex: any;
-  oneOfRenderInfos: any;
+  schema: any;
   handleOnConfirm: any;
   open: boolean;
   setSelectedIndex: any;
@@ -25,7 +25,7 @@ export default function AddDialog({
   uischema,
   handleClose,
   selectedIndex,
-  oneOfRenderInfos,
+  schema,
   handleOnConfirm,
   open,
   setSelectedIndex,
@@ -65,18 +65,18 @@ export default function AddDialog({
                   selectedKey={String(selectedIndex)}
                   width='calc(100% - size-200)'
                 >
-                  {oneOfRenderInfos.map(
-                    (oneOfRenderInfo: any, oneOfIndex: number) => (
-                      <Item key={oneOfIndex}>{oneOfRenderInfo.label}</Item>
-                    )
-                  )}
+                  {schema?.oneOf?.map((item: any, index: number) => (
+                    <Item key={index}>
+                      {item.title ?? `One Of Item ${index}`}
+                    </Item>
+                  ))}
                 </Picker>
               </>
             ) : (
               <>
                 <ListBox
                   aria-label='Select'
-                  items={oneOfRenderInfos}
+                  items={schema}
                   margin='size-100'
                   onSelectionChange={(selected) =>
                     handleListBoxChange(selected)
@@ -86,11 +86,11 @@ export default function AddDialog({
                   width='calc(100% - size-200)'
                   maxHeight='size-2400'
                 >
-                  {oneOfRenderInfos.map(
-                    (oneOfRenderInfo: any, oneOfIndex: number) => (
-                      <Item key={oneOfIndex}>{oneOfRenderInfo.label}</Item>
-                    )
-                  )}
+                  {schema?.oneOf?.map((item: any, index: number) => (
+                    <Item key={index}>
+                      {item.title ?? `One Of Item ${index}`}
+                    </Item>
+                  ))}
                 </ListBox>
               </>
             )}

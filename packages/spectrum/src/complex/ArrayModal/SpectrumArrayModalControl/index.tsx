@@ -25,15 +25,12 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React, { useCallback, useState, useMemo } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   ArrayControlProps,
   CombinatorProps,
-  JsonSchema,
   OwnPropsOfControl,
-  createCombinatorRenderInfos,
   createDefaultValue,
-  resolveSubSchemas,
 } from '@jsonforms/core';
 import { Button, Flex, Heading, Text, View } from '@adobe/react-spectrum';
 import SpectrumArrayModalItem from '../SpectrumArrayModalItem';
@@ -47,7 +44,6 @@ export interface OwnOneOfProps extends OwnPropsOfControl {
   indexOfFittingSchema?: number;
 }
 
-const oneOf = 'oneOf';
 export const SpectrumArrayModalControl = React.memo(
   ({
     addItem,
@@ -61,23 +57,6 @@ export const SpectrumArrayModalControl = React.memo(
     uischema,
     uischemas,
   }: ArrayControlProps & CombinatorProps) => {
-    const _schema = useMemo(
-      () => resolveSubSchemas(schema, rootSchema, oneOf),
-      [schema, rootSchema, oneOf]
-    );
-    const oneOfRenderInfos = useMemo(
-      () =>
-        createCombinatorRenderInfos(
-          (_schema as JsonSchema).oneOf,
-          rootSchema,
-          oneOf,
-          uischema,
-          path,
-          uischemas
-        ),
-      [_schema, rootSchema, oneOf, uischema, uischemas, path]
-    );
-
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [open, setOpen] = useState(false);
     const handleClose = () => setOpen(false);
@@ -132,7 +111,7 @@ export const SpectrumArrayModalControl = React.memo(
             uischema={uischema}
             handleClose={handleClose}
             selectedIndex={selectedIndex}
-            oneOfRenderInfos={oneOfRenderInfos}
+            schema={schema}
             setSelectedIndex={setSelectedIndex}
             handleOnConfirm={handleOnConfirm}
             open={open}
@@ -172,7 +151,7 @@ export const SpectrumArrayModalControl = React.memo(
                       schema={schema}
                       uischema={uischema}
                       uischemas={uischemas}
-                    ></SpectrumArrayModalItem>
+                    />
                     {uischema.options?.showSortButtons && (
                       <SortButtons
                         data={data}
