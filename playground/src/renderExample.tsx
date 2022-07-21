@@ -132,7 +132,7 @@ export const renderExample = (
           <ColorSchemeContext.Provider value={colorScheme}>
             <Router>
               <Routes>
-                <Route path='/' element={<div>test</div>} />
+                <Route path='*' element={<ConnectedApp />} />
               </Routes>
             </Router>
           </ColorSchemeContext.Provider>
