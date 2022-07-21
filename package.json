@@ -7,7 +7,11 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "install": "npm run-p install",
+    "install:root": "npm ci",
+    "install:playground": "(cd playground && npm ci)",
+    "install:renderers": "(cd renderers & npm ci)"
   },
   "repository": {
     "type": "git",
@@ -25,6 +29,7 @@
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
     "@vitejs/plugin-react": "^2.0.0",
+    "npm-run-all": "^4.1.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "typescript": "^4.7.4",

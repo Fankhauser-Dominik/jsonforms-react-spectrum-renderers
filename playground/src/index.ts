@@ -27,7 +27,7 @@
 */
 import { createThemeSelection, getPreferredTheme } from './theme.switcher';
 import { SpectrumCells, SpectrumRenderers } from '../../renderers/src/src';
-import { renderExample } from '../playground/src/index';
+import { renderExample } from './renderExample';
 
 const rerender = renderExample(
   SpectrumRenderers,

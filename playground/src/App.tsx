@@ -29,7 +29,7 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { JsonFormsDispatch } from '@jsonforms/react';
 import { JsonFormsReduxContext } from '@jsonforms/react/lib/redux';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {
   Heading,
   Item,
@@ -208,7 +208,7 @@ function App(props: AppProps & { selectedExample: ReactExampleDescription }) {
 
 function AppWithExampleInURL(props: AppProps) {
   const urlParams = useParams<{ name: string | undefined }>();
-  const history = useHistory();
+  //const history = useHistory();
   const examplesRef = useRef([
     ...props.examples,
     ...getExamplesFromLocalStorage(),
@@ -229,9 +229,10 @@ function AppWithExampleInURL(props: AppProps) {
           ...getExamplesFromLocalStorage(),
         ];
       }
-      history.push(`/${example.name}`);
+      //history.push(`/${example.name}`);
     },
-    [props.changeExample, history]
+    [props.changeExample]
+    //[props.changeExample, history]
   );
 
   // When URL changes, we have to call changeExample to dispatch some jsonforms redux actions
@@ -239,9 +240,10 @@ function AppWithExampleInURL(props: AppProps) {
     if (selectedExample) {
       props.changeExample(selectedExample);
     } else {
-      history.push('/');
+      //history.push('/');
     }
-  }, [selectedExample, history]);
+  }, [selectedExample]);
+  //}, [selectedExample, history]);
 
   // If name is invalid, redirect to home
   if (!selectedExample) {

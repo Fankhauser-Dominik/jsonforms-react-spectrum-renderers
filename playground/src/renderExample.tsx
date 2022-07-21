@@ -28,12 +28,11 @@
 import { createRoot } from 'react-dom/client';
 import {
   HashRouter as Router,
-  Switch,
-  Redirect,
+  Routes,
   Route,
 } from 'react-router-dom';
 import React from 'react';
-import './index.css';
+import './renderExample.css';
 import { ConnectedApp } from './App';
 import { combineReducers, createStore } from 'redux';
 import { Provider } from 'react-redux';
@@ -49,7 +48,7 @@ import {
 import { getExamples, registerExamples } from '@jsonforms/examples';
 import { exampleReducer } from './reduxUtil';
 import { enhanceExample, ReactExampleDescription } from './util';
-import { ColorSchemeContext } from '../../src/util/ColorSchemeContext';
+import { ColorSchemeContext } from '../../renderers/src/src/util/ColorSchemeContext';
 
 declare global {
   interface Window {
@@ -112,11 +111,6 @@ const setupStore = (
       exampleData[exampleData.length - 1].uischema,
       {
         ajv: ajv,
-        refParserOptions: {
-          resolve: {
-            geo: geoResolver,
-          } as any,
-        },
       }
     )
   );
@@ -137,12 +131,9 @@ export const renderExample = (
         <SpectrumThemeProvider colorScheme={colorScheme} theme={defaultTheme}>
           <ColorSchemeContext.Provider value={colorScheme}>
             <Router>
-              <Switch>
-                <Route exact path='/:name?'>
-                  <ConnectedApp />
-                </Route>
-                <Redirect to='/' />
-              </Switch>
+              <Routes>
+                <Route path='/' element={<div>test</div>} />
+              </Routes>
             </Router>
           </ColorSchemeContext.Provider>
         </SpectrumThemeProvider>

@@ -22,15 +22,15 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import 'codemirror/lib/codemirror.css';
-import 'codemirror/theme/mbo.css';
-import 'codemirror/theme/base16-light.css';
+// import 'codemirror/lib/codemirror.css';
+// import 'codemirror/theme/mbo.css';
+// import 'codemirror/theme/base16-light.css';
 import React, { useCallback, useContext, useState } from 'react';
-import { UnControlled as CodeMirror } from 'react-codemirror2';
-import { ColorSchemeContext } from '../../src/util/ColorSchemeContext';
+// import { UnControlled as CodeMirror } from 'react-codemirror2';
+import { ColorSchemeContext } from '../../renderers/src/src/util/ColorSchemeContext';
 import { ButtonGroup, Button, StatusLight, View } from '@adobe/react-spectrum';
 
-import 'codemirror/mode/javascript/javascript';
+// import 'codemirror/mode/javascript/javascript';
 
 export function TextArea(props: {
   value: string;
@@ -50,6 +50,8 @@ export function TextArea(props: {
 
   return (
     <>
+      <textarea value={props.value}></textarea> 
+      {/*
       <CodeMirror
         key={key}
         value={props.value}
@@ -60,6 +62,7 @@ export function TextArea(props: {
         }}
         onChange={(_, __, value) => setValue(value)}
       />
+      */}
       <View paddingTop='size-50'>
         {value && err && <StatusLight variant='negative'>{err}</StatusLight>}
         {value && !err && (
