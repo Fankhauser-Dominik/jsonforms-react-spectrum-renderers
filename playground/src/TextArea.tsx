@@ -21,16 +21,16 @@
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
+import 'codemirror/lib/codemirror.css';
+import 'codemirror/theme/mbo.css';
+import 'codemirror/theme/base16-light.css';
 */
-// import 'codemirror/lib/codemirror.css';
-// import 'codemirror/theme/mbo.css';
-// import 'codemirror/theme/base16-light.css';
 import React, { useCallback, useContext, useState } from 'react';
-// import { UnControlled as CodeMirror } from 'react-codemirror2';
+import CodeMirror from '@uiw/react-codemirror';
 import { ColorSchemeContext } from '../../renderers/src/src/util/ColorSchemeContext';
 import { ButtonGroup, Button, StatusLight, View } from '@adobe/react-spectrum';
 
-// import 'codemirror/mode/javascript/javascript';
+import { javascript } from '@codemirror/lang-javascript';
 
 export function TextArea(props: {
   value: string;
@@ -48,21 +48,26 @@ export function TextArea(props: {
     props.onChange(value);
   }, [value]);
 
-  return (
-    <>
-      <textarea value={props.value}></textarea> 
-      {/*
-      <CodeMirror
-        key={key}
-        value={props.value}
+        /*
         options={{
           mode: 'application/json',
           theme: colorScheme === 'dark' ? 'mbo' : 'default',
           lineNumbers: true,
         }}
-        onChange={(_, __, value) => setValue(value)}
+        */
+
+  const onChangeHandler = React.useCallback((value: any, viewUpdate: any) => {
+    console.log('value:', value);
+  }, []);
+
+  return (
+    <>
+      <CodeMirror
+        key={key}
+        value={props.value}
+        onChange={onChangeHandler}
+        extensions={[javascript()]}
       />
-      */}
       <View paddingTop='size-50'>
         {value && err && <StatusLight variant='negative'>{err}</StatusLight>}
         {value && !err && (
