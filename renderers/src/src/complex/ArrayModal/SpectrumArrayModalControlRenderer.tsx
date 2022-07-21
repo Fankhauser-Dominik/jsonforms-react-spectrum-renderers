@@ -28,7 +28,7 @@
 import React from 'react';
 
 import { ArrayControlProps, ControlElement, Helpers } from '@jsonforms/core';
-import { withJsonFormsArrayControlProps } from '@jsonforms/react';
+// import { withJsonFormsArrayControlProps } from '@jsonforms/react';
 import { SpectrumArrayModalControl } from './SpectrumArrayModalControl';
 
 type OverrideProps = { 
@@ -80,6 +80,9 @@ const SpectrumArrayModalControlRenderer = React.memo(
   }
 );
 
+/*
 export default withJsonFormsArrayControlProps(
   SpectrumArrayModalControlRenderer
 );
+*/
+export default SpectrumArrayModalControlRenderer;

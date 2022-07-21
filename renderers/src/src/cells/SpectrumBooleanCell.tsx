@@ -34,13 +34,17 @@ import {
   and,
   optionIs,
 } from '@jsonforms/core';
-import { withJsonFormsCellProps } from '@jsonforms/react';
+// import { withJsonFormsCellProps } from '@jsonforms/react';
 import { Switch } from '@adobe/react-spectrum';
 import merge from 'lodash/merge';
 import { DimensionValue } from '@react-types/shared';
 
-export const SpectrumBooleanCell: FunctionComponent<CellProps> = (
-  props: React.PropsWithChildren<CellProps>
+interface SpectrumBooleanCellProps extends CellProps {
+  children: any;
+}
+
+export const SpectrumBooleanCell: FunctionComponent<SpectrumBooleanCellProps> = (
+  props: React.PropsWithChildren<SpectrumBooleanCellProps>
 ) => {
   const { data, id, enabled, uischema, path, handleChange, config } = props;
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
@@ -75,4 +79,5 @@ export const SpectrumBooleanCellTester: RankedTester = rankWith(
   and(isBooleanControl, optionIs('switch', true))
 );
 
-export default withJsonFormsCellProps(SpectrumBooleanCell);
+export default SpectrumBooleanCell;
+// export default withJsonFormsCellProps(SpectrumBooleanCell);

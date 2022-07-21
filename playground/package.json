@@ -9,12 +9,22 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@adobe/react-spectrum": "^3.19.0",
+    "@jsonforms/core": "^3.0.0-beta.5",
+    "@jsonforms/examples": "^3.0.0-beta.5",
+    "@jsonforms/react": "^3.0.0-beta.5",
+    "@spectrum-icons/workflow": "^4.0.0",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
     "@vitejs/plugin-react": "^2.0.0",
+    "codemirror": "^5.58.3",
+    "lodash": "^4.17.21",
     "react": "^18.2.0",
+    "react-codemirror2": "^7.2.1",
     "react-dom": "^18.2.0",
+    "react-redux": "^8.0.2",
     "react-router-dom": "^6.3.0",
+    "redux": "^4.2.0",
     "typescript": "^4.7.4",
     "vite": "^3.0.2"
   }

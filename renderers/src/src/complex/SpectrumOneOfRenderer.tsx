@@ -28,7 +28,6 @@
 import React, { Key, useCallback, useState } from 'react';
 import { isEmpty } from '../util/isEmpty';
 import {
-  JsonSchema,
   RankedTester,
   createCombinatorRenderInfos,
   createDefaultValue,
@@ -69,7 +68,7 @@ const SpectrumOneOfRenderer = ({
   uischema,
   uischemas,
   visible,
-}: CombinatorProps) => {
+}: { [key: string]: any }) => {
   const [open, setOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(
     indexOfFittingSchema ?? indexOfFittingSchemaObject[path]
@@ -77,9 +76,8 @@ const SpectrumOneOfRenderer = ({
 
   const [newSelectedIndex, setNewSelectedIndex] = useState(0);
   const handleClose = useCallback(() => setOpen(false), [setOpen]);
-  const _schema = resolveSubSchemas(schema, rootSchema, oneOf);
   const oneOfRenderInfos = createCombinatorRenderInfos(
-    (_schema as JsonSchema).oneOf,
+    schema.oneOf,
     rootSchema,
     oneOf,
     uischema,
@@ -124,7 +122,7 @@ const SpectrumOneOfRenderer = ({
         <CombinatorProperties
           combinatorKeyword={'oneOf'}
           path={path}
-          schema={_schema}
+          schema={schema}
         />
         {usePickerInsteadOfTabs ? (
           <>

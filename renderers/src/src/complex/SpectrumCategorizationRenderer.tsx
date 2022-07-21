@@ -37,7 +37,7 @@ import {
   UISchemaElement,
   uiTypeIs,
 } from '@jsonforms/core';
-import { withJsonFormsLayoutProps } from '@jsonforms/react';
+// import { withJsonFormsLayoutProps } from '@jsonforms/react';
 import {
   Content,
   Item,
@@ -46,7 +46,8 @@ import {
   Tabs,
   View,
 } from '@adobe/react-spectrum';
-import { AjvProps, withAjvProps } from '../util';
+// import { AjvProps, withAjvProps } from '../util';
+import { AjvProps } from '../util';
 import { SpectrumVerticalLayout } from '../layouts';
 import SpectrumProvider from '../additional/SpectrumProvider';
 
@@ -81,8 +82,8 @@ export const SpectrumCategorizationRenderer = (
   const { data, path, schema, uischema, visible, enabled, ajv } = props;
 
   const categorization = uischema as Categorization;
-  const categories = categorization.elements.filter((category: Category) =>
-    isVisible(category, data, undefined, ajv)
+  const categories = categorization.elements.filter((category: Categorization | Category, index: number) =>
+    isVisible(category, data, '', ajv)
   );
 
   return (
@@ -118,6 +119,9 @@ export const SpectrumCategorizationRenderer = (
   );
 };
 
+export default SpectrumCategorizationRenderer;
+/*
 export default withJsonFormsLayoutProps(
   withAjvProps(SpectrumCategorizationRenderer)
 );
+*/

@@ -127,9 +127,8 @@ const SpectrumArrayControlGrid = ({
     scope: schema.type === 'object' ? `#/properties/${key}` : '#',
   });
 
-  const { text }= createLabelDescriptionFrom(controlElement, schema);
-  let uioptions;
-  if (text) uioptions = getUIOptions(uischema, text);
+  const { text } = createLabelDescriptionFrom(controlElement, schema);
+  let uioptions = getUIOptions(uischema, text || '');
   const spacing: number[] = uischema.options?.spacing ?? [];
   const add = addItem(path, createDefaultValue(schema));
   const fields = schema.properties ? Object.keys(schema.properties) : ['items'];

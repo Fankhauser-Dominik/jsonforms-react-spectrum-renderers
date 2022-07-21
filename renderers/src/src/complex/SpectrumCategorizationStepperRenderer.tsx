@@ -39,7 +39,7 @@ import {
   UISchemaElement,
   uiTypeIs,
 } from '@jsonforms/core';
-import { withJsonFormsLayoutProps } from '@jsonforms/react';
+// import { withJsonFormsLayoutProps } from '@jsonforms/react';
 import {
   Button,
   ButtonGroup,
@@ -51,7 +51,8 @@ import {
   Tabs,
 } from '@adobe/react-spectrum';
 import merge from 'lodash/merge';
-import { AjvProps, withAjvProps } from '../util';
+import { AjvProps } from '../util';
+// import { AjvProps, withAjvProps } from '../util';
 import { SpectrumVerticalLayout } from '../layouts';
 import SpectrumProvider from '../additional/SpectrumProvider';
 
@@ -82,8 +83,8 @@ export const SpectrumCategorizationStepperRenderer = (
   };
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
   const categorization = uischema as Categorization;
-  const categories = categorization.elements.filter((category: Category) =>
-    isVisible(category, data, undefined, ajv)
+  const categories = categorization.elements.filter((value: Categorization | Category, index: number) =>
+    isVisible(value, data, '', ajv)
   );
 
   return (
@@ -152,6 +153,9 @@ export const SpectrumCategorizationStepperRenderer = (
   );
 };
 
+/*
 export default withJsonFormsLayoutProps(
   withAjvProps(SpectrumCategorizationStepperRenderer)
 );
+*/
+export default SpectrumCategorizationStepperRenderer;
