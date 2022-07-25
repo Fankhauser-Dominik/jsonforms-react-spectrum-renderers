@@ -25,9 +25,9 @@
 
 import { Item, Picker, Section } from '@adobe/react-spectrum';
 import React, { useRef } from 'react';
-import './App.css';
-import { localPrefix } from './persistedExamples';
-import { ReactExampleDescription } from './util';
+import '../App.css';
+import { localPrefix } from '../utils/persistedExamples';
+import { ReactExampleDescription } from '../utils/util';
 
 export function ExamplesPicker(props: {
   examples: ReactExampleDescription[];

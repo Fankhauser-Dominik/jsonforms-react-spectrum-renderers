@@ -47,16 +47,16 @@ import {
   initializedConnect,
   ExampleStateProps,
   ExampleDispatchProps,
-} from './reduxUtil';
-import { TextArea } from './TextArea';
-import { circularReferenceReplacer, ReactExampleDescription } from './util';
+} from './utils/reduxUtil';
+import { TextArea } from './components/TextArea';
+import { circularReferenceReplacer, ReactExampleDescription } from './utils/util';
 import {
   getExamplesFromLocalStorage,
   setExampleInLocalStorage,
   localPrefix,
   localLabelSuffix,
-} from './persistedExamples';
-import { ExamplesPicker } from './ExamplesPicker';
+} from './utils/persistedExamples';
+import { ExamplesPicker } from './components/ExamplesPicker';
 
 interface AppProps extends ExampleStateProps, ExampleDispatchProps {}
 
@@ -139,9 +139,11 @@ function App(props: AppProps & { selectedExample: ReactExampleDescription }) {
           <div className='container'>
             <div className='App-Form'>
               <View padding='size-100'>
-                <Heading>Form: {props.selectedExample.label}</Heading>
-                {props.getComponent(props.selectedExample)}
-                <JsonFormsDispatch onChange={props.onChange} />
+                <>
+                  <Heading>Form: {props.selectedExample.label}</Heading>
+                  {props.getComponent(props.selectedExample)}
+                  <JsonFormsDispatch onChange={props.onChange} />
+                </>
               </View>
             </div>
 

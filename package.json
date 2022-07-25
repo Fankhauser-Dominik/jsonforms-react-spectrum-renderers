@@ -7,11 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview",
-    "install": "npm run-p install",
-    "install:root": "npm ci",
-    "install:playground": "(cd playground && npm ci)",
-    "install:renderers": "(cd renderers & npm ci)"
+    "preview": "vite preview"
   },
   "repository": {
     "type": "git",

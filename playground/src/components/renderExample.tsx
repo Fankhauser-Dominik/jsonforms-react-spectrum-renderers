@@ -33,10 +33,10 @@ import {
 } from 'react-router-dom';
 import React from 'react';
 import './renderExample.css';
-import { ConnectedApp } from './App';
+import { ConnectedApp } from '../App';
 import { combineReducers, createStore } from 'redux';
 import { Provider } from 'react-redux';
-import geoschema from './geographical-location.schema';
+import geoschema from '../utils/geographical-location.schema';
 import {
   Actions,
   createAjv,
@@ -46,9 +46,9 @@ import {
   RankedTester,
 } from '@jsonforms/core';
 import { getExamples, registerExamples } from '@jsonforms/examples';
-import { exampleReducer } from './reduxUtil';
-import { enhanceExample, ReactExampleDescription } from './util';
-import { ColorSchemeContext } from '../../renderers/src/src/util/ColorSchemeContext';
+import { exampleReducer } from '../utils/reduxUtil';
+import { enhanceExample, ReactExampleDescription } from '../utils/util';
+import { ColorSchemeContext } from '../../../renderers/src/util/ColorSchemeContext';
 
 declare global {
   interface Window {

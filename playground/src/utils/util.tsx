@@ -34,7 +34,7 @@ import {
   nestedArray as NestedArrayExample,
   onChange as OnChangeExample,
 } from '@jsonforms/examples';
-import ConnectedRatingControl, { ratingControlTester } from './RatingControl';
+import ConnectedRatingControl, { ratingControlTester } from '../components/RatingControl';
 import {
   Actions,
   JsonFormsCore,

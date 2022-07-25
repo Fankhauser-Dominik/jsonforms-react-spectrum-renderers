@@ -27,7 +27,7 @@ import 'codemirror/theme/base16-light.css';
 */
 import React, { useCallback, useContext, useState } from 'react';
 import CodeMirror from '@uiw/react-codemirror';
-import { ColorSchemeContext } from '../../renderers/src/src/util/ColorSchemeContext';
+import { ColorSchemeContext } from '../../../renderers/src/util/ColorSchemeContext';
 import { ButtonGroup, Button, StatusLight, View } from '@adobe/react-spectrum';
 
 import { javascript } from '@codemirror/lang-javascript';
@@ -47,14 +47,6 @@ export function TextArea(props: {
   const save = useCallback(() => {
     props.onChange(value);
   }, [value]);
-
-        /*
-        options={{
-          mode: 'application/json',
-          theme: colorScheme === 'dark' ? 'mbo' : 'default',
-          lineNumbers: true,
-        }}
-        */
 
   const onChangeHandler = React.useCallback((value: any, viewUpdate: any) => {
     console.log('value:', value);
