@@ -100,34 +100,45 @@ schema.map((item,index) => item.componentType.title === childData.componentType 
       openItemWhenInQueryParam(path, index, childLabel, handleExpand);
     }, []);
 
+    const Header = (
+      <ModalItemHeader
+        expanded={expanded}
+        enableDetailedView={enableDetailedView}
+        index={index}
+        path={path}
+        handleExpand={handleExpand}
+        removeItem={removeItem}
+        duplicateItem={duplicateItem}
+        childLabel={childLabel}
+      />
+    );
+
+    useEffect(() => {
+      console.log(isAnimating);
+    }, [isAnimating]);
+
     return (
       <SpectrumProvider flex='auto' width={'100%'}>
-        <ModalItemAnimatedWrapper
-          expanded={expanded}
-          enableDetailedView={enableDetailedView}
-          setIsAnimating={setIsAnimating}
+        <View
+          UNSAFE_className={`list-array-item ${
+            enableDetailedView ? 'enableDetailedView' : 'accordionView'
+          } ${expanded ? 'expanded' : 'collapsed'}`}
+          borderWidth='thin'
+          borderColor='dark'
+          borderRadius='medium'
+          padding='size-150'
         >
-          <View
-            UNSAFE_className={`list-array-item ${
-              enableDetailedView ? 'enableDetailedView' : 'accordionView'
-            } ${expanded ? 'expanded' : 'collapsed'}`}
-            borderWidth='thin'
-            borderColor='dark'
-            borderRadius='medium'
-            padding='size-150'
+          {Header}
+          <ModalItemAnimatedWrapper
+            expanded={expanded}
+            handleExpand={handleExpand}
+            enableDetailedView={enableDetailedView}
+            isAnimating={isAnimating}
+            setIsAnimating={setIsAnimating}
           >
-            <ModalItemHeader
-              expanded={expanded}
-              enableDetailedView={enableDetailedView}
-              index={index}
-              path={path}
-              handleExpand={handleExpand}
-              removeItem={removeItem}
-              duplicateItem={duplicateItem}
-              childLabel={childLabel}
-            />
-            {expanded && !isAnimating ? (
-              <View UNSAFE_className='json-dispatch-wrapper'>
+            {expanded || isAnimating ? (
+              <View UNSAFE_className='json-form-dispatch-wrapper'>
+                {enableDetailedView && Header}
                 <ResolvedJsonFormsDispatch
                   key={childPath}
                   path={childPath}
@@ -137,8 +148,8 @@ schema.map((item,index) => item.componentType.title === childData.componentType 
                 />
               </View>
             ) : null}
-          </View>
-        </ModalItemAnimatedWrapper>
+          </ModalItemAnimatedWrapper>
+        </View>
       </SpectrumProvider>
     );
   }

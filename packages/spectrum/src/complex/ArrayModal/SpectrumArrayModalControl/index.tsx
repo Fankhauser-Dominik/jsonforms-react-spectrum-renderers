@@ -52,7 +52,6 @@ export const SpectrumArrayModalControl = React.memo(
     path,
     removeItems,
     renderers,
-    rootSchema,
     schema,
     uischema,
     uischemas,
