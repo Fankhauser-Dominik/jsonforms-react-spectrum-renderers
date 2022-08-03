@@ -19,6 +19,6 @@
     "jsx": "react-jsx"
   },
   "include": ["src", "additional"],
-  "exclude": ["node_modules", "dist", "test", "public/playground"],
+  "exclude": ["node_modules", "dist", "test"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

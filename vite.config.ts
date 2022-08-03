@@ -8,6 +8,7 @@ import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
 export default defineConfig({
   publicDir: false,
   build: {
+    minify: true,
     sourcemap: true,
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
