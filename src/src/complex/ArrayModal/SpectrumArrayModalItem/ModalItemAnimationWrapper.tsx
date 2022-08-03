@@ -24,9 +24,9 @@ export default function ModalItemAnimationWrapper({
     config: { duration: 700, easing: easings.easeOutQuart },
     left: expanded
       ? isBlackoutHovered && !isAnimating
-        ? '10%'
-        : '5%'
-      : '100%',
+        ? 'calc(10% - 1px)'
+        : 'calc(5% - 1px)'
+      : 'calc(100% - 1px)',
     onRest: () => setIsAnimating(false),
   });
 
