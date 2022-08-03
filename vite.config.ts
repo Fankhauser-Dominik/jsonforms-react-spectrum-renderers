@@ -6,10 +6,11 @@ import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  publicDir: false,
   build: {
     sourcemap: true,
     lib: {
-      entry: resolve(__dirname, 'src/src/index.ts'),
+      entry: resolve(__dirname, 'src/index.ts'),
       name: 'JsonForms React Spectrum Renderers',
       formats: ['es', 'umd'],
       fileName: (format) => `index.${format}.js`,

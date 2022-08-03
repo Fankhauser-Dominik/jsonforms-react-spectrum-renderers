@@ -31,13 +31,13 @@ import {
   RuleEffect,
   SchemaBasedCondition,
 } from '@jsonforms/core';
-import Adapter from 'enzyme-adapter-react-16';
+import Adapter from '@cfaester/enzyme-adapter-react-18';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
 import EnumCell, {
   SpectrumEnumCellTester,
-} from '../../src/cells/SpectrumEnumCell';
+} from '../../src/src/cells/SpectrumEnumCell';
 import { mountForm } from '../util';
-import { SpectrumRenderers } from '../../src';
+import { SpectrumRenderers } from '../../src/src';
 import { JsonForms } from '@jsonforms/react';
 import {
   defaultTheme,

@@ -25,6 +25,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
+
 import * as React from 'react';
 import {
   ControlElement,
@@ -33,36 +34,92 @@ import {
   RuleEffect,
   SchemaBasedCondition,
 } from '@jsonforms/core';
-import Adapter from 'enzyme-adapter-react-16';
+import Adapter from '@cfaester/enzyme-adapter-react-18';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
-import SpectrumTextAreaCell, {
-  SpectrumTextAreaCellTester,
-} from '../../src/cells/SpectrumTextAreaCell';
+import SpectrumBooleanCell, {
+  SpectrumBooleanCellTester,
+} from '../../src/cells/SpectrumBooleanCell';
 import { SpectrumRenderers } from '../../src';
+import { InputControl } from '../../src/controls/InputControl';
 import { JsonForms } from '@jsonforms/react';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-const controlElement: ControlElement = {
+const control: ControlElement = {
   type: 'Control',
-  scope: '#/properties/name',
-  options: { multi: true },
+  scope: '#/properties/foo',
 };
 
 const fixture = {
-  data: { name: 'Foo' },
-  schema: {
-    type: 'string',
-    minLength: 3,
-  },
-  uischema: controlElement,
+  data: { foo: true },
+  schema: { type: 'boolean' },
+  uischema: control,
 };
 
 const cells = [
-  { tester: SpectrumTextAreaCellTester, cell: SpectrumTextAreaCell },
+  { tester: SpectrumBooleanCellTester, cell: SpectrumBooleanCell },
 ];
 
-describe('Text area cell', () => {
+describe('Boolean cell tester', () => {
+  test('tester', () => {
+    expect(SpectrumBooleanCellTester(undefined, undefined)).toBe(-1);
+    expect(SpectrumBooleanCellTester(null, undefined)).toBe(-1);
+    expect(SpectrumBooleanCellTester({ type: 'Foo' }, undefined)).toBe(-1);
+    expect(SpectrumBooleanCellTester({ type: 'Control' }, undefined)).toBe(-1);
+  });
+
+  test('tester with wrong prop type', () => {
+    const controlElement: ControlElement = {
+      type: 'Control',
+      scope: '#/properties/foo',
+    };
+    expect(
+      SpectrumBooleanCellTester(controlElement, {
+        type: 'object',
+        properties: { foo: { type: 'string' } },
+      })
+    ).toBe(-1);
+  });
+
+  test('tester with wrong prop type, but sibling has correct one', () => {
+    const controlElement = {
+      type: 'Control',
+      scope: '#/properties/foo',
+    };
+    expect(
+      SpectrumBooleanCellTester(controlElement, {
+        type: 'object',
+        properties: {
+          foo: {
+            type: 'string',
+          },
+          bar: {
+            type: 'boolean',
+          },
+        },
+      })
+    ).toBe(-1);
+  });
+
+  test('tester with matching prop type', () => {
+    const controlElement = {
+      type: 'Control',
+      scope: '#/properties/foo',
+    };
+    expect(
+      SpectrumBooleanCellTester(controlElement, {
+        type: 'object',
+        properties: {
+          foo: {
+            type: 'boolean',
+          },
+        },
+      })
+    ).toBe(2);
+  });
+});
+
+describe('Boolean cell', () => {
   let wrapper: ReactWrapper;
 
   afterEach(() => wrapper.unmount());
@@ -71,24 +128,22 @@ describe('Text area cell', () => {
     const schema: JsonSchema = {
       type: 'object',
       properties: {
-        firstName: { type: 'string', minLength: 3 },
-        lastName: { type: 'string', minLength: 3 },
+        firstBooleanCell: { type: 'boolean' },
+        secondBooleanCell: { type: 'boolean' },
       },
     };
     const firstControlElement: ControlElement = {
       type: 'Control',
-      scope: '#/properties/firstName',
+      scope: '#/properties/firstBooleanCell',
       options: {
         focus: true,
-        multi: true,
       },
     };
     const secondControlElement: ControlElement = {
       type: 'Control',
-      scope: '#/properties/lastName',
+      scope: '#/properties/secondBooleanCell',
       options: {
         focus: true,
-        multi: true,
       },
     };
     const uischema: HorizontalLayout = {
@@ -96,8 +151,8 @@ describe('Text area cell', () => {
       elements: [firstControlElement, secondControlElement],
     };
     const data = {
-      firstName: 'Foo',
-      lastName: 'Boo',
+      firstBooleanCell: true,
+      secondBooleanCell: false,
     };
     wrapper = mount(
       <JsonForms
@@ -108,18 +163,17 @@ describe('Text area cell', () => {
         cells={cells}
       />
     );
-    const inputs = wrapper.find('input');
-    expect(document.activeElement).not.toBe(inputs.at(0).getDOMNode());
-    expect(document.activeElement).toBe(inputs.at(1).getDOMNode());
+    const inputs = wrapper.find(InputControl);
+    expect(inputs.at(0).is(':focus')).toBe(false);
+    expect(inputs.at(1).is(':focus')).toBe(true);
   });
 
   test('autofocus active', () => {
     const uischema: ControlElement = {
       type: 'Control',
-      scope: '#/properties/name',
+      scope: '#/properties/foo',
       options: {
         focus: true,
-        multi: true,
       },
     };
     wrapper = mount(
@@ -131,17 +185,16 @@ describe('Text area cell', () => {
         cells={cells}
       />
     );
-    const input = wrapper.find('textarea').getDOMNode();
-    expect(document.activeElement).toBe(input);
+    const input = wrapper.find('input');
+    expect(input.is(':focus')).toBe(true);
   });
 
   test('autofocus inactive', () => {
     const uischema: ControlElement = {
       type: 'Control',
-      scope: '#/properties/name',
+      scope: '#/properties/foo',
       options: {
         focus: false,
-        multi: true,
       },
     };
     wrapper = mount(
@@ -153,15 +206,14 @@ describe('Text area cell', () => {
         cells={cells}
       />
     );
-    const input = wrapper.find('textarea').getDOMNode() as HTMLInputElement;
+    const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
     expect(input.autofocus).toBe(false);
   });
 
   test('autofocus inactive by default', () => {
     const uischema: ControlElement = {
       type: 'Control',
-      scope: '#/properties/name',
-      options: { multi: true },
+      scope: '#/properties/foo',
     };
     wrapper = mount(
       <JsonForms
@@ -172,8 +224,8 @@ describe('Text area cell', () => {
         cells={cells}
       />
     );
-    const input = wrapper.find('textarea').getDOMNode() as HTMLInputElement;
-    expect(input.autofocus).toBe(false);
+    const input = wrapper.find('input').getDOMNode();
+    expect(document.activeElement).not.toBe(input);
   });
 
   test('render', () => {
@@ -186,11 +238,24 @@ describe('Text area cell', () => {
         cells={cells}
       />
     );
-    console.log(wrapper.html());
-    const textarea = wrapper
-      .find('textarea')
-      .getDOMNode() as HTMLTextAreaElement;
-    expect(textarea.value).toBe('Foo');
+
+    const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
+    expect(input.type).toBe('checkbox');
+    expect(input.checked).toBe(true);
+  });
+
+  test.skip('has classes set', () => {
+    wrapper = mount(
+      <JsonForms
+        schema={fixture.schema}
+        uischema={fixture.uischema}
+        data={fixture.data}
+        renderers={SpectrumRenderers}
+        cells={cells}
+      />
+    );
+    const input = wrapper.find('input');
+    expect(input.hasClass('validationState')).toBe(true);
   });
 
   test('update via input event', () => {
@@ -205,33 +270,31 @@ describe('Text area cell', () => {
         onChange={onChange}
       />
     );
-
-    const textarea = wrapper.find('textarea');
-    textarea.simulate('change', { target: { value: 'Bar' } });
+    const input = wrapper.find('input');
+    input.simulate('change', { target: { checked: false } });
     expect(onChange).toHaveBeenCalledWith(
-      expect.objectContaining({ data: { name: 'Bar' } })
+      expect.objectContaining({ data: { foo: false } })
     );
   });
 
   test('update via action', () => {
+    const data = { foo: false };
     wrapper = mount(
       <JsonForms
         schema={fixture.schema}
         uischema={fixture.uischema}
-        data={fixture.data}
+        data={data}
         renderers={SpectrumRenderers}
         cells={cells}
       />
     );
-    wrapper.setProps({ data: { ...fixture.data, name: 'Bar' } });
+    const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
+    wrapper.setProps({ data: { ...data, foo: false } });
     wrapper.update();
-    const textarea = wrapper
-      .find('textarea')
-      .getDOMNode() as HTMLTextAreaElement;
-    expect(textarea.value).toBe('Bar');
+    expect(input.checked).toBe(false);
   });
 
-  test('update with undefined value', () => {
+  test.skip('update with undefined value', () => {
     wrapper = mount(
       <JsonForms
         schema={fixture.schema}
@@ -241,15 +304,13 @@ describe('Text area cell', () => {
         cells={cells}
       />
     );
-    const textArea = wrapper
-      .find('textarea')
-      .getDOMNode() as HTMLTextAreaElement;
-    wrapper.setProps({ data: { ...fixture.data, name: undefined } });
+    const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
+    wrapper.setProps({ data: { ...fixture.data, foo: undefined } });
     wrapper.update();
-    expect(textArea.value).toBe('');
+    expect(input.value).toEqual('');
   });
 
-  test('update with null value', () => {
+  test.skip('update with null value', () => {
     wrapper = mount(
       <JsonForms
         schema={fixture.schema}
@@ -259,12 +320,10 @@ describe('Text area cell', () => {
         cells={cells}
       />
     );
-    wrapper.setProps({ data: { ...fixture.data, name: null } });
+    const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
+    wrapper.setProps({ data: { ...fixture.data, foo: null } });
     wrapper.update();
-    const textArea = wrapper
-      .find('textarea')
-      .getDOMNode() as HTMLTextAreaElement;
-    expect(textArea.value).toBe('');
+    expect(input.value).toEqual('');
   });
 
   test('update with wrong ref', () => {
@@ -277,35 +336,31 @@ describe('Text area cell', () => {
         cells={cells}
       />
     );
-    wrapper.setProps({ data: { ...fixture.data, firstname: 'Bar' } });
+    const input = wrapper.find('input');
+    wrapper.setProps({ data: { ...fixture.data, bar: 11 } });
     wrapper.update();
-    const textArea = wrapper
-      .find('textarea')
-      .getDOMNode() as HTMLTextAreaElement;
-    expect(textArea.value).toBe('Foo');
+    expect(input.props().checked).toBe(true);
   });
 
   test('disable', () => {
     const condition: SchemaBasedCondition = {
-      scope: '#/properties/name',
-      schema: { type: 'string' },
+      scope: '#/properties/foo',
+      schema: { type: 'boolean' },
     };
     wrapper = mount(
       <JsonForms
         schema={fixture.schema}
         uischema={{
           ...fixture.uischema,
-          rule: { effect: RuleEffect.DISABLE, condition },
+          rule: { effect: RuleEffect.DISABLE, condition: condition },
         }}
         data={fixture.data}
         renderers={SpectrumRenderers}
         cells={cells}
       />
     );
-    const textArea = wrapper
-      .find('textarea')
-      .getDOMNode() as HTMLTextAreaElement;
-    expect(textArea.disabled).toBe(true);
+    const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
+    expect(input.disabled).toBe(true);
   });
 
   test('enabled by default', () => {
@@ -318,24 +373,7 @@ describe('Text area cell', () => {
         cells={cells}
       />
     );
-    const textArea = wrapper
-      .find('textarea')
-      .getDOMNode() as HTMLTextAreaElement;
-    expect(textArea.disabled).toBe(false);
-  });
-});
-
-describe('Text area cell tester', () => {
-  test('tester', () => {
-    expect(SpectrumTextAreaCellTester(undefined, undefined)).toBe(-1);
-    expect(SpectrumTextAreaCellTester(null, undefined)).toBe(-1);
-    expect(SpectrumTextAreaCellTester({ type: 'Foo' }, undefined)).toBe(-1);
-    expect(SpectrumTextAreaCellTester({ type: 'Control' }, undefined)).toBe(-1);
-    expect(
-      SpectrumTextAreaCellTester(
-        { type: 'Control', options: { multi: true } },
-        undefined
-      )
-    ).toBe(2);
+    const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
+    expect(input.disabled).toBe(false);
   });
 });

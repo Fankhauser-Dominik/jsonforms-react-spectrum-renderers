@@ -56,18 +56,20 @@ import {
   localLabelSuffix,
 } from './persistedExamples';
 import { ExamplesPicker } from './ExamplesPicker';
+import { samples } from './samples';
 
 interface AppProps extends ExampleStateProps, ExampleDispatchProps {}
 
 function App(props: AppProps & { selectedExample: ReactExampleDescription }) {
+  const examplesSamples = props.examples.concat(samples);
   const setExampleByName = React.useCallback(
     (exampleName: string | number) => {
-      const example = props.examples.find((find) => find.name === exampleName);
+      const example = examplesSamples.find((find) => find.name === exampleName);
       if (example) {
         props.changeExample(example);
       }
     },
-    [props.changeExample, props.examples]
+    [props.changeExample, examplesSamples]
   );
 
   const updateCurrentSchema = React.useCallback(
@@ -207,17 +209,18 @@ function App(props: AppProps & { selectedExample: ReactExampleDescription }) {
 }
 
 function AppWithExampleInURL(props: AppProps) {
+  const examplesSamples = props.examples.concat(samples);
   const urlParams = useParams<{ name: string | undefined }>();
   const history = useHistory();
   const examplesRef = React.useRef([
-    ...props.examples,
+    ...examplesSamples,
     ...getExamplesFromLocalStorage(),
   ]);
   const examples = examplesRef.current;
 
   const selectedExample = urlParams.name
     ? examples.find(({ name }) => urlParams.name === name)
-    : props.examples[props.examples.length - 1];
+    : examplesSamples[examplesSamples.length - 1];
 
   const changeExample = React.useCallback(
     (example: ReactExampleDescription) => {
@@ -225,7 +228,7 @@ function AppWithExampleInURL(props: AppProps) {
       if (example.name.startsWith(localPrefix)) {
         setExampleInLocalStorage(example);
         examplesRef.current = [
-          ...props.examples,
+          ...examplesSamples,
           ...getExamplesFromLocalStorage(),
         ];
       }

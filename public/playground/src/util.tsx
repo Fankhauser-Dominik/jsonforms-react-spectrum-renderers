@@ -30,8 +30,8 @@ import * as _ from 'lodash';
 import {
   ExampleDescription,
   i18n,
-  issue_1220 as Issue1220Example,
-  nestedArray as NestedArrayExample,
+  /* issue_1220 as Issue1220Example,
+  nestedArray as NestedArrayExample, */
   onChange as OnChangeExample,
 } from '@jsonforms/examples';
 import ConnectedRatingControl, { ratingControlTester } from './RatingControl';
@@ -144,15 +144,17 @@ class I18nExampleRenderer extends React.Component<
   }
 }
 
-const withContextToI18nProps = (
-  Component: React.ComponentType<I18nExampleProps>
-): React.ComponentType<OwnPropsOfI18nExample> => ({
-  ctx,
-  props,
-}: JsonFormsStateContext & Omit<I18nExampleProps, 'data' | 'errors'>) => {
-  const { data, errors } = ctx.core;
-  return <Component {...props} data={data} errors={errors} />;
-};
+const withContextToI18nProps =
+  (
+    Component: React.ComponentType<I18nExampleProps>
+  ): React.ComponentType<OwnPropsOfI18nExample> =>
+  ({
+    ctx,
+    props,
+  }: JsonFormsStateContext & Omit<I18nExampleProps, 'data' | 'errors'>) => {
+    const { data, errors } = ctx.core;
+    return <Component {...props} data={data} errors={errors} />;
+  };
 
 const withI18nProps = (
   Component: React.ComponentType<I18nExampleProps>
@@ -180,7 +182,7 @@ export const enhanceExample: (
           ),
         });
         return day6;
-      case 'nestedArray':
+      /* case 'nestedArray':
         const nestedArray = Object.assign({}, e, {
           customReactExtension: (dispatch: Dispatch<AnyAction>) => (
             <div>
@@ -201,7 +203,7 @@ export const enhanceExample: (
             </div>
           ),
         });
-        return nestedArray;
+        return nestedArray; */
       case 'dynamic':
         const dynamic = Object.assign({}, e, {
           customReactExtension: (dispatch: Dispatch<AnyAction>) => (
@@ -274,7 +276,7 @@ export const enhanceExample: (
           ),
           onChange: i18n.onChange,
         });
-      case '1220':
+      /* case '1220':
         const issue_1220 = Object.assign({}, e, {
           customReactExtension: (dispatch: Dispatch<AnyAction>) => (
             <div>
@@ -295,7 +297,7 @@ export const enhanceExample: (
             </div>
           ),
         });
-        return issue_1220;
+        return issue_1220; */
       case 'onChange':
         return {
           ...e,

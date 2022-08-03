@@ -31,9 +31,8 @@ import {
   JsonSchema,
   rankWith,
 } from '@jsonforms/core';
-import * as React from 'react';
 import * as _ from 'lodash';
-import Adapter from 'enzyme-adapter-react-16';
+import Adapter from '@cfaester/enzyme-adapter-react-18';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
 import '../../src';
 import SpectrumRadioGroupControl from '../../src/controls/SpectrumRadioGroupControl';

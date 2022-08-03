@@ -37,7 +37,7 @@ import {
   defaultTheme,
   Provider as SpectrumThemeProvider,
 } from '@adobe/react-spectrum';
-import Adapter from 'enzyme-adapter-react-16';
+import Adapter from '@cfaester/enzyme-adapter-react-18';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
 import '../../src';
 import SpectrumHorizontalLayoutRenderer, {

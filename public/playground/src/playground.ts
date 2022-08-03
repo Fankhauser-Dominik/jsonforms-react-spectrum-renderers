@@ -26,8 +26,8 @@
   THE SOFTWARE.
 */
 import { createThemeSelection, getPreferredTheme } from './theme.switcher';
-import { SpectrumCells, SpectrumRenderers } from '../src';
-import { renderExample } from '../playground/src/index';
+import { SpectrumCells, SpectrumRenderers } from '../../../src/index';
+import { renderExample } from './index';
 
 const rerender = renderExample(
   SpectrumRenderers,

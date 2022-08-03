@@ -33,67 +33,96 @@ import {
   RuleEffect,
   SchemaBasedCondition,
 } from '@jsonforms/core';
-import Adapter from 'enzyme-adapter-react-16';
+import Adapter from '@cfaester/enzyme-adapter-react-18';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
-import SpectrumIntegerCell, {
-  SpectrumIntegerCellTester,
-} from '../../src/cells/SpectrumIntegerCell';
+import SpectrumNumberCell, {
+  SpectrumNumberCellTester,
+} from '../../src/cells/SpectrumNumberCell';
 import { SpectrumRenderers } from '../../src';
 import { JsonForms } from '@jsonforms/react';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-const control: ControlElement = {
+const controlElement: ControlElement = {
   type: 'Control',
   scope: '#/properties/foo',
 };
 
 const fixture = {
-  data: { foo: 42 },
+  data: { foo: 3.14 },
   schema: {
-    type: 'integer',
+    type: 'number',
     minimum: 5,
   },
-  uischema: control,
+  uischema: controlElement,
 };
 
-const cells = [
-  { tester: SpectrumIntegerCellTester, cell: SpectrumIntegerCell },
-];
+const cells = [{ tester: SpectrumNumberCellTester, cell: SpectrumNumberCell }];
 
-describe('Integer cell tester', () => {
+describe('Number cell tester', () => {
   test('tester', () => {
-    expect(SpectrumIntegerCellTester(undefined, undefined)).toBe(-1);
-    expect(SpectrumIntegerCellTester(null, undefined)).toBe(-1);
-    expect(SpectrumIntegerCellTester({ type: 'Foo' }, undefined)).toBe(-1);
-    expect(SpectrumIntegerCellTester({ type: 'Control' }, undefined)).toBe(-1);
+    expect(SpectrumNumberCellTester(undefined, undefined)).toBe(-1);
+    expect(SpectrumNumberCellTester(null, undefined)).toBe(-1);
+    expect(SpectrumNumberCellTester({ type: 'Foo' }, undefined)).toBe(-1);
+    expect(SpectrumNumberCellTester({ type: 'Control' }, undefined)).toBe(-1);
+  });
 
-    const controlElement: ControlElement = {
+  test('tester with wrong schema type', () => {
+    const control: ControlElement = {
       type: 'Control',
       scope: '#/properties/foo',
     };
     expect(
-      SpectrumIntegerCellTester(controlElement, {
+      SpectrumNumberCellTester(control, {
         type: 'object',
-        properties: { foo: { type: 'string' } },
+        properties: {
+          foo: {
+            type: 'string',
+          },
+        },
       })
     ).toBe(-1);
+  });
+
+  test('tester with wrong schema type, but sibling has correct one', () => {
+    const control: ControlElement = {
+      type: 'Control',
+      scope: '#/properties/foo',
+    };
     expect(
-      SpectrumIntegerCellTester(controlElement, {
+      SpectrumNumberCellTester(control, {
         type: 'object',
-        properties: { foo: { type: 'string' }, bar: { type: 'integer' } },
+        properties: {
+          foo: {
+            type: 'string',
+          },
+          bar: {
+            type: 'number',
+          },
+        },
       })
     ).toBe(-1);
+  });
+
+  test('tester with machting schema type', () => {
+    const control: ControlElement = {
+      type: 'Control',
+      scope: '#/properties/foo',
+    };
     expect(
-      SpectrumIntegerCellTester(controlElement, {
+      SpectrumNumberCellTester(control, {
         type: 'object',
-        properties: { foo: { type: 'integer' } },
+        properties: {
+          foo: {
+            type: 'number',
+          },
+        },
       })
     ).toBe(2);
   });
 });
 
-describe('Integer cell', () => {
+describe('Number cell', () => {
   let wrapper: ReactWrapper;
 
   afterEach(() => wrapper.unmount());
@@ -102,20 +131,20 @@ describe('Integer cell', () => {
     const schema: JsonSchema = {
       type: 'object',
       properties: {
-        firstIntegerCell: { type: 'integer', minimum: 5 },
-        secondIntegerCell: { type: 'integer', minimum: 5 },
+        firstNumberCell: { type: 'number', minimum: 5 },
+        secondNumberCell: { type: 'number', minimum: 5 },
       },
     };
     const firstControlElement: ControlElement = {
       type: 'Control',
-      scope: '#/properties/firstIntegerCell',
+      scope: '#/properties/firstNumberCell',
       options: {
         focus: true,
       },
     };
     const secondControlElement: ControlElement = {
       type: 'Control',
-      scope: '#/properties/secondIntegerCell',
+      scope: '#/properties/secondNumberCell',
       options: {
         focus: true,
       },
@@ -125,8 +154,8 @@ describe('Integer cell', () => {
       elements: [firstControlElement, secondControlElement],
     };
     const data = {
-      firstIntegerCell: 10,
-      secondIntegerCell: 12,
+      firstNumberCell: 3.14,
+      secondNumberCell: 5.12,
     };
     wrapper = mount(
       <JsonForms
@@ -137,8 +166,9 @@ describe('Integer cell', () => {
         cells={cells}
       />
     );
+
     const inputs = wrapper.find('input');
-    expect(document.activeElement).not.toBe(inputs.at(0));
+    expect(document.activeElement).toBe(inputs.at(0));
     expect(document.activeElement).toBe(inputs.at(1));
   });
 
@@ -159,7 +189,7 @@ describe('Integer cell', () => {
         cells={cells}
       />
     );
-    const input = wrapper.find('input').getDOMNode();
+    const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
     expect(document.activeElement).toBe(input);
   });
 
@@ -190,7 +220,6 @@ describe('Integer cell', () => {
       type: 'Control',
       scope: '#/properties/foo',
     };
-
     wrapper = mount(
       <JsonForms
         schema={fixture.schema}
@@ -205,11 +234,12 @@ describe('Integer cell', () => {
   });
 
   test('render', () => {
+    const schema: JsonSchema = { type: 'number' };
     wrapper = mount(
       <JsonForms
-        schema={fixture.schema}
+        schema={schema}
         uischema={fixture.uischema}
-        data={fixture.data}
+        data={{ foo: 3.14 }}
         renderers={SpectrumRenderers}
         cells={cells}
       />
@@ -218,8 +248,8 @@ describe('Integer cell', () => {
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
     expect(input.type).toBe('number');
     // todo: react-spectrum does not yet support the step attribute
-    // expect(input.step).toBe('1');
-    expect(input.value).toBe('42');
+    // expect(input.step).toBe('0.1');
+    expect(input.value).toBe('3.14');
   });
 
   test.skip('has classes set', () => {
@@ -252,28 +282,28 @@ describe('Integer cell', () => {
       />
     );
     const input = wrapper.find('input');
-    input.simulate('change', { target: { value: '13' } });
+    input.simulate('change', { target: { value: '2.72' } });
+    wrapper.update();
     expect(onChange).toHaveBeenCalledWith(
-      expect.objectContaining({ data: { foo: 13 } })
+      expect.objectContaining({ data: { foo: 2.72 } })
     );
   });
 
   test('update via action', () => {
-    const data = { foo: 13 };
-
     wrapper = mount(
       <JsonForms
         schema={fixture.schema}
         uischema={fixture.uischema}
-        data={data}
+        data={{ foo: 2.72 }}
         renderers={SpectrumRenderers}
         cells={cells}
       />
     );
-    wrapper.setProps({ data: { ...data, foo: 42 } });
-    wrapper.update();
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
-    expect(input.value).toBe('42');
+    expect(input.value).toBe('2.72');
+    wrapper.setProps({ data: { foo: 3.14 } });
+    wrapper.update();
+    expect(input.value).toBe('3.14');
   });
 
   test('update with undefined value', () => {
@@ -286,9 +316,8 @@ describe('Integer cell', () => {
         cells={cells}
       />
     );
-    wrapper.setProps({ data: { ...fixture.data, foo: undefined } });
-    wrapper.update();
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
+    wrapper.setProps({ data: { ...fixture.data, foo: undefined } });
     expect(input.value).toBe('');
   });
 
@@ -302,9 +331,8 @@ describe('Integer cell', () => {
         cells={cells}
       />
     );
-    wrapper.setProps({ data: { ...fixture.data, foo: null } });
-    wrapper.update();
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
+    wrapper.setProps({ data: { ...fixture.data, foo: null } });
     expect(input.value).toBe('');
   });
 
@@ -318,16 +346,15 @@ describe('Integer cell', () => {
         cells={cells}
       />
     );
-    wrapper.setProps({ data: { ...fixture.data, bar: 11 } });
-    wrapper.update();
     const input = wrapper.find('input').getDOMNode() as HTMLInputElement;
-    expect(input.value).toBe('42');
+    wrapper.setProps({ data: { ...fixture.data, bar: 11 } });
+    expect(input.value).toBe('3.14');
   });
 
   test('disable', () => {
     const condition: SchemaBasedCondition = {
       scope: '#/properties/foo',
-      schema: { type: 'integer' },
+      schema: { type: 'number' },
     };
     wrapper = mount(
       <JsonForms

@@ -1,4 +1,4 @@
-var samples = [];
+export let samples: any = [];
 
 samples.push({
   name: 'spectrum-array',
@@ -1332,7 +1332,7 @@ samples.push({
 });
 
 samples.push({
-  name: 'array-modal-test',
+  name: 'spectrum-array-modal-test',
   label: 'Array Modal Test',
   uischema: {
     type: 'VerticalLayout',
