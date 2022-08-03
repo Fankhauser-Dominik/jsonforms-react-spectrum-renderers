@@ -98,13 +98,22 @@ schema.map((item,index) => item.componentType.title === childData.componentType 
       openItemWhenInQueryParam(path, index, childLabel, handleExpand);
     }, []);
 
+    const Header = (
+      <ModalItemHeader
+        expanded={expanded}
+        enableDetailedView={enableDetailedView}
+        index={index}
+        path={path}
+        handleExpand={handleExpand}
+        removeItem={removeItem}
+        duplicateItem={duplicateItem}
+        childLabel={childLabel}
+      />
+    );
+
     return (
       <SpectrumProvider flex='auto' width={'100%'}>
-        <ModalItemAnimatedWrapper
-          expanded={expanded}
-          enableDetailedView={enableDetailedView}
-          setIsAnimating={setIsAnimating}
-        >
+
           <View
             UNSAFE_className={`list-array-item ${
               enableDetailedView ? 'enableDetailedView' : 'accordionView'
@@ -114,29 +123,28 @@ schema.map((item,index) => item.componentType.title === childData.componentType 
             borderRadius='medium'
             padding='size-150'
           >
-            <ModalItemHeader
-              expanded={expanded}
-              enableDetailedView={enableDetailedView}
-              index={index}
-              path={path}
-              handleExpand={handleExpand}
-              removeItem={removeItem}
-              duplicateItem={duplicateItem}
-              childLabel={childLabel}
-            />
-            {expanded && !isAnimating ? (
-              <View UNSAFE_className='json-dispatch-wrapper'>
+            {Header}
+            <ModalItemAnimatedWrapper
+            expanded={expanded}
+            handleExpand={handleExpand}
+            enableDetailedView={enableDetailedView}
+            isAnimating={isAnimating}
+            setIsAnimating={setIsAnimating}
+          >
+            {expanded || isAnimating ? (
+              <View UNSAFE_className='json-form-dispatch-wrapper'>
+                {enableDetailedView && Header}
                 <JsonFormsDispatch
                   key={childPath}
                   path={childPath}
                   renderers={renderers}
                   schema={schema}
                   uischema={foundUISchema || uischema}
-                />
+                  />
               </View>
             ) : null}
+            </ModalItemAnimatedWrapper>
           </View>
-        </ModalItemAnimatedWrapper>
       </SpectrumProvider>
     );
   }
