@@ -70,6 +70,6 @@ export default function ModalItemAnimationWrapper({
         }
       />
     </>,
-    wrapperRef?.current?.UNSAFE || document.getElementById('root') || document.getElementById('__next') || document.body
+    wrapperRef?.current?.UNSAFE|| document.getElementById('spectrum-renderer-arrayContentWrapper')  || document.getElementById('root') || document.getElementById('__next') || document.body
   );
 }
