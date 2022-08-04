@@ -98,6 +98,8 @@ export const SpectrumArrayModalControl = React.memo(
       }
     };
 
+    const arrayWrapperRef = React.useRef(null);
+
     return (
       <View>
         <Flex direction='row' justifyContent='space-between'>
@@ -121,7 +123,7 @@ export const SpectrumArrayModalControl = React.memo(
             open={open}
           />
         </Flex>
-        <Flex direction='column' gap='size-100'>
+        <Flex ref={arrayWrapperRef} UNSAFE_className={'arrayContentWrapper'} direction='column' gap='size-100'>
           {uischema?.options?.DND ? (
             <DragAndDrop
               data={data}
@@ -138,7 +140,7 @@ export const SpectrumArrayModalControl = React.memo(
             Array.from(Array(data?.length)).map((_, index) => {
               indexOfFittingSchemaObject[`${path}itemQuantity`] = data?.length;
               return (
-                <div key={index}>
+                <div key={index} >
                   <Flex
                     key={index}
                     direction='row'
@@ -155,6 +157,7 @@ export const SpectrumArrayModalControl = React.memo(
                       schema={schema}
                       uischema={uischema}
                       uischemas={uischemas}
+                      wrapperRef={arrayWrapperRef}
                     ></SpectrumArrayModalItem>
                     {uischema.options?.showSortButtons && (
                       <SortButtons

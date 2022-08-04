@@ -39,7 +39,10 @@ button {
 .list-array-item.enableDetailedView {
   background-color: var(--spectrum-global-color-gray-100);
 }
-.list-array-item.enableDetailedView .animatedModalItemDiv {
+
+
+
+.animatedModalItem.animatedModalItemDiv.detailedView {
   background-color: var(--spectrum-global-color-gray-100);
   top: 0;
   z-index: 9000;
@@ -48,30 +51,11 @@ button {
   height: 100%;
   flex-grow: 1;
   position: absolute;
-  contain: paint;
-}
-.list-array-item.enableDetailedView .darkenBackground {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 1);
-  opacity: 0.2;
-  z-index: 8000;
-}
-
-.list-array-item.enableDetailedView.collapsed {
-}
-.list-array-item.enableDetailedView.expanded {
-}
-.animatedModalItemDiv {
+  /* contain: paint; */
   background-color: var(--spectrum-global-color-gray-100);
   z-index: 9000;
-}
 
-.list-array-item.enableDetailedView > .animatedModalItemDiv {
+
   border-color: var(
     --spectrum-alias-border-color-dark,
     var(
@@ -82,8 +66,7 @@ button {
   border-left-width: var(--spectrum-alias-border-size-thin);
   border-left-style: solid;
 }
-.list-array-item.enableDetailedView.expanded
-  > .animatedModalItemDiv
+.animatedModalItem.animatedModalItemDiv.detailedView
   > .json-form-dispatch-wrapper
   > .array-item-header {
   position: sticky;
@@ -98,4 +81,21 @@ button {
   background-color: var(--spectrum-global-color-gray-100);
   z-index: 1;
   border-bottom: 2px solid var(--spectrum-global-color-gray-200);
+}
+
+.animatedModalItem.darkenBackground {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 1);
+  opacity: 0.2;
+  z-index: 8000;
+}
+
+.list-array-item.enableDetailedView.collapsed {
+}
+.list-array-item.enableDetailedView.expanded {
 }

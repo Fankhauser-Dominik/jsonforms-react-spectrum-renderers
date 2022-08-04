@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDom from 'react-dom';
 import { useSpring, animated, easings } from 'react-spring';
 
 interface AnimationWrapperProps {
@@ -7,6 +8,7 @@ interface AnimationWrapperProps {
   enableDetailedView: boolean;
   isAnimating: boolean;
   setIsAnimating: (isAnimating: boolean) => void;
+  wrapperRef: any;
   children: React.ReactNode;
 }
 
@@ -16,6 +18,7 @@ export default function ModalItemAnimationWrapper({
   enableDetailedView,
   isAnimating,
   setIsAnimating,
+  wrapperRef,
   children,
 }: AnimationWrapperProps) {
   const [isBlackoutHovered, setIsBlackoutHovered] = React.useState(true);
@@ -35,10 +38,11 @@ export default function ModalItemAnimationWrapper({
     display: expanded ? 1 : 0,
   });
 
-  return (
+
+  return ReactDom.createPortal(
     <>
       <animated.div
-        className={'animatedModalItemDiv'}
+        className={`animatedModalItem animatedModalItemDiv ${enableDetailedView ? 'detailedView' : ''}`}
         style={
           enableDetailedView
             ? {
@@ -53,7 +57,7 @@ export default function ModalItemAnimationWrapper({
         onClick={() => handleExpand()}
         onMouseEnter={() => setIsBlackoutHovered(true)}
         onMouseLeave={() => setIsBlackoutHovered(false)}
-        className={'darkenBackground'}
+        className={'animatedModalItem darkenBackground'}
         style={
           enableDetailedView
             ? {
@@ -65,6 +69,7 @@ export default function ModalItemAnimationWrapper({
             : { display: 'none' }
         }
       />
-    </>
+    </>,
+    wrapperRef?.current?.UNSAFE_getDOMNode() || document.getElementById('root')
   );
 }

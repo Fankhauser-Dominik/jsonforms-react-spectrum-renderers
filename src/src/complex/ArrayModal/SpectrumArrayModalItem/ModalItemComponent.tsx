@@ -60,6 +60,7 @@ const SpectrumArrayModalItem = React.memo(
     schema,
     uischema,
     uischemas = [],
+    wrapperRef,
   }: OwnPropsOfSpectrumArrayModalItem & NonEmptyRowProps) => {
     const foundUISchema = findUISchema(uischemas, schema, uischema.scope, path);
     const childPath = composePaths(path, `${index}`);
@@ -113,23 +114,23 @@ schema.map((item,index) => item.componentType.title === childData.componentType 
 
     return (
       <SpectrumProvider flex='auto' width={'100%'}>
-
-          <View
-            UNSAFE_className={`list-array-item ${
-              enableDetailedView ? 'enableDetailedView' : 'accordionView'
-            } ${expanded ? 'expanded' : 'collapsed'}`}
-            borderWidth='thin'
-            borderColor='dark'
-            borderRadius='medium'
-            padding='size-150'
-          >
-            {Header}
-            <ModalItemAnimatedWrapper
+        <View
+          UNSAFE_className={`list-array-item ${
+            enableDetailedView ? 'enableDetailedView' : 'accordionView'
+          } ${expanded ? 'expanded' : 'collapsed'}`}
+          borderWidth='thin'
+          borderColor='dark'
+          borderRadius='medium'
+          padding='size-150'
+        >
+          {Header}
+          <ModalItemAnimatedWrapper
             expanded={expanded}
             handleExpand={handleExpand}
             enableDetailedView={enableDetailedView}
             isAnimating={isAnimating}
             setIsAnimating={setIsAnimating}
+            wrapperRef={wrapperRef}
           >
             {expanded || isAnimating ? (
               <View UNSAFE_className='json-form-dispatch-wrapper'>
@@ -140,11 +141,11 @@ schema.map((item,index) => item.componentType.title === childData.componentType 
                   renderers={renderers}
                   schema={schema}
                   uischema={foundUISchema || uischema}
-                  />
+                />
               </View>
             ) : null}
-            </ModalItemAnimatedWrapper>
-          </View>
+          </ModalItemAnimatedWrapper>
+        </View>
       </SpectrumProvider>
     );
   }
