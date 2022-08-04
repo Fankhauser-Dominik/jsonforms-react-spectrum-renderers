@@ -37,7 +37,7 @@ export default function ModalItemAnimationWrapper({
     opacity: expanded ? 0.5 : 0,
     display: expanded ? 1 : 0,
   });
-
+  
 
   return ReactDom.createPortal(
     <>
@@ -70,6 +70,6 @@ export default function ModalItemAnimationWrapper({
         }
       />
     </>,
-    wrapperRef?.current?.UNSAFE_getDOMNode() || document.getElementById('root')
+    wrapperRef?.current?.UNSAFE || document.getElementById('root') || document.getElementById('__next') || document.body
   );
 }
