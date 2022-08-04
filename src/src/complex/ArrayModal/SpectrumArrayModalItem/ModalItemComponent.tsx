@@ -60,7 +60,6 @@ const SpectrumArrayModalItem = React.memo(
     schema,
     uischema,
     uischemas = [],
-    wrapperRef,
   }: OwnPropsOfSpectrumArrayModalItem & NonEmptyRowProps) => {
     const foundUISchema = findUISchema(uischemas, schema, uischema.scope, path);
     const childPath = composePaths(path, `${index}`);
@@ -131,7 +130,6 @@ schema.map((item,index) => item.componentType.title === childData.componentType 
             isAnimating={isAnimating}
             setIsAnimating={setIsAnimating}
             path={path}
-            wrapperRef={wrapperRef}
           >
             {expanded || isAnimating ? (
               <View UNSAFE_className='json-form-dispatch-wrapper'>

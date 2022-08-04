@@ -37,7 +37,6 @@ export interface OwnPropsOfSpectrumArrayModalItem {
   moveDownCreator?:
     | ((path: string, position: number) => () => void)
     | undefined;
-    wrapperRef?: React.RefObject<HTMLDivElement>;
 }
 
 /**

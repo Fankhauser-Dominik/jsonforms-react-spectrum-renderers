@@ -98,7 +98,6 @@ export const SpectrumArrayModalControl = React.memo(
       }
     };
 
-    const arrayWrapperRef = React.useRef(null);
 
     return (
       <View>
@@ -123,7 +122,7 @@ export const SpectrumArrayModalControl = React.memo(
             open={open}
           />
         </Flex>
-        <Flex ref={arrayWrapperRef} id={`spectrum-renderer-arrayContentWrapper_${path}`} direction='column' gap='size-100'>
+        <Flex id={`spectrum-renderer-arrayContentWrapper_${path}`} direction='column' gap='size-100'>
           {uischema?.options?.DND ? (
             <DragAndDrop
               data={data}
@@ -157,7 +156,6 @@ export const SpectrumArrayModalControl = React.memo(
                       schema={schema}
                       uischema={uischema}
                       uischemas={uischemas}
-                      wrapperRef={arrayWrapperRef}
                     ></SpectrumArrayModalItem>
                     {uischema.options?.showSortButtons && (
                       <SortButtons

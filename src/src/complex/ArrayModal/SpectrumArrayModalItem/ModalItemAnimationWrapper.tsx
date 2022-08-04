@@ -8,7 +8,6 @@ interface AnimationWrapperProps {
   enableDetailedView: boolean;
   isAnimating: boolean;
   setIsAnimating: (isAnimating: boolean) => void;
-  wrapperRef: any;
   path: string;
   children: React.ReactNode;
 }
@@ -19,7 +18,6 @@ export default function ModalItemAnimationWrapper({
   enableDetailedView,
   isAnimating,
   setIsAnimating,
-  wrapperRef,
   path,
   children,
 }: AnimationWrapperProps) {
@@ -29,9 +27,9 @@ export default function ModalItemAnimationWrapper({
     config: { duration: 700, easing: easings.easeOutQuart },
     left: expanded
       ? isBlackoutHovered && !isAnimating
-        ? 'calc(10% - 1px)'
-        : 'calc(5% - 1px)'
-      : 'calc(100% - 1px)',
+        ? '10%'
+        : '5%'
+      : '100%',
     onRest: () => setIsAnimating(false),
   });
 
@@ -39,12 +37,15 @@ export default function ModalItemAnimationWrapper({
     opacity: expanded ? 0.5 : 0,
     display: expanded ? 1 : 0,
   });
+
+  const slidingDiv = React.useRef(null)
   
 
   return ReactDom.createPortal(
     <>
       <animated.div
         className={`animatedModalItem animatedModalItemDiv ${enableDetailedView ? 'detailedView' : ''}`}
+        ref={slidingDiv}
         style={
           enableDetailedView
             ? {
@@ -67,11 +68,13 @@ export default function ModalItemAnimationWrapper({
                 display: darkenAnim.display.to((e) =>
                   e > 0 ? 'block' : 'none'
                 ),
+                // @ts-ignore
+                height: slidingDiv?.current?.clientHeight || '100%',
               }
             : { display: 'none' }
         }
       />
     </>,
-    wrapperRef?.current?.UNSAFE|| document.getElementById(`spectrum-renderer-arrayContentWrapper_${path}`)  || document.getElementById('root') || document.getElementById('__next') || document.body
+    document.getElementById(`spectrum-renderer-arrayContentWrapper_${path}`)  || document.getElementById('root') || document.getElementById('__next') || document.body
   );
 }
