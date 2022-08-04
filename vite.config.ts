@@ -6,10 +6,12 @@ import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  publicDir: false,
   build: {
+    minify: true,
     sourcemap: true,
     lib: {
-      entry: resolve(__dirname, 'src/src/index.ts'),
+      entry: resolve(__dirname, 'src/index.ts'),
       name: 'JsonForms React Spectrum Renderers',
       formats: ['es', 'umd'],
       fileName: (format) => `index.${format}.js`,
@@ -23,6 +25,8 @@ export default defineConfig({
         '@jsonforms/core',
         '@jsonforms/react',
         'moment',
+        '@adobe/react-spectrum',
+        '@spectrum-icons/workflow',
       ],
       output: {
         // Provide global variables to use in the UMD build
@@ -30,6 +34,11 @@ export default defineConfig({
         globals: {
           react: 'React',
           'react-dom': 'ReactDOM',
+          '@jsonforms/core': '@jsonforms/core',
+          '@jsonforms/react': '@jsonforms/react',
+          moment: 'moment',
+          '@adobe/react-spectrum': '@adobe/react-spectrum',
+          '@spectrum-icons/workflow': '@spectrum-icons/workflow',
         },
       },
     },
