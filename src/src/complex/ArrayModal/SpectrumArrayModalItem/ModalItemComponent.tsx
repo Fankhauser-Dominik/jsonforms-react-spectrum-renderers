@@ -130,6 +130,7 @@ schema.map((item,index) => item.componentType.title === childData.componentType 
             enableDetailedView={enableDetailedView}
             isAnimating={isAnimating}
             setIsAnimating={setIsAnimating}
+            path={path}
             wrapperRef={wrapperRef}
           >
             {expanded || isAnimating ? (

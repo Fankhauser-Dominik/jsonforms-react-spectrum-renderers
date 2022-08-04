@@ -9,6 +9,7 @@ interface AnimationWrapperProps {
   isAnimating: boolean;
   setIsAnimating: (isAnimating: boolean) => void;
   wrapperRef: any;
+  path: string;
   children: React.ReactNode;
 }
 
@@ -19,6 +20,7 @@ export default function ModalItemAnimationWrapper({
   isAnimating,
   setIsAnimating,
   wrapperRef,
+  path,
   children,
 }: AnimationWrapperProps) {
   const [isBlackoutHovered, setIsBlackoutHovered] = React.useState(true);
@@ -70,6 +72,6 @@ export default function ModalItemAnimationWrapper({
         }
       />
     </>,
-    wrapperRef?.current?.UNSAFE|| document.getElementById('spectrum-renderer-arrayContentWrapper')  || document.getElementById('root') || document.getElementById('__next') || document.body
+    wrapperRef?.current?.UNSAFE|| document.getElementById(`spectrum-renderer-arrayContentWrapper_${path}`)  || document.getElementById('root') || document.getElementById('__next') || document.body
   );
 }

@@ -123,7 +123,7 @@ export const SpectrumArrayModalControl = React.memo(
             open={open}
           />
         </Flex>
-        <Flex ref={arrayWrapperRef} id={'spectrum-renderer-arrayContentWrapper'} direction='column' gap='size-100'>
+        <Flex ref={arrayWrapperRef} id={`spectrum-renderer-arrayContentWrapper_${path}`} direction='column' gap='size-100'>
           {uischema?.options?.DND ? (
             <DragAndDrop
               data={data}
