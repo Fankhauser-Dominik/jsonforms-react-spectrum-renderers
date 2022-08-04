@@ -89,18 +89,17 @@ button {
 }
 
 .animatedModalItem.darkenBackground {
-  position: absolute;
   cursor: pointer;
-  top: 0px;
-  left: -1px;
-  width: 100%;
-  min-height: 100%;
   background-color: rgba(0, 0, 0, 1);
   opacity: 0.2;
   z-index: 8000;
 }
 
-.list-array-item.enableDetailedView.collapsed {
-}
-.list-array-item.enableDetailedView.expanded {
+
+.App-Form {
+  height: 400px;
+  position: relative;
+  border: 2px solid crimson;
+  overflow-x: hidden;
+  overflow-y: auto;
 }

@@ -37,19 +37,19 @@ export default function ModalItemAnimationWrapper({
     opacity: expanded ? 0.5 : 0,
     display: expanded ? 1 : 0,
   });
-
-  const slidingDiv = React.useRef(null)
   
+  const jsonformsWrapper = document.getElementById('json-form-wrapper') || document.getElementsByClassName('App-Form')[0];
+  const addToZIndex = path.split('.').length;
 
   return ReactDom.createPortal(
-    <>
+    <div className={`animatedModalItem animatedModalWrapper ${expanded ? 'expanded': ''}`}>
       <animated.div
         className={`animatedModalItem animatedModalItemDiv ${enableDetailedView ? 'detailedView' : ''}`}
-        ref={slidingDiv}
         style={
           enableDetailedView
             ? {
                 left: slideAnim.left,
+                zIndex: 8001 + addToZIndex,
               }
             : {}
         }
@@ -68,13 +68,17 @@ export default function ModalItemAnimationWrapper({
                 display: darkenAnim.display.to((e) =>
                   e > 0 ? 'block' : 'none'
                 ),
-                // @ts-ignore
-                height: slidingDiv?.current?.clientHeight || '100%',
+                height: jsonformsWrapper.clientHeight-1,
+                width: jsonformsWrapper.clientWidth / 2,
+                position: 'fixed',
+                top: jsonformsWrapper.getBoundingClientRect().top+1,
+                left: jsonformsWrapper.getBoundingClientRect().left,
+                zIndex: 8000 + addToZIndex,
               }
             : { display: 'none' }
         }
       />
-    </>,
+    </div>,
     document.getElementById(`spectrum-renderer-arrayContentWrapper_${path}`)  || document.getElementById('root') || document.getElementById('__next') || document.body
   );
 }
