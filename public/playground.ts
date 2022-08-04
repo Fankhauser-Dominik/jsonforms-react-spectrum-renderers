@@ -25,49 +25,13 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import * as React from 'react';
-import {
-  ControlProps,
-  ControlState,
-  mapDispatchToControlProps,
-  mapStateToControlProps,
-  RankedTester,
-  rankWith,
-  scopeEndsWith,
-} from '@jsonforms/core';
-import { Control } from '@jsonforms/react';
-import { Rating } from './Rating';
-import { connect } from 'react-redux';
+import { createThemeSelection, getPreferredTheme } from './theme.switcher';
+import { SpectrumCells, SpectrumRenderers } from '../src/index';
+import { renderExample } from './index';
 
-/**
- * Default tester for integer controls.
- * @type {RankedTester}
- */
-export const ratingControlTester: RankedTester = rankWith(
-  Number.MAX_VALUE,
-  scopeEndsWith('rating')
+const rerender = renderExample(
+  SpectrumRenderers,
+  SpectrumCells,
+  getPreferredTheme()
 );
-
-export class RatingControl extends Control<ControlProps, ControlState> {
-  /**
-   * @inheritDoc
-   */
-  render() {
-    return (
-      <div style={{ paddingTop: '1.5em' }}>
-        <Rating
-          value={this.props.data}
-          onClick={(ev: any) => {
-            this.props.handleChange(this.props.path, Number(ev.value));
-          }}
-          id={this.props.id}
-        />
-      </div>
-    );
-  }
-}
-
-export default connect(
-  mapStateToControlProps,
-  mapDispatchToControlProps
-)(RatingControl);
+createThemeSelection(rerender);

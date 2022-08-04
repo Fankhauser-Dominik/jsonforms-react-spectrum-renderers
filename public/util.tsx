@@ -34,7 +34,6 @@ import {
   nestedArray as NestedArrayExample, */
   onChange as OnChangeExample,
 } from '@jsonforms/examples';
-import ConnectedRatingControl, { ratingControlTester } from './RatingControl';
 import {
   Actions,
   JsonFormsCore,
@@ -57,12 +56,6 @@ export interface ReactExampleDescription extends ExampleDescription {
   ) => (state: Pick<JsonFormsCore, 'data' | 'errors'>) => AnyAction;
   customReactExtension?(dispatch: Dispatch<AnyAction>): React.Component;
 }
-const registerRatingControl = (dispatch: Dispatch<AnyAction>) => {
-  dispatch(Actions.registerCell(ratingControlTester, ConnectedRatingControl));
-};
-const unregisterRatingControl = (dispatch: Dispatch<AnyAction>) => {
-  dispatch(Actions.unregisterCell(ratingControlTester, ConnectedRatingControl));
-};
 
 export interface I18nExampleProps extends OwnPropsOfI18nExample {
   data: any;
@@ -168,20 +161,6 @@ export const enhanceExample: (
 ) => ReactExampleDescription[] = (examples) =>
   examples.map((e) => {
     switch (e.name) {
-      case 'day6':
-        const day6 = Object.assign({}, e, {
-          customReactExtension: (dispatch: Dispatch<AnyAction>) => (
-            <div>
-              <button onClick={() => registerRatingControl(dispatch)}>
-                Register Custom Cell
-              </button>
-              <button onClick={() => unregisterRatingControl(dispatch)}>
-                Unregister Custom Cell
-              </button>
-            </div>
-          ),
-        });
-        return day6;
       /* case 'nestedArray':
         const nestedArray = Object.assign({}, e, {
           customReactExtension: (dispatch: Dispatch<AnyAction>) => (

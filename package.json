@@ -1,7 +1,7 @@
 {
   "name": "jsonforms-react-spectrum-vite-test",
   "private": false,
-  "version": "0.0.24",
+  "version": "0.0.47",
   "type": "module",
   "files": [
     "dist"
@@ -71,7 +71,7 @@
     "@adobe/react-spectrum": "^3.20.0",
     "@jsonforms/core": "3.0.0-beta.5",
     "@jsonforms/react": "3.0.0-beta.5",
-    "@spectrum-icons/workflow": "^4.0.0",
+    "@spectrum-icons/workflow": "^4.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

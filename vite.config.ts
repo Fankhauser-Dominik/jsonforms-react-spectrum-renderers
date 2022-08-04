@@ -25,6 +25,8 @@ export default defineConfig({
         '@jsonforms/core',
         '@jsonforms/react',
         'moment',
+        '@adobe/react-spectrum',
+        '@spectrum-icons/workflow',
       ],
       output: {
         // Provide global variables to use in the UMD build
@@ -32,6 +34,11 @@ export default defineConfig({
         globals: {
           react: 'React',
           'react-dom': 'ReactDOM',
+          '@jsonforms/core': '@jsonforms/core',
+          '@jsonforms/react': '@jsonforms/react',
+          moment: 'moment',
+          '@adobe/react-spectrum': '@adobe/react-spectrum',
+          '@spectrum-icons/workflow': '@spectrum-icons/workflow',
         },
       },
     },

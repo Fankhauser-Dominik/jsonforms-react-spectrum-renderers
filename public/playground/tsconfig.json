@@ -1,8 +1,0 @@
-{
-  "extends": "../../tsconfig.base",
-  "compilerOptions": {
-    "jsx": "react",
-    "strict": true
-  },
-  "include": ["src/**/*"]
-}

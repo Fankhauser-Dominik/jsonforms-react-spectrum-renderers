@@ -28,7 +28,6 @@ import { Item, Picker, Section } from '@adobe/react-spectrum';
 import './App.css';
 import { localPrefix } from './persistedExamples';
 import { ReactExampleDescription } from './util';
-import { samples } from './samples';
 
 export function ExamplesPicker(props: {
   examples: ReactExampleDescription[];

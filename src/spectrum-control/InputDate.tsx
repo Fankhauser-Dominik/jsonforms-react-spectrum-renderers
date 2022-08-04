@@ -83,6 +83,7 @@ export const InputDate = React.memo(
       <SpectrumProvider width={width}>
         <Provider locale={appliedUiSchemaOptions.locale ?? 'gregory'}>
           <DatePicker
+            aria-label={label ?? 'Date picker'}
             autoFocus={uischema.options && uischema.options.focus}
             description={appliedUiSchemaOptions.description ?? null}
             errorMessage={appliedUiSchemaOptions.errorMessage ?? errorMessage()}

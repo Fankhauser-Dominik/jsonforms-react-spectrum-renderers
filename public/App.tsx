@@ -25,8 +25,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-
-import * as React from 'react';
+import React from 'react';
 import { JsonFormsDispatch } from '@jsonforms/react';
 import { JsonFormsReduxContext } from '@jsonforms/react/lib/redux';
 import { useParams, useHistory } from 'react-router-dom';
@@ -141,7 +140,7 @@ function App(props: AppProps & { selectedExample: ReactExampleDescription }) {
             <div className='App-Form'>
               <View padding='size-100'>
                 <Heading>Form: {props.selectedExample.label}</Heading>
-                {props.getComponent(props.selectedExample)}
+                {!!props.getComponent(props.selectedExample)}
                 <JsonFormsDispatch /* onChange={props.onChange} */ />
               </View>
             </div>

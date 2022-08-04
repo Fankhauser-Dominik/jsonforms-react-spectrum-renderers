@@ -85,7 +85,9 @@ export const SpectrumCategorizationRenderer = (
   return (
     <View isHidden={!visible}>
       <SpectrumProvider>
-        <Tabs /* isDisabled={enabled === undefined ? false : !enabled} */>
+        <Tabs
+          aria-label='Categorization' /* isDisabled={enabled === undefined ? false : !enabled} */
+        >
           <TabList>
             {categories?.map((category: { [key: string]: any }, index) => (
               <Item key={index}>

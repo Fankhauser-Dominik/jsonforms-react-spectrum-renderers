@@ -39,6 +39,7 @@ const SpectrumProvider = (props: ProviderProps) => {
     <Provider
       {...props}
       colorScheme={colorScheme}
+      scale='medium'
       theme={theme}
       id='SpectrumInputControlProvider'
     >

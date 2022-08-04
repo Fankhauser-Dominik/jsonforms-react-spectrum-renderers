@@ -1,23 +1,17 @@
 /*
   The MIT License
-
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
-
   Copyright (c) 2022 headwire.com, Inc
   https://github.com/headwirecom/jsonforms-react-spectrum-renderers
-
-
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
   copies of the Software, and to permit persons to whom the Software is
   furnished to do so, subject to the following conditions:
-
   The above copyright notice and this permission notice shall be included in
   all copies or substantial portions of the Software.
-
   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -98,34 +92,42 @@ schema.map((item,index) => item.componentType.title === childData.componentType 
       openItemWhenInQueryParam(path, index, childLabel, handleExpand);
     }, []);
 
+    const Header = (
+      <ModalItemHeader
+        expanded={expanded}
+        enableDetailedView={enableDetailedView}
+        index={index}
+        path={path}
+        handleExpand={handleExpand}
+        removeItem={removeItem}
+        duplicateItem={duplicateItem}
+        childLabel={childLabel}
+      />
+    );
+
     return (
       <SpectrumProvider flex='auto' width={'100%'}>
-        <ModalItemAnimatedWrapper
-          expanded={expanded}
-          enableDetailedView={enableDetailedView}
-          setIsAnimating={setIsAnimating}
+        <View
+          UNSAFE_className={`list-array-item ${
+            enableDetailedView ? 'enableDetailedView' : 'accordionView'
+          } ${expanded ? 'expanded' : 'collapsed'}`}
+          borderWidth='thin'
+          borderColor='dark'
+          borderRadius='medium'
+          padding='size-150'
         >
-          <View
-            UNSAFE_className={`list-array-item ${
-              enableDetailedView ? 'enableDetailedView' : 'accordionView'
-            } ${expanded ? 'expanded' : 'collapsed'}`}
-            borderWidth='thin'
-            borderColor='dark'
-            borderRadius='medium'
-            padding='size-150'
+          {Header}
+          <ModalItemAnimatedWrapper
+            expanded={expanded}
+            handleExpand={handleExpand}
+            enableDetailedView={enableDetailedView}
+            isAnimating={isAnimating}
+            setIsAnimating={setIsAnimating}
+            path={path}
           >
-            <ModalItemHeader
-              expanded={expanded}
-              enableDetailedView={enableDetailedView}
-              index={index}
-              path={path}
-              handleExpand={handleExpand}
-              removeItem={removeItem}
-              duplicateItem={duplicateItem}
-              childLabel={childLabel}
-            />
-            {expanded && !isAnimating ? (
-              <View UNSAFE_className='json-dispatch-wrapper'>
+            {expanded || isAnimating ? (
+              <View UNSAFE_className='json-form-dispatch-wrapper'>
+                {enableDetailedView && Header}
                 <JsonFormsDispatch
                   key={childPath}
                   path={childPath}
@@ -135,8 +137,8 @@ schema.map((item,index) => item.componentType.title === childData.componentType 
                 />
               </View>
             ) : null}
-          </View>
-        </ModalItemAnimatedWrapper>
+          </ModalItemAnimatedWrapper>
+        </View>
       </SpectrumProvider>
     );
   }

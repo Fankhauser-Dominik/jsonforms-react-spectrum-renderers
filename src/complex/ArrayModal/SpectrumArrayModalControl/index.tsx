@@ -109,7 +109,7 @@ export const SpectrumArrayModalControl = React.memo(
             }, [open])}
             variant='primary'
           >
-            <Add aria-label='Add' />
+            <Add aria-label='Add' size='S' />
           </Button>
           <AddDialog
             uischema={uischema}
@@ -121,7 +121,11 @@ export const SpectrumArrayModalControl = React.memo(
             open={open}
           />
         </Flex>
-        <Flex direction='column' gap='size-100'>
+        <Flex
+          id={`spectrum-renderer-arrayContentWrapper_${path}`}
+          direction='column'
+          gap='size-100'
+        >
           {uischema?.options?.DND ? (
             <DragAndDrop
               data={data}

@@ -31,12 +31,12 @@ export default function DragAndDrop({
   handleRemoveItem,
 }: ArrayModalControlDragAndDropProps) {
   const stringified = (arr: any) => {
-    return arr.map((item: any) => {
+    return arr?.map((item: any) => {
       return JSON.stringify(item);
     });
   };
   const order = React.useRef(
-    Array.from(Array(data)).map((data: any, _: any) => data)
+    Array.from(Array(data))?.map((data: any, _: any) => data)
   );
   const HEIGHT_OF_COMPONENT = 88;
   const fn =
@@ -137,7 +137,7 @@ export default function DragAndDrop({
         position: 'relative',
       }}
     >
-      {springs.map(({ zIndex, shadow, y, scale }, index: number) => (
+      {springs?.map(({ zIndex, shadow, y, scale }, index: number) => (
         <animated.div
           {...bind(index)}
           key={`${index}`}
