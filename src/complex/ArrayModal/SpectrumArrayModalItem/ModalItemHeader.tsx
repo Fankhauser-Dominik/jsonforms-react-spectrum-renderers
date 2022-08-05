@@ -100,7 +100,7 @@ export default function ModalItemHeader({
                   onPress={() =>console.log('Pressed "Save & continue editing"')} //prettier-ignore
                   aria-label={`save-and-continue-editing-${childLabel}`}
                 >
-                  <SaveAsFloppy />
+                  <SaveAsFloppy size='S' />
                 </ActionButton>
                 <Tooltip>Save & continue editing</Tooltip>
               </TooltipTrigger>
@@ -114,9 +114,9 @@ export default function ModalItemHeader({
               >
                 {
                   expanded ? (
-                enableDetailedView ? <SaveFloppy aria-label='Save & Close' /> : <ChevronUp aria-label='Collapse' /> //prettier-ignore
+                enableDetailedView ? <SaveFloppy aria-label='Save & Close' size="S" /> : <ChevronUp aria-label='Collapse' size="S" /> //prettier-ignore
               ) : //prettier-ignore
-              enableDetailedView ? <Edit aria-label='Edit' /> : <ChevronDown aria-label='Expand' /> //prettier-ignore
+              enableDetailedView ? <Edit aria-label='Edit' size="S" /> : <ChevronDown aria-label='Expand' size="S" /> //prettier-ignore
                 }
               </ActionButton>
               <Tooltip>

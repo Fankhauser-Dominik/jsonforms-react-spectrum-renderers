@@ -69,7 +69,7 @@ export const ArrayLayoutToolbar = React.memo(
                 onPress={addItem(path, createDefault())}
                 variant='primary'
               >
-                <Add aria-label='Add' />
+                <Add aria-label='Add' size='S' />
               </Button>
               <Tooltip>{`Add to ${label}`}</Tooltip>
             </TooltipTrigger>
