@@ -76,11 +76,11 @@ export default function ModalItemAnimationWrapper({
                 display: darkenAnim.display.to((e) =>
                   e > 0 ? 'block' : 'none'
                 ),
-                height: jsonformsWrapper.clientHeight,
-                width: jsonformsWrapper.clientWidth / 2,
+                height: jsonformsWrapper?.clientHeight,
+                width: jsonformsWrapper?.clientWidth / 2,
                 position: 'fixed',
-                top: jsonformsWrapper.getBoundingClientRect().top,
-                left: jsonformsWrapper.getBoundingClientRect().left,
+                top: jsonformsWrapper?.getBoundingClientRect().top,
+                left: jsonformsWrapper?.getBoundingClientRect().left,
                 zIndex: 8000 + addToZIndex,
               }
             : { display: 'none' }

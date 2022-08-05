@@ -42,7 +42,7 @@ export function ErrorIndicator({ errors }: { errors: React.ReactNode }) {
         minWidth='size-0'
         width='size-10'
       >
-        <AlertCircle color='negative' />
+        <AlertCircle color='negative' size='S' />
       </Button>
       <Tooltip>{errors}</Tooltip>
     </TooltipTrigger>

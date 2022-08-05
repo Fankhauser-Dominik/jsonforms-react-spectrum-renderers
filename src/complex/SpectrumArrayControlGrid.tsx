@@ -245,7 +245,7 @@ const SpectrumArrayControlGrid = ({
                       onPress={() => setOpenAndsetdeleteIndex(index)}
                       aria-label={`delete-row-at-${index}`}
                     >
-                      <Delete aria-label='Delete' />
+                      <Delete aria-label='Delete' size='S' />
                     </ActionButton>
                     <Tooltip>Delete</Tooltip>
                   </TooltipTrigger>

@@ -138,9 +138,9 @@ const SpectrumArrayItem = ({
                   aria-label={`expand-item-${childLabel}`}
                 >
                   {isExpanded ? (
-                    <ChevronUp aria-label='Collapse' />
+                    <ChevronUp aria-label='Collapse' size='S' />
                   ) : (
-                    <ChevronDown aria-label='Expand' />
+                    <ChevronDown aria-label='Expand' size='S' />
                   )}
                 </ActionButton>
                 <Tooltip>{isExpanded ? 'Collapse' : 'Expand'}</Tooltip>
@@ -150,7 +150,7 @@ const SpectrumArrayItem = ({
                   onPress={() => setOpen(true)}
                   aria-label={`delete-item-${childLabel}`}
                 >
-                  <Delete aria-label='Delete' />
+                  <Delete aria-label='Delete' size='S' />
                 </ActionButton>
                 <Tooltip>Delete</Tooltip>
               </TooltipTrigger>

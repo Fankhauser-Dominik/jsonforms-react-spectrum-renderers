@@ -98,7 +98,7 @@ export default function SortButtons({
           marginX='size-10'
           isDisabled={index === 0}
         >
-          <ArrowUp aria-label='ArrowUp' />
+          <ArrowUp aria-label='ArrowUp' size='S' />
         </ActionButton>
         <Tooltip>Move upwards</Tooltip>
       </TooltipTrigger>
@@ -112,7 +112,7 @@ export default function SortButtons({
             index === indexOfFittingSchemaObject[`${path}itemQuantity`] - 1
           }
         >
-          <ArrowDown aria-label='ArrowDown' />
+          <ArrowDown aria-label='ArrowDown' size='S' />
         </ActionButton>
         <Tooltip>Move downwards</Tooltip>
       </TooltipTrigger>

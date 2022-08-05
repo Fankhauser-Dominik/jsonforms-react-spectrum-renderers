@@ -191,11 +191,11 @@ export const InputText = React.memo(
             >
               {fileBrowser?.icon === false ? undefined : uischema.options
                   ?.fileBrowser?.icon === 'url' ? (
-                <Link />
+                <Link size='S' />
               ) : fileBrowser?.icon === 'asset' ? (
-                <Asset />
+                <Asset size='S' />
               ) : (
-                <FolderOpen />
+                <FolderOpen size='S' />
               )}
               {fileBrowser?.buttonText ?? null}
             </ActionButton>

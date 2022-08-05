@@ -102,9 +102,9 @@ export const InputRating = React.memo(
                 />
                 <span>
                   {ratingValue <= (hover ?? data) ? (
-                    <Star id={Stars} margin='size-25' />
+                    <Star id={Stars} margin='size-25' size='S' />
                   ) : (
-                    <StarOutline id={Stars} margin='size-25' />
+                    <StarOutline id={Stars} margin='size-25' size='S' />
                   )}
                 </span>
               </label>

@@ -66,7 +66,7 @@ export const SpectrumArrayControl = ({
           alignSelf='center'
           onPress={addItem(path, createDefaultValue(schema))}
         >
-          <Add aria-label='Add' />
+          <Add aria-label='Add' size='S' />
         </Button>
       </Flex>
       <Flex direction='column' gap='size-100'>
