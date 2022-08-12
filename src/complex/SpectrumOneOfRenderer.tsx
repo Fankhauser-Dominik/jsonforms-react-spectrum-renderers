@@ -34,6 +34,7 @@ import {
   isOneOfControl,
   // rankWith,
   CombinatorRendererProps,
+  CombinatorSubSchemaRenderInfo,
   UISchemaElement,
   JsonSchema,
   TesterContext,
@@ -82,7 +83,7 @@ const SpectrumOneOfRenderer = ({
 
   const [newSelectedIndex, setNewSelectedIndex] = React.useState(0);
   const handleClose = React.useCallback(() => setOpen(false), [setOpen]);
-  let oneOfRenderInfos;
+  let oneOfRenderInfos: CombinatorSubSchemaRenderInfo[] = [];
   if (schema?.oneOf) {
     oneOfRenderInfos = createCombinatorRenderInfos(
       schema?.oneOf,

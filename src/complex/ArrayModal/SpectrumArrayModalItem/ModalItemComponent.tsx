@@ -23,10 +23,11 @@
 import React, { useState, useEffect } from 'react';
 import { View } from '@adobe/react-spectrum';
 import { composePaths, findUISchema } from '@jsonforms/core';
-import { JsonFormsDispatch } from '@jsonforms/react';
+// import { JsonFormsDispatch } from '@jsonforms/react';
 import { OwnPropsOfSpectrumArrayModalItem } from '.';
 
 import ModalItemAnimatedWrapper from './ModalItemAnimationWrapper';
+import SpectrumArrayModalOneOfRenderer from '../SpectrumArrayModalOneOfRenderer';
 
 import './SpectrumArrayModalItem.css';
 
@@ -42,19 +43,20 @@ interface NonEmptyRowProps {
 }
 
 const SpectrumArrayModalItem = React.memo(
-  ({
-    childLabel = '',
-      // childData,
-    index,
-    // indexOfFittingSchema,
-    path,
-    removeItem,
-    duplicateItem,
-    renderers,
-    schema,
-    uischema,
-    uischemas = [],
-  }: OwnPropsOfSpectrumArrayModalItem & NonEmptyRowProps) => {
+  (props: OwnPropsOfSpectrumArrayModalItem & NonEmptyRowProps) => {
+    const {
+      childLabel = '',
+        // childData,
+      index,
+      // indexOfFittingSchema,
+      path,
+      removeItem,
+      duplicateItem,
+      renderers,
+      schema,
+      uischema,
+      uischemas = [],
+    } = props;
     const foundUISchema = findUISchema(uischemas, schema, uischema.scope, path);
     const childPath = composePaths(path, `${index}`);
     const [expanded, setExpanded] = useState(false);
@@ -74,20 +76,6 @@ const SpectrumArrayModalItem = React.memo(
 
     const enableDetailedView = uischema?.options?.enableDetailedView;
 
-    /*
-    indexOfFittingSchemaObject[childPath] =
-      indexOfFittingSchema ??
-      findValue(childData, 'indexOfFittingSchema') ??
-      0;
-
-    if (uischema.options?.OneOfModal) {
-      indexOfFittingSchemaObject['OneOfModal'] = true;
-    }
-    if (uischema.options?.OneOfPicker) {
-      indexOfFittingSchemaObject['OneOfPicker'] = true;
-    }
-    */
-
     useEffect(() => {
       openItemWhenInQueryParam(path, index, childLabel, handleExpand);
     }, []);
@@ -104,6 +92,17 @@ const SpectrumArrayModalItem = React.memo(
         childLabel={childLabel}
       />
     );
+
+    console.log("foundUISchema", foundUISchema); 
+    console.log("uiSchema", uischema); 
+    const childUISchema = {
+      scope: uischema.scope,
+      type: "VerticalLayout",
+      elements: [{
+        scope: "#",
+        type: "Control"
+      }]
+    };
 
     return (
       <SpectrumProvider flex='auto' width={'100%'}>
@@ -128,12 +127,13 @@ const SpectrumArrayModalItem = React.memo(
             {expanded || isAnimating ? (
               <View UNSAFE_className='json-form-dispatch-wrapper'>
                 {enableDetailedView && Header}
-                <JsonFormsDispatch
+                <SpectrumArrayModalOneOfRenderer
+                  {...props}
                   key={childPath}
                   path={childPath}
                   renderers={renderers}
                   schema={schema}
-                  uischema={foundUISchema || uischema}
+                  uischema={foundUISchema}
                 />
               </View>
             ) : null}
