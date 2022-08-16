@@ -95,7 +95,8 @@ const SpectrumArrayModalItem = React.memo(
     function breadCrumbClose (message: MessageEvent) {
       if (message.data.type !== 'close-item-breadcrumb') {return}
       if (message.data.path.includes(`${path}-${index}-${childLabel}`)) {
-        handleExpand()
+        setIsAnimating(true);
+        setExpanded(false);
       }
     }
 

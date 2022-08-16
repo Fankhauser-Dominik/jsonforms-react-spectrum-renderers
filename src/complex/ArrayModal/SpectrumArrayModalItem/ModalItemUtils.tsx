@@ -16,7 +16,16 @@ export const openItemWhenInQueryParam = (
       return;
     }
     formLocation = formLocation.split('_');
-    const regex = new RegExp(`((^|_)${path}-${index}-${childLabel}$)`);
+    const regex = new RegExp(`((^|_)${path}-${index}-${encodeURIComponent(childLabel)}$)`);
+
+    if( encodeURIComponent(childLabel) === 'Golf%20Instruction') {
+      formLocation.forEach((location: string) => {
+        console.log('location', location);
+        console.log('regex', `${path}-${index}-${encodeURIComponent(childLabel)}`);
+        console.log(regex.test(location))
+      });
+
+    }
 
     formLocation.forEach((location: string) => {
       if (regex.test(location)) {
