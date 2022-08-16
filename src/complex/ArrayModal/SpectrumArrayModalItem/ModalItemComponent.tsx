@@ -31,9 +31,9 @@ import ModalItemAnimatedWrapper from './ModalItemAnimationWrapper';
 import './SpectrumArrayModalItem.css';
 
 import SpectrumProvider from '../../../additional/SpectrumProvider';
-import { indexOfFittingSchemaObject } from '../utils';
+// import { indexOfFittingSchemaObject } from '../utils';
 import ModalItemHeader from './ModalItemHeader';
-import { openItemWhenInQueryParam, findValue } from './ModalItemUtils';
+import { openItemWhenInQueryParam } from './ModalItemUtils';
 
 interface NonEmptyRowProps {
   rowIndex?: number | undefined;
@@ -44,9 +44,9 @@ interface NonEmptyRowProps {
 const SpectrumArrayModalItem = React.memo(
   ({
     childLabel = '',
-    childData,
+      // childData,
     index,
-    indexOfFittingSchema,
+    // indexOfFittingSchema,
     path,
     removeItem,
     duplicateItem,
@@ -74,23 +74,39 @@ const SpectrumArrayModalItem = React.memo(
 
     const enableDetailedView = uischema?.options?.enableDetailedView;
 
+    /*
+    indexOfFittingSchemaObject[childPath] =
+      indexOfFittingSchema ??
+      findValue(childData, 'indexOfFittingSchema') ??
+      0;
+
+    if (uischema.options?.OneOfModal) {
+      indexOfFittingSchemaObject['OneOfModal'] = true;
+    }
+    if (uischema.options?.OneOfPicker) {
+      indexOfFittingSchemaObject['OneOfPicker'] = true;
+    }
+    */
+
     useEffect(() => {
-      indexOfFittingSchemaObject[childPath] =
-        indexOfFittingSchema ??
-        findValue(childData, 'indexOfFittingSchema') ??
-        0;
-
-      /* let fittingSchema = null;
-schema.map((item,index) => item.componentType.title === childData.componentType ? fittingSchema = index : null); */
-      if (uischema.options?.OneOfModal) {
-        indexOfFittingSchemaObject['OneOfModal'] = true;
-      }
-      if (uischema.options?.OneOfPicker) {
-        indexOfFittingSchemaObject['OneOfPicker'] = true;
-      }
-
       openItemWhenInQueryParam(path, index, childLabel, handleExpand);
     }, []);
+
+    function breadCrumbClose (message: MessageEvent) {
+      if (message.data.type !== 'close-item-breadcrumb') {return}
+      if (message.data.path.includes(`${path}-${index}-${childLabel}`)) {
+        setIsAnimating(true);
+        setExpanded(false);
+      }
+    }
+
+    useEffect(() => {
+      if (expanded) {
+        window.addEventListener('message', breadCrumbClose)
+      }
+      return () => window.removeEventListener('message', breadCrumbClose)
+    }, [expanded])
+    
 
     const Header = (
       <ModalItemHeader

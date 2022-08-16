@@ -16,7 +16,7 @@ export const openItemWhenInQueryParam = (
       return;
     }
     formLocation = formLocation.split('_');
-    const regex = new RegExp(`((^|_)${path}-${index}-${childLabel}$)`);
+    const regex = new RegExp(`((^|_)${path}-${index}-${encodeURIComponent(childLabel)}$)`);
 
     formLocation.forEach((location: string) => {
       if (regex.test(location)) {
