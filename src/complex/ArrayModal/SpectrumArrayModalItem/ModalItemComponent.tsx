@@ -92,6 +92,21 @@ schema.map((item,index) => item.componentType.title === childData.componentType 
       openItemWhenInQueryParam(path, index, childLabel, handleExpand);
     }, []);
 
+    function breadCrumbClose (message: MessageEvent) {
+      if (message.data.type !== 'close-item-breadcrumb') {return}
+      if (message.data.path.includes(`${path}-${index}-${childLabel}`)) {
+        handleExpand()
+      }
+    }
+
+    useEffect(() => {
+      if (expanded) {
+        window.addEventListener('message', breadCrumbClose)
+      }
+      return () => window.removeEventListener('message', breadCrumbClose)
+    }, [expanded])
+    
+
     const Header = (
       <ModalItemHeader
         expanded={expanded}
