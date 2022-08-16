@@ -73,6 +73,8 @@ const SpectrumOneOfRenderer = ({
   uischemas,
   visible,
 }: CombinatorRendererProps) => {
+  console.log("uischema", uischema);
+  console.log("uischemas", uischemas);
   const [open, setOpen] = React.useState(false);
   const [selectedIndex, setSelectedIndex] = React.useState(
     indexOfFittingSchema ?? indexOfFittingSchemaObject[path] ?? 0
@@ -120,12 +122,12 @@ const SpectrumOneOfRenderer = ({
     [setOpen, setSelectedIndex, data]
   );
   const usePickerInsteadOfTabs =
-    indexOfFittingSchemaObject['OneOfModal'] === true ||
-    indexOfFittingSchemaObject['OneOfPicker'] === true ||
+    //indexOfFittingSchemaObject['OneOfModal'] === true ||
+    //indexOfFittingSchemaObject['OneOfPicker'] === true ||
     uischema.options?.OneOfPicker === true;
 
   const hideTabs =
-    indexOfFittingSchemaObject['OneOfModal'] === true ||
+    //indexOfFittingSchemaObject['OneOfModal'] === true ||
     uischema.options?.OneOfModal === true;
 
   console.log('indexOfFittingSchema:', indexOfFittingSchema);
