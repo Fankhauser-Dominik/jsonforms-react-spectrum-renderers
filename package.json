@@ -1,7 +1,7 @@
 {
   "name": "jsonforms-react-spectrum-vite-test",
   "private": false,
-  "version": "0.0.52",
+  "version": "0.0.53",
   "type": "module",
   "files": [
     "dist"
@@ -19,9 +19,9 @@
     "*.css"
   ],
   "scripts": {
-    "fix": "npm i && cd node_modules && rm -rf .vite && cd .. && cat ./temp_fix/jsonforms-core.esm.js > ./node_modules/@jsonforms/core/lib/jsonforms-core.esm.js",
+    "postinstall": "rm -rf ./node_modules/.vite && cat ./temp_fix/jsonforms-core.esm.js > ./node_modules/@jsonforms/core/lib/jsonforms-core.esm.js",
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc && vite build && mkdir ./dist/temp_fix && cp -f ./temp_fix/jsonforms-core.esm.js ./dist/temp_fix/jsonforms-core.esm.js",
     "preview": "vite preview"
   },
   "keywords": [
