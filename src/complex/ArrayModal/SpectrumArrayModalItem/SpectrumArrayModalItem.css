@@ -14,6 +14,7 @@
   text-align: center;
   background-color: var(--spectrum-global-color-gray-500);
   color: var(--spectrum-global-color-gray-200);
+  flex-shrink: 0;
 }
 
 button {
