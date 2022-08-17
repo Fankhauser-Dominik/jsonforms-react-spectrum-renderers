@@ -12,8 +12,7 @@ import {
 
 import Delete from '@spectrum-icons/workflow/Delete';
 import Edit from '@spectrum-icons/workflow/Edit';
-import SaveFloppy from '@spectrum-icons/workflow/SaveFloppy';
-import SaveAsFloppy from '@spectrum-icons/workflow/SaveAsFloppy';
+import Close from '@spectrum-icons/workflow/Close';
 import ChevronUp from '@spectrum-icons/workflow/ChevronUp';
 import ChevronDown from '@spectrum-icons/workflow/ChevronDown';
 import Duplicate from '@spectrum-icons/workflow/Duplicate';
@@ -68,7 +67,7 @@ export default function ModalItemHeader({
           <Text>{index + 1}</Text>
         </View>
         <ActionButton
-          flex='auto'
+          flex={'1 1 auto'}
           isQuiet
           onPress={() => handleExpand()}
           aria-label={`expand-item-${childLabel}`}
@@ -94,18 +93,6 @@ export default function ModalItemHeader({
               </Item>
             </ActionMenu>
 
-            {enableDetailedView && expanded && (
-              <TooltipTrigger delay={0}>
-                <ActionButton
-                  onPress={() =>console.log('Pressed "Save & continue editing"')} //prettier-ignore
-                  aria-label={`save-and-continue-editing-${childLabel}`}
-                >
-                  <SaveAsFloppy size='S' />
-                </ActionButton>
-                <Tooltip>Save & continue editing</Tooltip>
-              </TooltipTrigger>
-            )}
-
             <TooltipTrigger delay={0}>
               <ActionButton
                 onPress={() => handleExpand()}
@@ -114,7 +101,7 @@ export default function ModalItemHeader({
               >
                 {
                   expanded ? (
-                enableDetailedView ? <SaveFloppy aria-label='Save & Close' size="S" /> : <ChevronUp aria-label='Collapse' size="S" /> //prettier-ignore
+                enableDetailedView ? <Close aria-label='Close' size="S" /> : <ChevronUp aria-label='Collapse' size="S" /> //prettier-ignore
               ) : //prettier-ignore
               enableDetailedView ? <Edit aria-label='Edit' size="S" /> : <ChevronDown aria-label='Expand' size="S" /> //prettier-ignore
                 }
@@ -122,7 +109,7 @@ export default function ModalItemHeader({
               <Tooltip>
                 {expanded
                   ? enableDetailedView
-                    ? 'Save & Close'
+                    ? 'Close'
                     : 'Collapse'
                   : enableDetailedView
                   ? 'Edit'

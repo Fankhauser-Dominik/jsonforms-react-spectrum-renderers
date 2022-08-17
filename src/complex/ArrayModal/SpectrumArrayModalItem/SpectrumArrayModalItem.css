@@ -46,12 +46,13 @@ button {
   z-index: 9000;
   width: 95%;
   min-height: 100%;
-  /* height: 100%; */
+  height: 100%;
   flex-grow: 1;
   position: absolute;
   /* contain: paint; */
   background-color: var(--spectrum-global-color-gray-100);
-  z-index: 9000;
+  overflow-x: hidden;
+  overflow-y: auto;
 
   border-left-color: var(
     --spectrum-alias-border-color-dark,
@@ -68,11 +69,9 @@ button {
   > .array-item-header {
   position: sticky;
   width: 100%;
-
   padding: 10px 13px 10px 13px;
   margin-top: -12px;
-  border-radius: 10px 10px 0 0;
-  top: -16px;
+  top: -12px;
   left: 0;
 
   background-color: var(--spectrum-global-color-gray-100);
@@ -94,6 +93,11 @@ button {
   background-color: rgba(0, 0, 0, 1);
   opacity: 0.2;
   z-index: 8000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 95%;
 }
 
 /* .App-Form {

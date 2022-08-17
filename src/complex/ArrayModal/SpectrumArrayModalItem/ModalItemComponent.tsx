@@ -20,7 +20,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { View } from '@adobe/react-spectrum';
 import { composePaths, findUISchema } from '@jsonforms/core';
 import { JsonFormsDispatch } from '@jsonforms/react';
@@ -57,20 +57,51 @@ const SpectrumArrayModalItem = React.memo(
   }: OwnPropsOfSpectrumArrayModalItem & NonEmptyRowProps) => {
     const foundUISchema = findUISchema(uischemas, schema, uischema.scope, path);
     const childPath = composePaths(path, `${index}`);
-    const [expanded, setExpanded] = useState(false);
-    const [isAnimating, setIsAnimating] = useState(false);
+    const [expanded, setExpanded] = React.useState(false);
+    const [isAnimating, setIsAnimating] = React.useState(false);
 
+    const ref = React.useRef(null)
+    
     const handleExpand = () => {
       setIsAnimating(true);
       if (expanded === false) {
         if (enableDetailedView === true) {window.postMessage({ type: 'expanded-item', index, path, breadCrumbLabel: childLabel, addToQuery: true }, '*')} // prettier-ignore
+        handleOverflow(ref, true)
         setExpanded(true);
         return;
       }
       if (enableDetailedView === true) {window.postMessage({ type: 'expanded-item', index, path, breadCrumbLabel: childLabel, addToQuery: false }, '*')} // prettier-ignore
-      setExpanded(false);
-      return;
+        handleOverflow(ref, false)
+        setExpanded(false);
+        return;
     };
+
+    const handleOverflow = (ref:any, disable:boolean) => {
+      const spectrumRef = ref.current.UNSAFE_getDOMNode()
+      
+      const parent = spectrumRef.closest('.animatedModalItem.animatedModalItemDiv.detailedView')
+      || spectrumRef.closest('#json-form-wrapper')
+      || spectrumRef.closest('.App-Form')
+      
+      if (!parent) {
+        return
+      }
+
+      if (disable) {
+        parent.style.overflowY = 'hidden';
+        return;
+      }
+      parent.style.overflowY = 'auto';
+      return;      
+    }
+
+    // post message debugger
+    React.useEffect(() => {
+      window.addEventListener('message', (event) => {
+        if (event?.data?.type !== 'expanded-item' || event?.data?.path !== path || event?.data?.index !== index) {return}
+        console.log("\x1b[31m~ expanded-item event.data", event.data)
+      });
+    })
 
     const enableDetailedView = uischema?.options?.enableDetailedView;
 
@@ -88,19 +119,21 @@ const SpectrumArrayModalItem = React.memo(
     }
     */
 
-    useEffect(() => {
+    React.useEffect(() => {
       openItemWhenInQueryParam(path, index, childLabel, handleExpand);
     }, []);
+
 
     function breadCrumbClose (message: MessageEvent) {
       if (message.data.type !== 'close-item-breadcrumb') {return}
       if (message.data.path.includes(`${path}-${index}-${childLabel}`)) {
+        handleOverflow(ref, false)
         setIsAnimating(true);
         setExpanded(false);
       }
     }
 
-    useEffect(() => {
+    React.useEffect(() => {
       if (expanded) {
         window.addEventListener('message', breadCrumbClose)
       }
@@ -122,8 +155,9 @@ const SpectrumArrayModalItem = React.memo(
     );
 
     return (
-      <SpectrumProvider flex='auto' width={'100%'}>
+      <SpectrumProvider flex='auto' width={uischema.options?.showSortButtons ? 'calc(100% - 66px)' : '100%'}>
         <View
+          ref={ref}
           UNSAFE_className={`list-array-item ${
             enableDetailedView ? 'enableDetailedView' : 'accordionView'
           } ${expanded ? 'expanded' : 'collapsed'}`}
