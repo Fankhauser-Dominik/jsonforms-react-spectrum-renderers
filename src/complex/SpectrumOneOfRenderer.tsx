@@ -73,8 +73,8 @@ const SpectrumOneOfRenderer = ({
   uischemas,
   visible,
 }: CombinatorRendererProps) => {
-  console.log("uischema", uischema);
-  console.log("uischemas", uischemas);
+  console.log('uischema', uischema);
+  console.log('uischemas', uischemas);
   const [open, setOpen] = React.useState(false);
   const [selectedIndex, setSelectedIndex] = React.useState(
     indexOfFittingSchema ?? indexOfFittingSchemaObject[path] ?? 0

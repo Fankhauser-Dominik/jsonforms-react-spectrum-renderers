@@ -19,6 +19,7 @@
     "*.css"
   ],
   "scripts": {
+    "fix": "npm i && cd node_modules && rm -rf .vite && cd .. && cat ./temp_fix/jsonforms-core.esm.js > ./node_modules/@jsonforms/core/lib/jsonforms-core.esm.js",
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview"
@@ -49,7 +50,7 @@
     "@jsonforms/examples": "^3.0.0-rc.0",
     "@jsonforms/react": "^3.0.0-rc.0",
     "@spectrum-icons/workflow": "^4.0.1",
-    "@types/lodash": "^4.14.182",
+    "@types/lodash": "^4.14.183",
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
     "@types/react-redux": "^7.1.24",
@@ -69,8 +70,8 @@
   },
   "peerDependencies": {
     "@adobe/react-spectrum": "^3.20.0",
-    "@jsonforms/core": "3.0.0-beta.5",
-    "@jsonforms/react": "3.0.0-beta.5",
+    "@jsonforms/core": "^3.0.0-rc.0",
+    "@jsonforms/react": "^3.0.0-rc.0",
     "@spectrum-icons/workflow": "^4.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
