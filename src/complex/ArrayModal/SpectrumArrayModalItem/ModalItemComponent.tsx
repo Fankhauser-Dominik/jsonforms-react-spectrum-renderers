@@ -95,14 +95,6 @@ const SpectrumArrayModalItem = React.memo(
       return;      
     }
 
-    // post message debugger
-    React.useEffect(() => {
-      window.addEventListener('message', (event) => {
-        if (event?.data?.type !== 'expanded-item' || event?.data?.path !== path || event?.data?.index !== index) {return}
-        console.log("\x1b[31m~ expanded-item event.data", event.data)
-      });
-    })
-
     const enableDetailedView = uischema?.options?.enableDetailedView;
 
     /*
@@ -155,7 +147,9 @@ const SpectrumArrayModalItem = React.memo(
     );
 
     return (
-      <SpectrumProvider flex='auto' width={uischema.options?.showSortButtons ? 'calc(100% - 66px)' : '100%'}>
+      <SpectrumProvider
+        flex='auto'
+        width={uischema.options?.showSortButtons ? 'calc(100% - 66px)' : '100%'}>
         <View
           ref={ref}
           UNSAFE_className={`list-array-item ${

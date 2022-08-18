@@ -99,7 +99,7 @@ export const SpectrumArrayModalControl = React.memo(
     };
 
     return (
-      <View>
+      <View id='json-form-array-wrapper'  >
         <Flex direction='row' justifyContent='space-between'>
           <Heading level={4}>{label}</Heading>
           <Button

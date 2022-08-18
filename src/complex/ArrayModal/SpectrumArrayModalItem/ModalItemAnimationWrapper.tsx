@@ -23,41 +23,6 @@ export default function ModalItemAnimationWrapper({
 }: AnimationWrapperProps) {
   const [isBlackoutHovered, setIsBlackoutHovered] = React.useState(false);
   const jsonFormWrapper = document.getElementById('json-form-wrapper')
-  const [jsonWrapperPos, setJsonWrapperPos] = React.useState(jsonFormWrapper?.getBoundingClientRect());
-
-  function debounce(func: Function, wait: number) {
-    let timeout: any;
-    return function executedFunction(...args: any) {
-      const later = () => {
-        clearTimeout(timeout);
-        func(...args);
-      };
-      clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
-    };
-  }
-
-
-  function handleOnResize() {
-    // console.log("\x1b[31m~ handleOnResize")
-    setJsonWrapperPos(jsonFormWrapper?.getBoundingClientRect())
-  }
-  function handleAuthorResize(message: MessageEvent) {
-    if (message.data?.type !== 'cms-authorWidth') {return}
-    return handleOnResize()
-  }
-
-  const debouncedHandleOnResize = debounce(handleOnResize, 100);
-
-  React.useEffect(() => {
-    window.addEventListener('resize', debouncedHandleOnResize);
-    window.addEventListener('message', handleAuthorResize)
-    return () => {
-      window.removeEventListener('resize', debouncedHandleOnResize);
-      window.removeEventListener('message', handleAuthorResize)
-    }
-  }, []);
-
   
   const addToZIndex = path.split('.').length;
   const leftOffset = (addToZIndex - 2) * 2.5;
@@ -84,15 +49,9 @@ export default function ModalItemAnimationWrapper({
       className={`animatedModalItem animatedModalWrapper ${
         expanded ? 'expanded' : ''
       }`}
-      style={jsonWrapperPos ? {
-        position: 'fixed',
+      style={{
         display: expanded || isAnimating ? 'block' : 'none',
-        overflow: 'hidden',
-        top: jsonWrapperPos.top,
-        left: jsonWrapperPos.left,
-        width: jsonWrapperPos.width,
-        height: jsonWrapperPos.height,
-      }: {}}
+      }}
     >
       <animated.div
         className={`animatedModalItem animatedModalItemDiv ${
