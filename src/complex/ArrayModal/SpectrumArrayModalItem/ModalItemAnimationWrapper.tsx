@@ -21,14 +21,19 @@ export default function ModalItemAnimationWrapper({
   path,
   children,
 }: AnimationWrapperProps) {
-  const [isBlackoutHovered, setIsBlackoutHovered] = React.useState(true);
+  const [isBlackoutHovered, setIsBlackoutHovered] = React.useState(false);
+  const jsonFormWrapper = document.getElementById('json-form-wrapper')
+  
+  const addToZIndex = path.split('.').length;
+  const leftOffset = (addToZIndex - 2) * 2.5;
+
 
   const slideAnim = useSpring({
     config: { duration: 700, easing: easings.easeOutQuart },
     left: expanded
       ? isBlackoutHovered && !isAnimating
-        ? '10%'
-        : '5%'
+        ? `${10 + (leftOffset)}%`
+        : `${5 + (leftOffset)}%`
       : '100%',
     onRest: () => setIsAnimating(false),
   });
@@ -38,16 +43,15 @@ export default function ModalItemAnimationWrapper({
     display: expanded ? 1 : 0,
   });
 
-  const jsonformsWrapper =
-    document.getElementById('json-form-wrapper') ||
-    document.getElementsByClassName('App-Form')[0];
-  const addToZIndex = path.split('.').length;
 
   return ReactDom.createPortal(
     <div
       className={`animatedModalItem animatedModalWrapper ${
         expanded ? 'expanded' : ''
       }`}
+      style={{
+        display: expanded || isAnimating ? 'block' : 'none',
+      }}
     >
       <animated.div
         className={`animatedModalItem animatedModalItemDiv ${
@@ -58,6 +62,7 @@ export default function ModalItemAnimationWrapper({
             ? {
                 left: slideAnim.left,
                 zIndex: 8001 + addToZIndex,
+                width: `${95 - (leftOffset)}%`,
               }
             : {}
         }
@@ -76,18 +81,13 @@ export default function ModalItemAnimationWrapper({
                 display: darkenAnim.display.to((e) =>
                   e > 0 ? 'block' : 'none'
                 ),
-                height: jsonformsWrapper?.clientHeight,
-                width: jsonformsWrapper?.clientWidth / 2,
-                position: 'fixed',
-                top: jsonformsWrapper?.getBoundingClientRect().top,
-                left: jsonformsWrapper?.getBoundingClientRect().left,
                 zIndex: 8000 + addToZIndex,
               }
             : { display: 'none' }
         }
       />
     </div>,
-    document.getElementById(`spectrum-renderer-arrayContentWrapper_${path}`) ||
+    jsonFormWrapper ||
       document.getElementById('root') ||
       document.getElementById('__next') ||
       document.body

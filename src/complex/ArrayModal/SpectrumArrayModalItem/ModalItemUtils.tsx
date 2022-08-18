@@ -5,24 +5,17 @@ export const openItemWhenInQueryParam = (
   handleExpand: () => void
 ) => {
   try {
-    const searchArray: any = window.location.href.split('?')[1].split('&');
-    for (let i = 0; i < searchArray.length; i++) {
-      searchArray[i] = searchArray[i].split('=');
-    }
-    const newSearch = new URLSearchParams(searchArray);
+    const url: any = new URL(window.location.toString());
 
-    let formLocation: any = newSearch.get('formLocation');
+    const formLocation: any = url.searchParams.get('formLocation');
     if (!formLocation) {
       return;
     }
-    formLocation = formLocation.split('_');
-    const regex = new RegExp(`((^|_)${path}-${index}-${encodeURIComponent(childLabel)}$)`);
+    const regex = new RegExp(`((^|_)${path}-${index}-${childLabel}($|_))`);
 
-    formLocation.forEach((location: string) => {
-      if (regex.test(location)) {
-        handleExpand();
-      }
-    });
+    if (regex.test(formLocation)) {
+      handleExpand();
+    }
   } catch {}
 };
 
