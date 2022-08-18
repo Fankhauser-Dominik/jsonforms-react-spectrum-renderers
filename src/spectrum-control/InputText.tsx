@@ -122,6 +122,7 @@ export const InputText = React.memo(
     }; */
 
     const fileBrowser = uischema.options?.fileBrowser;
+    const idlePostMessage = uischema.options?.idlePostMessage;
     const fileBrowserOptions =
       fileBrowser?.send?.message &&
       fileBrowser?.receive?.message &&
@@ -142,6 +143,27 @@ export const InputText = React.memo(
         onChange(e.data.data);
       }
     });
+
+    const firstRender = React.useRef(true);
+    if (idlePostMessage) {
+      React.useEffect(() => {
+        if (firstRender.current) {
+          firstRender.current = false;
+          return;
+        }
+        const delayDebounceFn = setTimeout(() => {
+          sendMessage(
+            idlePostMessage?.info
+              ? { key: uischema?.scope, value: inputText, path: path }
+              : idlePostMessage?.message,
+            idlePostMessage?.targetOrigin,
+            idlePostMessage?.transfer
+          );
+        }, 3000);
+
+        return () => clearTimeout(delayDebounceFn);
+      }, [inputText]);
+    }
 
     return (
       <SpectrumProvider width={width}>
@@ -168,6 +190,15 @@ export const InputText = React.memo(
             necessityIndicator={
               appliedUiSchemaOptions.necessityIndicator ?? null
             }
+            /* onBlur={() =>
+              sendMessage(
+                idlePostMessage?.info
+                  ? { key: uischema?.scope, value: inputText, path: path }
+                  : idlePostMessage?.message,
+                idlePostMessage?.targetOrigin,
+                idlePostMessage?.transfer
+              )
+            } */
             onChange={onChange}
             //onFocusChange={clearNonFocusPlaceholder}
             type={appliedUiSchemaOptions.format ?? 'text'}

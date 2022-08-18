@@ -44,7 +44,7 @@ interface NonEmptyRowProps {
 const SpectrumArrayModalItem = React.memo(
   ({
     childLabel = '',
-      // childData,
+    // childData,
     index,
     // indexOfFittingSchema,
     path,
@@ -127,11 +127,10 @@ const SpectrumArrayModalItem = React.memo(
 
     React.useEffect(() => {
       if (expanded) {
-        window.addEventListener('message', breadCrumbClose)
+        window.addEventListener('message', breadCrumbClose);
       }
-      return () => window.removeEventListener('message', breadCrumbClose)
-    }, [expanded])
-    
+      return () => window.removeEventListener('message', breadCrumbClose);
+    }, [expanded]);
 
     const Header = (
       <ModalItemHeader
