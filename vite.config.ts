@@ -9,7 +9,7 @@ export default defineConfig({
   publicDir: false,
   build: {
     minify: true,
-    sourcemap: true,
+    sourcemap: false,
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'JsonForms React Spectrum Renderers',
@@ -25,8 +25,6 @@ export default defineConfig({
         '@jsonforms/core',
         '@jsonforms/react',
         'moment',
-        '@adobe/react-spectrum',
-        '@spectrum-icons/workflow',
       ],
       output: {
         // Provide global variables to use in the UMD build
@@ -37,8 +35,6 @@ export default defineConfig({
           '@jsonforms/core': '@jsonforms/core',
           '@jsonforms/react': '@jsonforms/react',
           moment: 'moment',
-          '@adobe/react-spectrum': '@adobe/react-spectrum',
-          '@spectrum-icons/workflow': '@spectrum-icons/workflow',
         },
       },
     },
