@@ -37,10 +37,16 @@ export default function SortButtons({
   };
 
   const moveDnD = (curIndex: number, tarRow: number) => {
-    moveFromTo(data, curIndex, tarRow);
+    if (data.length - tarRow === 0) {
+      moveFromTo(data, curIndex + 1, tarRow - 2);
+    } else {
+      moveFromTo(data, curIndex, tarRow);
+    }
 
     if (curIndex - tarRow > 0) {
       removeItems(path, [curIndex + 1])();
+    } else if (data.length - tarRow === 1) {
+      removeItems(path, [curIndex + 2])();
     } else {
       removeItems(path, [curIndex])();
     }

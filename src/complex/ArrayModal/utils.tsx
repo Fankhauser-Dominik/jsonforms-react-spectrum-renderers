@@ -200,6 +200,7 @@ export const moveFromTo = (data: any[], from: number, to: number) => {
   let delta = to - from;
 
   if (delta === 0) {
+    console.log('Test');
     return; // If nothing changed, do nothing
   } else {
     move(data, from, delta);
