@@ -1,7 +1,7 @@
 {
   "name": "jsonforms-react-spectrum-vite-test",
   "private": false,
-  "version": "0.0.66",
+  "version": "0.0.70",
   "type": "module",
   "files": [
     "dist"
@@ -61,6 +61,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@types/uuid": "^8.3.4",
     "@use-gesture/react": "^10.2.18",
+    "ajv": "^8.11.0",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "react": "^18.2.0",
