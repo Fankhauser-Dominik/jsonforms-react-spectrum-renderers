@@ -1,7 +1,7 @@
 {
   "name": "jsonforms-react-spectrum-vite-test",
   "private": false,
-  "version": "0.0.72",
+  "version": "0.0.73",
   "type": "module",
   "files": [
     "dist"
@@ -20,12 +20,10 @@
   ],
   "scripts": {
     "postinstall": "run-script-os",
-    "postinstall:default": "rm -rf ./node_modules/.vite && [ -f ./temps_fix/jsonforms-core.esm.js ] && cat ./temp_fix/jsonforms-core.esm.js > ./node_modules/@jsonforms/core/lib/jsonforms-core.esm.js || echo 'Installed'",
-    "postinstall:win32": "IF EXIST .\\node_modules\\.vite (rmdir /q /s .\\node_modules\\.vite) && IF EXIST .\\temps_fix\\jsonforms-core.esm.js (copy .\\temp_fix\\jsonforms-core.esm.js .\\node_modules\\@jsonforms\\core\\lib\\jsonforms-core.esm.js)",
+    "postinstall:default": "rm -rf ./node_modules/.vite",
+    "postinstall:win32": "IF EXIST .\\node_modules\\.vite (rmdir /q /s .\\node_modules\\.vite)",
     "dev": "vite",
-    "build": "run-script-os",
-    "build:default": "tsc && vite build && mkdir ./dist/temp_fix && cp -f ./temp_fix/jsonforms-core.esm.js ./dist/temp_fix/jsonforms-core.esm.js",
-    "build:win32": "tsc && vite build && mkdir .\\dist\\temp_fix && copy .\\temp_fix\\jsonforms-core.esm.js .\\dist\\temp_fix\\jsonforms-core.esm.js",
+    "build": "tsc && vite build",
     "preview": "vite preview"
   },
   "keywords": [
@@ -50,9 +48,9 @@
     "@cfaester/enzyme-adapter-react-18": "^0.5.1",
     "@date-io/moment": "2.15.0",
     "@internationalized/date": "^3.0.1",
-    "@jsonforms/core": "^3.0.0-rc.0",
-    "@jsonforms/examples": "^3.0.0-rc.0",
-    "@jsonforms/react": "^3.0.0-rc.0",
+    "@jsonforms/core": "^3.0.0-rc.1",
+    "@jsonforms/examples": "^3.0.0-rc.1",
+    "@jsonforms/react": "^3.0.0-rc.1",
     "@spectrum-icons/workflow": "^4.0.1",
     "@types/lodash": "^4.14.184",
     "@types/react": "^18.0.17",
@@ -76,8 +74,8 @@
   },
   "peerDependencies": {
     "@adobe/react-spectrum": "^3.20.0",
-    "@jsonforms/core": "^3.0.0-rc.0",
-    "@jsonforms/react": "^3.0.0-rc.0",
+    "@jsonforms/core": "^3.0.0-rc.1",
+    "@jsonforms/react": "^3.0.0-rc.1",
     "@spectrum-icons/workflow": "^4.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
