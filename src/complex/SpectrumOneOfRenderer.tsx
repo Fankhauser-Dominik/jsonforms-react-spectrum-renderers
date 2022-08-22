@@ -77,7 +77,7 @@ const SpectrumOneOfRenderer = ({
   console.log('uischemas', uischemas);
   const [open, setOpen] = React.useState(false);
   const [selectedIndex, setSelectedIndex] = React.useState(
-    indexOfFittingSchema ?? indexOfFittingSchemaObject[path] ?? 0
+    indexOfFittingSchema ?? /* indexOfFittingSchemaObject[path] ?? */ 0
   );
 
   const [newSelectedIndex, setNewSelectedIndex] = React.useState(0);
@@ -122,7 +122,6 @@ const SpectrumOneOfRenderer = ({
     [setOpen, setSelectedIndex, data]
   );
   const usePickerInsteadOfTabs =
-    // indexOfFittingSchemaObject['OneOfModal'] === true ||
     indexOfFittingSchemaObject['OneOfPicker'] === true ||
     uischema.options?.OneOfPicker === true;
 
