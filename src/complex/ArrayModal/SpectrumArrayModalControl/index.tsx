@@ -98,6 +98,7 @@ export const SpectrumArrayModalControl = React.memo(
       }
     };
 
+    // const RandomNumber = Math.random();
     return (
       <View id='json-form-array-wrapper'>
         <Flex direction='row' justifyContent='space-between'>
@@ -143,7 +144,8 @@ export const SpectrumArrayModalControl = React.memo(
               indexOfFittingSchemaObject[`${path}itemQuantity`] = data?.length;
               return (
                 <Flex
-                  key={`${index}_${JSON.stringify(data[index])}`}
+                  // key={`${index}_${RandomNumber}`}
+                  key={`${index}`}
                   direction='row'
                   alignItems='stretch'
                   flex='auto inherit'
