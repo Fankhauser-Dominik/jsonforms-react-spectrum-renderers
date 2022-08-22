@@ -18,6 +18,7 @@ import ChevronDown from '@spectrum-icons/workflow/ChevronDown';
 import Duplicate from '@spectrum-icons/workflow/Duplicate';
 
 import ModalItemDelete from './ModalItemDelete';
+import SelectBox from '@spectrum-icons/workflow/SelectBox';
 
 interface ArrayModalItemHeaderProps {
   expanded: boolean;
@@ -80,8 +81,8 @@ export default function ModalItemHeader({
           </Text>
         </ActionButton>
         <View>
-          <Flex gap={'size-150'}>
-            <ActionMenu align='end' onAction={actionMenuTriggered}>
+          <Flex gap={'size-0'}>
+            <ActionMenu align='end' onAction={actionMenuTriggered} isQuiet={true}>
               <Item key='delete' textValue={`delete-item-${childLabel}`}>
                 <Text>Delete</Text>
                 <Delete size='S' />
@@ -95,8 +96,19 @@ export default function ModalItemHeader({
 
             <TooltipTrigger delay={0}>
               <ActionButton
+                onPress={() => console.log('Pressed Change Reference')}
+                isQuiet={true}
+                aria-label={`change-reference-${childLabel}`}
+              >
+                <SelectBox aria-label='Change Reference' size='S' />
+              </ActionButton>
+              <Tooltip>Change Content Fragment Reference</Tooltip>
+            </TooltipTrigger>
+
+            <TooltipTrigger delay={0}>
+              <ActionButton
                 onPress={() => handleExpand()}
-                isQuiet={!enableDetailedView}
+                isQuiet={true}
                 aria-label={`expand-item-${childLabel}`}
               >
                 {
