@@ -29,6 +29,7 @@ interface ArrayModalItemHeaderProps {
   removeItem: (path: string, value: number) => () => void;
   duplicateItem: (index: number) => () => void;
   childLabel: string;
+  childData: any;
 }
 
 export default function ModalItemHeader({
@@ -40,6 +41,7 @@ export default function ModalItemHeader({
   removeItem,
   duplicateItem,
   childLabel,
+  childData,
 }: ArrayModalItemHeaderProps) {
   const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
 
@@ -67,19 +69,23 @@ export default function ModalItemHeader({
         <View UNSAFE_className='spectrum-array-item-number'>
           <Text>{index + 1}</Text>
         </View>
-        <ActionButton
-          flex={'1 1 auto'}
-          isQuiet
-          onPress={() => handleExpand()}
-          aria-label={`expand-item-${childLabel}`}
-        >
-          <Text
-            UNSAFE_className='spectrum-array-item-name'
-            UNSAFE_style={{ textAlign: 'left' }}
+        <TooltipTrigger delay={0} placement={'top'}>
+          <ActionButton
+            flex={'1 1 auto'}
+            isQuiet
+            onPress={() => handleExpand()}
+            aria-label={`expand-item-${childLabel}`}
           >
-            {childLabel}
-          </Text>
-        </ActionButton>
+            <Text
+              UNSAFE_className='spectrum-array-item-name'
+              UNSAFE_style={{ textAlign: 'left' }}
+            >
+              {childLabel}
+            </Text>
+          </ActionButton>
+          <Tooltip>{childData?._path || childLabel}</Tooltip>
+        </TooltipTrigger>
+
         <View>
           <Flex gap={'size-0'}>
             <ActionMenu align='end' onAction={actionMenuTriggered} isQuiet={true}>

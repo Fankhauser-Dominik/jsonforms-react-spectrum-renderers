@@ -116,10 +116,10 @@ button {
   overflow-y: auto;
 }
 
-/* .App-Form {
-  height: 400px;
+.App-Form {
+  /* height: 400px;
+  border: 2px solid crimson; */
   position: relative;
-  border: 2px solid crimson;
   overflow-x: hidden;
   overflow-y: auto;
-} */
+}
