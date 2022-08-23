@@ -12,7 +12,7 @@ export default defineConfig({
     sourcemap: false,
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
-      name: 'JsonForms React Spectrum TipTap Renderer',
+      name: 'JsonForms React Spectrum Renderers',
       formats: ['es', 'umd'],
       fileName: (format) => `index.${format}.js`,
     },
