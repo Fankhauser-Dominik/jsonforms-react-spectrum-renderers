@@ -98,6 +98,8 @@ import {
   SpectrumArrayModalControlTester,
   SpectrumAnyOfRenderer,
   SpectrumAnyOfRendererTester,
+  SpectrumTipTapRenderer,
+  SpectrumTipTapRendererTester,
   SpectrumAllOfRenderer,
   SpectrumAllOfRendererTester,
   SpectrumCategorizationRenderer,
@@ -195,6 +197,10 @@ export const SpectrumRenderers: { tester: RankedTester; renderer: any }[] = [
   {
     tester: SpectrumAnyOfRendererTester,
     renderer: SpectrumAnyOfRenderer,
+  },
+  {
+    tester: SpectrumTipTapRendererTester,
+    renderer: SpectrumTipTapRenderer,
   },
   {
     tester: SpectrumAllOfRendererTester,

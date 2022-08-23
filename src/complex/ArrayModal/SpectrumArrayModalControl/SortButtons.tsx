@@ -96,7 +96,7 @@ export default function SortButtons({
           : 'size-0'
       }
     >
-      <TooltipTrigger>
+      <TooltipTrigger delay={500}>
         <ActionButton
           isQuiet
           onPress={() => moveDnD(index, index - 1)}
@@ -108,7 +108,7 @@ export default function SortButtons({
         </ActionButton>
         <Tooltip>Move upwards</Tooltip>
       </TooltipTrigger>
-      <TooltipTrigger>
+      <TooltipTrigger delay={500}>
         <ActionButton
           isQuiet
           onPress={() => moveDnD(index, index + 2)}

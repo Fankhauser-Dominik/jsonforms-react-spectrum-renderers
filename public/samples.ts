@@ -1454,3 +1454,48 @@ samples.push({
     ],
   },
 });
+
+samples.push({
+  name: 'spectrum-richt-text-editor',
+  label: 'Rich Text Editor',
+  uischema: {
+    type: 'VerticalLayout',
+    elements: [
+      {
+        type: 'Control',
+        scope: '#/properties/RichtTextEditor',
+        label: 'ZIP Code (without restricting)',
+        options: {
+          richText: true,
+        },
+      },
+    ],
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      RichtTextEditor: {
+        type: 'object',
+      },
+    },
+  },
+  data: {
+    RichtTextEditor: {
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          attrs: {
+            textAlign: 'left',
+          },
+          content: [
+            {
+              type: 'text',
+              text: 'This is a string',
+            },
+          ],
+        },
+      ],
+    },
+  },
+});

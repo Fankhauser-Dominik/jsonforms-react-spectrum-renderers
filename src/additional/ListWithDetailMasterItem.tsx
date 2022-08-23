@@ -99,7 +99,7 @@ const ListWithDetailMasterItem = React.memo(
               </Text>
             </ActionButton>
             <View>
-              <TooltipTrigger>
+              <TooltipTrigger delay={500}>
                 <ActionButton
                   onPress={() => setOpenAndsetDeleteIndex(index)}
                   aria-label={`delete-item-${itemLabel}`}
