@@ -98,8 +98,9 @@ export const SpectrumArrayModalControl = React.memo(
       }
     };
 
+    // const RandomNumber = Math.random();
     return (
-      <View id='json-form-array-wrapper'  >
+      <View id='json-form-array-wrapper'>
         <Flex direction='row' justifyContent='space-between'>
           <Heading level={4}>{label}</Heading>
           <Button
@@ -142,35 +143,34 @@ export const SpectrumArrayModalControl = React.memo(
             Array.from(Array(data?.length)).map((_, index) => {
               indexOfFittingSchemaObject[`${path}itemQuantity`] = data?.length;
               return (
-                <div key={index}>
-                  <Flex
-                    key={index}
-                    direction='row'
-                    alignItems='stretch'
-                    flex='auto inherit'
-                  >
-                    <SpectrumArrayModalItem
+                <Flex
+                  // key={`${index}_${RandomNumber}`}
+                  key={`${index}`}
+                  direction='row'
+                  alignItems='stretch'
+                  flex='auto inherit'
+                >
+                  <SpectrumArrayModalItem
+                    index={index}
+                    indexOfFittingSchema={indexOfFittingSchemaArray[index]}
+                    path={path}
+                    removeItem={handleRemoveItem}
+                    duplicateItem={duplicateContent}
+                    renderers={renderers}
+                    schema={schema}
+                    uischema={uischema}
+                    uischemas={uischemas}
+                  ></SpectrumArrayModalItem>
+                  {uischema.options?.showSortButtons && (
+                    <SortButtons
+                      data={data}
                       index={index}
-                      indexOfFittingSchema={indexOfFittingSchemaArray[index]}
                       path={path}
-                      removeItem={handleRemoveItem}
-                      duplicateItem={duplicateContent}
-                      renderers={renderers}
-                      schema={schema}
+                      removeItems={removeItems}
                       uischema={uischema}
-                      uischemas={uischemas}
-                    ></SpectrumArrayModalItem>
-                    {uischema.options?.showSortButtons && (
-                      <SortButtons
-                        data={data}
-                        index={index}
-                        path={path}
-                        removeItems={removeItems}
-                        uischema={uischema}
-                      />
-                    )}
-                  </Flex>
-                </div>
+                    />
+                  )}
+                </Flex>
               );
             })
           ) : (

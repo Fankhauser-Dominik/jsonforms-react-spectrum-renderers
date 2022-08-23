@@ -27,11 +27,12 @@ import { JsonFormsDispatch } from '@jsonforms/react';
 import { OwnPropsOfSpectrumArrayModalItem } from '.';
 
 import ModalItemAnimatedWrapper from './ModalItemAnimationWrapper';
+// import { findValue } from './ModalItemUtils';
 
 import './SpectrumArrayModalItem.css';
 
 import SpectrumProvider from '../../../additional/SpectrumProvider';
-// import { indexOfFittingSchemaObject } from '../utils';
+import { indexOfFittingSchemaObject } from '../utils';
 import ModalItemHeader from './ModalItemHeader';
 import { openItemWhenInQueryParam } from './ModalItemUtils';
 
@@ -60,31 +61,34 @@ const SpectrumArrayModalItem = React.memo(
     const [expanded, setExpanded] = React.useState(false);
     const [isAnimating, setIsAnimating] = React.useState(false);
 
-    const ref = React.useRef(null)
-    
+    const ref = React.useRef(null);
+
     const handleExpand = () => {
       setIsAnimating(true);
       if (expanded === false) {
         if (enableDetailedView === true) {window.postMessage({ type: 'expanded-item', index, path, breadCrumbLabel: childLabel, addToQuery: true }, '*')} // prettier-ignore
-        handleOverflow(ref, true)
+        handleOverflow(ref, true);
         setExpanded(true);
         return;
       }
       if (enableDetailedView === true) {window.postMessage({ type: 'expanded-item', index, path, breadCrumbLabel: childLabel, addToQuery: false }, '*')} // prettier-ignore
-        handleOverflow(ref, false)
-        setExpanded(false);
-        return;
+      handleOverflow(ref, false);
+      setExpanded(false);
+      return;
     };
 
-    const handleOverflow = (ref:any, disable:boolean) => {
-      const spectrumRef = ref.current.UNSAFE_getDOMNode()
-      
-      const parent = spectrumRef.closest('.animatedModalItem.animatedModalItemDiv.detailedView')
-      || spectrumRef.closest('#json-form-wrapper')
-      || spectrumRef.closest('.App-Form')
-      
+    const handleOverflow = (ref: any, disable: boolean) => {
+      const spectrumRef = ref.current.UNSAFE_getDOMNode();
+
+      const parent =
+        spectrumRef.closest(
+          '.animatedModalItem.animatedModalItemDiv.detailedView'
+        ) ||
+        spectrumRef.closest('#json-form-wrapper') ||
+        spectrumRef.closest('.App-Form');
+
       if (!parent) {
-        return
+        return;
       }
 
       if (disable) {
@@ -92,16 +96,13 @@ const SpectrumArrayModalItem = React.memo(
         return;
       }
       parent.style.overflowY = 'auto';
-      return;      
-    }
+      return;
+    };
 
     const enableDetailedView = uischema?.options?.enableDetailedView;
 
-    /*
-    indexOfFittingSchemaObject[childPath] =
-      indexOfFittingSchema ??
-      findValue(childData, 'indexOfFittingSchema') ??
-      0;
+    /* indexOfFittingSchemaObject[childPath] =
+      indexOfFittingSchema ?? findValue(childData, 'indexOfFittingSchema') ?? 0; */
 
     if (uischema.options?.OneOfModal) {
       indexOfFittingSchemaObject['OneOfModal'] = true;
@@ -109,17 +110,17 @@ const SpectrumArrayModalItem = React.memo(
     if (uischema.options?.OneOfPicker) {
       indexOfFittingSchemaObject['OneOfPicker'] = true;
     }
-    */
 
     React.useEffect(() => {
       openItemWhenInQueryParam(path, index, childLabel, handleExpand);
     }, []);
 
-
-    function breadCrumbClose (message: MessageEvent) {
-      if (message.data.type !== 'close-item-breadcrumb') {return}
+    function breadCrumbClose(message: MessageEvent) {
+      if (message.data.type !== 'close-item-breadcrumb') {
+        return;
+      }
       if (message.data.path.includes(`${path}-${index}-${childLabel}`)) {
-        handleOverflow(ref, false)
+        handleOverflow(ref, false);
         setIsAnimating(true);
         setExpanded(false);
       }
@@ -149,7 +150,8 @@ const SpectrumArrayModalItem = React.memo(
     return (
       <SpectrumProvider
         flex='auto'
-        width={uischema.options?.showSortButtons ? 'calc(100% - 66px)' : '100%'}>
+        width={uischema.options?.showSortButtons ? 'calc(100% - 66px)' : '100%'}
+      >
         <View
           ref={ref}
           UNSAFE_className={`list-array-item ${
