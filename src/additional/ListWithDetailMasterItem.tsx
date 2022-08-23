@@ -48,6 +48,7 @@ import Delete from '@spectrum-icons/workflow/Delete';
 import SpectrumProvider from './SpectrumProvider';
 
 import './ListDetailMasterItem.css';
+import settings from '../../settings';
 
 const ListWithDetailMasterItem = React.memo(
   ({
@@ -99,7 +100,7 @@ const ListWithDetailMasterItem = React.memo(
               </Text>
             </ActionButton>
             <View>
-              <TooltipTrigger>
+              <TooltipTrigger delay={settings.toolTipDelay}>
                 <ActionButton
                   onPress={() => setOpenAndsetDeleteIndex(index)}
                   aria-label={`delete-item-${itemLabel}`}

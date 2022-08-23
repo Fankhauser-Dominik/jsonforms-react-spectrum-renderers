@@ -67,6 +67,7 @@ import ChevronUp from '@spectrum-icons/workflow/ChevronUp';
 import './SpectrumArrayItem.css';
 
 import SpectrumProvider from '../../additional/SpectrumProvider';
+import settings from '../../../settings';
 
 export interface OwnPropsOfSpectrumArrayItem {
   index: number;
@@ -131,7 +132,7 @@ const SpectrumArrayItem = ({
               <Text UNSAFE_style={{ textAlign: 'left' }}>{childLabel}</Text>
             </ActionButton>
             <View>
-              <TooltipTrigger delay={0}>
+              <TooltipTrigger delay={settings.toolTipDelay}>
                 <ActionButton
                   onPress={handleExpand(index)}
                   isQuiet={true}
@@ -145,7 +146,7 @@ const SpectrumArrayItem = ({
                 </ActionButton>
                 <Tooltip>{isExpanded ? 'Collapse' : 'Expand'}</Tooltip>
               </TooltipTrigger>
-              <TooltipTrigger delay={0}>
+              <TooltipTrigger delay={settings.toolTipDelay}>
                 <ActionButton
                   onPress={() => setOpen(true)}
                   aria-label={`delete-item-${childLabel}`}

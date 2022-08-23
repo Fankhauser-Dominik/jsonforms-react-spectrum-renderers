@@ -16,9 +16,10 @@ import Close from '@spectrum-icons/workflow/Close';
 import ChevronUp from '@spectrum-icons/workflow/ChevronUp';
 import ChevronDown from '@spectrum-icons/workflow/ChevronDown';
 import Duplicate from '@spectrum-icons/workflow/Duplicate';
+import settings from '../../../../settings'
 
 import ModalItemDelete from './ModalItemDelete';
-import SelectBox from '@spectrum-icons/workflow/SelectBox';
+import FolderSearch from '@spectrum-icons/workflow/FolderSearch';
 
 interface ArrayModalItemHeaderProps {
   expanded: boolean;
@@ -69,7 +70,7 @@ export default function ModalItemHeader({
         <View UNSAFE_className='spectrum-array-item-number'>
           <Text>{index + 1}</Text>
         </View>
-        <TooltipTrigger delay={0} placement={'top'}>
+        <TooltipTrigger delay={settings.toolTipDelay} placement={'top'}>
           <ActionButton
             flex={'1 1 auto'}
             isQuiet
@@ -88,6 +89,7 @@ export default function ModalItemHeader({
 
         <View>
           <Flex gap={'size-0'}>
+
             <ActionMenu align='end' onAction={actionMenuTriggered} isQuiet={true}>
               <Item key='delete' textValue={`delete-item-${childLabel}`}>
                 <Text>Delete</Text>
@@ -100,18 +102,18 @@ export default function ModalItemHeader({
               </Item>
             </ActionMenu>
 
-            <TooltipTrigger delay={0}>
+            <TooltipTrigger delay={settings.toolTipDelay}>
               <ActionButton
                 onPress={() => console.log('Pressed Change Reference')}
                 isQuiet={true}
                 aria-label={`change-reference-${childLabel}`}
               >
-                <SelectBox aria-label='Change Reference' size='S' />
+                <FolderSearch aria-label='Change Reference' size='S' />
               </ActionButton>
               <Tooltip>Change Content Fragment Reference</Tooltip>
             </TooltipTrigger>
 
-            <TooltipTrigger delay={0}>
+            <TooltipTrigger delay={settings.toolTipDelay}>
               <ActionButton
                 onPress={() => handleExpand()}
                 isQuiet={true}
