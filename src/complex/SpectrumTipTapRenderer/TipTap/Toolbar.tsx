@@ -27,14 +27,21 @@ import {
   View,
 } from '@adobe/react-spectrum';
 
+import settings from '../../../util/settings';
 import HeadingToolbarButtons from './toolbars/HeadingToolbarButtons';
+import './styles.css';
 
 const ProjectCreateContentToolbar = ({ editor }: { editor: Editor }) => {
   return (
-    <View borderWidth='thin' borderColor='dark' borderRadius='regular'>
+    <View
+      borderWidth='thin'
+      borderColor='dark'
+      borderRadius='regular'
+      UNSAFE_className='TipTapToolbar'
+    >
       <Flex gap='size-50' margin='size-100' wrap>
         <HeadingToolbarButtons editor={editor} />
-        <TooltipTrigger delay={500}>
+        <TooltipTrigger delay={settings.toolTipDelay}>
           <ToggleButton
             onPress={() => editor.chain().focus().toggleBold().run()}
             isSelected={editor.isActive('bold')}
@@ -44,7 +51,7 @@ const ProjectCreateContentToolbar = ({ editor }: { editor: Editor }) => {
           </ToggleButton>
           <Tooltip>Text Bold</Tooltip>
         </TooltipTrigger>
-        <TooltipTrigger delay={500}>
+        <TooltipTrigger delay={settings.toolTipDelay}>
           <ToggleButton
             onPress={() => editor.chain().focus().toggleItalic().run()}
             aria-label='italic'
@@ -54,7 +61,7 @@ const ProjectCreateContentToolbar = ({ editor }: { editor: Editor }) => {
           </ToggleButton>
           <Tooltip>Text Italic</Tooltip>
         </TooltipTrigger>
-        <TooltipTrigger delay={500}>
+        <TooltipTrigger delay={settings.toolTipDelay}>
           <ToggleButton
             onPress={() => editor.chain().focus().toggleUnderline().run()}
             isSelected={editor.isActive('underline')}
@@ -64,7 +71,7 @@ const ProjectCreateContentToolbar = ({ editor }: { editor: Editor }) => {
           </ToggleButton>
           <Tooltip>Text Underlined</Tooltip>
         </TooltipTrigger>
-        <TooltipTrigger delay={500}>
+        <TooltipTrigger delay={settings.toolTipDelay}>
           <ToggleButton
             onPress={() => editor.chain().focus().toggleStrike().run()}
             aria-label='strike'
@@ -75,7 +82,7 @@ const ProjectCreateContentToolbar = ({ editor }: { editor: Editor }) => {
           <Tooltip>Text Strikethrough</Tooltip>
         </TooltipTrigger>
         <Divider orientation='vertical' size='M' />
-        <TooltipTrigger delay={500}>
+        <TooltipTrigger delay={settings.toolTipDelay}>
           <ToggleButton
             onPress={() => editor.chain().focus().setTextAlign('left').run()}
             isSelected={editor.isActive({ textAlign: 'left' })}
@@ -85,7 +92,7 @@ const ProjectCreateContentToolbar = ({ editor }: { editor: Editor }) => {
           </ToggleButton>
           <Tooltip>Align left</Tooltip>
         </TooltipTrigger>
-        <TooltipTrigger delay={500}>
+        <TooltipTrigger delay={settings.toolTipDelay}>
           <ToggleButton
             onPress={() => editor.chain().focus().setTextAlign('center').run()}
             isSelected={editor.isActive({ textAlign: 'center' })}
@@ -95,7 +102,7 @@ const ProjectCreateContentToolbar = ({ editor }: { editor: Editor }) => {
           </ToggleButton>
           <Tooltip>Align centered</Tooltip>
         </TooltipTrigger>
-        <TooltipTrigger delay={500}>
+        <TooltipTrigger delay={settings.toolTipDelay}>
           <ToggleButton
             onPress={() => editor.chain().focus().setTextAlign('right').run()}
             isSelected={editor.isActive({ textAlign: 'right' })}
@@ -105,7 +112,7 @@ const ProjectCreateContentToolbar = ({ editor }: { editor: Editor }) => {
           </ToggleButton>
           <Tooltip>Align right</Tooltip>
         </TooltipTrigger>
-        <TooltipTrigger delay={500}>
+        <TooltipTrigger delay={settings.toolTipDelay}>
           <ToggleButton
             onPress={() => editor.chain().focus().setTextAlign('justify').run()}
             isSelected={editor.isActive({ textAlign: 'justify' })}
@@ -116,7 +123,7 @@ const ProjectCreateContentToolbar = ({ editor }: { editor: Editor }) => {
           <Tooltip>Align justified</Tooltip>
         </TooltipTrigger>
         <Divider orientation='vertical' size='M' />
-        <TooltipTrigger delay={500}>
+        <TooltipTrigger delay={settings.toolTipDelay}>
           <ToggleButton
             onPress={() => editor.chain().focus().toggleSuperscript().run()}
             isSelected={editor.isActive('superscript')}
@@ -126,7 +133,7 @@ const ProjectCreateContentToolbar = ({ editor }: { editor: Editor }) => {
           </ToggleButton>
           <Tooltip>Superscript</Tooltip>
         </TooltipTrigger>
-        <TooltipTrigger delay={500}>
+        <TooltipTrigger delay={settings.toolTipDelay}>
           <ToggleButton
             onPress={() => editor.chain().focus().toggleSubscript().run()}
             isSelected={editor.isActive('subscript')}
@@ -136,7 +143,7 @@ const ProjectCreateContentToolbar = ({ editor }: { editor: Editor }) => {
           </ToggleButton>
           <Tooltip>Subscript</Tooltip>
         </TooltipTrigger>
-        <TooltipTrigger delay={500}>
+        <TooltipTrigger delay={settings.toolTipDelay}>
           <ToggleButton
             onPress={() => editor.chain().focus().toggleCode().run()}
             aria-label='code'
@@ -146,7 +153,7 @@ const ProjectCreateContentToolbar = ({ editor }: { editor: Editor }) => {
           </ToggleButton>
           <Tooltip>Code Area</Tooltip>
         </TooltipTrigger>
-        <TooltipTrigger delay={500}>
+        <TooltipTrigger delay={settings.toolTipDelay}>
           <ToggleButton
             onPress={() => editor.chain().focus().toggleHighlight().run()}
             aria-label='highlight'
@@ -156,7 +163,7 @@ const ProjectCreateContentToolbar = ({ editor }: { editor: Editor }) => {
           </ToggleButton>
           <Tooltip>Higlight</Tooltip>
         </TooltipTrigger>
-        <TooltipTrigger delay={500}>
+        <TooltipTrigger delay={settings.toolTipDelay}>
           <ToggleButton
             onPress={() => {
               const previousUrl = editor.getAttributes('link').href;

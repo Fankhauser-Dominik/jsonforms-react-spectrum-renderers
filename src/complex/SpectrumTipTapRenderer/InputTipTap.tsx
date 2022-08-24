@@ -39,6 +39,7 @@ export const InputTextArea = React.memo(
     visible,
     handleChange,
     path,
+    label,
   }: CellProps & SpectrumInputProps) => {
     const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
@@ -53,6 +54,7 @@ export const InputTextArea = React.memo(
     };
     return (
       <SpectrumProvider width={width} isHidden={!visible}>
+        {label && <h4>{label}</h4>}
         <Editor content={editorJSON} EditorJSONCallback={callbackFunction} />
       </SpectrumProvider>
     );

@@ -1,5 +1,4 @@
 .ProseMirror {
-  margin-top: 1em;
   background-color: var(
     --spectrum-textfield-background-color,
     var(--spectrum-global-color-gray-50)
@@ -15,13 +14,18 @@
     --spectrum-textfield-border-color,
     var(--spectrum-alias-border-color)
   );
-  border-radius: var(
-    --spectrum-textfield-border-radius,
-    var(--spectrum-alias-border-radius-regular)
-  );
+  border-radius: 0 0
+    var(
+      --spectrum-textfield-border-radius,
+      var(--spectrum-alias-border-radius-regular)
+    )
+    var(
+      --spectrum-textfield-border-radius,
+      var(--spectrum-alias-border-radius-regular)
+    );
   height: auto;
   width: auto;
-  min-height: var(--spectrum-global-dimension-size-700);
+  min-height: 129px;
   padding: 3px
     var(
       --spectrum-textfield-padding-x,
@@ -54,4 +58,17 @@
     --spectrum-textfield-border-color-down,
     var(--spectrum-alias-border-color-mouse-focus)
   );
+}
+
+.TipTapToolbar {
+  border-radius: var(
+      --spectrum-textfield-border-radius,
+      var(--spectrum-alias-border-radius-regular)
+    )
+    var(
+      --spectrum-textfield-border-radius,
+      var(--spectrum-alias-border-radius-regular)
+    )
+    0 0 !important;
+  border-bottom: none !important;
 }

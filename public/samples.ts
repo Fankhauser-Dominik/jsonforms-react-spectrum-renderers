@@ -1463,8 +1463,8 @@ samples.push({
     elements: [
       {
         type: 'Control',
-        scope: '#/properties/RichtTextEditor',
-        label: 'ZIP Code (without restricting)',
+        scope: '#/properties/RichTextEditor',
+        label: 'TipTap Editor',
         options: {
           richText: true,
         },
@@ -1474,28 +1474,12 @@ samples.push({
   schema: {
     type: 'object',
     properties: {
-      RichtTextEditor: {
-        type: 'object',
+      RichTextEditor: {
+        type: 'string',
       },
     },
   },
   data: {
-    RichtTextEditor: {
-      type: 'doc',
-      content: [
-        {
-          type: 'paragraph',
-          attrs: {
-            textAlign: 'left',
-          },
-          content: [
-            {
-              type: 'text',
-              text: 'This is a string',
-            },
-          ],
-        },
-      ],
-    },
+    RichTextEditor: '<p>This is a string</p>',
   },
 });

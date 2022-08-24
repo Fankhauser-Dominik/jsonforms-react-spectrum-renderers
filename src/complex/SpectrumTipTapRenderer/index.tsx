@@ -27,11 +27,11 @@
 */
 import {
   ControlProps,
-  isObjectControl,
   RankedTester,
-  rankWith,
-  and,
+  // and,
+  // isObjectControl,
   optionIs,
+  rankWith,
 } from '@jsonforms/core';
 import { withJsonFormsControlProps } from '@jsonforms/react';
 import { InputTextArea } from './InputTipTap';
@@ -43,7 +43,8 @@ export const SpectrumTipTapRenderer = (props: ControlProps) => (
 
 export const SpectrumTipTapRendererTester: RankedTester = rankWith(
   8,
-  and(isObjectControl, optionIs('richText', true))
+  // and(isObjectControl, optionIs('richText', true))
+  optionIs('richText', true)
 );
 
 export default withJsonFormsControlProps(SpectrumTipTapRenderer);
