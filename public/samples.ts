@@ -1454,3 +1454,32 @@ samples.push({
     ],
   },
 });
+
+samples.push({
+  name: 'spectrum-richt-text-editor',
+  label: 'Rich Text Editor',
+  uischema: {
+    type: 'VerticalLayout',
+    elements: [
+      {
+        type: 'Control',
+        scope: '#/properties/RichTextEditor',
+        label: 'TipTap Editor',
+        options: {
+          richText: true,
+        },
+      },
+    ],
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      RichTextEditor: {
+        type: 'string',
+      },
+    },
+  },
+  data: {
+    RichTextEditor: '<p>This is a string</p>',
+  },
+});
