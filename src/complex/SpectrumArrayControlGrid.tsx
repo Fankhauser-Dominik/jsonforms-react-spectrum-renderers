@@ -58,7 +58,7 @@ import {
   getUIOptions,
 } from './Array/utils';
 import SpectrumProvider from '../additional/SpectrumProvider';
-import settings from '../../settings';
+import settings from '../util/settings';
 
 const { createLabelDescriptionFrom } = Helpers;
 

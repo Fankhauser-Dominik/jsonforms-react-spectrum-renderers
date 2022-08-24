@@ -30,11 +30,10 @@
 import React from 'react';
 import { Button, Tooltip, TooltipTrigger } from '@adobe/react-spectrum';
 import AlertCircle from '@spectrum-icons/workflow/AlertCircle';
-import settings from '../../settings';
 
 export function ErrorIndicator({ errors }: { errors: React.ReactNode }) {
   return (
-    <TooltipTrigger delay={settings.toolTipDelay}>
+    <TooltipTrigger delay={0}>
       <Button
         aria-label='error-indicator'
         isQuiet

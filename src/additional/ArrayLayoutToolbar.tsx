@@ -39,7 +39,7 @@ import {
 import Add from '@spectrum-icons/workflow/Add';
 import SpectrumProvider from './SpectrumProvider';
 import { ErrorIndicator } from '../components/ErrorIndicator';
-import settings from '../../settings';
+import settings from '../util/settings';
 export interface ArrayLayoutToolbarProps {
   label: string;
   errors: string;

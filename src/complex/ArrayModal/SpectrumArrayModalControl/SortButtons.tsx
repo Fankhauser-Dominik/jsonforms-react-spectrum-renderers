@@ -7,7 +7,7 @@ import {
 import ArrowUp from '@spectrum-icons/workflow/ArrowUp';
 import ArrowDown from '@spectrum-icons/workflow/ArrowDown';
 import { indexOfFittingSchemaObject, moveFromTo } from '../utils';
-import settings from '../../../../settings';
+import settings from '../../../util/settings';
 
 interface ArrayModalControlSortButtonsProps {
   data: any;

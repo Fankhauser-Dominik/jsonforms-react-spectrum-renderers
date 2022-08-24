@@ -38,7 +38,7 @@ import {
 } from '@adobe/react-spectrum';
 import { ErrorIndicator } from '../../components/ErrorIndicator';
 import SpectrumProvider from '../../additional/SpectrumProvider';
-import settings from '../../../settings';
+import settings from '../../util/settings';
 
 export function getUIOptions(
   uischema: UISchemaElement,
