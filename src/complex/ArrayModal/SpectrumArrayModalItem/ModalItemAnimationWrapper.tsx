@@ -22,7 +22,7 @@ export default function ModalItemAnimationWrapper({
   children,
 }: AnimationWrapperProps) {
   const [isBlackoutHovered, setIsBlackoutHovered] = React.useState(false);
-  const jsonFormWrapper = document.getElementById('json-form-wrapper')
+  const jsonFormWrapper = document.getElementById('json-form-wrapper') || document.getElementsByClassName('App-Form')[0]
   
   const addToZIndex = path.split('.').length;
   const leftOffset = (addToZIndex - 2) * 2.5;

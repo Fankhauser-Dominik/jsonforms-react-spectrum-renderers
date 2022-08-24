@@ -39,6 +39,7 @@ import {
 import Add from '@spectrum-icons/workflow/Add';
 import SpectrumProvider from './SpectrumProvider';
 import { ErrorIndicator } from '../components/ErrorIndicator';
+import settings from '../util/settings';
 export interface ArrayLayoutToolbarProps {
   label: string;
   errors: string;
@@ -63,7 +64,7 @@ export const ArrayLayoutToolbar = React.memo(
             <ErrorIndicator errors={errors} />
           </View>
           <View>
-            <TooltipTrigger delay={0}>
+            <TooltipTrigger delay={settings.toolTipDelay}>
               <Button
                 aria-label='add'
                 onPress={addItem(path, createDefault())}

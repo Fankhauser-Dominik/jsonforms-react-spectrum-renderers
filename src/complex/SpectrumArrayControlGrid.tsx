@@ -58,6 +58,7 @@ import {
   getUIOptions,
 } from './Array/utils';
 import SpectrumProvider from '../additional/SpectrumProvider';
+import settings from '../util/settings';
 
 const { createLabelDescriptionFrom } = Helpers;
 
@@ -240,7 +241,7 @@ const SpectrumArrayControlGrid = ({
               <React.Fragment key={childPath}>
                 {rowCells}
                 <SpectrumProvider>
-                  <TooltipTrigger delay={0}>
+                  <TooltipTrigger delay={settings.toolTipDelay}>
                     <ActionButton
                       onPress={() => setOpenAndsetdeleteIndex(index)}
                       aria-label={`delete-row-at-${index}`}
