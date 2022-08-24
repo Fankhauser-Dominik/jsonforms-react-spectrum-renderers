@@ -67,37 +67,14 @@ const SpectrumArrayModalItem = React.memo(
       setIsAnimating(true);
       if (expanded === false) {
         if (enableDetailedView === true) {window.postMessage({ type: 'expanded-item', index, path, breadCrumbLabel: childLabel, addToQuery: true }, '*')} // prettier-ignore
-        handleOverflow(ref, true);
         setExpanded(true);
         return;
       }
       if (enableDetailedView === true) {window.postMessage({ type: 'expanded-item', index, path, breadCrumbLabel: childLabel, addToQuery: false }, '*')} // prettier-ignore
-      handleOverflow(ref, false);
       setExpanded(false);
       return;
     };
 
-    const handleOverflow = (ref: any, disable: boolean) => {
-      const spectrumRef = ref.current.UNSAFE_getDOMNode();
-
-      const parent =
-        spectrumRef.closest(
-          '.animatedModalItem.animatedModalItemDiv.detailedView'
-        ) ||
-        spectrumRef.closest('#json-form-wrapper') ||
-        spectrumRef.closest('.App-Form');
-
-      if (!parent) {
-        return;
-      }
-
-      if (disable) {
-        parent.style.overflowY = 'hidden';
-        return;
-      }
-      parent.style.overflowY = 'auto';
-      return;
-    };
 
     const enableDetailedView = uischema?.options?.enableDetailedView;
 
@@ -120,7 +97,6 @@ const SpectrumArrayModalItem = React.memo(
         return;
       }
       if (message.data.path.includes(`${path}-${index}-${childLabel}`)) {
-        handleOverflow(ref, false);
         setIsAnimating(true);
         setExpanded(false);
       }

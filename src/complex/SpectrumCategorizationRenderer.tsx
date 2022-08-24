@@ -75,25 +75,47 @@ export const SpectrumCategorizationRenderer = (
   props: SpectrumCategorizationRendererProps
 ) => {
   const { data, path, schema, uischema, visible, enabled, ajv } = props;
-
+  console.log("\x1b[31m~ path", path)
+  
   const categorization = uischema as Categorization;
   const categories = categorization.elements.filter(
     (category: Categorization | Category, _index: number) =>
-      isVisible(category, data, '', ajv)
-  );
+    isVisible(category, data, '', ajv)
+    );
+
+
+  // checking formLocation to see if it should have a different default tab
+  const params = (new URL(window.location.href)).searchParams
+  let formLocation:any = params.get('formLocation')
+  formLocation = formLocation?.split('_').map((item:string) => {
+    const cutIndex = item.lastIndexOf('-')
+    return item.substring(0, cutIndex).replace('-', '.')
+  }).join('.')
+  console.log("\x1b[31m~ formLocation", formLocation)
+  let defaultOpenTab = '0';
+  if (formLocation && formLocation.includes(path)) {
+    for (let i = 0; i < categories.length; i++) {
+      const searchLabel = categories[i].label.charAt(0).toLowerCase() + categories[i].label.slice(1)
+      if (formLocation.includes(`${path}.${searchLabel}`)) {
+        defaultOpenTab = i.toString()
+        break
+      }
+    }
+  }
 
   return (
     <View isHidden={!visible}>
       <SpectrumProvider>
         <Tabs
           aria-label='Categorization' /* isDisabled={enabled === undefined ? false : !enabled} */
-        >
+          defaultSelectedKey={defaultOpenTab}
+          >
           <TabList>
-            {categories?.map((category: { [key: string]: any }, index) => (
-              <Item key={index}>
+            {categories?.map((category: { [key: string]: any }, index) => {
+              return <Item key={index}>
                 {category?.label ?? category?.i18n ?? `Category ${index + 1}`}
               </Item>
-            ))}
+            })}
           </TabList>
           <TabPanels>
             {categories?.map((category: { [key: string]: any }, index) => (

@@ -22,7 +22,7 @@ export default function ModalItemAnimationWrapper({
   children,
 }: AnimationWrapperProps) {
   const [isBlackoutHovered, setIsBlackoutHovered] = React.useState(false);
-  const jsonFormWrapper = document.getElementById('json-form-wrapper')
+  const jsonFormWrapper = document.getElementById('json-form-wrapper') || document.getElementsByClassName('App-Form')[0]
   
   const addToZIndex = path.split('.').length;
   const leftOffset = (addToZIndex - 2) * 2.5;
@@ -39,10 +39,11 @@ export default function ModalItemAnimationWrapper({
   });
 
   const darkenAnim = useSpring({
+    config: { duration: 400, easing: easings.easeInOutCubic },
     opacity: expanded ? 0.5 : 0,
     display: expanded ? 1 : 0,
   });
-
+  
 
   return ReactDom.createPortal(
     <div
@@ -70,7 +71,7 @@ export default function ModalItemAnimationWrapper({
         {children}
       </animated.div>
       <animated.div
-        onClick={() => handleExpand()}
+        onClick={() => expanded && handleExpand()}
         onMouseEnter={() => setIsBlackoutHovered(true)}
         onMouseLeave={() => setIsBlackoutHovered(false)}
         className={'animatedModalItem darkenBackground'}
@@ -82,6 +83,7 @@ export default function ModalItemAnimationWrapper({
                   e > 0 ? 'block' : 'none'
                 ),
                 zIndex: 8000 + addToZIndex,
+                cursor: expanded ? 'pointer' : 'default'
               }
             : { display: 'none' }
         }
