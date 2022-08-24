@@ -39,6 +39,7 @@ import {
 import { ErrorIndicator } from '../../components/ErrorIndicator';
 import SpectrumProvider from '../../additional/SpectrumProvider';
 import { Dispatch } from './type';
+import settings from '../../util/settings';
 
 export function getUIOptions(
   uischema: UISchemaElement,
@@ -71,7 +72,7 @@ export function AddButton(
 
   return addButtonLabelType === 'tooltip' ? (
     <SpectrumProvider>
-      <TooltipTrigger delay={0}>
+      <TooltipTrigger delay={settings.toolTipDelay}>
         {button}
         <Tooltip>{addButtonLabel}</Tooltip>
       </TooltipTrigger>

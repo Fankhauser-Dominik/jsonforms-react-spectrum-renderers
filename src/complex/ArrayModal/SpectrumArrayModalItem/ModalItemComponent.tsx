@@ -45,7 +45,7 @@ interface NonEmptyRowProps {
 const SpectrumArrayModalItem = React.memo(
   ({
     childLabel = '',
-    // childData,
+    childData,
     index,
     // indexOfFittingSchema,
     path,
@@ -119,6 +119,7 @@ const SpectrumArrayModalItem = React.memo(
         removeItem={removeItem}
         duplicateItem={duplicateItem}
         childLabel={childLabel}
+        childData={childData}
       />
     );
 

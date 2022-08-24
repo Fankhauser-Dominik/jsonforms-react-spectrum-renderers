@@ -16,8 +16,10 @@ import Close from '@spectrum-icons/workflow/Close';
 import ChevronUp from '@spectrum-icons/workflow/ChevronUp';
 import ChevronDown from '@spectrum-icons/workflow/ChevronDown';
 import Duplicate from '@spectrum-icons/workflow/Duplicate';
+import settings from '../../../util/settings';
 
 import ModalItemDelete from './ModalItemDelete';
+import FolderSearch from '@spectrum-icons/workflow/FolderSearch';
 
 interface ArrayModalItemHeaderProps {
   expanded: boolean;
@@ -28,6 +30,7 @@ interface ArrayModalItemHeaderProps {
   removeItem: (path: string, value: number) => () => void;
   duplicateItem: (index: number) => () => void;
   childLabel: string;
+  childData: any;
 }
 
 export default function ModalItemHeader({
@@ -39,6 +42,7 @@ export default function ModalItemHeader({
   removeItem,
   duplicateItem,
   childLabel,
+  childData,
 }: ArrayModalItemHeaderProps) {
   const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
 
@@ -66,22 +70,29 @@ export default function ModalItemHeader({
         <View UNSAFE_className='spectrum-array-item-number'>
           <Text>{index + 1}</Text>
         </View>
-        <ActionButton
-          flex={'1 1 auto'}
-          isQuiet
-          onPress={() => handleExpand()}
-          aria-label={`expand-item-${childLabel}`}
-        >
-          <Text
-            UNSAFE_className='spectrum-array-item-name'
-            UNSAFE_style={{ textAlign: 'left' }}
+        <TooltipTrigger delay={settings.toolTipDelay} placement={'top'}>
+          <ActionButton
+            flex={'1 1 auto'}
+            isQuiet
+            onPress={() => handleExpand()}
+            aria-label={`expand-item-${childLabel}`}
           >
-            {childLabel}
-          </Text>
-        </ActionButton>
+            <Text
+              UNSAFE_className='spectrum-array-item-name'
+              UNSAFE_style={{ textAlign: 'left' }}
+            >
+              {childLabel}
+            </Text>
+          </ActionButton>
+          <Tooltip>{childData?._path || childLabel}</Tooltip>
+        </TooltipTrigger>
         <View>
-          <Flex gap={'size-150'}>
-            <ActionMenu align='end' onAction={actionMenuTriggered}>
+          <Flex gap={'size-0'}>
+            <ActionMenu
+              align='end'
+              onAction={actionMenuTriggered}
+              isQuiet={true}
+            >
               <Item key='delete' textValue={`delete-item-${childLabel}`}>
                 <Text>Delete</Text>
                 <Delete size='S' />
@@ -93,10 +104,21 @@ export default function ModalItemHeader({
               </Item>
             </ActionMenu>
 
-            <TooltipTrigger delay={0}>
+            <TooltipTrigger delay={settings.toolTipDelay}>
+              <ActionButton
+                onPress={() => console.log('Pressed Change Reference')}
+                isQuiet={true}
+                aria-label={`change-reference-${childLabel}`}
+              >
+                <FolderSearch aria-label='Change Reference' size='S' />
+              </ActionButton>
+              <Tooltip>Change Content Fragment Reference</Tooltip>
+            </TooltipTrigger>
+
+            <TooltipTrigger delay={settings.toolTipDelay}>
               <ActionButton
                 onPress={() => handleExpand()}
-                isQuiet={!enableDetailedView}
+                isQuiet={true}
                 aria-label={`expand-item-${childLabel}`}
               >
                 {

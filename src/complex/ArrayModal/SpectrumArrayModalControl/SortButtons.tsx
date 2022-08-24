@@ -7,6 +7,7 @@ import {
 import ArrowUp from '@spectrum-icons/workflow/ArrowUp';
 import ArrowDown from '@spectrum-icons/workflow/ArrowDown';
 import { indexOfFittingSchemaObject, moveFromTo } from '../utils';
+import settings from '../../../util/settings';
 
 interface ArrayModalControlSortButtonsProps {
   data: any;
@@ -96,7 +97,7 @@ export default function SortButtons({
           : 'size-0'
       }
     >
-      <TooltipTrigger>
+      <TooltipTrigger delay={settings.toolTipDelay}>
         <ActionButton
           isQuiet
           onPress={() => moveDnD(index, index - 1)}
@@ -108,7 +109,7 @@ export default function SortButtons({
         </ActionButton>
         <Tooltip>Move upwards</Tooltip>
       </TooltipTrigger>
-      <TooltipTrigger>
+      <TooltipTrigger delay={settings.toolTipDelay}>
         <ActionButton
           isQuiet
           onPress={() => moveDnD(index, index + 2)}
