@@ -50,7 +50,9 @@ export const InputTextArea = React.memo(
     const [editorJSON, setEditorJSON] = React.useState<any>(data);
     const callbackFunction = (editorJSON: any) => {
       setEditorJSON(editorJSON);
-      handleChange(path, editorJSON);
+      if (editorJSON !== data) {
+        handleChange(path, editorJSON);
+      }
     };
     return (
       <SpectrumProvider width={width} isHidden={!visible}>

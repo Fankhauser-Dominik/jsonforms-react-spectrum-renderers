@@ -99,6 +99,10 @@ export const SpectrumArrayModalControl = React.memo(
     };
 
     // const RandomNumber = Math.random();
+    const [RefKey, setRefKey] = React.useState<number>(0);
+    const callbackFunction = (editorJSON: any) => {
+      setRefKey(editorJSON);
+    };
     return (
       <View id='json-form-array-wrapper'>
         <Flex direction='row' justifyContent='space-between'>
@@ -145,7 +149,7 @@ export const SpectrumArrayModalControl = React.memo(
               return (
                 <Flex
                   // key={`${index}_${RandomNumber}`}
-                  key={`${index}`}
+                  key={`${index}_${RefKey}`}
                   direction='row'
                   alignItems='stretch'
                   flex='auto inherit'
@@ -168,6 +172,7 @@ export const SpectrumArrayModalControl = React.memo(
                       path={path}
                       removeItems={removeItems}
                       uischema={uischema}
+                      callbackFunction={callbackFunction}
                     />
                   )}
                 </Flex>
