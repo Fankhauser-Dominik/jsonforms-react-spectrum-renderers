@@ -102,15 +102,22 @@ export const SpectrumArrayModalControl = React.memo(
     const callbackFunction = (editorJSON: any) => {
       setRefKey(editorJSON);
     };
+
+    const onPressHandler = useCallback(() => {
+      if (uischema?.options?.picker) {
+        window.postMessage({ type: "picker", open: true, schema }) 
+      } else {
+        setOpen(true);
+      }
+    }, [open]);
+
     return (
       <View id='json-form-array-wrapper'>
         <Flex direction='row' justifyContent='space-between'>
           <Heading level={4}>{label}</Heading>
           <Button
             alignSelf='center'
-            onPress={useCallback(() => {
-              setOpen(true);
-            }, [open])}
+            onPress={onPressHandler}
             variant='primary'
           >
             <Add aria-label='Add' size='S' />
