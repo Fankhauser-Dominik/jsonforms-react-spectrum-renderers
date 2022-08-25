@@ -98,22 +98,19 @@ export default function DragAndDrop({
           stringified(order.current[0]).indexOf(
             JSON.stringify(order.current[0][grabbedIndex])
           ) ===
-          stringified(order.current[0]).indexOf(
-            JSON.stringify(order.current[0][curRow])
-          )
+            stringified(order.current[0]).indexOf(
+              JSON.stringify(order.current[0][curRow])
+            ) ||
+          data === newOrder
         ) {
           return;
-        } else {
-          if (data === newOrder) {
-            return;
-          }
-          data.splice(0, data?.length);
-          data.push(...newOrder);
         }
 
         if (!active) {
           order.current[0] = newOrder;
           setGrabbedIndex(null);
+          data.splice(0, data?.length);
+          data.push(...newOrder);
           removeItems(path, [999999999])();
           api.start(fn(newOrder, active, originalIndex, curRow, y));
         }
@@ -125,6 +122,11 @@ export default function DragAndDrop({
     data.push(data[index]);
     removeItems(path, [999999999])();
   };
+
+  const [RefKey, setRefKey] = React.useState(0);
+  React.useEffect(() => {
+    setRefKey(RefKey + 1);
+  }, [data]);
 
   return (
     <div
@@ -139,8 +141,8 @@ export default function DragAndDrop({
     >
       {springs?.map(({ zIndex, shadow, y, scale }, index: number) => (
         <animated.div
-          {...bind(index)}
-          key={`${index}`}
+          {...bind(`${index}_${RefKey}`)}
+          key={`${index}_${RefKey}`}
           style={{
             zIndex,
             boxShadow: shadow.to(
@@ -166,8 +168,25 @@ export default function DragAndDrop({
               schema={schema}
               uischema={uischema}
               uischemas={uischemas}
-            ></SpectrumArrayModalItem>
-            <div
+              DNDHandle={
+                <div
+                  ref={DragHandleRef}
+                  className='grabbable'
+                  onMouseDown={() => setGrabbedIndex(index)}
+                  style={{
+                    display: 'flex',
+                  }}
+                >
+                  <DragHandle
+                    aria-label='Drag and Drop Handle'
+                    size='L'
+                    alignSelf='center'
+                    width={'100%'}
+                  />
+                </div>
+              }
+            />
+            {/* <div
               ref={DragHandleRef}
               className='grabbable'
               onMouseDown={() => setGrabbedIndex(index)}
@@ -179,7 +198,7 @@ export default function DragAndDrop({
                 width={'100%'}
               />
             </div>
-            <p onClick={() => duplicateContent(index)}>{JSON.stringify(y)}</p>
+            <p onClick={() => duplicateContent(index)}>{JSON.stringify(y)}</p> */}
           </Flex>
         </animated.div>
       ))}

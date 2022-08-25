@@ -55,6 +55,7 @@ const SpectrumArrayModalItem = React.memo(
     schema,
     uischema,
     uischemas = [],
+    DNDHandle,
   }: OwnPropsOfSpectrumArrayModalItem & NonEmptyRowProps) => {
     const foundUISchema = findUISchema(uischemas, schema, uischema.scope, path);
     const childPath = composePaths(path, `${index}`);
@@ -74,7 +75,6 @@ const SpectrumArrayModalItem = React.memo(
       setExpanded(false);
       return;
     };
-
 
     const enableDetailedView = uischema?.options?.enableDetailedView;
 
@@ -96,7 +96,11 @@ const SpectrumArrayModalItem = React.memo(
       if (message.data.type !== 'close-item-breadcrumb') {
         return;
       }
-      if (message.data.path.includes(`${path}-${index}-${childLabel.replaceAll(/(-|_)/g, '+')}`)) {
+      if (
+        message.data.path.includes(
+          `${path}-${index}-${childLabel.replaceAll(/(-|_)/g, '+')}`
+        )
+      ) {
         setIsAnimating(true);
         setExpanded(false);
       }
@@ -120,6 +124,7 @@ const SpectrumArrayModalItem = React.memo(
         duplicateItem={duplicateItem}
         childLabel={childLabel}
         childData={childData}
+        DNDHandle={DNDHandle}
       />
     );
 
