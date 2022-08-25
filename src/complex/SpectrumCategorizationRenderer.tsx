@@ -75,7 +75,6 @@ export const SpectrumCategorizationRenderer = (
   props: SpectrumCategorizationRendererProps
 ) => {
   const { data, path, schema, uischema, visible, enabled, ajv } = props;
-  console.log("\x1b[31m~ path", path)
   
   const categorization = uischema as Categorization;
   const categories = categorization.elements.filter(
@@ -91,7 +90,6 @@ export const SpectrumCategorizationRenderer = (
     const cutIndex = item.lastIndexOf('-')
     return item.substring(0, cutIndex).replace('-', '.')
   }).join('.')
-  console.log("\x1b[31m~ formLocation", formLocation)
   let defaultOpenTab = '0';
   if (formLocation && formLocation.includes(path)) {
     for (let i = 0; i < categories.length; i++) {

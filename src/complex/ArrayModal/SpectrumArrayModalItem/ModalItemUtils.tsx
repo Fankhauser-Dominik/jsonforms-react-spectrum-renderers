@@ -6,12 +6,12 @@ export const openItemWhenInQueryParam = (
 ) => {
   try {
     const url: any = new URL(window.location.toString());
-
+    
     const formLocation: any = url.searchParams.get('formLocation');
     if (!formLocation) {
       return;
     }
-    const regex = new RegExp(`((^|_)${path}-${index}-${childLabel}($|_))`);
+    const regex = new RegExp(`((^|_)${path}-${index}-${ childLabel.replaceAll(/(-|_)/g, '\\+') }($|_))`);
 
     if (regex.test(formLocation)) {
       handleExpand();
