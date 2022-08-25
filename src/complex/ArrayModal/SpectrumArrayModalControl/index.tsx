@@ -148,7 +148,6 @@ export const SpectrumArrayModalControl = React.memo(
               indexOfFittingSchemaObject[`${path}itemQuantity`] = data?.length;
               return (
                 <Flex
-                  // key={`${index}_${RandomNumber}`}
                   key={`${index}_${RefKey}`}
                   direction='row'
                   alignItems='stretch'

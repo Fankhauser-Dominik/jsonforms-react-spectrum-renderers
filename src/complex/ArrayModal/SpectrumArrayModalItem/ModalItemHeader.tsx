@@ -31,6 +31,7 @@ interface ArrayModalItemHeaderProps {
   duplicateItem: (index: number) => () => void;
   childLabel: string;
   childData: any;
+  DNDHandle: any;
 }
 
 export default function ModalItemHeader({
@@ -43,6 +44,7 @@ export default function ModalItemHeader({
   duplicateItem,
   childLabel,
   childData,
+  DNDHandle,
 }: ArrayModalItemHeaderProps) {
   const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
 
@@ -138,6 +140,7 @@ export default function ModalItemHeader({
                   : 'Expand'}
               </Tooltip>
             </TooltipTrigger>
+            {DNDHandle}
 
             <ModalItemDelete
               deleteModalOpen={deleteModalOpen}

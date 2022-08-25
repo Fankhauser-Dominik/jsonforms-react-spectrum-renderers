@@ -17,6 +17,7 @@ import { findValue } from './ModalItemUtils';
 
 export interface OwnPropsOfSpectrumArrayModalItem {
   index: number;
+  DNDHandle: any;
   // expanded: boolean;
   path: string;
   schema: JsonSchema;
@@ -94,9 +95,10 @@ const withContextToSpectrumArrayModalItemProps =
   ({
     ctx,
     props,
+    DNDHandle,
   }: JsonFormsStateContext & OwnPropsOfSpectrumArrayModalItem) => {
     const stateProps = ctxToSpectrumArrayModalItemProps(ctx, props);
-    return <Component {...stateProps} />;
+    return <Component {...stateProps} {...DNDHandle} />;
   };
 
 export const withJsonFormsSpectrumArrayModalItemProps = (
