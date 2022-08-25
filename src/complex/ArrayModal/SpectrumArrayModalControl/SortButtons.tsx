@@ -1,3 +1,4 @@
+import * as React from 'react';
 import {
   Flex,
   TooltipTrigger,
@@ -15,6 +16,7 @@ interface ArrayModalControlSortButtonsProps {
   path: any;
   removeItems: any;
   uischema: any;
+  callbackFunction: any;
 }
 
 export default function SortButtons({
@@ -23,6 +25,7 @@ export default function SortButtons({
   path,
   removeItems,
   uischema,
+  callbackFunction,
 }: ArrayModalControlSortButtonsProps) {
   const moveItUp = (index: number) => {
     const indexOfFittingSchemaOriginal =
@@ -83,6 +86,15 @@ export default function SortButtons({
     //removeItems is only used to update the data, change to a better solution in the future
     removeItems(path, [data.length])();
   };
+
+  const firstRender = React.useRef(true);
+  React.useEffect(() => {
+    if (firstRender.current) {
+      firstRender.current = false;
+      return;
+    }
+    callbackFunction(Math.random());
+  }, [moveDnD]);
 
   return (
     <Flex
