@@ -40,6 +40,7 @@ interface NonEmptyRowProps {
   rowIndex?: number | undefined;
   moveUpCreator?: (path: string, position: number) => () => void;
   moveDownCreator?: (path: string, position: number) => () => void;
+  DNDHandle?: any;
 }
 
 const SpectrumArrayModalItem = React.memo(
@@ -55,7 +56,7 @@ const SpectrumArrayModalItem = React.memo(
     schema,
     uischema,
     uischemas = [],
-    DNDHandle,
+    DNDHandle = false,
   }: OwnPropsOfSpectrumArrayModalItem & NonEmptyRowProps) => {
     const foundUISchema = findUISchema(uischemas, schema, uischema.scope, path);
     const childPath = composePaths(path, `${index}`);
