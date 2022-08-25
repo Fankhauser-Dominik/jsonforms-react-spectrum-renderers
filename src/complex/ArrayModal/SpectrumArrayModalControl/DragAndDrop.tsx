@@ -35,6 +35,9 @@ export default function DragAndDrop({
       return JSON.stringify(item);
     });
   };
+  if (!data) {
+    return null;
+  }
   const [RefKey, setRefKey] = React.useState(0);
   const order = React.useRef(
     Array.from(Array(data))?.map((data: any, _: any) => data)
@@ -74,7 +77,6 @@ export default function DragAndDrop({
   const [grabbedIndex, setGrabbedIndex]: any = React.useState(undefined);
   const bind: any = useDrag(
     ({ args: [originalIndex], active, movement: [, y] }) => {
-      console.log(y);
       if (grabbedIndex !== null) {
         const curRow = clamp(
           Math.round(
@@ -83,7 +85,6 @@ export default function DragAndDrop({
           0,
           data?.length - 1
         );
-        console.log(curRow);
         const newOrder = swap(
           order.current[0],
           stringified(order.current[0]).indexOf(
@@ -124,10 +125,6 @@ export default function DragAndDrop({
     data.push(data[index]);
     removeItems(path, [999999999])();
   };
-
-  /* React.useEffect(() => {
-    setRefKey(RefKey + 1);
-  }, [data]); */
 
   return (
     <div
@@ -176,6 +173,8 @@ export default function DragAndDrop({
                   onMouseDown={() => setGrabbedIndex(index)}
                   style={{
                     display: 'flex',
+                    width: '50px',
+                    marginRight: '-12px',
                   }}
                 >
                   <DragHandle
@@ -187,19 +186,6 @@ export default function DragAndDrop({
                 </div>
               }
             />
-            {/* <div
-              ref={DragHandleRef}
-              className='grabbable'
-              onMouseDown={() => setGrabbedIndex(index)}
-            >
-              <DragHandle
-                aria-label='Drag and Drop Handle'
-                size='L'
-                alignSelf='center'
-                width={'100%'}
-              />
-            </div>
-            <p onClick={() => duplicateContent(index)}>{JSON.stringify(y)}</p> */}
           </Flex>
         </animated.div>
       ))}

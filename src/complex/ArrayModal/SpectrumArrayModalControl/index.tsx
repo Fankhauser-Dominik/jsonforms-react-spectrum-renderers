@@ -98,7 +98,6 @@ export const SpectrumArrayModalControl = React.memo(
       }
     };
 
-    // const RandomNumber = Math.random();
     const [RefKey, setRefKey] = React.useState<number>(0);
     const callbackFunction = (editorJSON: any) => {
       setRefKey(editorJSON);

@@ -40,6 +40,7 @@ export default function SortButtons({
     removeItems(path, [999999999])();
   };
 
+  const [changeRefKey, setChangeRefKey] = React.useState<boolean>(false);
   const moveDnD = (curIndex: number, tarRow: number) => {
     if (data.length - tarRow === 0) {
       moveFromTo(data, curIndex + 1, tarRow - 2);
@@ -71,6 +72,7 @@ export default function SortButtons({
       moveItDown(curIndex);
     }
 
+    setChangeRefKey(true);
     return data;
   };
 
@@ -91,6 +93,9 @@ export default function SortButtons({
   React.useEffect(() => {
     if (firstRender.current) {
       firstRender.current = false;
+      return;
+    }
+    if (!changeRefKey) {
       return;
     }
     callbackFunction(Math.random());

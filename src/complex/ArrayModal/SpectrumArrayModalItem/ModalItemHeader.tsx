@@ -8,6 +8,7 @@ import {
   Tooltip,
   TooltipTrigger,
   View,
+  Divider,
 } from '@adobe/react-spectrum';
 
 import Delete from '@spectrum-icons/workflow/Delete';
@@ -31,7 +32,7 @@ interface ArrayModalItemHeaderProps {
   duplicateItem: (index: number) => () => void;
   childLabel: string;
   childData: any;
-  DNDHandle: any;
+  DNDHandle?: any;
 }
 
 export default function ModalItemHeader({
@@ -44,7 +45,7 @@ export default function ModalItemHeader({
   duplicateItem,
   childLabel,
   childData,
-  DNDHandle,
+  DNDHandle = false,
 }: ArrayModalItemHeaderProps) {
   const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
 
@@ -140,8 +141,16 @@ export default function ModalItemHeader({
                   : 'Expand'}
               </Tooltip>
             </TooltipTrigger>
-            {DNDHandle}
-
+            {DNDHandle && !expanded && (
+              <>
+                <Divider
+                  orientation='vertical'
+                  size='M'
+                  marginStart={'size-100'}
+                />
+                {DNDHandle}
+              </>
+            )}
             <ModalItemDelete
               deleteModalOpen={deleteModalOpen}
               setDeleteModalOpen={setDeleteModalOpen}
