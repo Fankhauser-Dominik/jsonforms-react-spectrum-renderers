@@ -90,7 +90,7 @@ button {
 }
 
 .animatedModalItem.darkenBackground {
-  cursor: pointer;
+  /* cursor: pointer; */
   background-color: rgba(0, 0, 0, 1);
   opacity: 0.2;
   z-index: 8000;
