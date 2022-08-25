@@ -35,6 +35,9 @@ import SpectrumArrayModalControl, {
 import SpectrumAnyOfRenderer, {
   SpectrumAnyOfRendererTester,
 } from './SpectrumAnyOfRenderer';
+import SpectrumTipTapRenderer, {
+  SpectrumTipTapRendererTester,
+} from './SpectrumTipTapRenderer';
 import SpectrumAllOfRenderer, {
   SpectrumAllOfRendererTester,
 } from './SpectrumAllOfRenderer';
@@ -61,6 +64,8 @@ export {
   SpectrumArrayModalControlTester,
   SpectrumAnyOfRenderer,
   SpectrumAnyOfRendererTester,
+  SpectrumTipTapRenderer,
+  SpectrumTipTapRendererTester,
   SpectrumAllOfRenderer,
   SpectrumAllOfRendererTester,
   SpectrumCategorizationRenderer,
