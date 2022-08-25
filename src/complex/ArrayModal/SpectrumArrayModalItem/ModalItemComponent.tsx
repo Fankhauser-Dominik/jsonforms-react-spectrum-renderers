@@ -96,7 +96,6 @@ const SpectrumArrayModalItem = React.memo(
       if (message.data.type !== 'close-item-breadcrumb') {
         return;
       }
-      console.log("\x1b[31m~ message.data", message.data)
       if (message.data.path.includes(`${path}-${index}-${childLabel.replaceAll(/(-|_)/g, '+')}`)) {
         setIsAnimating(true);
         setExpanded(false);
