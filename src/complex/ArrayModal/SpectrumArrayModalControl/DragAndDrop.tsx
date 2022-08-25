@@ -35,6 +35,7 @@ export default function DragAndDrop({
       return JSON.stringify(item);
     });
   };
+  const [RefKey, setRefKey] = React.useState(0);
   const order = React.useRef(
     Array.from(Array(data))?.map((data: any, _: any) => data)
   );
@@ -113,6 +114,7 @@ export default function DragAndDrop({
           data.push(...newOrder);
           removeItems(path, [999999999])();
           api.start(fn(newOrder, active, originalIndex, curRow, y));
+          setRefKey(RefKey + 1);
         }
       }
     }
@@ -123,10 +125,9 @@ export default function DragAndDrop({
     removeItems(path, [999999999])();
   };
 
-  const [RefKey, setRefKey] = React.useState(0);
-  React.useEffect(() => {
+  /* React.useEffect(() => {
     setRefKey(RefKey + 1);
-  }, [data]);
+  }, [data]); */
 
   return (
     <div
