@@ -33,6 +33,10 @@ interface ArrayModalItemHeaderProps {
   childLabel: string;
   childData: any;
   DNDHandle?: any;
+  customPicker: {
+    enabled: boolean;
+    handler: (current?: object) => void;
+  }
 }
 
 export default function ModalItemHeader({
@@ -46,9 +50,9 @@ export default function ModalItemHeader({
   childLabel,
   childData,
   DNDHandle = false,
+  customPicker
 }: ArrayModalItemHeaderProps) {
   const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
-
   const actionMenuTriggered = (action: any) => {
     const testArr = action.split('-');
     testArr[0] = testArr[0].toLowerCase();
@@ -107,16 +111,18 @@ export default function ModalItemHeader({
               </Item>
             </ActionMenu>
 
-            <TooltipTrigger delay={settings.toolTipDelay}>
-              <ActionButton
-                onPress={() => console.log('Pressed Change Reference')}
-                isQuiet={true}
-                aria-label={`change-reference-${childLabel}`}
-              >
-                <FolderSearch aria-label='Change Reference' size='S' />
-              </ActionButton>
-              <Tooltip>Change Content Fragment Reference</Tooltip>
-            </TooltipTrigger>
+            {customPicker?.enabled && (
+              <TooltipTrigger delay={settings.toolTipDelay}>
+                <ActionButton
+                  onPress={customPicker.handler}
+                  isQuiet={true}
+                  aria-label={`change-reference-${childLabel}`}
+                >
+                  <FolderSearch aria-label='Change Reference' size='S' />
+                </ActionButton>
+                <Tooltip>Change Content Fragment Reference</Tooltip>
+              </TooltipTrigger>
+            )}
 
             <TooltipTrigger delay={settings.toolTipDelay}>
               <ActionButton

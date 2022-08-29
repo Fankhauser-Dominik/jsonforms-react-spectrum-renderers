@@ -114,6 +114,19 @@ const SpectrumArrayModalItem = React.memo(
       return () => window.removeEventListener('message', breadCrumbClose);
     }, [expanded]);
 
+    const customPickerHandler = () => {
+      window.postMessage({ 
+        type: "picker", 
+        open: true, 
+        schema, 
+        current: {
+          path, 
+          index,
+          data: childData,
+        }
+      }) 
+    }
+
     const Header = (
       <ModalItemHeader
         expanded={expanded}
@@ -126,6 +139,7 @@ const SpectrumArrayModalItem = React.memo(
         childLabel={childLabel}
         childData={childData}
         DNDHandle={DNDHandle}
+        customPicker={{ enabled: uischema?.options?.picker, handler: customPickerHandler }}
       />
     );
 
