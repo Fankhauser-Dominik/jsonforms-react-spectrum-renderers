@@ -76,8 +76,28 @@ const SpectrumOneOfRenderer = ({
   console.log('uischema', uischema);
   console.log('uischemas', uischemas);
   const [open, setOpen] = React.useState(false);
+  /* Only used for AEM, else it get skipped */
+  let oneOfList = schema?.oneOf?.map((item) => item['$ref']);
+  let oneOfPathList = oneOfList?.map((item) =>
+    item?.substring(item.lastIndexOf('/') + 1)
+  );
   const [selectedIndex, setSelectedIndex] = React.useState(
-    indexOfFittingSchema ?? /* indexOfFittingSchemaObject[path] ?? */ 0
+    (data?._model?._path
+      ? oneOfPathList?.indexOf(
+          data?._model?._path?.substring(
+            data?._model?._path?.lastIndexOf('/') + 1
+          )
+        ) === -1
+        ? undefined
+        : oneOfPathList?.indexOf(
+            data?._model?._path?.substring(
+              data?._model?._path?.lastIndexOf('/') + 1
+            )
+          )
+      : undefined) ??
+      indexOfFittingSchema ??
+      indexOfFittingSchemaObject[path] ??
+      0
   );
 
   const [newSelectedIndex, setNewSelectedIndex] = React.useState(0);
@@ -129,7 +149,6 @@ const SpectrumOneOfRenderer = ({
     indexOfFittingSchemaObject['OneOfModal'] === true ||
     uischema.options?.OneOfModal === true;
 
-  console.log('indexOfFittingSchema:', indexOfFittingSchema);
   if (!oneOfRenderInfos) return null;
   return (
     <SpectrumProvider>

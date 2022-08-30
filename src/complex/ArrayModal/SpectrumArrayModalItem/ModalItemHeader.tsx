@@ -36,7 +36,7 @@ interface ArrayModalItemHeaderProps {
   customPicker: {
     enabled: boolean;
     handler: (current?: object) => void;
-  }
+  };
 }
 
 export default function ModalItemHeader({
@@ -50,7 +50,7 @@ export default function ModalItemHeader({
   childLabel,
   childData,
   DNDHandle = false,
-  customPicker
+  customPicker,
 }: ArrayModalItemHeaderProps) {
   const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
   const actionMenuTriggered = (action: any) => {

@@ -87,6 +87,7 @@ export const SpectrumArrayModalControl = React.memo(
       if (schema.oneOf) {
         addItem(path, createDefaultValue(schema.oneOf[index]))();
       }
+      indexOfFittingSchemaObject[path + `.${data.length}`] = selectedIndex;
       setSelectedIndex(0);
       handleClose();
     };
@@ -105,7 +106,7 @@ export const SpectrumArrayModalControl = React.memo(
 
     const onPressHandler = useCallback(() => {
       if (uischema?.options?.picker) {
-        window.postMessage({ type: "picker", open: true, schema }) 
+        window.postMessage({ type: 'picker', open: true, schema });
       } else {
         setOpen(true);
       }
@@ -115,11 +116,7 @@ export const SpectrumArrayModalControl = React.memo(
       <View id='json-form-array-wrapper'>
         <Flex direction='row' justifyContent='space-between'>
           <Heading level={4}>{label}</Heading>
-          <Button
-            alignSelf='center'
-            onPress={onPressHandler}
-            variant='primary'
-          >
+          <Button alignSelf='center' onPress={onPressHandler} variant='primary'>
             <Add aria-label='Add' size='S' />
           </Button>
           <AddDialog
@@ -169,6 +166,7 @@ export const SpectrumArrayModalControl = React.memo(
                     schema={schema}
                     uischema={uischema}
                     uischemas={uischemas}
+                    callbackFunction={callbackFunction}
                   ></SpectrumArrayModalItem>
                   {uischema.options?.showSortButtons && (
                     <SortButtons

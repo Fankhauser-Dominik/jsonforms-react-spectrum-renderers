@@ -27,7 +27,6 @@ import { JsonFormsDispatch } from '@jsonforms/react';
 import { OwnPropsOfSpectrumArrayModalItem } from '.';
 
 import ModalItemAnimatedWrapper from './ModalItemAnimationWrapper';
-// import { findValue } from './ModalItemUtils';
 
 import './SpectrumArrayModalItem.css';
 
@@ -45,9 +44,9 @@ interface NonEmptyRowProps {
 
 const SpectrumArrayModalItem = React.memo(
   ({
-    childLabel = '',
     childData,
     index,
+    childLabel,
     // indexOfFittingSchema,
     path,
     removeItem,
@@ -57,10 +56,14 @@ const SpectrumArrayModalItem = React.memo(
     uischema,
     uischemas = [],
     DNDHandle = false,
+    callbackFunction,
   }: OwnPropsOfSpectrumArrayModalItem & NonEmptyRowProps) => {
     const foundUISchema = findUISchema(uischemas, schema, uischema.scope, path);
     const childPath = composePaths(path, `${index}`);
-    const [expanded, setExpanded] = React.useState(false);
+    /* If The Component has an empty Object, open it (true for a newly added Component) */
+    const [expanded, setExpanded] = React.useState(
+      JSON.stringify(childData) === '{}' ? true : false
+    );
     const [isAnimating, setIsAnimating] = React.useState(false);
 
     const ref = React.useRef(null);
@@ -68,11 +71,34 @@ const SpectrumArrayModalItem = React.memo(
     const handleExpand = () => {
       setIsAnimating(true);
       if (expanded === false) {
-        if (enableDetailedView === true) {window.postMessage({ type: 'expanded-item', index, path, breadCrumbLabel: childLabel, addToQuery: true }, '*')} // prettier-ignore
+        if (enableDetailedView === true) {
+          window.postMessage(
+            {
+              type: 'expanded-item',
+              index,
+              path,
+              breadCrumbLabel: childLabel,
+              addToQuery: true,
+            },
+            '*'
+          );
+        }
         setExpanded(true);
         return;
       }
-      if (enableDetailedView === true) {window.postMessage({ type: 'expanded-item', index, path, breadCrumbLabel: childLabel, addToQuery: false }, '*')} // prettier-ignore
+      if (enableDetailedView === true) {
+        window.postMessage(
+          {
+            type: 'expanded-item',
+            index,
+            path,
+            breadCrumbLabel: childLabel,
+            addToQuery: false,
+          },
+          '*'
+        );
+      }
+      callbackFunction(Math.random());
       setExpanded(false);
       return;
     };
@@ -115,17 +141,17 @@ const SpectrumArrayModalItem = React.memo(
     }, [expanded]);
 
     const customPickerHandler = () => {
-      window.postMessage({ 
-        type: "picker", 
-        open: true, 
-        schema, 
+      window.postMessage({
+        type: 'picker',
+        open: true,
+        schema,
         current: {
-          path, 
+          path,
           index,
           data: childData,
-        }
-      }) 
-    }
+        },
+      });
+    };
 
     const Header = (
       <ModalItemHeader
@@ -139,7 +165,10 @@ const SpectrumArrayModalItem = React.memo(
         childLabel={childLabel}
         childData={childData}
         DNDHandle={DNDHandle}
-        customPicker={{ enabled: uischema?.options?.picker, handler: customPickerHandler }}
+        customPicker={{
+          enabled: uischema?.options?.picker,
+          handler: customPickerHandler,
+        }}
       />
     );
 
