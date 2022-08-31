@@ -1,7 +1,7 @@
 {
   "name": "jsonforms-react-spectrum-vite-test",
   "private": false,
-  "version": "0.0.96",
+  "version": "0.0.97",
   "type": "module",
   "files": [
     "dist"
