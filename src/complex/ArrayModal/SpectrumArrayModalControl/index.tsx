@@ -115,21 +115,20 @@ export const SpectrumArrayModalControl = React.memo(
       console.log("handleCustomPickerMessage", e?.data);
       if (e?.data?.type === "customPicker:return" && e?.data?.data) {
         console.log("handleCustomPickerMessage", e?.data?.data);
+        let newData = [...data];
         if (e?.data?.index && typeof e.data.index === "number") {
-          console.log("hello?");
-          let newData = [...data];
+          console.log("replace existing data");
           newData[e.data.index] = e.data.data;
           data.splice(0, data.length);
           //if (removeItems) removeItems(path, [999999999])();
-          data.push(...newData);
           console.log("newData", newData);
           console.log("data", data);
-          setRefKey(Math.random());
         } else {
-        console.log("handleCustomPickerMessage addItem", e?.data?.data, data);
-          data.push(e.data.data);
-          setRefKey(Math.random());
+          console.log("handleCustomPickerMessage addItem", e?.data?.data, data);
+          newData.push(e.data.data);
         }
+        data.push(...newData);
+        setRefKey(Math.random());
       }
     }
 
