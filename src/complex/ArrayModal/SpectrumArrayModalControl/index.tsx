@@ -113,6 +113,16 @@ export const SpectrumArrayModalControl = React.memo(
 
     const handleCustomPickerMessage = (e: MessageEvent) => {
       console.log("handleCustomPickerMessage", e);
+      if (e?.data?.type === "customPicker:return") {
+        console.log("data", e.data, 'existing data', data);
+        /*
+         * {
+         *   data: data,
+         *   index: number;
+         *   path: string;
+         * }
+         */
+      }
     }
 
     useEffect(() => {

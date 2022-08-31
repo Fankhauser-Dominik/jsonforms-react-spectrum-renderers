@@ -116,7 +116,7 @@ const SpectrumArrayModalItem = React.memo(
 
     const customPickerHandler = () => {
       window.postMessage({ 
-        type: "picker", 
+        type: "customPicker:open", 
         open: true, 
         schema, 
         current: {
