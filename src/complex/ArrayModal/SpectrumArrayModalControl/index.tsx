@@ -114,6 +114,7 @@ export const SpectrumArrayModalControl = React.memo(
     const handleCustomPickerMessage = (e: MessageEvent) => {
       if (e?.data?.type === "customPicker:return" && e?.data?.data) {
         if (e?.data?.index && typeof e.data.index === "number") {
+          console.log("hello?");
           let newData = data;
           newData[e.data.index] = e.data.data;
           data.splice(0, data.length);
