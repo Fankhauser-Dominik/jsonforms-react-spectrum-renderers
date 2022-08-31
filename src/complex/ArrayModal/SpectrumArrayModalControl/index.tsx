@@ -117,10 +117,11 @@ export const SpectrumArrayModalControl = React.memo(
         console.log("handleCustomPickerMessage", e?.data?.data);
         if (e?.data?.index && typeof e.data.index === "number") {
           console.log("hello?");
-          let newData = data;
+          let newData = [...data];
           newData[e.data.index] = e.data.data;
           data.splice(0, data.length);
           data.push(...newData);
+          console.log("newData", newData);
           console.log("data", data);
         } else {
         console.log("handleCustomPickerMessage addItem", e?.data?.data, data);
