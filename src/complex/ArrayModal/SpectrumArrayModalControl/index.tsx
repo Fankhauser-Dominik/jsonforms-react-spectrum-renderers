@@ -139,7 +139,7 @@ export const SpectrumArrayModalControl = React.memo(
           window.removeEventListener("message", handleCustomPickerMessage);
         }
       }
-    }, []);
+    }, [data]);
 
     return (
       <View id='json-form-array-wrapper'>
