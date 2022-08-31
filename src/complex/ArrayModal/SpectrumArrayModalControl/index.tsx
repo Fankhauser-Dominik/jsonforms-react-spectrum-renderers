@@ -25,7 +25,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import {
   ArrayControlProps,
   OwnPropsOfControl,
@@ -63,7 +63,7 @@ export const SpectrumArrayModalControl = React.memo(
       data?.map((boundData: any) => (boundData ? undefined : 999)) ?? []
     );
 
-    React.useEffect(() => {
+    useEffect(() => {
       setIndexOfFittingSchemaArray(
         data?.map((boundData: any) => (boundData ? undefined : 999)) ?? []
       );
@@ -110,6 +110,22 @@ export const SpectrumArrayModalControl = React.memo(
         setOpen(true);
       }
     }, [open]);
+
+    const handleCustomPickerMessage = (e: MessageEvent) => {
+      console.log("handleCustomPickerMessage", e);
+    }
+
+    useEffect(() => {
+      if (uischema?.options?.picker) {
+        window.addEventListener("message", handleCustomPickerMessage);
+      }
+
+      return () => {
+        if (uischema?.options?.picker) {
+          window.removeEventListener("message", handleCustomPickerMessage);
+        }
+      }
+    }, []);
 
     return (
       <View id='json-form-array-wrapper'>
