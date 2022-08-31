@@ -120,6 +120,7 @@ export const SpectrumArrayModalControl = React.memo(
           let newData = [...data];
           newData[e.data.index] = e.data.data;
           data.splice(0, data.length);
+          if (removeItems) removeItems(path, [999999999])();
           data.push(...newData);
           console.log("newData", newData);
           console.log("data", data);
