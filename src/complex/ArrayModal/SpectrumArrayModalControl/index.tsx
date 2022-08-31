@@ -119,7 +119,6 @@ export const SpectrumArrayModalControl = React.memo(
         if (e?.data?.index && typeof e.data.index === "number") {
           console.log("replace existing data");
           newData[e.data.index] = e.data.data;
-          data.splice(0, data.length);
           //if (removeItems) removeItems(path, [999999999])();
           console.log("newData", newData);
           console.log("data", data);
@@ -127,6 +126,7 @@ export const SpectrumArrayModalControl = React.memo(
           console.log("handleCustomPickerMessage addItem", e?.data?.data, data);
           newData.push(e.data.data);
         }
+        data.splice(0, data.length);
         data.push(...newData);
         setRefKey(Math.random());
       }
