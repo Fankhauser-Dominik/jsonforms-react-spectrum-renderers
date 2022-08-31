@@ -105,23 +105,22 @@ export const SpectrumArrayModalControl = React.memo(
 
     const onPressHandler = useCallback(() => {
       if (uischema?.options?.picker) {
-        window.postMessage({ type: "picker", open: true, schema }) 
+        window.postMessage({ type: "customPicker:open", open: true, schema }) 
       } else {
         setOpen(true);
       }
     }, [open]);
 
     const handleCustomPickerMessage = (e: MessageEvent) => {
-      console.log("handleCustomPickerMessage", e);
-      if (e?.data?.type === "customPicker:return") {
-        console.log("data", e.data, 'existing data', data);
-        /*
-         * {
-         *   data: data,
-         *   index: number;
-         *   path: string;
-         * }
-         */
+      if (e?.data?.type === "customPicker:return" && e?.data?.data) {
+        if (e?.data?.index && typeof e.data.index === "number") {
+          let newData = data;
+          newData[e.data.index] = e.data.data;
+          data.slice(0, data.length);
+          data.push(...newData);
+        } else {
+          addItem(path, e.data.data);
+        }
       }
     }
 
