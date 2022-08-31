@@ -98,7 +98,7 @@ export const SpectrumArrayModalControl = React.memo(
       }
     };
 
-    const [RefKey, setRefKey] = React.useState<number>(0);
+    const [RefKey, setRefKey] = useState<number>(0);
     const callbackFunction = (editorJSON: any) => {
       setRefKey(editorJSON);
     };
@@ -116,7 +116,7 @@ export const SpectrumArrayModalControl = React.memo(
         if (e?.data?.index && typeof e.data.index === "number") {
           let newData = data;
           newData[e.data.index] = e.data.data;
-          data.slice(0, data.length);
+          data.splice(0, data.length);
           data.push(...newData);
         } else {
           addItem(path, e.data.data);
