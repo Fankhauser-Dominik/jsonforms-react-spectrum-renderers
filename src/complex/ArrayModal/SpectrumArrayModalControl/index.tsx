@@ -127,7 +127,7 @@ export const SpectrumArrayModalControl = React.memo(
           setRefKey(Math.random());
         } else {
         console.log("handleCustomPickerMessage addItem", e?.data?.data, data);
-          addItem(path, e.data.data);
+          data.push(e.data.data);
           setRefKey(Math.random());
         }
       }
