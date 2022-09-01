@@ -33,7 +33,7 @@ import './SpectrumArrayModalItem.css';
 import SpectrumProvider from '../../../additional/SpectrumProvider';
 import { indexOfFittingSchemaObject } from '../utils';
 import ModalItemHeader from './ModalItemHeader';
-import { openItemWhenInQueryParam } from './ModalItemUtils';
+// import { openItemWhenInQueryParam } from './ModalItemUtils';
 
 interface NonEmptyRowProps {
   rowIndex?: number | undefined;
@@ -48,6 +48,7 @@ const SpectrumArrayModalItem = React.memo(
     index,
     childLabel,
     // indexOfFittingSchema,
+    callbackFunction,
     path,
     removeItem,
     duplicateItem,
@@ -56,7 +57,6 @@ const SpectrumArrayModalItem = React.memo(
     uischema,
     uischemas = [],
     DNDHandle = false,
-    callbackFunction,
   }: OwnPropsOfSpectrumArrayModalItem & NonEmptyRowProps) => {
     const foundUISchema = findUISchema(uischemas, schema, uischema.scope, path);
     const childPath = composePaths(path, `${index}`);
@@ -98,8 +98,8 @@ const SpectrumArrayModalItem = React.memo(
           '*'
         );
       }
-      callbackFunction(Math.random());
       setExpanded(false);
+      callbackFunction(Math.random());
       return;
     };
 
@@ -115,9 +115,9 @@ const SpectrumArrayModalItem = React.memo(
       indexOfFittingSchemaObject['OneOfPicker'] = true;
     }
 
-    React.useEffect(() => {
-      openItemWhenInQueryParam(path, index, childLabel, handleExpand);
-    }, []);
+    /* React.useEffect(() => {
+      openItemWhenInQueryParam(path, index, handleExpand);
+    }, []); */
 
     function breadCrumbClose(message: MessageEvent) {
       if (message.data.type !== 'close-item-breadcrumb') {

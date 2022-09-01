@@ -92,7 +92,7 @@ const setupStore = (
 
   // Resolve example configuration
   // Add schema to validation
-  const ajv = createAjv();
+  const ajv = createAjv({ useDefaults: true });
   ajv.addSchema(geoschema, 'geographical-location.schema.json');
   // Allow json-schema-ref-resolver to resolve same schema
   const geoResolver = {

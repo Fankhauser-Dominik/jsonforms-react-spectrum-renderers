@@ -76,28 +76,25 @@ const SpectrumOneOfRenderer = ({
   console.log('uischema', uischema);
   console.log('uischemas', uischemas);
   const [open, setOpen] = React.useState(false);
-  /* Only used for AEM, else it get skipped */
+  /* --Start-- Only used for AEM, else it get skipped */
   let oneOfList = schema?.oneOf?.map((item) => item['$ref']);
-  let oneOfPathList = oneOfList?.map((item) =>
-    item?.substring(item.lastIndexOf('/') + 1)
-  );
+  let oneOfPathList = oneOfList?.map((item) => item?.split('/').pop());
+  const aemTitle = data?._model?._path?.split('/').pop();
+  const aemTitleShortener = oneOfPathList?.indexOf(aemTitle);
+  /* --End-- Only used for AEM, else it get skipped */
+  const selectedIndexFunction = () => {
+    if (aemTitle && aemTitleShortener !== -1) {
+      return aemTitleShortener;
+    } else if (indexOfFittingSchema) {
+      return indexOfFittingSchema;
+    } else if (indexOfFittingSchemaObject[path]) {
+      return indexOfFittingSchemaObject[path];
+    } else {
+      return 0;
+    }
+  };
   const [selectedIndex, setSelectedIndex] = React.useState(
-    (data?._model?._path
-      ? oneOfPathList?.indexOf(
-          data?._model?._path?.substring(
-            data?._model?._path?.lastIndexOf('/') + 1
-          )
-        ) === -1
-        ? undefined
-        : oneOfPathList?.indexOf(
-            data?._model?._path?.substring(
-              data?._model?._path?.lastIndexOf('/') + 1
-            )
-          )
-      : undefined) ??
-      indexOfFittingSchema ??
-      indexOfFittingSchemaObject[path] ??
-      0
+    selectedIndexFunction()
   );
 
   const [newSelectedIndex, setNewSelectedIndex] = React.useState(0);
