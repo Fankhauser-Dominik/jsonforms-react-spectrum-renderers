@@ -25,7 +25,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import {
   ArrayControlProps,
   OwnPropsOfControl,
@@ -63,7 +63,7 @@ export const SpectrumArrayModalControl = React.memo(
       data?.map((boundData: any) => (boundData ? undefined : 999)) ?? []
     );
 
-    React.useEffect(() => {
+    useEffect(() => {
       setIndexOfFittingSchemaArray(
         data?.map((boundData: any) => (boundData ? undefined : 999)) ?? []
       );
@@ -99,18 +99,51 @@ export const SpectrumArrayModalControl = React.memo(
       }
     };
 
-    const [RefKey, setRefKey] = React.useState<number>(0);
+    const [RefKey, setRefKey] = useState<number>(0);
     const callbackFunction = (editorJSON: any) => {
       setRefKey(editorJSON);
     };
 
     const onPressHandler = useCallback(() => {
       if (uischema?.options?.picker) {
-        window.postMessage({ type: 'picker', open: true, schema });
+        window.postMessage({ type: 'customPicker:open', open: true, schema });
       } else {
         setOpen(true);
       }
     }, [open]);
+
+    const handleCustomPickerMessage = (e: MessageEvent) => {
+      console.log('handleCustomPickerMessage', e?.data);
+      if (e?.data?.type === 'customPicker:return' && e?.data?.data) {
+        console.log('handleCustomPickerMessage', e?.data?.data);
+        let newData = [...data];
+        if (e?.data?.index && typeof e.data.index === 'number') {
+          console.log('replace existing data');
+          newData[e.data.index] = e.data.data;
+          //if (removeItems) removeItems(path, [999999999])();
+          console.log('newData', newData);
+          console.log('data', data);
+        } else {
+          console.log('handleCustomPickerMessage addItem', e?.data?.data, data);
+          newData.push(e.data.data);
+        }
+        data.splice(0, data.length);
+        data.push(...newData);
+        setRefKey(Math.random());
+      }
+    };
+
+    useEffect(() => {
+      if (uischema?.options?.picker) {
+        window.addEventListener('message', handleCustomPickerMessage);
+      }
+
+      return () => {
+        if (uischema?.options?.picker) {
+          window.removeEventListener('message', handleCustomPickerMessage);
+        }
+      };
+    }, [data]);
 
     return (
       <View id='json-form-array-wrapper'>
