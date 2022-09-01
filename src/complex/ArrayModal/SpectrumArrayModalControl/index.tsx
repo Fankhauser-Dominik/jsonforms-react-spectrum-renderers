@@ -87,6 +87,7 @@ export const SpectrumArrayModalControl = React.memo(
       if (schema.oneOf) {
         addItem(path, createDefaultValue(schema.oneOf[index]))();
       }
+      indexOfFittingSchemaObject[path + `.${data.length}`] = selectedIndex;
       setSelectedIndex(0);
       handleClose();
     };
@@ -105,54 +106,50 @@ export const SpectrumArrayModalControl = React.memo(
 
     const onPressHandler = useCallback(() => {
       if (uischema?.options?.picker) {
-        window.postMessage({ type: "customPicker:open", open: true, schema }) 
+        window.postMessage({ type: 'customPicker:open', open: true, schema });
       } else {
         setOpen(true);
       }
     }, [open]);
 
     const handleCustomPickerMessage = (e: MessageEvent) => {
-      console.log("handleCustomPickerMessage", e?.data);
-      if (e?.data?.type === "customPicker:return" && e?.data?.data) {
-        console.log("handleCustomPickerMessage", e?.data?.data);
+      console.log('handleCustomPickerMessage', e?.data);
+      if (e?.data?.type === 'customPicker:return' && e?.data?.data) {
+        console.log('handleCustomPickerMessage', e?.data?.data);
         let newData = [...data];
-        if (e?.data?.index && typeof e.data.index === "number") {
-          console.log("replace existing data");
+        if (e?.data?.index && typeof e.data.index === 'number') {
+          console.log('replace existing data');
           newData[e.data.index] = e.data.data;
           //if (removeItems) removeItems(path, [999999999])();
-          console.log("newData", newData);
-          console.log("data", data);
+          console.log('newData', newData);
+          console.log('data', data);
         } else {
-          console.log("handleCustomPickerMessage addItem", e?.data?.data, data);
+          console.log('handleCustomPickerMessage addItem', e?.data?.data, data);
           newData.push(e.data.data);
         }
         data.splice(0, data.length);
         data.push(...newData);
         setRefKey(Math.random());
       }
-    }
+    };
 
     useEffect(() => {
       if (uischema?.options?.picker) {
-        window.addEventListener("message", handleCustomPickerMessage);
+        window.addEventListener('message', handleCustomPickerMessage);
       }
 
       return () => {
         if (uischema?.options?.picker) {
-          window.removeEventListener("message", handleCustomPickerMessage);
+          window.removeEventListener('message', handleCustomPickerMessage);
         }
-      }
+      };
     }, [data]);
 
     return (
       <View id='json-form-array-wrapper'>
         <Flex direction='row' justifyContent='space-between'>
           <Heading level={4}>{label}</Heading>
-          <Button
-            alignSelf='center'
-            onPress={onPressHandler}
-            variant='primary'
-          >
+          <Button alignSelf='center' onPress={onPressHandler} variant='primary'>
             <Add aria-label='Add' size='S' />
           </Button>
           <AddDialog
@@ -202,6 +199,7 @@ export const SpectrumArrayModalControl = React.memo(
                     schema={schema}
                     uischema={uischema}
                     uischemas={uischemas}
+                    callbackFunction={callbackFunction}
                   ></SpectrumArrayModalItem>
                   {uischema.options?.showSortButtons && (
                     <SortButtons

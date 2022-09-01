@@ -31,13 +31,14 @@ export interface OwnPropsOfSpectrumArrayModalItem {
     tester: UISchemaTester;
     uischema: UISchemaElement;
   }[];
-  childLabel?: string;
+  childLabel: string;
   childData?: any;
   rowIndex?: number;
   moveUpCreator?: ((path: string, position: number) => () => void) | undefined;
   moveDownCreator?:
     | ((path: string, position: number) => () => void)
     | undefined;
+  callbackFunction: any;
 }
 
 /**
@@ -65,7 +66,6 @@ export const mapStateToSpectrumArrayModalItemProps = (
     : undefined;
   const childPath = composePaths(path, `${index}`);
   const childData = Resolve.data(getData(state), childPath);
-
   const childLabel =
     uischema.options?.elementLabelProp ??
     firstPrimitiveProp ??

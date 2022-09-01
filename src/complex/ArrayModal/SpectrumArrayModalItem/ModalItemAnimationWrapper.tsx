@@ -22,18 +22,19 @@ export default function ModalItemAnimationWrapper({
   children,
 }: AnimationWrapperProps) {
   const [isBlackoutHovered, setIsBlackoutHovered] = React.useState(false);
-  const jsonFormWrapper = document.getElementById('json-form-wrapper') || document.getElementsByClassName('App-Form')[0]
-  
+  const jsonFormWrapper =
+    document.getElementById('json-form-wrapper') ||
+    document.getElementsByClassName('App-Form')[0];
+
   const addToZIndex = path.split('.').length;
   const leftOffset = (addToZIndex - 2) * 2.5;
-
 
   const slideAnim = useSpring({
     config: { duration: 700, easing: easings.easeOutQuart },
     left: expanded
       ? isBlackoutHovered && !isAnimating
-        ? `${10 + (leftOffset)}%`
-        : `${5 + (leftOffset)}%`
+        ? `${10 + leftOffset}%`
+        : `${5 + leftOffset}%`
       : '100%',
     onRest: () => setIsAnimating(false),
   });
@@ -43,7 +44,6 @@ export default function ModalItemAnimationWrapper({
     opacity: expanded ? 0.5 : 0,
     display: expanded ? 1 : 0,
   });
-  
 
   return ReactDom.createPortal(
     <div
@@ -63,7 +63,7 @@ export default function ModalItemAnimationWrapper({
             ? {
                 left: slideAnim.left,
                 zIndex: 8001 + addToZIndex,
-                width: `${95 - (leftOffset)}%`,
+                width: `${95 - leftOffset}%`,
               }
             : {}
         }
@@ -83,7 +83,7 @@ export default function ModalItemAnimationWrapper({
                   e > 0 ? 'block' : 'none'
                 ),
                 zIndex: 8000 + addToZIndex,
-                cursor: expanded ? 'pointer' : 'default'
+                cursor: expanded ? 'pointer' : 'default',
               }
             : { display: 'none' }
         }

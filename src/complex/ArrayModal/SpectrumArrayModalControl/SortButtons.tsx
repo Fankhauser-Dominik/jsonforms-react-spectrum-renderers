@@ -99,6 +99,7 @@ export default function SortButtons({
       return;
     }
     callbackFunction(Math.random());
+    setChangeRefKey(false);
   }, [moveDnD]);
 
   return (

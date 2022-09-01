@@ -1,34 +1,34 @@
 import React from 'react';
 import {
-  DialogContainer,
+  Button,
+  ButtonGroup,
   Dialog,
-  Heading,
+  DialogContainer,
   Divider,
-  Picker,
+  Heading,
   Item,
   ListBox,
-  ButtonGroup,
-  Button,
+  Picker,
 } from '@adobe/react-spectrum';
 
 interface ArrayModalControlAddDialogProps {
-  uischema: any;
   handleClose: any;
-  selectedIndex: any;
-  schema: any;
   handleOnConfirm: any;
   open: boolean;
+  schema: any;
+  selectedIndex: any;
   setSelectedIndex: any;
+  uischema: any;
 }
 
 export default function AddDialog({
-  uischema,
   handleClose,
-  selectedIndex,
-  schema,
   handleOnConfirm,
   open,
+  schema,
+  selectedIndex,
   setSelectedIndex,
+  uischema,
 }: ArrayModalControlAddDialogProps) {
   const usePickerInsteadOfListBox = uischema.options?.picker;
 

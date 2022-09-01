@@ -1,20 +1,19 @@
 export const openItemWhenInQueryParam = (
   path: string,
   index: number,
-  childLabel: string,
-  handleExpand: () => void
+  handleExpand: (refresh: boolean) => void
 ) => {
   try {
     const url: any = new URL(window.location.toString());
-    
+
     const formLocation: any = url.searchParams.get('formLocation');
     if (!formLocation) {
       return;
     }
-    const regex = new RegExp(`((^|_)${path}-${index}-${ childLabel.replaceAll(/(-|_)/g, '\\+') }($|_))`);
+    const regex = new RegExp(`((^|_)${path}-${index}($|_))`);
 
     if (regex.test(formLocation)) {
-      handleExpand();
+      handleExpand(false);
     }
   } catch {}
 };
