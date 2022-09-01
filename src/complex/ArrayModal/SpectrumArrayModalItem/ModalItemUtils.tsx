@@ -19,6 +19,9 @@ export const openItemWhenInQueryParam = (
 };
 
 export const findValue: any = (obj: any, key: string) => {
+  if (!obj || !key) {
+    return undefined;
+  }
   if (obj[key]) {
     return obj[key];
   }
