@@ -1,3 +1,3 @@
 export default {
-  toolTipDelay: 500
-}
+  toolTipDelay: 500,
+};
