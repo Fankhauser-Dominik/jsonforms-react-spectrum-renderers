@@ -1,7 +1,7 @@
 {
   "name": "jsonforms-react-spectrum-vite-test",
   "private": false,
-  "version": "0.0.103",
+  "version": "0.0.104",
   "type": "module",
   "files": [
     "dist"
@@ -76,7 +76,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.2",
-    "react-router-dom": "^5.3.3",
+    "react-router-dom": "^6.3.0",
     "react-spring": "^9.5.2",
     "redux": "^4.2.0",
     "run-script-os": "^1.1.6",
@@ -84,10 +84,10 @@
     "uuid": "^8.3.2"
   },
   "peerDependencies": {
-    "@adobe/react-spectrum": "^3.20.0",
+    "@adobe/react-spectrum": "^3.21.1",
     "@jsonforms/core": "^3.0.0-rc.1",
     "@jsonforms/react": "^3.0.0-rc.1",
-    "@spectrum-icons/workflow": "^4.0.1",
+    "@spectrum-icons/workflow": "^4.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

@@ -26,16 +26,11 @@
   THE SOFTWARE.
 */
 import { createRoot } from 'react-dom/client';
-import {
-  HashRouter as Router,
-  Switch,
-  Redirect,
-  Route,
-} from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import * as React from 'react';
 import './index.css';
 import { ConnectedApp } from './App';
-import { combineReducers, createStore } from 'redux';
+import { combineReducers, legacy_createStore as createStore } from 'redux';
 import { Provider } from 'react-redux';
 import geoschema from './geographical-location.schema';
 import {
@@ -137,12 +132,10 @@ export const renderExample = (
         <SpectrumThemeProvider colorScheme={colorScheme} theme={defaultTheme}>
           <ColorSchemeContext.Provider value={colorScheme}>
             <Router>
-              <Switch>
-                <Route exact path='/:name?'>
-                  <ConnectedApp />
-                </Route>
-                <Redirect to='/' />
-              </Switch>
+              <Routes>
+                <Route path='/:name' element={<ConnectedApp />} />
+                <Route path='/' element={<ConnectedApp />} />
+              </Routes>
             </Router>
           </ColorSchemeContext.Provider>
         </SpectrumThemeProvider>
