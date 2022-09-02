@@ -16,6 +16,7 @@ interface ArrayModalControlDragAndDropProps {
   schema: any;
   uischema: any;
   uischemas: any;
+  callbackFunction: any;
 }
 
 // Drag and Drop
@@ -26,9 +27,10 @@ export default function DragAndDrop({
   schema,
   uischema,
   uischemas,
-  removeItems,
+  // removeItems,
   indexOfFittingSchemaArray,
   handleRemoveItem,
+  callbackFunction,
 }: ArrayModalControlDragAndDropProps) {
   const stringified = (arr: any) => {
     return arr?.map((item: any) => {
@@ -113,7 +115,8 @@ export default function DragAndDrop({
           setGrabbedIndex(null);
           data.splice(0, data?.length);
           data.push(...newOrder);
-          removeItems(path, [999999999])();
+          callbackFunction(Math.random());
+
           api.start(fn(newOrder, active, originalIndex, curRow, y));
           setRefKey(RefKey + 1);
         }
@@ -123,7 +126,8 @@ export default function DragAndDrop({
 
   const duplicateContent = (index: number) => {
     data.push(data[index]);
-    removeItems(path, [999999999])();
+    callbackFunction(Math.random());
+    setRefKey(Math.random());
   };
 
   return (

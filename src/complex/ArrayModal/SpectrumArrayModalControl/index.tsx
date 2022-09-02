@@ -73,6 +73,7 @@ export const SpectrumArrayModalControl = React.memo(
       (path: string, value: any) => () => {
         if (removeItems) {
           removeItems(path, [value])();
+          setRefKey(Math.random());
         }
         indexOfFittingSchemaArray.splice(value, 1);
       },
@@ -94,9 +95,10 @@ export const SpectrumArrayModalControl = React.memo(
 
     const duplicateContent = (index: number) => {
       data.push(data[index]);
-      if (removeItems) {
+      setRefKey(Math.random());
+      /* if (removeItems) {
         removeItems(path, [999999999])();
-      }
+      } */
     };
 
     const [RefKey, setRefKey] = useState<number>(0);
@@ -178,6 +180,7 @@ export const SpectrumArrayModalControl = React.memo(
               schema={schema}
               uischema={uischema}
               uischemas={uischemas}
+              callbackFunction={callbackFunction}
             />
           ) : data && data?.length ? (
             Array.from(Array(data?.length)).map((_, index) => {
