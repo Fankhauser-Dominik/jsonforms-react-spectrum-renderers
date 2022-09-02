@@ -126,7 +126,7 @@ export const InputText = React.memo(
     const fileBrowserOptions =
       fileBrowser?.send?.message &&
       fileBrowser?.receive?.message &&
-      fileBrowser?.receive?.data;
+      fileBrowser?.receive?.type;
 
     const sendMessage = (
       message: any,
