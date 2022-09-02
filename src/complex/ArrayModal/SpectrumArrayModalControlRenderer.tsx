@@ -61,7 +61,7 @@ const SpectrumArrayModalControlRenderer = React.memo(
       addItem(value, path);
     }; */
 
-    return ( visible ?
+    return visible ? (
       <SpectrumArrayModalControl
         addItem={addItem}
         data={data}
@@ -78,8 +78,8 @@ const SpectrumArrayModalControlRenderer = React.memo(
         uischema={uischema}
         uischemas={uischemas}
         visible={visible}
-      /> : null
-    );
+      />
+    ) : null;
   }
 );
 

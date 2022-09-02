@@ -1,9 +1,11 @@
-.App-Form, .App-Data {
+.App-Form,
+.App-Data {
   width: 100%;
 }
 
 @media (min-width: 1200px) {
-  .App-Form, .App-Data {
+  .App-Form,
+  .App-Data {
     display: inline-block;
     vertical-align: top;
   }

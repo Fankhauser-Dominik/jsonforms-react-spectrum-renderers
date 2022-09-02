@@ -43,7 +43,7 @@ export interface SpectrumInputProps {
   required?: boolean;
   label?: string;
   schema?: {
-    [key:string]: any;
+    [key: string]: any;
     readOnly?: boolean;
-  }
+  };
 }
