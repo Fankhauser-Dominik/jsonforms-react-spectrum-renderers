@@ -25,26 +25,16 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import {
-  CellProps,
-  isStringControl,
-  RankedTester,
-  rankWith,
-} from '@jsonforms/core';
+import { CellProps, isStringControl, RankedTester, rankWith } from '@jsonforms/core';
 import { withJsonFormsCellProps } from '@jsonforms/react';
 import { InputText, SpectrumInputProps } from '../spectrum-control';
 
-export const SpectrumTextCell = (props: CellProps & SpectrumInputProps) => (
-  <InputText {...props} />
-);
+export const SpectrumTextCell = (props: CellProps & SpectrumInputProps) => <InputText {...props} />;
 
 /**
  * Default tester for text-based/string controls.
  * @type {RankedTester}
  */
-export const SpectrumTextCellTester: RankedTester = rankWith(
-  1,
-  isStringControl
-);
+export const SpectrumTextCellTester: RankedTester = rankWith(1, isStringControl);
 
 export default withJsonFormsCellProps(SpectrumTextCell);

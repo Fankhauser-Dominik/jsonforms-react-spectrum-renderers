@@ -26,13 +26,7 @@
   THE SOFTWARE.
 */
 import React from 'react';
-import {
-  RankedTester,
-  rankWith,
-  RendererProps,
-  uiTypeIs,
-  VerticalLayout,
-} from '@jsonforms/core';
+import { RankedTester, rankWith, RendererProps, uiTypeIs, VerticalLayout } from '@jsonforms/core';
 import { withJsonFormsLayoutProps } from '@jsonforms/react';
 import { StyleProps } from '@react-types/shared';
 import { SpectrumLayout } from './SpectrumLayout';
@@ -43,14 +37,15 @@ import SpectrumProvider from '../additional/SpectrumProvider';
  * Default tester for a vertical layout.
  * @type {RankedTester}
  */
-export const SpectrumVerticalLayoutTester: RankedTester = rankWith(
-  1,
-  uiTypeIs('VerticalLayout')
-);
+export const SpectrumVerticalLayoutTester: RankedTester = rankWith(1, uiTypeIs('VerticalLayout'));
 
-export const SpectrumVerticalLayoutRenderer: React.FunctionComponent<
-  RendererProps
-> = ({ schema, uischema, path, visible, enabled }: RendererProps) => {
+export const SpectrumVerticalLayoutRenderer: React.FunctionComponent<RendererProps> = ({
+  schema,
+  uischema,
+  path,
+  visible,
+  enabled,
+}: RendererProps) => {
   const verticalLayout = uischema as VerticalLayout;
   const direction = 'column';
   const childrenStyles: StyleProps = {

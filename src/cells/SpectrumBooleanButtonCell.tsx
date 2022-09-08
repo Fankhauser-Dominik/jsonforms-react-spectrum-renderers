@@ -37,9 +37,9 @@ import {
 import { withJsonFormsCellProps } from '@jsonforms/react';
 import { InputBooleanButton, SpectrumInputProps } from '../spectrum-control';
 
-export const SpectrumBooleanButtonCell = (
-  props: CellProps & SpectrumInputProps
-) => <InputBooleanButton {...props} />;
+export const SpectrumBooleanButtonCell = (props: CellProps & SpectrumInputProps) => (
+  <InputBooleanButton {...props} />
+);
 /**
  * Default tester for BooleanButton controls.
  * @type {RankedTester}

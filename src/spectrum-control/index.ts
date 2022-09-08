@@ -33,6 +33,7 @@ export * from './InputRating';
 export * from './InputSlider';
 export * from './InputSwitch';
 export * from './InputText';
+export * from './InputTextAndButton';
 export * from './InputTextArea';
 export * from './InputTime';
 

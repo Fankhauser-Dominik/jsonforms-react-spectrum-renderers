@@ -33,22 +33,15 @@ import {
   RuleEffect,
   SchemaBasedCondition,
 } from '@jsonforms/core';
-import {
-  defaultTheme,
-  Provider as SpectrumThemeProvider,
-} from '@adobe/react-spectrum';
+import { defaultTheme, Provider as SpectrumThemeProvider } from '@adobe/react-spectrum';
 import Adapter from '@cfaester/enzyme-adapter-react-18';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
 import '../../src';
 import SpectrumHorizontalLayoutRenderer, {
   SpectrumHorizontalLayoutTester,
 } from '../../src/layouts/SpectrumHorizontalLayout';
-import InputControl, {
-  inputControlTester,
-} from '../../src/controls/InputControl';
-import SpectrumTextCell, {
-  SpectrumTextCellTester,
-} from '../../src/cells/SpectrumTextCell';
+import InputControl, { inputControlTester } from '../../src/controls/InputControl';
+import SpectrumTextCell, { SpectrumTextCellTester } from '../../src/cells/SpectrumTextCell';
 import { JsonForms } from '@jsonforms/react';
 
 Enzyme.configure({ adapter: new Adapter() });
@@ -167,9 +160,7 @@ describe('Input control', () => {
     expect(input).toBeDefined();
     expect(input).not.toBeNull();
 
-    const validation = wrapper
-      .find('.validation')
-      .getDOMNode() as HTMLDivElement;
+    const validation = wrapper.find('.validation').getDOMNode() as HTMLDivElement;
     expect(validation.tagName).toBe('DIV');
     expect(validation.children).toHaveLength(1);
   });
@@ -204,9 +195,7 @@ describe('Input control', () => {
     expect(input).toBeDefined();
     expect(input).not.toBeNull();
 
-    const validation = wrapper
-      .find('.validation')
-      .getDOMNode() as HTMLDivElement;
+    const validation = wrapper.find('.validation').getDOMNode() as HTMLDivElement;
     expect(validation.tagName).toBe('DIV');
     expect(validation.children).toHaveLength(1);
   });
@@ -354,11 +343,7 @@ describe('Input control', () => {
     };
     const uischema: HorizontalLayout = {
       type: 'HorizontalLayout',
-      elements: [
-        firstControlElement,
-        secondControlElement,
-        thirdControlElement,
-      ],
+      elements: [firstControlElement, secondControlElement, thirdControlElement],
     };
     const data = {
       name: 'John Doe',

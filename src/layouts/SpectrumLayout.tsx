@@ -30,11 +30,7 @@ import { RendererProps } from '@jsonforms/core';
 import { FlexProps } from '@react-types/layout';
 import SpectrumProvider from '../additional/SpectrumProvider';
 
-export const SpectrumLayout = ({
-  children,
-  visible,
-  ...flexProps
-}: RendererProps & FlexProps) => {
+export const SpectrumLayout = ({ children, visible, ...flexProps }: RendererProps & FlexProps) => {
   return (
     <SpectrumProvider>
       <Flex

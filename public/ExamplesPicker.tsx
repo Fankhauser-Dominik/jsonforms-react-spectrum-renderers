@@ -60,8 +60,7 @@ export function ExamplesPicker(props: {
       children: props.examples
         .filter(
           (example) =>
-            !example.name.startsWith('spectrum-') &&
-            !example.name.startsWith(localPrefix)
+            !example.name.startsWith('spectrum-') && !example.name.startsWith(localPrefix)
         )
         .map((item) => ({ ...item, id: item.name })),
     },
@@ -83,11 +82,7 @@ export function ExamplesPicker(props: {
           items={item?.children}
           title={item?.name}
         >
-          {(item) => (
-            <Item aria-label={`Example Picker ${item?.label}`}>
-              {item?.label}
-            </Item>
-          )}
+          {(item) => <Item aria-label={`Example Picker ${item?.label}`}>{item?.label}</Item>}
         </Section>
       )}
     </Picker>

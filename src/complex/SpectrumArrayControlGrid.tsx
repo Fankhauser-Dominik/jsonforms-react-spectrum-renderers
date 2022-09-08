@@ -51,22 +51,15 @@ import {
 } from '@adobe/react-spectrum';
 
 import Delete from '@spectrum-icons/workflow/Delete';
-import {
-  ArrayFooter,
-  ArrayHeader,
-  getChildError,
-  getUIOptions,
-} from './Array/utils';
+import { ArrayFooter, ArrayHeader, getChildError, getUIOptions } from './Array/utils';
 import SpectrumProvider from '../additional/SpectrumProvider';
 import settings from '../util/settings';
 
 const { createLabelDescriptionFrom } = Helpers;
 
-const { and, isObjectArrayControl, isPrimitiveArrayControl, or, rankWith } =
-  Test;
+const { and, isObjectArrayControl, isPrimitiveArrayControl, or, rankWith } = Test;
 
-const isTableOptionNotTrue: Test.Tester = (uischema) =>
-  !uischema.options?.table;
+const isTableOptionNotTrue: Test.Tester = (uischema) => !uischema.options?.table;
 
 export const SpectrumArrayControlGridTester: RankedTester = rankWith(
   3,
@@ -128,9 +121,7 @@ const SpectrumArrayControlGrid = ({
   const add = addItem(path, createDefaultValue(schema));
   const fields = schema.properties ? Object.keys(schema.properties) : ['items'];
   return (
-    <View
-      isHidden={visible === undefined || visible === null ? false : !visible}
-    >
+    <View isHidden={visible === undefined || visible === null ? false : !visible}>
       <ArrayHeader
         {...uioptions}
         add={add}
@@ -152,11 +143,7 @@ const SpectrumArrayControlGrid = ({
             .map((prop) => (
               <View
                 paddingBottom='size-50'
-                justifySelf={
-                  schema.properties?.[prop]?.type === 'boolean'
-                    ? 'center'
-                    : undefined
-                }
+                justifySelf={schema.properties?.[prop]?.type === 'boolean' ? 'center' : undefined}
                 key={prop}
               >
                 {startCase(prop)}
@@ -167,35 +154,20 @@ const SpectrumArrayControlGrid = ({
             const childPath = Paths.compose(path, `${index}`);
             const rowCells: JSX.Element[] = schema.properties
               ? fields
-                  .filter(
-                    (prop) =>
-                      schema?.properties &&
-                      schema.properties[prop].type !== 'array'
-                  )
+                  .filter((prop) => schema?.properties && schema.properties[prop].type !== 'array')
                   .map((prop) => {
-                    const childPropPath = Paths.compose(
-                      childPath,
-                      prop.toString()
-                    );
+                    const childPropPath = Paths.compose(childPath, prop.toString());
                     const isCheckbox =
-                      schema?.properties &&
-                      schema.properties[prop].type === 'boolean';
+                      schema?.properties && schema.properties[prop].type === 'boolean';
                     return (
-                      <View
-                        key={childPropPath}
-                        paddingStart={isCheckbox ? 'size-200' : undefined}
-                      >
+                      <View key={childPropPath} paddingStart={isCheckbox ? 'size-200' : undefined}>
                         <Flex
                           direction='column'
                           width='100%'
                           alignItems={isCheckbox ? 'center' : 'start'}
                         >
                           <DispatchCell
-                            schema={Resolve.schema(
-                              schema,
-                              `#/properties/${prop}`,
-                              rootSchema
-                            )}
+                            schema={Resolve.schema(schema, `#/properties/${prop}`, rootSchema)}
                             uischema={
                               isCheckbox
                                 ? {
@@ -208,13 +180,9 @@ const SpectrumArrayControlGrid = ({
                           />
                           <View
                             UNSAFE_style={errorStyle}
-                            isHidden={
-                              getChildError(childErrors, childPropPath) === ''
-                            }
+                            isHidden={getChildError(childErrors, childPropPath) === ''}
                           >
-                            <Text>
-                              {getChildError(childErrors, childPropPath)}
-                            </Text>
+                            <Text>{getChildError(childErrors, childPropPath)}</Text>
                           </View>
                         </Flex>
                       </View>
@@ -255,18 +223,12 @@ const SpectrumArrayControlGrid = ({
                       <Dialog>
                         <Heading>Delete Row?</Heading>
                         <Divider />
-                        <Content>
-                          Are you sure you wish to delete this row?
-                        </Content>
+                        <Content>Are you sure you wish to delete this row?</Content>
                         <ButtonGroup>
                           <Button variant='secondary' onPress={handleClose}>
                             Cancel
                           </Button>
-                          <Button
-                            autoFocus
-                            variant='cta'
-                            onPress={() => confirmDelete(childPath)}
-                          >
+                          <Button autoFocus variant='cta' onPress={() => confirmDelete(childPath)}>
                             Delete
                           </Button>
                         </ButtonGroup>

@@ -25,34 +25,20 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import SpectrumObjectRenderer, {
-  SpectrumObjectControlTester,
-} from './SpectrumObjectRenderer';
+import SpectrumObjectRenderer, { SpectrumObjectControlTester } from './SpectrumObjectRenderer';
 import ArrayControl, { arrayControlTester } from './Array';
-import SpectrumArrayModalControl, {
-  SpectrumArrayModalControlTester,
-} from './ArrayModal';
-import SpectrumAnyOfRenderer, {
-  SpectrumAnyOfRendererTester,
-} from './SpectrumAnyOfRenderer';
-import SpectrumTipTapRenderer, {
-  SpectrumTipTapRendererTester,
-} from './SpectrumTipTapRenderer';
-import SpectrumAllOfRenderer, {
-  SpectrumAllOfRendererTester,
-} from './SpectrumAllOfRenderer';
+import SpectrumArrayModalControl, { SpectrumArrayModalControlTester } from './ArrayModal';
+import SpectrumAnyOfRenderer, { SpectrumAnyOfRendererTester } from './SpectrumAnyOfRenderer';
+import SpectrumTipTapRenderer, { SpectrumTipTapRendererTester } from './SpectrumTipTapRenderer';
+import SpectrumAllOfRenderer, { SpectrumAllOfRendererTester } from './SpectrumAllOfRenderer';
 import SpectrumCategorizationRenderer, {
   SpectrumCategorizationRendererTester,
 } from './SpectrumCategorizationRenderer';
 import SpectrumCategorizationStepperRenderer, {
   SpectrumCategorizationStepperRendererTester,
 } from './SpectrumCategorizationStepperRenderer';
-import SpectrumLabelRenderer, {
-  SpectrumLabelRendererTester,
-} from './SpectrumLabelRenderer';
-import SpectrumOneOfRenderer, {
-  SpectrumOneOfRendererTester,
-} from './SpectrumOneOfRenderer';
+import SpectrumLabelRenderer, { SpectrumLabelRendererTester } from './SpectrumLabelRenderer';
+import SpectrumOneOfRenderer, { SpectrumOneOfRendererTester } from './SpectrumOneOfRenderer';
 import SpectrumArrayControlGrid, {
   SpectrumArrayControlGridTester,
 } from './SpectrumArrayControlGrid';

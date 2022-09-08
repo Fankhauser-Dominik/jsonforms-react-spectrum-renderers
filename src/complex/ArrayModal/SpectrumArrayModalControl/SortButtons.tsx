@@ -1,10 +1,5 @@
 import * as React from 'react';
-import {
-  Flex,
-  TooltipTrigger,
-  Tooltip,
-  ActionButton,
-} from '@adobe/react-spectrum';
+import { Flex, TooltipTrigger, Tooltip, ActionButton } from '@adobe/react-spectrum';
 import ArrowUp from '@spectrum-icons/workflow/ArrowUp';
 import ArrowDown from '@spectrum-icons/workflow/ArrowDown';
 import { indexOfFittingSchemaObject, moveFromTo } from '../utils';
@@ -28,13 +23,10 @@ export default function SortButtons({
   callbackFunction,
 }: ArrayModalControlSortButtonsProps) {
   const moveItUp = (index: number) => {
-    const indexOfFittingSchemaOriginal =
-      indexOfFittingSchemaObject[`${path}.${index}`];
-    const indexOfFittingSchemaNew =
-      indexOfFittingSchemaObject[`${path}.${index - 1}`];
+    const indexOfFittingSchemaOriginal = indexOfFittingSchemaObject[`${path}.${index}`];
+    const indexOfFittingSchemaNew = indexOfFittingSchemaObject[`${path}.${index - 1}`];
     indexOfFittingSchemaObject[`${path}.${index}`] = indexOfFittingSchemaNew;
-    indexOfFittingSchemaObject[`${path}.${index - 1}`] =
-      indexOfFittingSchemaOriginal;
+    indexOfFittingSchemaObject[`${path}.${index - 1}`] = indexOfFittingSchemaOriginal;
 
     //removeItems is only used to update the data, change to a better solution in the future
     removeItems(path, [999999999])();
@@ -57,14 +49,10 @@ export default function SortButtons({
     }
 
     if (curIndex - tarRow === 1 || curIndex - tarRow === -2) {
-      const indexOfFittingSchemaOriginal =
-        indexOfFittingSchemaObject[`${path}.${curIndex}`];
-      const indexOfFittingSchemaNew =
-        indexOfFittingSchemaObject[`${path}.${curIndex - 1}`];
-      indexOfFittingSchemaObject[`${path}.${curIndex}`] =
-        indexOfFittingSchemaNew;
-      indexOfFittingSchemaObject[`${path}.${curIndex - 1}`] =
-        indexOfFittingSchemaOriginal;
+      const indexOfFittingSchemaOriginal = indexOfFittingSchemaObject[`${path}.${curIndex}`];
+      const indexOfFittingSchemaNew = indexOfFittingSchemaObject[`${path}.${curIndex - 1}`];
+      indexOfFittingSchemaObject[`${path}.${curIndex}`] = indexOfFittingSchemaNew;
+      indexOfFittingSchemaObject[`${path}.${curIndex - 1}`] = indexOfFittingSchemaOriginal;
     }
 
     if (curIndex > 9999999) {
@@ -77,13 +65,10 @@ export default function SortButtons({
   };
 
   const moveItDown = (index: number) => {
-    const indexOfFittingSchemaOriginal =
-      indexOfFittingSchemaObject[`${path}.${index}`];
-    const indexOfFittingSchemaNew =
-      indexOfFittingSchemaObject[`${path}.${index + 1}`];
+    const indexOfFittingSchemaOriginal = indexOfFittingSchemaObject[`${path}.${index}`];
+    const indexOfFittingSchemaNew = indexOfFittingSchemaObject[`${path}.${index + 1}`];
     indexOfFittingSchemaObject[`${path}.${index}`] = indexOfFittingSchemaNew;
-    indexOfFittingSchemaObject[`${path}.${index + 1}`] =
-      indexOfFittingSchemaOriginal;
+    indexOfFittingSchemaObject[`${path}.${index + 1}`] = indexOfFittingSchemaOriginal;
 
     //removeItems is only used to update the data, change to a better solution in the future
     removeItems(path, [data.length])();
@@ -104,16 +89,8 @@ export default function SortButtons({
 
   return (
     <Flex
-      direction={
-        uischema.options?.sortButtonDirection === 'Horizontal'
-          ? 'row'
-          : 'column'
-      }
-      marginTop={
-        uischema.options?.sortButtonDirection === 'Horizontal'
-          ? 'size-225'
-          : 'size-0'
-      }
+      direction={uischema.options?.sortButtonDirection === 'Horizontal' ? 'row' : 'column'}
+      marginTop={uischema.options?.sortButtonDirection === 'Horizontal' ? 'size-225' : 'size-0'}
     >
       <TooltipTrigger delay={settings.toolTipDelay}>
         <ActionButton
@@ -133,9 +110,7 @@ export default function SortButtons({
           onPress={() => moveDnD(index, index + 2)}
           aria-label={`move-item-${path}.${index}-down`}
           marginX='size-10'
-          isDisabled={
-            index === indexOfFittingSchemaObject[`${path}itemQuantity`] - 1
-          }
+          isDisabled={index === indexOfFittingSchemaObject[`${path}itemQuantity`] - 1}
         >
           <ArrowDown aria-label='ArrowDown' size='S' />
         </ActionButton>

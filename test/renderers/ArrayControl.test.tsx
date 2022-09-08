@@ -91,11 +91,7 @@ const fixture = {
 
 describe('SpectrumArrayControlRenderer', () => {
   test('render', () => {
-    const { getByRole, getByText } = renderForm(
-      fixture.uischema,
-      fixture.schema,
-      fixture.data
-    );
+    const { getByRole, getByText } = renderForm(fixture.uischema, fixture.schema, fixture.data);
     const button1 = getByRole('button', { name: /delete-item-example/ });
     const button2 = getByRole('button', { name: /delete-item-booohay1/ });
     const heading1 = getByText('example');
@@ -154,11 +150,7 @@ describe('SpectrumArrayControlRenderer', () => {
     const localUiSchema = clone(fixture.uischema);
     (localUiSchema.elements[0].options as any).elementLabelProp = 'message2';
 
-    const { getByText } = renderForm(
-      fixture.uischema,
-      fixture.schema,
-      fixture.data
-    );
+    const { getByText } = renderForm(fixture.uischema, fixture.schema, fixture.data);
     const heading1 = getByText('example2');
 
     expect(heading1).toBeDefined();

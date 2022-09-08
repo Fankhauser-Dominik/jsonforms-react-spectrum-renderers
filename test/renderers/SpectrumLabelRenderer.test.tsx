@@ -69,11 +69,7 @@ describe('Label', () => {
   });
 
   test('render with text', () => {
-    const { container } = renderForm(
-      fixture.uischema,
-      fixture.schema,
-      fixture.data
-    );
+    const { container } = renderForm(fixture.uischema, fixture.schema, fixture.data);
 
     expect(container.querySelector('span')).toHaveTextContent('Bar');
   });
@@ -93,11 +89,7 @@ describe('Label', () => {
   });
 
   test('show by default', () => {
-    const { getByText } = renderForm(
-      fixture.uischema,
-      fixture.schema,
-      fixture.data
-    );
+    const { getByText } = renderForm(fixture.uischema, fixture.schema, fixture.data);
 
     expect(getByText('Bar')).toBeVisible();
   });

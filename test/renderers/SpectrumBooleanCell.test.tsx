@@ -56,9 +56,7 @@ const fixture = {
   uischema: control,
 };
 
-const cells = [
-  { tester: SpectrumBooleanCellTester, cell: SpectrumBooleanCell },
-];
+const cells = [{ tester: SpectrumBooleanCellTester, cell: SpectrumBooleanCell }];
 
 describe('Boolean cell tester', () => {
   test('tester', () => {
@@ -272,9 +270,7 @@ describe('Boolean cell', () => {
     );
     const input = wrapper.find('input');
     input.simulate('change', { target: { checked: false } });
-    expect(onChange).toHaveBeenCalledWith(
-      expect.objectContaining({ data: { foo: false } })
-    );
+    expect(onChange).toHaveBeenCalledWith(expect.objectContaining({ data: { foo: false } }));
   });
 
   test('update via action', () => {

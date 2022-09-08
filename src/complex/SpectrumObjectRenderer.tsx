@@ -75,8 +75,5 @@ const SpectrumObjectRenderer = ({
     />
   );
 };
-export const SpectrumObjectControlTester: RankedTester = rankWith(
-  2,
-  isObjectControl
-);
+export const SpectrumObjectControlTester: RankedTester = rankWith(2, isObjectControl);
 export default withJsonFormsDetailProps(SpectrumObjectRenderer);

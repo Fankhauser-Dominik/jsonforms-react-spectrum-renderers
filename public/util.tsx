@@ -51,9 +51,7 @@ import { ErrorObject } from 'ajv';
 export interface ReactExampleDescription extends ExampleDescription {
   onChange?(
     dispatch: Dispatch<AnyAction>
-  ): (
-    extensionState: any
-  ) => (state: Pick<JsonFormsCore, 'data' | 'errors'>) => AnyAction;
+  ): (extensionState: any) => (state: Pick<JsonFormsCore, 'data' | 'errors'>) => AnyAction;
   customReactExtension?(dispatch: Dispatch<AnyAction>): React.Component;
 }
 
@@ -68,9 +66,7 @@ export interface OwnPropsOfI18nExample {
   dispatch: Dispatch<AnyAction>;
   onChange(
     dispatch: Dispatch<AnyAction>
-  ): (
-    extensionState: any
-  ) => (state: Pick<JsonFormsCore, 'data' | 'errors'>) => void;
+  ): (extensionState: any) => (state: Pick<JsonFormsCore, 'data' | 'errors'>) => void;
 }
 
 const supportedLocales = ['de-DE', 'en-US'] as const;
@@ -138,13 +134,8 @@ class I18nExampleRenderer extends React.Component<
 }
 
 const withContextToI18nProps =
-  (
-    Component: React.ComponentType<I18nExampleProps>
-  ): React.ComponentType<OwnPropsOfI18nExample> =>
-  ({
-    ctx,
-    props,
-  }: JsonFormsStateContext & Omit<I18nExampleProps, 'data' | 'errors'>) => {
+  (Component: React.ComponentType<I18nExampleProps>): React.ComponentType<OwnPropsOfI18nExample> =>
+  ({ ctx, props }: JsonFormsStateContext & Omit<I18nExampleProps, 'data' | 'errors'>) => {
     const { data, errors } = ctx.core;
     return <Component {...props} data={data} errors={errors} />;
   };
@@ -156,9 +147,9 @@ const withI18nProps = (
 
 const I18nExample = withI18nProps(I18nExampleRenderer);
 
-export const enhanceExample: (
-  examples: ExampleDescription[]
-) => ReactExampleDescription[] = (examples) =>
+export const enhanceExample: (examples: ExampleDescription[]) => ReactExampleDescription[] = (
+  examples
+) =>
   examples.map((e) => {
     switch (e.name) {
       /* case 'nestedArray':
@@ -187,11 +178,7 @@ export const enhanceExample: (
         const dynamic = Object.assign({}, e, {
           customReactExtension: (dispatch: Dispatch<AnyAction>) => (
             <div>
-              <button
-                onClick={() =>
-                  dispatch(Actions.init({ id: 'aaa' }, e.schema, e.uischema))
-                }
-              >
+              <button onClick={() => dispatch(Actions.init({ id: 'aaa' }, e.schema, e.uischema))}>
                 Change data
               </button>
             </div>
@@ -211,9 +198,7 @@ export const enhanceExample: (
               </button>
               <button
                 onClick={() => {
-                  dispatch(
-                    Actions.update('toggleBottomLayout', (bool) => !bool)
-                  );
+                  dispatch(Actions.update('toggleBottomLayout', (bool) => !bool));
                 }}
               >
                 Show/Hide bottom layout
@@ -232,11 +217,7 @@ export const enhanceExample: (
               >
                 Reload with sorting
               </button>
-              <button
-                onClick={() =>
-                  dispatch(Actions.init(e.data, e.schema, e.uischema))
-                }
-              >
+              <button onClick={() => dispatch(Actions.init(e.data, e.schema, e.uischema))}>
                 Reload without sorting
               </button>
             </div>

@@ -48,9 +48,7 @@ export const InputTime = React.memo(
   }: CellProps & SpectrumInputProps) => {
     const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
-    const width: DimensionValue | undefined = appliedUiSchemaOptions.trim
-      ? undefined
-      : '100%';
+    const width: DimensionValue | undefined = appliedUiSchemaOptions.trim ? undefined : '100%';
 
     const toISOString = (inputDateTime: string) => {
       if (!inputDateTime) {
@@ -81,40 +79,28 @@ export const InputTime = React.memo(
             id={id}
             isDisabled={enabled === undefined ? false : !enabled}
             isQuiet={appliedUiSchemaOptions.isQuiet ?? false}
-            isReadOnly={
-              appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false
-            }
+            isReadOnly={appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false}
             isRequired={required}
             label={label}
             labelAlign={appliedUiSchemaOptions.labelAlign ?? null}
             labelPosition={appliedUiSchemaOptions.labelPosition ?? null}
-            necessityIndicator={
-              appliedUiSchemaOptions.necessityIndicator ?? null
-            }
+            necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
             width={width}
             minValue={
               appliedUiSchemaOptions.minValue
                 ? parseAbsoluteToLocal(
-                    moment().format(
-                      toISOString(appliedUiSchemaOptions?.minValue?.toString())
-                    )
+                    moment().format(toISOString(appliedUiSchemaOptions?.minValue?.toString()))
                   )
                 : undefined
             }
             maxValue={
               appliedUiSchemaOptions.maxValue
                 ? parseAbsoluteToLocal(
-                    moment().format(
-                      toISOString(appliedUiSchemaOptions?.maxValue?.toString())
-                    )
+                    moment().format(toISOString(appliedUiSchemaOptions?.maxValue?.toString()))
                   )
                 : undefined
             }
-            value={
-              data
-                ? parseAbsoluteToLocal(moment().format(toISOString(data)))
-                : undefined
-            }
+            value={data ? parseAbsoluteToLocal(moment().format(toISOString(data))) : undefined}
             onChange={(datetime: any) =>
               handleChange(
                 path,

@@ -27,11 +27,7 @@
 */
 import Enzyme, { ReactWrapper } from 'enzyme';
 import Adapter from '@cfaester/enzyme-adapter-react-18';
-import {
-  ControlElement,
-  RuleEffect,
-  SchemaBasedCondition,
-} from '@jsonforms/core';
+import { ControlElement, RuleEffect, SchemaBasedCondition } from '@jsonforms/core';
 import { mountForm } from '../util';
 import { SpectrumAllOfRenderer } from '../../src';
 
@@ -106,9 +102,7 @@ describe('Spectrum allOf renderer', () => {
 
     wrapper = mountForm(uischema, schema);
 
-    const renderer = wrapper
-      .find(SpectrumAllOfRenderer)
-      .getDOMNode() as HTMLElement;
+    const renderer = wrapper.find(SpectrumAllOfRenderer).getDOMNode() as HTMLElement;
     expect(renderer.style.display).toBe('none');
   });
 });

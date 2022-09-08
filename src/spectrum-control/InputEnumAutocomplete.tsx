@@ -46,9 +46,7 @@ export const InputEnumAutocomplete = React.memo(
   }: EnumCellProps & SpectrumInputProps) => {
     const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
-    const width: DimensionValue | undefined = appliedUiSchemaOptions.trim
-      ? undefined
-      : '100%';
+    const width: DimensionValue | undefined = appliedUiSchemaOptions.trim ? undefined : '100%';
 
     let [value, setValue] = React.useState(data ?? '');
     const handleOnChange = (value: any) => {
@@ -68,9 +66,7 @@ export const InputEnumAutocomplete = React.memo(
       <SpectrumProvider width={width}>
         {options && (
           <ComboBox
-            allowsCustomValue={
-              appliedUiSchemaOptions.allowsCustomValue ?? false
-            }
+            allowsCustomValue={appliedUiSchemaOptions.allowsCustomValue ?? false}
             aria-label={label ?? 'combobox'}
             autoFocus={appliedUiSchemaOptions.focus}
             description={appliedUiSchemaOptions.description ?? null}
@@ -79,18 +75,14 @@ export const InputEnumAutocomplete = React.memo(
             id={id}
             isDisabled={enabled === undefined ? false : !enabled}
             isQuiet={appliedUiSchemaOptions.isQuiet ?? false}
-            isReadOnly={
-              appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false
-            }
+            isReadOnly={appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false}
             isRequired={required}
             key={id}
             label={label}
             labelAlign={appliedUiSchemaOptions.labelAlign ?? null}
             labelPosition={appliedUiSchemaOptions.labelPosition ?? null}
             menuTrigger={appliedUiSchemaOptions.menuTrigger ?? 'input'}
-            necessityIndicator={
-              appliedUiSchemaOptions.necessityIndicator ?? null
-            }
+            necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
             onSelectionChange={handleOnChange}
             selectedKey={value}
             shouldFlip={appliedUiSchemaOptions.shouldFlip ?? true}

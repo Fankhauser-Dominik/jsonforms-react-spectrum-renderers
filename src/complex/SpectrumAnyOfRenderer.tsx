@@ -36,14 +36,7 @@ import {
 } from '@jsonforms/core';
 import { JsonFormsDispatch, withJsonFormsAnyOfProps } from '@jsonforms/react';
 import CombinatorProperties from './CombinatorProperties';
-import {
-  Content,
-  Item,
-  View,
-  TabList,
-  TabPanels,
-  Tabs,
-} from '@adobe/react-spectrum';
+import { Content, Item, View, TabList, TabPanels, Tabs } from '@adobe/react-spectrum';
 
 const SpectrumAnyOfRenderer = ({
   schema,
@@ -56,9 +49,7 @@ const SpectrumAnyOfRenderer = ({
   uischema,
   uischemas,
 }: StatePropsOfCombinator) => {
-  const [selectedAnyOf, setSelectedAnyOf] = React.useState(
-    indexOfFittingSchema || 0
-  );
+  const [selectedAnyOf, setSelectedAnyOf] = React.useState(indexOfFittingSchema || 0);
   const handleChange = React.useCallback(
     (value: React.Key) => setSelectedAnyOf(Number(value)),
     [setSelectedAnyOf]
@@ -80,16 +71,9 @@ const SpectrumAnyOfRenderer = ({
 
   return (
     <View isHidden={!visible} UNSAFE_className={`anyof-renderer`}>
-      <CombinatorProperties
-        schema={schema}
-        combinatorKeyword={'anyOf'}
-        path={path}
-      />
+      <CombinatorProperties schema={schema} combinatorKeyword={'anyOf'} path={path} />
       {anyOfRenderInfos && (
-        <Tabs
-          selectedKey={String(selectedAnyOf)}
-          onSelectionChange={handleChange}
-        >
+        <Tabs selectedKey={String(selectedAnyOf)} onSelectionChange={handleChange}>
           <TabList>
             {anyOfRenderInfos?.map((anyOfRenderInfo, anyOfIndex) => (
               <Item key={anyOfIndex}>{anyOfRenderInfo.label}</Item>
@@ -117,8 +101,5 @@ const SpectrumAnyOfRenderer = ({
   );
 };
 
-export const SpectrumAnyOfRendererTester: RankedTester = rankWith(
-  3,
-  isAnyOfControl
-);
+export const SpectrumAnyOfRendererTester: RankedTester = rankWith(3, isAnyOfControl);
 export default withJsonFormsAnyOfProps(SpectrumAnyOfRenderer);

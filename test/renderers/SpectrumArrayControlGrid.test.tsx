@@ -38,9 +38,7 @@ import { SpectrumArrayControlGridTester } from '../../src/complex/SpectrumArrayC
 import SpectrumIntegerCell, {
   SpectrumIntegerCellTester,
 } from '../../src/cells/SpectrumIntegerCell';
-import SpectrumTextCell, {
-  SpectrumTextCellTester,
-} from '../../src/cells/SpectrumTextCell';
+import SpectrumTextCell, { SpectrumTextCellTester } from '../../src/cells/SpectrumTextCell';
 import { renderForm } from '../util';
 
 jest.mock('../../src/complex/SpectrumTableArrayControl', () => ({
@@ -171,18 +169,13 @@ describe('Array tester', () => {
       options,
     };
 
-    expect(SpectrumArrayControlGridTester(uischema, fixture.schema)).toBe(
-      expected
-    );
+    expect(SpectrumArrayControlGridTester(uischema, fixture.schema)).toBe(expected);
   });
 
   test('tester - wrong type', () =>
-    expect(
-      SpectrumArrayControlGridTester(
-        { type: 'Foo', options: { table: true } },
-        null
-      )
-    ).toBe(-1));
+    expect(SpectrumArrayControlGridTester({ type: 'Foo', options: { table: true } }, null)).toBe(
+      -1
+    ));
 });
 
 describe('Array control', () => {
@@ -196,9 +189,7 @@ describe('Array control', () => {
     offsetHeight = jest
       .spyOn(window.HTMLElement.prototype, 'clientHeight', 'get')
       .mockImplementation(() => 1000);
-    jest
-      .spyOn(window, 'requestAnimationFrame')
-      .mockImplementation((cb: any) => cb());
+    jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb: any) => cb());
     jest.useFakeTimers();
   });
 
@@ -245,17 +236,12 @@ describe('Array control', () => {
   test.each([{ test: [] }, { test: undefined }, null])(
     'render new child when initial data is %s',
     (initialData) => {
-      const { container } = renderForm(
-        fixture.uischema,
-        fixture.schema,
-        initialData,
-        [
-          {
-            tester: SpectrumIntegerCellTester,
-            cell: SpectrumIntegerCell,
-          },
-        ]
-      );
+      const { container } = renderForm(fixture.uischema, fixture.schema, initialData, [
+        {
+          tester: SpectrumIntegerCellTester,
+          cell: SpectrumIntegerCell,
+        },
+      ]);
 
       expect(getContent(container)).not.toContain('XY'); // Headers not visible
       expect(container.querySelectorAll('input').length).toBe(0); // No inputs visible
@@ -304,22 +290,15 @@ describe('Array control', () => {
       scope: '#/properties/test',
     };
 
-    const { container } = renderForm(
-      uischema,
-      schema,
-      { test: ['foo', 'bars'] },
-      [
-        {
-          tester: SpectrumTextCellTester,
-          cell: SpectrumTextCell,
-        },
-      ]
-    );
+    const { container } = renderForm(uischema, schema, { test: ['foo', 'bars'] }, [
+      {
+        tester: SpectrumTextCellTester,
+        cell: SpectrumTextCell,
+      },
+    ]);
     const content = getContent(container);
     expect(content).toContain('foobars');
-    expect(
-      content.match(/should NOT be longer than 3 characters/gi)
-    ).toHaveLength(1);
+    expect(content.match(/should NOT be longer than 3 characters/gi)).toHaveLength(1);
   });
 
   test('hide', () => {
@@ -341,11 +320,7 @@ describe('Array control', () => {
   });
 
   test('show by default', () => {
-    const { container } = renderForm(
-      fixture.uischema,
-      fixture.schema,
-      fixture.data
-    );
+    const { container } = renderForm(fixture.uischema, fixture.schema, fixture.data);
 
     const view: HTMLElement = container.firstChild.firstChild as HTMLElement;
     expect(view.hidden).toBe(false);
@@ -388,9 +363,7 @@ describe('Array control', () => {
     };
     test('when option is not set, should render the default label', () => {
       const { container } = renderForm(uischema, fixture.schema, fixture.data);
-      expect(container.querySelector('.add-button').textContent).toBe(
-        'Add to Test'
-      );
+      expect(container.querySelector('.add-button').textContent).toBe('Add to Test');
     });
 
     test('when option is set, should render it', () => {
@@ -399,11 +372,7 @@ describe('Array control', () => {
         ...uischema,
         options: { ...uischema.options, addButtonLabel: label },
       };
-      const { container } = renderForm(
-        uischemaWithLabel,
-        fixture.schema,
-        fixture.data
-      );
+      const { container } = renderForm(uischemaWithLabel, fixture.schema, fixture.data);
       expect(container.querySelector('.add-button').textContent).toBe(label);
     });
   });
@@ -414,17 +383,11 @@ describe('validations messages', () => {
     const data = { test: 2 };
     const { getByRole } = renderForm(fixture.uischema, fixture.schema, data);
 
-    expect(
-      getByRole('button', { name: /error-indicator/ })
-    ).toBeInTheDocument();
+    expect(getByRole('button', { name: /error-indicator/ })).toBeInTheDocument();
   });
 
   test('empty errors by default', () => {
-    const { getByRole } = renderForm(
-      fixture.uischema,
-      fixture.schema,
-      fixture.data
-    );
+    const { getByRole } = renderForm(fixture.uischema, fixture.schema, fixture.data);
 
     expect(() => {
       getByRole('button', { name: /error-indicator/ });

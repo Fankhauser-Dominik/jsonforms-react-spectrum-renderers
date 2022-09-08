@@ -39,9 +39,7 @@ test('tester', () => {
   expect(SpectrumHorizontalLayoutTester(undefined, undefined)).toBe(-1);
   expect(SpectrumHorizontalLayoutTester(null, undefined)).toBe(-1);
   expect(SpectrumHorizontalLayoutTester({ type: 'Foo' }, undefined)).toBe(-1);
-  expect(
-    SpectrumHorizontalLayoutTester({ type: 'HorizontalLayout' }, undefined)
-  ).toBe(1);
+  expect(SpectrumHorizontalLayoutTester({ type: 'HorizontalLayout' }, undefined)).toBe(1);
 });
 
 describe('Horizontal layout', () => {
@@ -96,24 +94,15 @@ describe('Horizontal layout', () => {
   });
 
   test('render with children', () => {
-    const { container } = renderForm(
-      fixture.uischema,
-      fixture.schema,
-      fixture.data
-    );
+    const { container } = renderForm(fixture.uischema, fixture.schema, fixture.data);
 
     expect(container.querySelectorAll('input')).toHaveLength(2);
   });
 
   test('visible by default', () => {
-    const { container } = renderForm(
-      fixture.uischema,
-      fixture.schema,
-      fixture.data
-    );
+    const { container } = renderForm(fixture.uischema, fixture.schema, fixture.data);
 
-    const element = container.firstElementChild
-      .firstElementChild as HTMLElement;
+    const element = container.firstElementChild.firstElementChild as HTMLElement;
     expect(element.style.display).not.toBe('none');
   });
 
@@ -133,17 +122,12 @@ describe('Horizontal layout', () => {
     };
     const { container } = renderForm(uischema, fixture.schema, fixture.data);
 
-    const element = container.firstElementChild
-      .firstElementChild as HTMLElement;
+    const element = container.firstElementChild.firstElementChild as HTMLElement;
     expect(element.style.display).toBe('');
   });
 
   test('enabled by default', () => {
-    const { container } = renderForm(
-      fixture.uischema,
-      fixture.schema,
-      fixture.data
-    );
+    const { container } = renderForm(fixture.uischema, fixture.schema, fixture.data);
 
     expect(container.querySelector('input').disabled).toBeFalsy();
   });
@@ -172,10 +156,7 @@ describe('Horizontal layout', () => {
       {
         ...fixture.uischema,
         options: { spacing: [2, 3] },
-        elements: [
-          ...fixture.uischema.elements,
-          { ...nameControl, scope: '#/properties/shape' },
-        ],
+        elements: [...fixture.uischema.elements, { ...nameControl, scope: '#/properties/shape' }],
       },
       {
         ...fixture.schema,
@@ -184,9 +165,9 @@ describe('Horizontal layout', () => {
       fixture.data
     );
 
-    const flexGrowValues = Array.from(
-      container.querySelectorAll(`[style*=flex-grow]`)
-    ).map((el) => el.getAttribute('style').match(/flex-grow:\s*(\d+)/)?.[1]);
+    const flexGrowValues = Array.from(container.querySelectorAll(`[style*=flex-grow]`)).map(
+      (el) => el.getAttribute('style').match(/flex-grow:\s*(\d+)/)?.[1]
+    );
 
     expect(flexGrowValues).toEqual(['2', '3', '1']);
   });

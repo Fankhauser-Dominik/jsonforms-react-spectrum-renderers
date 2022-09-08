@@ -46,9 +46,7 @@ export const InputNumber = React.memo(
   }: CellProps & SpectrumInputProps) => {
     const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
-    const width: DimensionValue | undefined = appliedUiSchemaOptions.trim
-      ? undefined
-      : '100%';
+    const width: DimensionValue | undefined = appliedUiSchemaOptions.trim ? undefined : '100%';
 
     const errorMessage = () => {
       let maxValue = schema.maximum;
@@ -76,8 +74,7 @@ export const InputNumber = React.memo(
           aria-label={'numberfield' + label}
           autoFocus={appliedUiSchemaOptions.focus}
           decrementAriaLabel={
-            appliedUiSchemaOptions.incrementAriaLabel ??
-            `Decrement -${stepValue}`
+            appliedUiSchemaOptions.incrementAriaLabel ?? `Decrement -${stepValue}`
           }
           description={appliedUiSchemaOptions.description ?? null}
           errorMessage={appliedUiSchemaOptions.errorMessage ?? errorMessage()}
@@ -85,13 +82,10 @@ export const InputNumber = React.memo(
           hideStepper={appliedUiSchemaOptions.hideStepper ?? false}
           id={id}
           incrementAriaLabel={
-            appliedUiSchemaOptions.incrementAriaLabel ??
-            `Increment +${stepValue}`
+            appliedUiSchemaOptions.incrementAriaLabel ?? `Increment +${stepValue}`
           }
           isDisabled={enabled === undefined ? false : !enabled}
-          isReadOnly={
-            appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false
-          }
+          isReadOnly={appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false}
           isRequired={required}
           label={label}
           labelAlign={appliedUiSchemaOptions.labelAlign ?? null}

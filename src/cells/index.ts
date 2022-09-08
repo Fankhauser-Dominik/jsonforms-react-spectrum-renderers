@@ -26,34 +26,18 @@
   THE SOFTWARE.
 */
 import SpectrumEnumCell, { SpectrumEnumCellTester } from './SpectrumEnumCell';
-import SpectrumBooleanCell, {
-  SpectrumBooleanCellTester,
-} from './SpectrumBooleanCell';
+import SpectrumBooleanCell, { SpectrumBooleanCellTester } from './SpectrumBooleanCell';
 import SpectrumBooleanButtonCell, {
   SpectrumBooleanButtonCellTester,
 } from './SpectrumBooleanButtonCell';
-import SpectrumCheckboxCell, {
-  SpectrumCheckboxCellTester,
-} from './SpectrumCheckboxCell';
-import SpectrumSwitchCell, {
-  SpectrumSwitchCellTester,
-} from './SpectrumSwitchCell';
-import SpectrumEnumControl, {
-  SpectrumEnumControlTester,
-} from '../controls/SpectrumEnumControl';
-import SpectrumIntegerCell, {
-  SpectrumIntegerCellTester,
-} from './SpectrumIntegerCell';
-import SpectrumNumberCell, {
-  SpectrumNumberCellTester,
-} from './SpectrumNumberCell';
-import SpectrumSliderCell, {
-  SpectrumSliderCellTester,
-} from './SpectrumSliderCell';
+import SpectrumCheckboxCell, { SpectrumCheckboxCellTester } from './SpectrumCheckboxCell';
+import SpectrumSwitchCell, { SpectrumSwitchCellTester } from './SpectrumSwitchCell';
+import SpectrumEnumControl, { SpectrumEnumControlTester } from '../controls/SpectrumEnumControl';
+import SpectrumIntegerCell, { SpectrumIntegerCellTester } from './SpectrumIntegerCell';
+import SpectrumNumberCell, { SpectrumNumberCellTester } from './SpectrumNumberCell';
+import SpectrumSliderCell, { SpectrumSliderCellTester } from './SpectrumSliderCell';
 import SpectrumTextCell, { SpectrumTextCellTester } from './SpectrumTextCell';
-import SpectrumTextAreaCell, {
-  SpectrumTextAreaCellTester,
-} from './SpectrumTextAreaCell';
+import SpectrumTextAreaCell, { SpectrumTextAreaCellTester } from './SpectrumTextAreaCell';
 import * as Customizable from './CustomizableCells';
 
 export {

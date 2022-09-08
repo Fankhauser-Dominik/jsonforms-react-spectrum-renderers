@@ -25,12 +25,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import {
-  EnumCellProps,
-  isEnumControl,
-  RankedTester,
-  rankWith,
-} from '@jsonforms/core';
+import { EnumCellProps, isEnumControl, RankedTester, rankWith } from '@jsonforms/core';
 import { withJsonFormsEnumCellProps } from '@jsonforms/react';
 import { SpectrumInputProps } from '../spectrum-control';
 import { InputEnum } from '../spectrum-control/InputEnum';

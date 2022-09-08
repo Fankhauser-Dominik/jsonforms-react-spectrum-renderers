@@ -37,9 +37,7 @@ import {
 } from '@jsonforms/core';
 import Adapter from '@cfaester/enzyme-adapter-react-18';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
-import SpectrumSliderCell, {
-  SpectrumSliderCellTester,
-} from '../../src/cells/SpectrumSliderCell';
+import SpectrumSliderCell, { SpectrumSliderCellTester } from '../../src/cells/SpectrumSliderCell';
 import { renderForm } from '../util';
 import { fireEvent } from '@testing-library/dom';
 import { SpectrumRenderers } from '../../src/index';
@@ -421,11 +419,7 @@ describe('Slider cell', () => {
   });
 
   test('enabled by default', () => {
-    const { container } = renderForm(
-      fixture.uischema,
-      fixture.schema,
-      fixture.data
-    );
+    const { container } = renderForm(fixture.uischema, fixture.schema, fixture.data);
     const input = container.querySelector('input');
     expect(input.disabled).toBe(false);
   });

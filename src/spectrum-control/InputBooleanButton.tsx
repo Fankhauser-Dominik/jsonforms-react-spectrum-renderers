@@ -40,12 +40,8 @@ export const InputBooleanButton = React.memo(
   }: CellProps & SpectrumInputProps) => {
     const appliedUiSchemaOptions = merge({}, config, uischema.options);
     const autoFocus = !!appliedUiSchemaOptions.focus;
-    let [isSelected, setSelected] = React.useState(
-      data ?? schema?.default ?? false
-    );
-    const width: DimensionValue | undefined = appliedUiSchemaOptions.trim
-      ? undefined
-      : '100%';
+    let [isSelected, setSelected] = React.useState(data ?? schema?.default ?? false);
+    const width: DimensionValue | undefined = appliedUiSchemaOptions.trim ? undefined : '100%';
 
     React.useEffect(() => {
       handleChange(path, isSelected);
@@ -68,9 +64,7 @@ export const InputBooleanButton = React.memo(
           {label}
         </ToggleButton>
         {appliedUiSchemaOptions.description ? (
-          <div style={{ fontStyle: 'italic' }}>
-            {appliedUiSchemaOptions.description}
-          </div>
+          <div style={{ fontStyle: 'italic' }}>{appliedUiSchemaOptions.description}</div>
         ) : null}
       </SpectrumProvider>
     );

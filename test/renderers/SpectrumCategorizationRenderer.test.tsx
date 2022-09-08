@@ -65,15 +65,8 @@ describe('Spectrum Categorization tester', () => {
   test('tester', () => {
     expect(SpectrumCategorizationRendererTester(undefined, undefined)).toBe(-1);
     expect(SpectrumCategorizationRendererTester(null, undefined)).toBe(-1);
-    expect(
-      SpectrumCategorizationRendererTester({ type: 'Foo' }, undefined)
-    ).toBe(-1);
-    expect(
-      SpectrumCategorizationRendererTester(
-        { type: 'Categorization' },
-        undefined
-      )
-    ).toBe(-1);
+    expect(SpectrumCategorizationRendererTester({ type: 'Foo' }, undefined)).toBe(-1);
+    expect(SpectrumCategorizationRendererTester({ type: 'Categorization' }, undefined)).toBe(-1);
   });
 
   test('tester with null elements and no schema', () => {
@@ -113,9 +106,7 @@ describe('Spectrum Categorization tester', () => {
         },
       ],
     };
-    expect(
-      SpectrumCategorizationRendererTester(categorization, undefined)
-    ).toBe(1);
+    expect(SpectrumCategorizationRendererTester(categorization, undefined)).toBe(1);
   });
 
   test('tester with nested categorization and single category and no schema', () => {
@@ -131,9 +122,7 @@ describe('Spectrum Categorization tester', () => {
       type: 'Categorization',
       elements: [nestedCategorization],
     };
-    expect(
-      SpectrumCategorizationRendererTester(categorization, undefined)
-    ).toBe(-1);
+    expect(SpectrumCategorizationRendererTester(categorization, undefined)).toBe(-1);
   });
 
   test('tester with nested categorizations, but no category and no schema', () => {
@@ -145,9 +134,7 @@ describe('Spectrum Categorization tester', () => {
         },
       ],
     };
-    expect(
-      SpectrumCategorizationRendererTester(categorization, undefined)
-    ).toBe(-1);
+    expect(SpectrumCategorizationRendererTester(categorization, undefined)).toBe(-1);
   });
 
   test('tester with nested categorizations, null elements and no schema', () => {
@@ -161,9 +148,7 @@ describe('Spectrum Categorization tester', () => {
         },
       ],
     };
-    expect(
-      SpectrumCategorizationRendererTester(categorization, undefined)
-    ).toBe(-1);
+    expect(SpectrumCategorizationRendererTester(categorization, undefined)).toBe(-1);
   });
 
   test('tester with nested categorizations, empty elements and no schema', () => {
@@ -176,9 +161,7 @@ describe('Spectrum Categorization tester', () => {
         },
       ],
     };
-    expect(
-      SpectrumCategorizationRendererTester(categorization, undefined)
-    ).toBe(-1);
+    expect(SpectrumCategorizationRendererTester(categorization, undefined)).toBe(-1);
   });
 });
 

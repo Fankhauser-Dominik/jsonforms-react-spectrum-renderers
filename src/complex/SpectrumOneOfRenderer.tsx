@@ -93,9 +93,7 @@ const SpectrumOneOfRenderer = ({
       return 0;
     }
   };
-  const [selectedIndex, setSelectedIndex] = React.useState(
-    selectedIndexFunction()
-  );
+  const [selectedIndex, setSelectedIndex] = React.useState(selectedIndexFunction());
 
   const [newSelectedIndex, setNewSelectedIndex] = React.useState(0);
   const handleClose = React.useCallback(() => setOpen(false), [setOpen]);
@@ -139,22 +137,16 @@ const SpectrumOneOfRenderer = ({
     [setOpen, setSelectedIndex, data]
   );
   const usePickerInsteadOfTabs =
-    indexOfFittingSchemaObject['OneOfPicker'] === true ||
-    uischema.options?.OneOfPicker === true;
+    indexOfFittingSchemaObject['OneOfPicker'] === true || uischema.options?.OneOfPicker === true;
 
   const hideTabs =
-    indexOfFittingSchemaObject['OneOfModal'] === true ||
-    uischema.options?.OneOfModal === true;
+    indexOfFittingSchemaObject['OneOfModal'] === true || uischema.options?.OneOfModal === true;
 
   if (!oneOfRenderInfos) return null;
   return (
     <SpectrumProvider>
       <View isHidden={!visible}>
-        <CombinatorProperties
-          combinatorKeyword={'oneOf'}
-          path={path}
-          schema={schema}
-        />
+        <CombinatorProperties combinatorKeyword={'oneOf'} path={path} schema={schema} />
         {usePickerInsteadOfTabs ? (
           <>
             <Picker
@@ -171,9 +163,7 @@ const SpectrumOneOfRenderer = ({
               ))}
             </Picker>
             {oneOfRenderInfos
-              .filter(
-                (_oneOfRenderInfo, oneOfIndex) => oneOfIndex === selectedIndex
-              )
+              .filter((_oneOfRenderInfo, oneOfIndex) => oneOfIndex === selectedIndex)
               .map((oneOfRenderInfo, oneOfIndex) => (
                 <View key={oneOfIndex}>
                   <Content margin='size-160'>
@@ -227,8 +217,8 @@ const SpectrumOneOfRenderer = ({
               <Heading>Clear Form?</Heading>
               <Divider />
               <Content>
-                Your Data will be cleared if you navigate away from this Tab. Do
-                you want to Clear your Form?
+                Your Data will be cleared if you navigate away from this Tab. Do you want to Clear
+                your Form?
               </Content>
               <ButtonGroup>
                 <Button variant='secondary' onPress={handleClose}>

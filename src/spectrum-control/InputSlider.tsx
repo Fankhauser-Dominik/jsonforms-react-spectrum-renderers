@@ -45,9 +45,7 @@ export const InputSlider = React.memo(
   }: CellProps & SpectrumInputProps) => {
     const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
-    const width: DimensionValue | undefined = appliedUiSchemaOptions.trim
-      ? undefined
-      : '100%';
+    const width: DimensionValue | undefined = appliedUiSchemaOptions.trim ? undefined : '100%';
 
     const [inputSlider, onChange] = useDebouncedChange(
       handleChange,

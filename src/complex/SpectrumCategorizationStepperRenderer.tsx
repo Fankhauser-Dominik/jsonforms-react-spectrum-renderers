@@ -53,19 +53,12 @@ import SpectrumProvider from '../additional/SpectrumProvider';
 
 import './SpectrumCategorizationStepper.css';
 
-export const SpectrumCategorizationStepperRendererTester: RankedTester =
-  rankWith(
-    2,
-    and(
-      uiTypeIs('Categorization'),
-      categorizationHasCategory,
-      optionIs('variant', 'stepper')
-    )
-  );
+export const SpectrumCategorizationStepperRendererTester: RankedTester = rankWith(
+  2,
+  and(uiTypeIs('Categorization'), categorizationHasCategory, optionIs('variant', 'stepper'))
+);
 
-export interface SpectrumCategorizationRendererProps
-  extends StatePropsOfLayout,
-    AjvProps {}
+export interface SpectrumCategorizationRendererProps extends StatePropsOfLayout, AjvProps {}
 
 export const SpectrumCategorizationStepperRenderer = (
   props: SpectrumCategorizationRendererProps
@@ -79,17 +72,12 @@ export const SpectrumCategorizationStepperRenderer = (
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
   const categorization = uischema as Categorization;
   const categories = categorization.elements.filter(
-    (value: Categorization | Category, _index: number) =>
-      isVisible(value, data, '', ajv)
+    (value: Categorization | Category, _index: number) => isVisible(value, data, '', ajv)
   );
 
   return (
     <SpectrumProvider>
-      <Flex
-        direction='column'
-        isHidden={!visible}
-        UNSAFE_className='categorization-stepper'
-      >
+      <Flex direction='column' isHidden={!visible} UNSAFE_className='categorization-stepper'>
         <Tabs
           aria-label='Categorization with Stepper'
           /* isDisabled={enabled === undefined ? false : !enabled} */
@@ -107,9 +95,7 @@ export const SpectrumCategorizationStepperRenderer = (
             {categories.map((category: { [key: string]: any }, index) => (
               <Item
                 key={index}
-                title={
-                  category?.label ?? category?.i18n ?? `Category ${index + 1}`
-                }
+                title={category?.label ?? category?.i18n ?? `Category ${index + 1}`}
               >
                 <Content margin='size-160'>
                   <SpectrumVerticalLayout
@@ -131,17 +117,8 @@ export const SpectrumCategorizationStepperRenderer = (
           </TabPanels>
         </Tabs>
         {Boolean(appliedUiSchemaOptions.showNavButtons) ? (
-          <ButtonGroup
-            marginX='size-160'
-            marginBottom='size-160'
-            flex='auto'
-            align='end'
-          >
-            <Button
-              variant='secondary'
-              isDisabled={step <= 0}
-              onPress={() => selectStep(step - 1)}
-            >
+          <ButtonGroup marginX='size-160' marginBottom='size-160' flex='auto' align='end'>
+            <Button variant='secondary' isDisabled={step <= 0} onPress={() => selectStep(step - 1)}>
               Previous
             </Button>
             <Button
@@ -160,8 +137,6 @@ export const SpectrumCategorizationStepperRenderer = (
   );
 };
 
-export default withJsonFormsLayoutProps(
-  withAjvProps(SpectrumCategorizationStepperRenderer)
-);
+export default withJsonFormsLayoutProps(withAjvProps(SpectrumCategorizationStepperRenderer));
 
 // export default SpectrumCategorizationStepperRenderer;

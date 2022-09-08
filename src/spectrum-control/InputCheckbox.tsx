@@ -42,13 +42,9 @@ export const InputCheckbox = React.memo(
   }: CellProps & SpectrumInputProps) => {
     const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
-    const width: DimensionValue | undefined = appliedUiSchemaOptions.trim
-      ? undefined
-      : '100%';
+    const width: DimensionValue | undefined = appliedUiSchemaOptions.trim ? undefined : '100%';
 
-    let [isSelected, setSelected] = React.useState(
-      data ?? schema?.default ?? false
-    );
+    let [isSelected, setSelected] = React.useState(data ?? schema?.default ?? false);
 
     React.useEffect(() => {
       handleChange(path, isSelected);
@@ -61,9 +57,7 @@ export const InputCheckbox = React.memo(
           id={id}
           isDisabled={enabled === undefined ? false : !enabled}
           isEmphasized={appliedUiSchemaOptions.isEmphasized ?? false}
-          isReadOnly={
-            appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false
-          }
+          isReadOnly={appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false}
           isRequired={required}
           isSelected={isSelected}
           onChange={setSelected}
@@ -74,9 +68,7 @@ export const InputCheckbox = React.memo(
           {label}
         </Checkbox>
         {appliedUiSchemaOptions.description ? (
-          <div style={{ fontStyle: 'italic' }}>
-            {appliedUiSchemaOptions.description}
-          </div>
+          <div style={{ fontStyle: 'italic' }}>{appliedUiSchemaOptions.description}</div>
         ) : null}
       </SpectrumProvider>
     );

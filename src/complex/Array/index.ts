@@ -46,9 +46,7 @@ export const arrayControlTester: RankedTester = rankWith(
   // or(isObjectArrayControl, isPrimitiveArrayControl)
   and(
     uiTypeIs('Control'),
-    schemaMatches(
-      (schema) => hasType(schema, 'array') && !Array.isArray(schema.items)
-    )
+    schemaMatches((schema) => hasType(schema, 'array') && !Array.isArray(schema.items))
   )
 );
 

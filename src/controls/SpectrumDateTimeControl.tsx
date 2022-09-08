@@ -22,12 +22,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import {
-  ControlProps,
-  isDateTimeControl,
-  RankedTester,
-  rankWith,
-} from '@jsonforms/core';
+import { ControlProps, isDateTimeControl, RankedTester, rankWith } from '@jsonforms/core';
 import { withJsonFormsControlProps } from '@jsonforms/react';
 import { InputDateTime } from '../spectrum-control';
 import { SpectrumInputControl } from './SpectrumInputControl';
@@ -36,9 +31,6 @@ export const SpectrumDateTimeControl = (props: ControlProps) => (
   <SpectrumInputControl {...props} input={InputDateTime} />
 );
 
-export const SpectrumDateTimeControlTester: RankedTester = rankWith(
-  3,
-  isDateTimeControl
-);
+export const SpectrumDateTimeControlTester: RankedTester = rankWith(3, isDateTimeControl);
 
 export default withJsonFormsControlProps(SpectrumDateTimeControl);

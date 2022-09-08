@@ -63,21 +63,12 @@ const fixture = {
 
 describe('Spectrum Categorization Stepper tester', () => {
   test('tester', () => {
-    expect(
-      SpectrumCategorizationStepperRendererTester(undefined, undefined)
-    ).toBe(-1);
-    expect(SpectrumCategorizationStepperRendererTester(null, undefined)).toBe(
+    expect(SpectrumCategorizationStepperRendererTester(undefined, undefined)).toBe(-1);
+    expect(SpectrumCategorizationStepperRendererTester(null, undefined)).toBe(-1);
+    expect(SpectrumCategorizationStepperRendererTester({ type: 'Foo' }, undefined)).toBe(-1);
+    expect(SpectrumCategorizationStepperRendererTester({ type: 'Categorization' }, undefined)).toBe(
       -1
     );
-    expect(
-      SpectrumCategorizationStepperRendererTester({ type: 'Foo' }, undefined)
-    ).toBe(-1);
-    expect(
-      SpectrumCategorizationStepperRendererTester(
-        { type: 'Categorization' },
-        undefined
-      )
-    ).toBe(-1);
   });
 
   test('tester with null elements and no schema', () => {
@@ -85,9 +76,7 @@ describe('Spectrum Categorization Stepper tester', () => {
       type: 'Categorization',
       elements: null,
     };
-    expect(
-      SpectrumCategorizationStepperRendererTester(uischema, undefined)
-    ).toBe(-1);
+    expect(SpectrumCategorizationStepperRendererTester(uischema, undefined)).toBe(-1);
   });
 
   test('tester with empty elements and no schema', () => {
@@ -95,9 +84,7 @@ describe('Spectrum Categorization Stepper tester', () => {
       type: 'Categorization',
       elements: [],
     };
-    expect(
-      SpectrumCategorizationStepperRendererTester(uischema, undefined)
-    ).toBe(-1);
+    expect(SpectrumCategorizationStepperRendererTester(uischema, undefined)).toBe(-1);
   });
 
   test('apply tester with single unknown element and no schema', () => {
@@ -109,9 +96,7 @@ describe('Spectrum Categorization Stepper tester', () => {
         },
       ],
     };
-    expect(
-      SpectrumCategorizationStepperRendererTester(uischema, undefined)
-    ).toBe(-1);
+    expect(SpectrumCategorizationStepperRendererTester(uischema, undefined)).toBe(-1);
   });
 
   test('tester with single category and no schema', () => {
@@ -123,9 +108,7 @@ describe('Spectrum Categorization Stepper tester', () => {
         },
       ],
     };
-    expect(
-      SpectrumCategorizationStepperRendererTester(categorization, undefined)
-    ).toBe(-1);
+    expect(SpectrumCategorizationStepperRendererTester(categorization, undefined)).toBe(-1);
   });
 
   test('tester with single category and no schema with stepper variant', () => {
@@ -140,9 +123,7 @@ describe('Spectrum Categorization Stepper tester', () => {
         variant: 'stepper',
       },
     };
-    expect(
-      SpectrumCategorizationStepperRendererTester(categorization, undefined)
-    ).toBe(2);
+    expect(SpectrumCategorizationStepperRendererTester(categorization, undefined)).toBe(2);
   });
 
   test('tester with single category and no schema with stepper variant and buttons', () => {
@@ -158,9 +139,7 @@ describe('Spectrum Categorization Stepper tester', () => {
         showNavButtons: true,
       },
     };
-    expect(
-      SpectrumCategorizationStepperRendererTester(categorization, undefined)
-    ).toBe(2);
+    expect(SpectrumCategorizationStepperRendererTester(categorization, undefined)).toBe(2);
   });
 
   test('tester with nested categorization and single category and no schema', () => {
@@ -176,9 +155,7 @@ describe('Spectrum Categorization Stepper tester', () => {
       type: 'Categorization',
       elements: [nestedCategorization],
     };
-    expect(
-      SpectrumCategorizationStepperRendererTester(categorization, undefined)
-    ).toBe(-1);
+    expect(SpectrumCategorizationStepperRendererTester(categorization, undefined)).toBe(-1);
   });
 
   test('tester with nested categorizations, but no category and no schema', () => {
@@ -190,9 +167,7 @@ describe('Spectrum Categorization Stepper tester', () => {
         },
       ],
     };
-    expect(
-      SpectrumCategorizationStepperRendererTester(categorization, undefined)
-    ).toBe(-1);
+    expect(SpectrumCategorizationStepperRendererTester(categorization, undefined)).toBe(-1);
   });
 
   test('tester with nested categorizations, null elements and no schema', () => {
@@ -206,9 +181,7 @@ describe('Spectrum Categorization Stepper tester', () => {
         },
       ],
     };
-    expect(
-      SpectrumCategorizationStepperRendererTester(categorization, undefined)
-    ).toBe(-1);
+    expect(SpectrumCategorizationStepperRendererTester(categorization, undefined)).toBe(-1);
   });
 
   test('tester with nested categorizations, empty elements and no schema', () => {
@@ -221,9 +194,7 @@ describe('Spectrum Categorization Stepper tester', () => {
         },
       ],
     };
-    expect(
-      SpectrumCategorizationStepperRendererTester(categorization, undefined)
-    ).toBe(-1);
+    expect(SpectrumCategorizationStepperRendererTester(categorization, undefined)).toBe(-1);
   });
 });
 
@@ -529,11 +500,7 @@ describe('Spectrum Categorization Stepper renderer', () => {
     };
 
     test('does not render buttons per default', () => {
-      const { queryByRole } = renderForm(
-        uischema,
-        fixture.schema,
-        fixture.data
-      );
+      const { queryByRole } = renderForm(uischema, fixture.schema, fixture.data);
 
       const previousButton = queryByRole('button', { name: 'Previous' });
       const nextButton = queryByRole('button', { name: 'Next' });

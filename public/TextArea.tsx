@@ -34,10 +34,7 @@ import { ButtonGroup, Button, StatusLight, View } from '@adobe/react-spectrum';
 
 // import 'codemirror/mode/javascript/javascript';
 
-export function TextArea(props: {
-  value: string;
-  onChange: (newValue: string) => void;
-}) {
+export function TextArea(props: { value: string; onChange: (newValue: string) => void }) {
   // const colorScheme = React.useContext(ColorSchemeContext);
   const [value, setValue] = React.useState(props.value);
   const err = getErr(value);
@@ -64,9 +61,7 @@ export function TextArea(props: {
       />
       <View paddingTop='size-50'>
         {value && err && <StatusLight variant='negative'>{err}</StatusLight>}
-        {value && !err && (
-          <StatusLight variant='positive'>Valid JSON</StatusLight>
-        )}
+        {value && !err && <StatusLight variant='positive'>Valid JSON</StatusLight>}
         {value !== props.value && (
           <ButtonGroup>
             <Button variant='cta' onPress={save} isDisabled={!!err}>

@@ -59,15 +59,9 @@ export const SpectrumInputControl = (props: ControlProps & WithInput) => {
     >
       <SpectrumProvider>
         <Flex direction='column'>
-          <InnerComponent
-            {...props}
-            id={id && `${id}-input`}
-            isValid={isValid}
-          />
+          <InnerComponent {...props} id={id && `${id}-input`} isValid={isValid} />
           <View>
-            <Text>
-              {!isValid ? errors : showDescription ? description : null}
-            </Text>
+            <Text>{!isValid ? errors : showDescription ? description : null}</Text>
           </View>
         </Flex>
       </SpectrumProvider>

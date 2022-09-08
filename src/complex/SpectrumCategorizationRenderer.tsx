@@ -34,14 +34,7 @@ import {
   uiTypeIs,
 } from '@jsonforms/core';
 import { withJsonFormsLayoutProps } from '@jsonforms/react';
-import {
-  Content,
-  Item,
-  TabList,
-  TabPanels,
-  Tabs,
-  View,
-} from '@adobe/react-spectrum';
+import { Content, Item, TabList, TabPanels, Tabs, View } from '@adobe/react-spectrum';
 import { AjvProps, withAjvProps } from '../util';
 import { SpectrumVerticalLayout } from '../layouts';
 import SpectrumProvider from '../additional/SpectrumProvider';
@@ -54,10 +47,7 @@ export const isSingleLevelCategorization: Tester = and(
     return (
       categorization.elements &&
       categorization.elements.length > 0 &&
-      categorization.elements.reduce(
-        (acc, e) => acc && e.type === 'Category',
-        true
-      )
+      categorization.elements.reduce((acc, e) => acc && e.type === 'Category', true)
     );
   }
 );
@@ -67,19 +57,14 @@ export const SpectrumCategorizationRendererTester: RankedTester = rankWith(
   isSingleLevelCategorization
 );
 
-export interface SpectrumCategorizationRendererProps
-  extends StatePropsOfLayout,
-    AjvProps {}
+export interface SpectrumCategorizationRendererProps extends StatePropsOfLayout, AjvProps {}
 
-export const SpectrumCategorizationRenderer = (
-  props: SpectrumCategorizationRendererProps
-) => {
+export const SpectrumCategorizationRenderer = (props: SpectrumCategorizationRendererProps) => {
   const { data, path, schema, uischema, visible, enabled, ajv } = props;
 
   const categorization = uischema as Categorization;
   const categories = categorization.elements.filter(
-    (category: Categorization | Category, _index: number) =>
-      isVisible(category, data, '', ajv)
+    (category: Categorization | Category, _index: number) => isVisible(category, data, '', ajv)
   );
 
   // checking formLocation to see if it should have a different default tab
@@ -96,8 +81,7 @@ export const SpectrumCategorizationRenderer = (
   if (formLocation && formLocation.includes(path)) {
     for (let i = 0; i < categories.length; i++) {
       const searchLabel =
-        categories[i].label.charAt(0).toLowerCase() +
-        categories[i].label.slice(1);
+        categories[i].label.charAt(0).toLowerCase() + categories[i].label.slice(1);
       if (formLocation.includes(`${path}.${searchLabel}`)) {
         defaultOpenTab = i.toString();
         break;
@@ -125,9 +109,7 @@ export const SpectrumCategorizationRenderer = (
             {categories?.map((category: { [key: string]: any }, index) => (
               <Item
                 key={index}
-                title={
-                  category?.label ?? category?.i18n ?? `Category ${index + 1}`
-                }
+                title={category?.label ?? category?.i18n ?? `Category ${index + 1}`}
               >
                 <Content margin='size-160'>
                   <SpectrumVerticalLayout
@@ -153,6 +135,4 @@ export const SpectrumCategorizationRenderer = (
   );
 };
 
-export default withJsonFormsLayoutProps(
-  withAjvProps(SpectrumCategorizationRenderer)
-);
+export default withJsonFormsLayoutProps(withAjvProps(SpectrumCategorizationRenderer));

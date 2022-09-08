@@ -82,11 +82,7 @@ describe('Group layout', () => {
   });
 
   test('render with label', () => {
-    const { container } = renderForm(
-      fixture.uischema,
-      fixture.schema,
-      fixture.data
-    );
+    const { container } = renderForm(fixture.uischema, fixture.schema, fixture.data);
 
     const heading = container.querySelector('h4');
     expect(heading?.textContent).toBe('Foo');
@@ -104,11 +100,7 @@ describe('Group layout', () => {
   });
 
   test('render with children', () => {
-    const { container } = renderForm(
-      fixture.uischema,
-      fixture.schema,
-      fixture.data
-    );
+    const { container } = renderForm(fixture.uischema, fixture.schema, fixture.data);
 
     const content = container.querySelector('section');
     expect(content?.children).toHaveLength(2);
@@ -121,8 +113,7 @@ describe('Group layout', () => {
     };
     const { container } = renderForm(uischema);
 
-    const groupLayout = container.firstElementChild
-      .firstElementChild as HTMLElement;
+    const groupLayout = container.firstElementChild.firstElementChild as HTMLElement;
     expect(groupLayout.style.display).not.toBe('none');
   });
 
@@ -142,17 +133,12 @@ describe('Group layout', () => {
     };
     const { container } = renderForm(uischema);
 
-    const groupLayout = container.firstElementChild
-      .firstElementChild as HTMLElement;
+    const groupLayout = container.firstElementChild.firstElementChild as HTMLElement;
     expect(groupLayout.style.display).toBe('');
   });
 
   test('enabled by default', () => {
-    const { container } = renderForm(
-      fixture.uischema,
-      fixture.schema,
-      fixture.data
-    );
+    const { container } = renderForm(fixture.uischema, fixture.schema, fixture.data);
 
     expect(container.querySelector('input').disabled).toBeFalsy();
   });

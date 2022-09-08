@@ -30,57 +30,34 @@ import InputControl, { inputControlTester } from './InputControl';
 import SpectrumAnyOfStringOrEnumControl, {
   SpectrumAnyOfStringOrEnumControlTester,
 } from './SpectrumAnyOfStringOrEnumControl';
-import SpectrumBooleanControl, {
-  SpectrumBooleanControlTester,
-} from './SpectrumBooleanControl';
+import SpectrumBooleanControl, { SpectrumBooleanControlTester } from './SpectrumBooleanControl';
 import SpectrumBooleanButtonControl, {
   SpectrumBooleanButtonControlTester,
 } from './SpectrumBooleanButtonControl';
-import SpectrumCheckboxControl, {
-  SpectrumCheckboxControlTester,
-} from './SpectrumCheckboxControl';
-import SpectrumSwitchControl, {
-  SpectrumSwitchControlTester,
-} from './SpectrumSwitchControl';
-import SpectrumEnumControl, {
-  SpectrumEnumControlTester,
-} from './SpectrumEnumControl';
-import SpectrumIntegerControl, {
-  SpectrumIntegerControlTester,
-} from './SpectrumIntegerControl';
+import SpectrumCheckboxControl, { SpectrumCheckboxControlTester } from './SpectrumCheckboxControl';
+import SpectrumSwitchControl, { SpectrumSwitchControlTester } from './SpectrumSwitchControl';
+import SpectrumEnumControl, { SpectrumEnumControlTester } from './SpectrumEnumControl';
+import SpectrumIntegerControl, { SpectrumIntegerControlTester } from './SpectrumIntegerControl';
 import SpectrumRadioGroupControl, {
   SpectrumRadioGroupControlTester,
 } from './SpectrumRadioGroupControl';
-import SpectrumRatingControl, {
-  SpectrumRatingControlTester,
-} from './SpectrumRatingControl';
-import SpectrumNumberControl, {
-  SpectrumNumberControlTester,
-} from './SpectrumNumberControl';
+import SpectrumRatingControl, { SpectrumRatingControlTester } from './SpectrumRatingControl';
+import SpectrumNumberControl, { SpectrumNumberControlTester } from './SpectrumNumberControl';
 import SpectrumOneOfEnumControl, {
   SpectrumOneOfEnumControlTester,
 } from './SpectrumOneOfEnumControl';
 import SpectrumOneOfRadioGroupControl, {
   SpectrumOneOfRadioGroupControlTester,
 } from './SpectrumOneOfRadioGroupControl';
-import SpectrumSliderControl, {
-  SpectrumSliderControlTester,
-} from './SpectrumSliderControl';
-import SpectrumTextAreaControl, {
-  SpectrumTextAreaControlTester,
-} from './SpectrumTextAreaControl';
-import SpectrumTextControl, {
-  SpectrumTextControlTester,
-} from './SpectrumTextControl';
-import SpectrumDateControl, {
-  SpectrumDateControlTester,
-} from './SpectrumDateControl';
-import SpectrumDateTimeControl, {
-  SpectrumDateTimeControlTester,
-} from './SpectrumDateTimeControl';
-import SpectrumTimeControl, {
-  SpectrumTimeControlTester,
-} from './SpectrumTimeControl';
+import SpectrumSliderControl, { SpectrumSliderControlTester } from './SpectrumSliderControl';
+import SpectrumTextAreaControl, { SpectrumTextAreaControlTester } from './SpectrumTextAreaControl';
+import SpectrumTextControl, { SpectrumTextControlTester } from './SpectrumTextControl';
+import SpectrumTextAndButtonControl, {
+  SpectrumTextAndButtonControlTester,
+} from './SpectrumTextAndButtonControl';
+import SpectrumDateControl, { SpectrumDateControlTester } from './SpectrumDateControl';
+import SpectrumDateTimeControl, { SpectrumDateTimeControlTester } from './SpectrumDateTimeControl';
+import SpectrumTimeControl, { SpectrumTimeControlTester } from './SpectrumTimeControl';
 
 export {
   InputControl,
@@ -119,6 +96,8 @@ export {
   SpectrumTextAreaControlTester,
   SpectrumTextControl,
   SpectrumTextControlTester,
+  SpectrumTextAndButtonControl,
+  SpectrumTextAndButtonControlTester,
   SpectrumTimeControl,
   SpectrumTimeControlTester,
 };

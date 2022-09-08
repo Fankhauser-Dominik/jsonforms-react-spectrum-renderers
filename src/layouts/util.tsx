@@ -52,8 +52,7 @@ export const renderChildren = (
   const { renderers, cells } = useJsonForms();
 
   return layout.elements.map((child, index) => {
-    const style =
-      typeof styleProps === 'function' ? styleProps(index) : styleProps;
+    const style = typeof styleProps === 'function' ? styleProps(index) : styleProps;
     return (
       <View key={`${path}-${index}`} {...style}>
         <JsonFormsDispatch

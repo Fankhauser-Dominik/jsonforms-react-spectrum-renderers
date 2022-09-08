@@ -70,8 +70,7 @@ export function getPreferredTheme(): Theme {
     ? 'dark'
     : document.cookie.includes('preferTheme=light')
     ? 'light'
-    : window.matchMedia &&
-      window.matchMedia('(prefers-color-scheme: dark)').matches
+    : window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
     ? 'dark'
     : 'light';
 }

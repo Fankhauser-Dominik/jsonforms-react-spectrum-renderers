@@ -51,10 +51,7 @@ const SpectrumArrayModalControlRenderer = React.memo(
     ArrayControlProps /*  & overrideProps */
   ) => {
     const controlElement = uischema as ControlElement;
-    const labelDescription = Helpers.createLabelDescriptionFrom(
-      controlElement,
-      schema
-    );
+    const labelDescription = Helpers.createLabelDescriptionFrom(controlElement, schema);
     const label = labelDescription.show ? labelDescription.text : undefined;
 
     /* const handleChange = (value: any) => {
@@ -83,7 +80,5 @@ const SpectrumArrayModalControlRenderer = React.memo(
   }
 );
 
-export default withJsonFormsArrayControlProps(
-  SpectrumArrayModalControlRenderer
-);
+export default withJsonFormsArrayControlProps(SpectrumArrayModalControlRenderer);
 // export default SpectrumArrayModalControlRenderer;

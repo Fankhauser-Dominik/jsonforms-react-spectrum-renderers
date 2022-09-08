@@ -47,9 +47,7 @@ export const SpectrumBooleanCell: FunctionComponent<CellProps> = (
   const autoFocus = !!appliedUiSchemaOptions.focus;
   // !! causes undefined value to be converted to false, otherwise has no effect
   const isSelected = !!data;
-  const width: DimensionValue | undefined = appliedUiSchemaOptions.trim
-    ? undefined
-    : '100%';
+  const width: DimensionValue | undefined = appliedUiSchemaOptions.trim ? undefined : '100%';
 
   return (
     <Switch
