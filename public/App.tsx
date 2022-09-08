@@ -41,11 +41,7 @@ import {
   defaultTheme,
 } from '@adobe/react-spectrum';
 import './App.css';
-import {
-  initializedConnect,
-  ExampleStateProps,
-  ExampleDispatchProps,
-} from './reduxUtil';
+import { initializedConnect, ExampleStateProps, ExampleDispatchProps } from './reduxUtil';
 import { TextArea } from './TextArea';
 import { circularReferenceReplacer, ReactExampleDescription } from './util';
 import {
@@ -107,17 +103,10 @@ function App(props: AppProps & { selectedExample: ReactExampleDescription }) {
   return (
     <Provider theme={defaultTheme} id='SpectrumInputControlProvider'>
       <JsonFormsReduxContext>
-        <View
-          padding='size-100'
-          minHeight='100vh'
-          paddingTop='0'
-          paddingBottom='size-800'
-        >
+        <View padding='size-100' minHeight='100vh' paddingTop='0' paddingBottom='size-800'>
           <div className='container'>
             <View padding='size-100'>
-              <Heading>
-                react, json-schema, jsonforms.io, react-spectrum
-              </Heading>
+              <Heading>react, json-schema, jsonforms.io, react-spectrum</Heading>
               Generate{' '}
               <a href='https://react-spectrum.adobe.com/' target='_blank'>
                 react-spectrum
@@ -130,10 +119,9 @@ function App(props: AppProps & { selectedExample: ReactExampleDescription }) {
               <a href='https://www.jsonforms.io' target='_blank'>
                 jsonforms.io
               </a>{' '}
-              - choose a sample in the 'Examples' section to preview predefined
-              forms (try for example one of the 'Categorization' examples). You
-              can also modify the examples in the editors and save them to local
-              storage to play with them later.
+              - choose a sample in the 'Examples' section to preview predefined forms (try for
+              example one of the 'Categorization' examples). You can also modify the examples in the
+              editors and save them to local storage to play with them later.
             </View>
           </div>
           <div className='container'>
@@ -160,10 +148,7 @@ function App(props: AppProps & { selectedExample: ReactExampleDescription }) {
                   <TabPanels>
                     <Item key='boundData'>
                       <Content margin='size-100'>
-                        <TextArea
-                          value={props.dataAsString}
-                          onChange={updateCurrentData}
-                        />
+                        <TextArea value={props.dataAsString} onChange={updateCurrentData} />
                       </Content>
                     </Item>
 
@@ -211,10 +196,7 @@ function AppWithExampleInURL(props: AppProps) {
   const examplesSamples = props.examples.concat(samples);
   const urlParams = useParams<{ name: string | undefined }>();
   const navigate = useNavigate();
-  const examplesRef = React.useRef([
-    ...examplesSamples,
-    ...getExamplesFromLocalStorage(),
-  ]);
+  const examplesRef = React.useRef([...examplesSamples, ...getExamplesFromLocalStorage()]);
   const examples = examplesRef.current;
 
   const selectedExample = urlParams.name
@@ -226,10 +208,7 @@ function AppWithExampleInURL(props: AppProps) {
       // If we're trying to modify an item, save it to local storage and update the list of examples
       if (example.name.startsWith(localPrefix)) {
         setExampleInLocalStorage(example);
-        examplesRef.current = [
-          ...examplesSamples,
-          ...getExamplesFromLocalStorage(),
-        ];
+        examplesRef.current = [...examplesSamples, ...getExamplesFromLocalStorage()];
       }
       navigate(`/${example.name}`);
     },
@@ -247,9 +226,7 @@ function AppWithExampleInURL(props: AppProps) {
 
   // If name is invalid, redirect to home
   if (!selectedExample) {
-    console.error(
-      `Could not find an example with name "${urlParams.name}", redirecting to /`
-    );
+    console.error(`Could not find an example with name "${urlParams.name}", redirecting to /`);
     return null;
   }
 
@@ -271,9 +248,7 @@ function createExample(
 ): ReactExampleDescription {
   return {
     ...example,
-    name: example.name.startsWith(localPrefix)
-      ? example.name
-      : `${localPrefix}${example.name}`,
+    name: example.name.startsWith(localPrefix) ? example.name : `${localPrefix}${example.name}`,
     label: example.label.endsWith(localLabelSuffix)
       ? example.label
       : `${example.label}${localLabelSuffix}`,

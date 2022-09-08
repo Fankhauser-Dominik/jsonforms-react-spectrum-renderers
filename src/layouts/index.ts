@@ -25,19 +25,20 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import SpectrumGroupLayout, {
-  SpectrumGroupLayoutTester,
-} from './SpectrumGroupLayout';
+import SpectrumGroupLayout, { SpectrumGroupLayoutTester } from './SpectrumGroupLayout';
+import ContentFragmentReferenceWithDetailLayout, {
+  ContentFragmentReferenceWithDetailLayoutTester,
+} from './ContentFragmentReferenceWithDetailLayout';
 import SpectrumHorizontalLayout, {
   SpectrumHorizontalLayoutTester,
 } from './SpectrumHorizontalLayout';
-import SpectrumVerticalLayout, {
-  SpectrumVerticalLayoutTester,
-} from './SpectrumVerticalLayout';
+import SpectrumVerticalLayout, { SpectrumVerticalLayoutTester } from './SpectrumVerticalLayout';
 
 export {
   SpectrumGroupLayout,
   SpectrumGroupLayoutTester,
+  ContentFragmentReferenceWithDetailLayout,
+  ContentFragmentReferenceWithDetailLayoutTester,
   SpectrumHorizontalLayout,
   SpectrumHorizontalLayoutTester,
   SpectrumVerticalLayout,

@@ -78,21 +78,17 @@ export default function AddDialog({
                   aria-label='Select'
                   items={schema}
                   margin='size-100'
-                  onSelectionChange={(selected) =>
-                    handleListBoxChange(selected)
-                  }
+                  onSelectionChange={(selected) => handleListBoxChange(selected)}
                   selectedKeys={String(selectedIndex)}
                   selectionMode='single'
                   width='calc(100% - size-200)'
                   maxHeight='size-2400'
                 >
-                  {schema?.oneOf?.map(
-                    (oneOfRenderInfo: any, oneOfIndex: number) => (
-                      <Item key={oneOfIndex}>
-                        {oneOfRenderInfo.title ?? `Item ${oneOfIndex + 1}`}
-                      </Item>
-                    )
-                  )}
+                  {schema?.oneOf?.map((oneOfRenderInfo: any, oneOfIndex: number) => (
+                    <Item key={oneOfIndex}>
+                      {oneOfRenderInfo.title ?? `Item ${oneOfIndex + 1}`}
+                    </Item>
+                  ))}
                 </ListBox>
               </>
             )}

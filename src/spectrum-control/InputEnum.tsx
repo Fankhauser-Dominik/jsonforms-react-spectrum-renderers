@@ -45,15 +45,10 @@ export const InputEnum = React.memo(
     uischema,
   }: EnumCellProps & SpectrumInputProps) => {
     const appliedUiSchemaOptions = merge({}, config, uischema.options);
-    const width: DimensionValue | undefined = appliedUiSchemaOptions.trim
-      ? undefined
-      : '100%';
+    const width: DimensionValue | undefined = appliedUiSchemaOptions.trim ? undefined : '100%';
 
     const findEnumSchema = (schemas: JsonSchema[]) =>
-      schemas.find(
-        (s) =>
-          s.enum !== undefined && (s.type === 'string' || s.type === undefined)
-      );
+      schemas.find((s) => s.enum !== undefined && (s.type === 'string' || s.type === undefined));
 
     const tryEnumSchema = (anyOf: JsonSchema[]) => {
       const enumSchema = findEnumSchema(anyOf);
@@ -91,10 +86,7 @@ export const InputEnum = React.memo(
           isDisabled={enabled === undefined ? false : !enabled}
           isQuiet={appliedUiSchemaOptions.isQuiet ?? false}
           isRequired={required}
-          items={
-            options ??
-            tryEnumSchema(!schema?.anyOf ? fallbackJsonSchema : schema?.anyOf)
-          }
+          items={options ?? tryEnumSchema(!schema?.anyOf ? fallbackJsonSchema : schema?.anyOf)}
           key={id}
           label={label}
           labelAlign={appliedUiSchemaOptions.labelAlign ?? null}

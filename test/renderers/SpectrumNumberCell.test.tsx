@@ -35,9 +35,7 @@ import {
 } from '@jsonforms/core';
 import Adapter from '@cfaester/enzyme-adapter-react-18';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
-import SpectrumNumberCell, {
-  SpectrumNumberCellTester,
-} from '../../src/cells/SpectrumNumberCell';
+import SpectrumNumberCell, { SpectrumNumberCellTester } from '../../src/cells/SpectrumNumberCell';
 import { SpectrumRenderers } from '../../src';
 import { JsonForms } from '@jsonforms/react';
 
@@ -284,9 +282,7 @@ describe('Number cell', () => {
     const input = wrapper.find('input');
     input.simulate('change', { target: { value: '2.72' } });
     wrapper.update();
-    expect(onChange).toHaveBeenCalledWith(
-      expect.objectContaining({ data: { foo: 2.72 } })
-    );
+    expect(onChange).toHaveBeenCalledWith(expect.objectContaining({ data: { foo: 2.72 } }));
   });
 
   test('update via action', () => {

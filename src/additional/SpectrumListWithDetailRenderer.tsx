@@ -36,10 +36,7 @@ import {
   rankWith,
   uiTypeIs,
 } from '@jsonforms/core';
-import {
-  JsonFormsDispatch,
-  withJsonFormsArrayLayoutProps,
-} from '@jsonforms/react';
+import { JsonFormsDispatch, withJsonFormsArrayLayoutProps } from '@jsonforms/react';
 import React, { useCallback, useState } from 'react';
 import ListWithDetailMasterItem from './ListWithDetailMasterItem';
 import merge from 'lodash/merge';
@@ -149,9 +146,6 @@ export const SpectrumListWithDetailRenderer = React.memo(
   }
 );
 
-export const SpectrumListWithDetailTester: RankedTester = rankWith(
-  4,
-  uiTypeIs('ListWithDetail')
-);
+export const SpectrumListWithDetailTester: RankedTester = rankWith(4, uiTypeIs('ListWithDetail'));
 
 export default withJsonFormsArrayLayoutProps(SpectrumListWithDetailRenderer);

@@ -58,9 +58,7 @@ const fixture = {
   uischema: controlElement,
 };
 
-const cells = [
-  { tester: SpectrumTextAreaCellTester, cell: SpectrumTextAreaCell },
-];
+const cells = [{ tester: SpectrumTextAreaCellTester, cell: SpectrumTextAreaCell }];
 
 describe('Text area cell', () => {
   let wrapper: ReactWrapper;
@@ -187,9 +185,7 @@ describe('Text area cell', () => {
       />
     );
     console.log(wrapper.html());
-    const textarea = wrapper
-      .find('textarea')
-      .getDOMNode() as HTMLTextAreaElement;
+    const textarea = wrapper.find('textarea').getDOMNode() as HTMLTextAreaElement;
     expect(textarea.value).toBe('Foo');
   });
 
@@ -208,9 +204,7 @@ describe('Text area cell', () => {
 
     const textarea = wrapper.find('textarea');
     textarea.simulate('change', { target: { value: 'Bar' } });
-    expect(onChange).toHaveBeenCalledWith(
-      expect.objectContaining({ data: { name: 'Bar' } })
-    );
+    expect(onChange).toHaveBeenCalledWith(expect.objectContaining({ data: { name: 'Bar' } }));
   });
 
   test('update via action', () => {
@@ -225,9 +219,7 @@ describe('Text area cell', () => {
     );
     wrapper.setProps({ data: { ...fixture.data, name: 'Bar' } });
     wrapper.update();
-    const textarea = wrapper
-      .find('textarea')
-      .getDOMNode() as HTMLTextAreaElement;
+    const textarea = wrapper.find('textarea').getDOMNode() as HTMLTextAreaElement;
     expect(textarea.value).toBe('Bar');
   });
 
@@ -241,9 +233,7 @@ describe('Text area cell', () => {
         cells={cells}
       />
     );
-    const textArea = wrapper
-      .find('textarea')
-      .getDOMNode() as HTMLTextAreaElement;
+    const textArea = wrapper.find('textarea').getDOMNode() as HTMLTextAreaElement;
     wrapper.setProps({ data: { ...fixture.data, name: undefined } });
     wrapper.update();
     expect(textArea.value).toBe('');
@@ -261,9 +251,7 @@ describe('Text area cell', () => {
     );
     wrapper.setProps({ data: { ...fixture.data, name: null } });
     wrapper.update();
-    const textArea = wrapper
-      .find('textarea')
-      .getDOMNode() as HTMLTextAreaElement;
+    const textArea = wrapper.find('textarea').getDOMNode() as HTMLTextAreaElement;
     expect(textArea.value).toBe('');
   });
 
@@ -279,9 +267,7 @@ describe('Text area cell', () => {
     );
     wrapper.setProps({ data: { ...fixture.data, firstname: 'Bar' } });
     wrapper.update();
-    const textArea = wrapper
-      .find('textarea')
-      .getDOMNode() as HTMLTextAreaElement;
+    const textArea = wrapper.find('textarea').getDOMNode() as HTMLTextAreaElement;
     expect(textArea.value).toBe('Foo');
   });
 
@@ -302,9 +288,7 @@ describe('Text area cell', () => {
         cells={cells}
       />
     );
-    const textArea = wrapper
-      .find('textarea')
-      .getDOMNode() as HTMLTextAreaElement;
+    const textArea = wrapper.find('textarea').getDOMNode() as HTMLTextAreaElement;
     expect(textArea.disabled).toBe(true);
   });
 
@@ -318,9 +302,7 @@ describe('Text area cell', () => {
         cells={cells}
       />
     );
-    const textArea = wrapper
-      .find('textarea')
-      .getDOMNode() as HTMLTextAreaElement;
+    const textArea = wrapper.find('textarea').getDOMNode() as HTMLTextAreaElement;
     expect(textArea.disabled).toBe(false);
   });
 });
@@ -332,10 +314,7 @@ describe('Text area cell tester', () => {
     expect(SpectrumTextAreaCellTester({ type: 'Foo' }, undefined)).toBe(-1);
     expect(SpectrumTextAreaCellTester({ type: 'Control' }, undefined)).toBe(-1);
     expect(
-      SpectrumTextAreaCellTester(
-        { type: 'Control', options: { multi: true } },
-        undefined
-      )
+      SpectrumTextAreaCellTester({ type: 'Control', options: { multi: true } }, undefined)
     ).toBe(2);
   });
 });

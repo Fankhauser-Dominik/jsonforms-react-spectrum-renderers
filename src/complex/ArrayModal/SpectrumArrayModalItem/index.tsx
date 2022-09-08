@@ -35,9 +35,7 @@ export interface OwnPropsOfSpectrumArrayModalItem {
   childData?: any;
   rowIndex?: number;
   moveUpCreator?: ((path: string, position: number) => () => void) | undefined;
-  moveDownCreator?:
-    | ((path: string, position: number) => () => void)
-    | undefined;
+  moveDownCreator?: ((path: string, position: number) => () => void) | undefined;
   callbackFunction: any;
 }
 
@@ -52,29 +50,22 @@ export const mapStateToSpectrumArrayModalItemProps = (
   ownProps: OwnPropsOfSpectrumArrayModalItem
 ): OwnPropsOfSpectrumArrayModalItem => {
   const { schema, path, index, uischema } = ownProps;
-  const firstPrimitiveProp = schema.properties
-    ? Object.keys(schema.properties).find((propName) => {
-        if (schema.properties) {
-          const prop = schema.properties[propName];
-          return (
-            prop.type === 'string' ||
-            prop.type === 'number' ||
-            prop.type === 'integer'
-          );
+  const firstPrimitiveProp = schema?.properties
+    ? Object.keys(schema?.properties).find((propName) => {
+        if (schema?.properties) {
+          const prop = schema?.properties[propName];
+          return prop.type === 'string' || prop.type === 'number' || prop.type === 'integer';
         }
       })
     : undefined;
   const childPath = composePaths(path, `${index}`);
   const childData = Resolve.data(getData(state), childPath);
   const childLabel =
-    uischema.options?.elementLabelProp ??
-    firstPrimitiveProp ??
-    uischema.options?.childDataAsLabel
+    uischema.options?.elementLabelProp ?? firstPrimitiveProp ?? uischema.options?.childDataAsLabel
       ? childData
       : undefined ?? typeof uischema.options?.DataAsLabel === 'number'
       ? Object.values(childData)[uischema.options?.DataAsLabel]
-      : findValue(childData, uischema.options?.DataAsLabel) ??
-        `Item ${index + 1}`;
+      : findValue(childData, uischema.options?.DataAsLabel) ?? `Item ${index + 1}`;
 
   return {
     ...ownProps,
@@ -92,11 +83,7 @@ const withContextToSpectrumArrayModalItemProps =
   (
     Component: ComponentType<OwnPropsOfSpectrumArrayModalItem>
   ): ComponentType<OwnPropsOfSpectrumArrayModalItem> =>
-  ({
-    ctx,
-    props,
-    DNDHandle,
-  }: JsonFormsStateContext & OwnPropsOfSpectrumArrayModalItem) => {
+  ({ ctx, props, DNDHandle }: JsonFormsStateContext & OwnPropsOfSpectrumArrayModalItem) => {
     const stateProps = ctxToSpectrumArrayModalItemProps(ctx, props);
     return <Component {...stateProps} {...DNDHandle} />;
   };

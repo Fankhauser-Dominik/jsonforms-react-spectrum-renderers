@@ -27,13 +27,7 @@
 */
 import { isEmpty } from '../util/isEmpty';
 import React from 'react';
-import {
-  GroupLayout,
-  RankedTester,
-  rankWith,
-  RendererProps,
-  uiTypeIs,
-} from '@jsonforms/core';
+import { GroupLayout, RankedTester, rankWith, RendererProps, uiTypeIs } from '@jsonforms/core';
 import { withJsonFormsLayoutProps } from '@jsonforms/react';
 import { Content, Divider, Heading, View } from '@adobe/react-spectrum';
 import { renderChildren } from './util';
@@ -44,14 +38,15 @@ import SpectrumProvider from '../additional/SpectrumProvider';
  *
  * @type {RankedTester}
  */
-export const SpectrumGroupLayoutTester: RankedTester = rankWith(
-  1,
-  uiTypeIs('Group')
-);
+export const SpectrumGroupLayoutTester: RankedTester = rankWith(1, uiTypeIs('Group'));
 
-export const SpectrumGroupLayoutRenderer: React.FunctionComponent<
-  RendererProps
-> = ({ schema, uischema, path, visible, enabled }: RendererProps) => {
+export const SpectrumGroupLayoutRenderer: React.FunctionComponent<RendererProps> = ({
+  schema,
+  uischema,
+  path,
+  visible,
+  enabled,
+}: RendererProps) => {
   const group = uischema as GroupLayout;
 
   return (

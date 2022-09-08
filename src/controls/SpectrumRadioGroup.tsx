@@ -23,22 +23,11 @@ import { ControlProps, OwnPropsOfEnum } from '@jsonforms/core';
 import { View, RadioGroup, Radio } from '@adobe/react-spectrum';
 
 export const SpectrumRadioGroup = (props: ControlProps & OwnPropsOfEnum) => {
-  const {
-    config,
-    handleChange,
-    label,
-    options,
-    path,
-    required,
-    uischema,
-    visible,
-  } = props;
+  const { config, handleChange, label, options, path, required, uischema, visible } = props;
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
   return (
-    <View
-      isHidden={visible === undefined || visible === null ? false : !visible}
-    >
+    <View isHidden={visible === undefined || visible === null ? false : !visible}>
       {options && (
         <RadioGroup
           aria-label={'radiogroup' + props.data}

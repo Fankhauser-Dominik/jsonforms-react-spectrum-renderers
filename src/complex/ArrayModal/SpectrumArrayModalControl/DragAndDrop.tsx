@@ -41,9 +41,7 @@ export default function DragAndDrop({
     return null;
   }
   const [RefKey, setRefKey] = React.useState(0);
-  const order = React.useRef(
-    Array.from(Array(data))?.map((data: any, _: any) => data)
-  );
+  const order = React.useRef(Array.from(Array(data))?.map((data: any, _: any) => data));
   const HEIGHT_OF_COMPONENT = 88;
   const fn =
     (
@@ -61,13 +59,10 @@ export default function DragAndDrop({
             zIndex: 50,
             shadow: 15,
             immediate: (key: string) => key === 'zIndex',
-            config: (key: string) =>
-              key === 'y' ? config.stiff : config.default,
+            config: (key: string) => (key === 'y' ? config.stiff : config.default),
           }
         : {
-            y:
-              stringified(order).indexOf(JSON.stringify(data[index])) *
-              HEIGHT_OF_COMPONENT,
+            y: stringified(order).indexOf(JSON.stringify(data[index])) * HEIGHT_OF_COMPONENT,
             scale: 1,
             zIndex: 20,
             shadow: 1,
@@ -77,52 +72,40 @@ export default function DragAndDrop({
   const DragHandleRef: any = useSpringRef();
 
   const [grabbedIndex, setGrabbedIndex]: any = React.useState(undefined);
-  const bind: any = useDrag(
-    ({ args: [originalIndex], active, movement: [, y] }) => {
-      if (grabbedIndex !== null) {
-        const curRow = clamp(
-          Math.round(
-            (grabbedIndex * HEIGHT_OF_COMPONENT + y) / HEIGHT_OF_COMPONENT
-          ),
-          0,
-          data?.length - 1
-        );
-        const newOrder = swap(
-          order.current[0],
-          stringified(order.current[0]).indexOf(
-            JSON.stringify(order.current[0][grabbedIndex])
-          ),
-          stringified(order.current[0]).indexOf(
-            JSON.stringify(order.current[0][curRow])
-          )
-        );
-        api.start(fn(newOrder, active, originalIndex, curRow, y)); // Feed springs new style data, they'll animate the view without causing a single render
+  const bind: any = useDrag(({ args: [originalIndex], active, movement: [, y] }) => {
+    if (grabbedIndex !== null) {
+      const curRow = clamp(
+        Math.round((grabbedIndex * HEIGHT_OF_COMPONENT + y) / HEIGHT_OF_COMPONENT),
+        0,
+        data?.length - 1
+      );
+      const newOrder = swap(
+        order.current[0],
+        stringified(order.current[0]).indexOf(JSON.stringify(order.current[0][grabbedIndex])),
+        stringified(order.current[0]).indexOf(JSON.stringify(order.current[0][curRow]))
+      );
+      api.start(fn(newOrder, active, originalIndex, curRow, y)); // Feed springs new style data, they'll animate the view without causing a single render
 
-        if (
-          stringified(order.current[0]).indexOf(
-            JSON.stringify(order.current[0][grabbedIndex])
-          ) ===
-            stringified(order.current[0]).indexOf(
-              JSON.stringify(order.current[0][curRow])
-            ) ||
-          data === newOrder
-        ) {
-          return;
-        }
+      if (
+        stringified(order.current[0]).indexOf(JSON.stringify(order.current[0][grabbedIndex])) ===
+          stringified(order.current[0]).indexOf(JSON.stringify(order.current[0][curRow])) ||
+        data === newOrder
+      ) {
+        return;
+      }
 
-        if (!active) {
-          order.current[0] = newOrder;
-          setGrabbedIndex(null);
-          data.splice(0, data?.length);
-          data.push(...newOrder);
-          callbackFunction(Math.random());
+      if (!active) {
+        order.current[0] = newOrder;
+        setGrabbedIndex(null);
+        data.splice(0, data?.length);
+        data.push(...newOrder);
+        callbackFunction(Math.random());
 
-          api.start(fn(newOrder, active, originalIndex, curRow, y));
-          setRefKey(RefKey + 1);
-        }
+        api.start(fn(newOrder, active, originalIndex, curRow, y));
+        setRefKey(RefKey + 1);
       }
     }
-  );
+  });
 
   const duplicateContent = (index: number) => {
     data.push(data[index]);
@@ -147,9 +130,7 @@ export default function DragAndDrop({
           key={`${index}_${RefKey}`}
           style={{
             zIndex,
-            boxShadow: shadow.to(
-              (s) => `rgba(0, 0, 0, 0.15) 0px ${s}px ${2 * s}px 0px`
-            ),
+            boxShadow: shadow.to((s) => `rgba(0, 0, 0, 0.15) 0px ${s}px ${2 * s}px 0px`),
             y,
             scale,
             width: '100%',

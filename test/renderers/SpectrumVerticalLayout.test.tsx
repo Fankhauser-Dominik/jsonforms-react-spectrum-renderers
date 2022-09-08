@@ -25,12 +25,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import {
-  RuleEffect,
-  SchemaBasedCondition,
-  UISchemaElement,
-  VerticalLayout,
-} from '@jsonforms/core';
+import { RuleEffect, SchemaBasedCondition, UISchemaElement, VerticalLayout } from '@jsonforms/core';
 import '@testing-library/jest-dom';
 import { SpectrumVerticalLayoutTester } from '../../src/layouts/SpectrumVerticalLayout';
 import { renderForm } from '../util';
@@ -39,9 +34,7 @@ test('tester', () => {
   expect(SpectrumVerticalLayoutTester(undefined, undefined)).toBe(-1);
   expect(SpectrumVerticalLayoutTester(null, undefined)).toBe(-1);
   expect(SpectrumVerticalLayoutTester({ type: 'Foo' }, undefined)).toBe(-1);
-  expect(
-    SpectrumVerticalLayoutTester({ type: 'VerticalLayout' }, undefined)
-  ).toBe(1);
+  expect(SpectrumVerticalLayoutTester({ type: 'VerticalLayout' }, undefined)).toBe(1);
 });
 
 describe('Vertical layout', () => {
@@ -96,24 +89,15 @@ describe('Vertical layout', () => {
   });
 
   test('render with children', () => {
-    const { container } = renderForm(
-      fixture.uischema,
-      fixture.schema,
-      fixture.data
-    );
+    const { container } = renderForm(fixture.uischema, fixture.schema, fixture.data);
 
     expect(container.querySelectorAll('input')).toHaveLength(2);
   });
 
   test('visible by default', () => {
-    const { container } = renderForm(
-      fixture.uischema,
-      fixture.schema,
-      fixture.data
-    );
+    const { container } = renderForm(fixture.uischema, fixture.schema, fixture.data);
 
-    const element = container.firstElementChild
-      .firstElementChild as HTMLElement;
+    const element = container.firstElementChild.firstElementChild as HTMLElement;
     expect(element.style.display).not.toBe('none');
   });
 
@@ -133,17 +117,12 @@ describe('Vertical layout', () => {
     };
     const { container } = renderForm(uischema, fixture.schema, fixture.data);
 
-    const element = container.firstElementChild
-      .firstElementChild as HTMLElement;
+    const element = container.firstElementChild.firstElementChild as HTMLElement;
     expect(element.style.display).toBe('');
   });
 
   test('enabled by default', () => {
-    const { container } = renderForm(
-      fixture.uischema,
-      fixture.schema,
-      fixture.data
-    );
+    const { container } = renderForm(fixture.uischema, fixture.schema, fixture.data);
 
     expect(container.querySelector('input').disabled).toBeFalsy();
   });

@@ -52,10 +52,7 @@ declare global {
   }
 }
 
-import {
-  defaultTheme,
-  Provider as SpectrumThemeProvider,
-} from '@adobe/react-spectrum';
+import { defaultTheme, Provider as SpectrumThemeProvider } from '@adobe/react-spectrum';
 
 const getExampleSchemas = () => {
   if (window.samples) {

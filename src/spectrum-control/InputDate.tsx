@@ -48,9 +48,7 @@ export const InputDate = React.memo(
   }: CellProps & SpectrumInputProps) => {
     const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
-    const width: DimensionValue | undefined = appliedUiSchemaOptions.trim
-      ? undefined
-      : '100%';
+    const width: DimensionValue | undefined = appliedUiSchemaOptions.trim ? undefined : '100%';
 
     let maxValue = appliedUiSchemaOptions.maxValue;
     let minValue = appliedUiSchemaOptions.minValue;
@@ -92,9 +90,7 @@ export const InputDate = React.memo(
             id={id}
             isDisabled={enabled === undefined ? false : !enabled}
             isQuiet={appliedUiSchemaOptions.isQuiet ?? false}
-            isReadOnly={
-              appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false
-            }
+            isReadOnly={appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false}
             isRequired={required}
             label={label}
             labelAlign={appliedUiSchemaOptions.labelAlign ?? null}
@@ -102,15 +98,9 @@ export const InputDate = React.memo(
             maxValue={getMinMaxValue(maxValue)}
             maxVisibleMonths={appliedUiSchemaOptions.maxVisibleMonths ?? 1}
             minValue={getMinMaxValue(minValue)}
-            necessityIndicator={
-              appliedUiSchemaOptions.necessityIndicator ?? null
-            }
-            onChange={(datetime: any) =>
-              handleChange(path, datetime ? datetime?.toString() : '')
-            }
-            showFormatHelpText={
-              appliedUiSchemaOptions.showFormatHelpText ?? false
-            }
+            necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
+            onChange={(datetime: any) => handleChange(path, datetime ? datetime?.toString() : '')}
+            showFormatHelpText={appliedUiSchemaOptions.showFormatHelpText ?? false}
             width={width}
             value={data ? parseDate(data) : undefined}
           />

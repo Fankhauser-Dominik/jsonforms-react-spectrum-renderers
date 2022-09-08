@@ -29,9 +29,5 @@ import { createThemeSelection, getPreferredTheme } from './theme.switcher';
 import { SpectrumCells, SpectrumRenderers } from '../src/index';
 import { renderExample } from './index';
 
-const rerender = renderExample(
-  SpectrumRenderers,
-  SpectrumCells,
-  getPreferredTheme()
-);
+const rerender = renderExample(SpectrumRenderers, SpectrumCells, getPreferredTheme());
 createThemeSelection(rerender);

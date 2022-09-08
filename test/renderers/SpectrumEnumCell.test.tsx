@@ -26,23 +26,14 @@
   THE SOFTWARE.
 */
 import * as React from 'react';
-import {
-  ControlElement,
-  RuleEffect,
-  SchemaBasedCondition,
-} from '@jsonforms/core';
+import { ControlElement, RuleEffect, SchemaBasedCondition } from '@jsonforms/core';
 import Adapter from '@cfaester/enzyme-adapter-react-18';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
-import EnumCell, {
-  SpectrumEnumCellTester,
-} from '../../src/src/cells/SpectrumEnumCell';
+import EnumCell, { SpectrumEnumCellTester } from '../../src/src/cells/SpectrumEnumCell';
 import { mountForm } from '../util';
 import { SpectrumRenderers } from '../../src/src';
 import { JsonForms } from '@jsonforms/react';
-import {
-  defaultTheme,
-  Provider as SpectrumThemeProvider,
-} from '@adobe/react-spectrum';
+import { defaultTheme, Provider as SpectrumThemeProvider } from '@adobe/react-spectrum';
 
 Enzyme.configure({ adapter: new Adapter() });
 

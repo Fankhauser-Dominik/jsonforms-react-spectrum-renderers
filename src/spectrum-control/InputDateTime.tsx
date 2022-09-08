@@ -53,9 +53,7 @@ export const InputDateTime = React.memo(
     uischema,
   }: CellProps & SpectrumInputProps) => {
     const appliedUiSchemaOptions = merge({}, config, uischema.options);
-    const width: DimensionValue | undefined = appliedUiSchemaOptions.trim
-      ? undefined
-      : '100%';
+    const width: DimensionValue | undefined = appliedUiSchemaOptions.trim ? undefined : '100%';
 
     const toISOString = (inputDateTime: string) => {
       if (!inputDateTime) {
@@ -116,9 +114,7 @@ export const InputDateTime = React.memo(
             id={id}
             isDisabled={enabled === undefined ? false : !enabled}
             isQuiet={appliedUiSchemaOptions.isQuiet ?? false}
-            isReadOnly={
-              appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false
-            }
+            isReadOnly={appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false}
             isRequired={required}
             label={label}
             labelAlign={appliedUiSchemaOptions.labelAlign ?? null}
@@ -126,21 +122,12 @@ export const InputDateTime = React.memo(
             maxValue={getMinMaxValue(maxValue)}
             maxVisibleMonths={appliedUiSchemaOptions.maxVisibleMonths ?? 1}
             minValue={getMinMaxValue(minValue)}
-            necessityIndicator={
-              appliedUiSchemaOptions.necessityIndicator ?? null
-            }
+            necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
             onChange={(datetime: any) =>
-              handleChange(
-                path,
-                datetime ? toISOString(datetime?.toString()) : ''
-              )
+              handleChange(path, datetime ? toISOString(datetime?.toString()) : '')
             }
-            showFormatHelpText={
-              appliedUiSchemaOptions.showFormatHelpText ?? false
-            }
-            value={
-              data ? parseAbsoluteToLocal(moment().format(data)) : undefined
-            }
+            showFormatHelpText={appliedUiSchemaOptions.showFormatHelpText ?? false}
+            value={data ? parseAbsoluteToLocal(moment().format(data)) : undefined}
             width={width}
           />
         </Provider>

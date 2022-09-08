@@ -25,12 +25,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import {
-  ControlProps,
-  isBooleanControl,
-  RankedTester,
-  rankWith,
-} from '@jsonforms/core';
+import { ControlProps, isBooleanControl, RankedTester, rankWith } from '@jsonforms/core';
 import { withJsonFormsControlProps } from '@jsonforms/react';
 import { InputCheckbox } from '../spectrum-control';
 import { SpectrumInputControl } from './SpectrumInputControl';
@@ -39,8 +34,5 @@ export const SpectrumCheckboxControl = (props: ControlProps) => (
   <SpectrumInputControl {...props} input={InputCheckbox} />
 );
 
-export const SpectrumCheckboxControlTester: RankedTester = rankWith(
-  2,
-  isBooleanControl
-);
+export const SpectrumCheckboxControlTester: RankedTester = rankWith(2, isBooleanControl);
 export default withJsonFormsControlProps(SpectrumCheckboxControl);

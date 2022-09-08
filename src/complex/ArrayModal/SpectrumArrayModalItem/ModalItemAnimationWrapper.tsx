@@ -23,8 +23,7 @@ export default function ModalItemAnimationWrapper({
 }: AnimationWrapperProps) {
   const [isBlackoutHovered, setIsBlackoutHovered] = React.useState(false);
   const jsonFormWrapper =
-    document.getElementById('json-form-wrapper') ||
-    document.getElementsByClassName('App-Form')[0];
+    document.getElementById('json-form-wrapper') || document.getElementsByClassName('App-Form')[0];
 
   const addToZIndex = path.split('.').length;
   const leftOffset = (addToZIndex - 2) * 2.5;
@@ -47,9 +46,7 @@ export default function ModalItemAnimationWrapper({
 
   return ReactDom.createPortal(
     <div
-      className={`animatedModalItem animatedModalWrapper ${
-        expanded ? 'expanded' : ''
-      }`}
+      className={`animatedModalItem animatedModalWrapper ${expanded ? 'expanded' : ''}`}
       style={{
         display: expanded || isAnimating ? 'block' : 'none',
       }}
@@ -79,9 +76,7 @@ export default function ModalItemAnimationWrapper({
           enableDetailedView
             ? {
                 opacity: darkenAnim.opacity,
-                display: darkenAnim.display.to((e) =>
-                  e > 0 ? 'block' : 'none'
-                ),
+                display: darkenAnim.display.to((e) => (e > 0 ? 'block' : 'none')),
                 zIndex: 8000 + addToZIndex,
                 cursor: expanded ? 'pointer' : 'default',
               }

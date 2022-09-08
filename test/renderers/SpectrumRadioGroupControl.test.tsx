@@ -25,12 +25,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import {
-  ControlElement,
-  isEnumControl,
-  JsonSchema,
-  rankWith,
-} from '@jsonforms/core';
+import { ControlElement, isEnumControl, JsonSchema, rankWith } from '@jsonforms/core';
 import * as _ from 'lodash';
 import Adapter from '@cfaester/enzyme-adapter-react-18';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
@@ -57,9 +52,7 @@ const fixture: { schema: JsonSchema; uischema: ControlElement; data: any } = {
   },
 };
 
-const renderers = [
-  { tester: rankWith(10, isEnumControl), renderer: SpectrumRadioGroupControl },
-];
+const renderers = [{ tester: rankWith(10, isEnumControl), renderer: SpectrumRadioGroupControl }];
 
 describe('Radio group control', () => {
   let wrapper: ReactWrapper;

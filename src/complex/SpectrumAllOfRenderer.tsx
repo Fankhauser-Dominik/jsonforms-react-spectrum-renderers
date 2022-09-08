@@ -47,11 +47,7 @@ const SpectrumAllOfRenderer = ({
   uischemas,
   uischema,
 }: StatePropsOfCombinator) => {
-  const delegateUISchema = findMatchingUISchema(uischemas)(
-    schema,
-    uischema.scope,
-    path
-  );
+  const delegateUISchema = findMatchingUISchema(uischemas)(schema, uischema.scope, path);
   if (delegateUISchema) {
     return (
       <View isHidden={!visible}>
@@ -95,8 +91,5 @@ const SpectrumAllOfRenderer = ({
   );
 };
 
-export const SpectrumAllOfRendererTester: RankedTester = rankWith(
-  4,
-  isAllOfControl
-);
+export const SpectrumAllOfRendererTester: RankedTester = rankWith(4, isAllOfControl);
 export default withJsonFormsAllOfProps(SpectrumAllOfRenderer);

@@ -57,10 +57,7 @@ button {
 
   border-left-color: var(
     --spectrum-alias-border-color-dark,
-    var(
-      --spectrum-global-color-dark,
-      var(--spectrum-semantic-dark-color-border)
-    )
+    var(--spectrum-global-color-dark, var(--spectrum-semantic-dark-color-border))
   );
   border-left-width: var(--spectrum-alias-border-size-thin);
   border-left-style: solid;
@@ -80,10 +77,7 @@ button {
   /* border values must be split like this, compiler breaks syntax */
   border-bottom-color: var(
     --spectrum-alias-border-color-dark,
-    var(
-      --spectrum-global-color-dark,
-      var(--spectrum-semantic-dark-color-border)
-    )
+    var(--spectrum-global-color-dark, var(--spectrum-semantic-dark-color-border))
   );
   border-bottom-width: var(--spectrum-alias-border-size-thin);
   border-bottom-style: solid;

@@ -25,12 +25,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import {
-  CellProps,
-  isRangeControl,
-  RankedTester,
-  rankWith,
-} from '@jsonforms/core';
+import { CellProps, isRangeControl, RankedTester, rankWith } from '@jsonforms/core';
 import { withJsonFormsCellProps } from '@jsonforms/react';
 import { InputSlider, SpectrumInputProps } from '../spectrum-control';
 
@@ -38,9 +33,6 @@ export const SpectrumSliderCell = (props: CellProps & SpectrumInputProps) => (
   <InputSlider {...props} />
 );
 
-export const SpectrumSliderCellTester: RankedTester = rankWith(
-  4,
-  isRangeControl
-);
+export const SpectrumSliderCellTester: RankedTester = rankWith(4, isRangeControl);
 
 export default withJsonFormsCellProps(SpectrumSliderCell);

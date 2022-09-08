@@ -46,9 +46,7 @@ export const InputRating = React.memo(
 
     const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
-    const width: DimensionValue | undefined = appliedUiSchemaOptions.trim
-      ? undefined
-      : '100%';
+    const width: DimensionValue | undefined = appliedUiSchemaOptions.trim ? undefined : '100%';
 
     let [selected, setSelected] = React.useState(data);
 
@@ -68,9 +66,7 @@ export const InputRating = React.memo(
         <RadioGroup
           id={id}
           isDisabled={enabled === undefined ? false : !enabled}
-          isReadOnly={
-            appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false
-          }
+          isReadOnly={appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false}
           isRequired={required}
           label={label}
           necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}

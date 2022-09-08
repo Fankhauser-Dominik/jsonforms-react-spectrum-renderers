@@ -51,19 +51,11 @@ import './ListDetailMasterItem.css';
 import settings from '../util/settings';
 
 const ListWithDetailMasterItem = React.memo(
-  ({
-    childLabel,
-    handleSelect,
-    index,
-    path,
-    removeItem,
-    selected,
-  }: StatePropsOfMasterItem) => {
+  ({ childLabel, handleSelect, index, path, removeItem, selected }: StatePropsOfMasterItem) => {
     const [deleteIndex, setdeleteIndex] = useState(0);
     const [open, setOpen] = useState(false);
     const handleClose = useCallback(() => setOpen(false), [setOpen]);
-    const itemLabel =
-      childLabel === '' || !childLabel ? `Item ${index + 1}` : childLabel;
+    const itemLabel = childLabel === '' || !childLabel ? `Item ${index + 1}` : childLabel;
 
     const setOpenAndsetDeleteIndex = (index: number) => {
       setOpen(true);
@@ -76,16 +68,8 @@ const ListWithDetailMasterItem = React.memo(
     };
     return (
       <SpectrumProvider>
-        <div
-          className='list-with-detail-master-item-row'
-          aria-selected={selected}
-        >
-          <Flex
-            direction='row'
-            margin='size-50'
-            justifyContent='space-between'
-            alignItems='center'
-          >
+        <div className='list-with-detail-master-item-row' aria-selected={selected}>
+          <Flex direction='row' margin='size-50' justifyContent='space-between' alignItems='center'>
             <View UNSAFE_className='list-with-detail-master-item-number'>
               <Text>{index + 1}</Text>
             </View>
@@ -95,9 +79,7 @@ const ListWithDetailMasterItem = React.memo(
               onPress={handleSelect(index)}
               aria-label={`select-item-${itemLabel}`}
             >
-              <Text UNSAFE_style={{ textAlign: 'left', maxWidth: '30ch' }}>
-                {itemLabel}
-              </Text>
+              <Text UNSAFE_style={{ textAlign: 'left', maxWidth: '30ch' }}>{itemLabel}</Text>
             </ActionButton>
             <View>
               <TooltipTrigger delay={settings.toolTipDelay}>
@@ -114,18 +96,12 @@ const ListWithDetailMasterItem = React.memo(
                   <Dialog>
                     <Heading>Delete Item?</Heading>
                     <Divider />
-                    <Content>
-                      Are you sure you wish to delete this item?
-                    </Content>
+                    <Content>Are you sure you wish to delete this item?</Content>
                     <ButtonGroup>
                       <Button variant='secondary' onPress={handleClose}>
                         Cancel
                       </Button>
-                      <Button
-                        variant='cta'
-                        onPress={() => deleteItem(path)}
-                        autoFocus
-                      >
+                      <Button variant='cta' onPress={() => deleteItem(path)} autoFocus>
                         Delete
                       </Button>
                     </ButtonGroup>

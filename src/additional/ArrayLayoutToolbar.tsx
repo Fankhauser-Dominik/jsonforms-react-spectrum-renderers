@@ -28,14 +28,7 @@
 */
 
 import React from 'react';
-import {
-  Button,
-  Flex,
-  Heading,
-  Tooltip,
-  TooltipTrigger,
-  View,
-} from '@adobe/react-spectrum';
+import { Button, Flex, Heading, Tooltip, TooltipTrigger, View } from '@adobe/react-spectrum';
 import Add from '@spectrum-icons/workflow/Add';
 import SpectrumProvider from './SpectrumProvider';
 import { ErrorIndicator } from '../components/ErrorIndicator';
@@ -48,13 +41,7 @@ export interface ArrayLayoutToolbarProps {
   createDefault(): any;
 }
 export const ArrayLayoutToolbar = React.memo(
-  ({
-    label,
-    errors,
-    addItem,
-    path,
-    createDefault,
-  }: ArrayLayoutToolbarProps) => {
+  ({ label, errors, addItem, path, createDefault }: ArrayLayoutToolbarProps) => {
     return (
       <SpectrumProvider>
         <Flex direction='row' alignItems='center'>
@@ -65,11 +52,7 @@ export const ArrayLayoutToolbar = React.memo(
           </View>
           <View>
             <TooltipTrigger delay={settings.toolTipDelay}>
-              <Button
-                aria-label='add'
-                onPress={addItem(path, createDefault())}
-                variant='primary'
-              >
+              <Button aria-label='add' onPress={addItem(path, createDefault())} variant='primary'>
                 <Add aria-label='Add' size='S' />
               </Button>
               <Tooltip>{`Add to ${label}`}</Tooltip>

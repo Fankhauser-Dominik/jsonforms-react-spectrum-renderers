@@ -28,11 +28,7 @@
 
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
-import {
-  ControlElement,
-  RuleEffect,
-  SchemaBasedCondition,
-} from '@jsonforms/core';
+import { ControlElement, RuleEffect, SchemaBasedCondition } from '@jsonforms/core';
 import { renderForm, triggerPress } from '../util';
 import { within } from '@testing-library/dom';
 
@@ -127,11 +123,7 @@ describe('Spectrum anyOf renderer', () => {
       scope: '#/properties/myThingsAndOrYourThings',
     };
 
-    const { container, getByRole, getAllByRole } = renderForm(
-      uischema,
-      schema,
-      {}
-    );
+    const { container, getByRole, getAllByRole } = renderForm(uischema, schema, {});
     await waitForAsync(); // TODO: how to do it with the testing-library...
 
     const tablist = getByRole('tablist');

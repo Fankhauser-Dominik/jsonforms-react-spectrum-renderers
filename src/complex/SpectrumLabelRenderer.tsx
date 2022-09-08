@@ -26,13 +26,7 @@
   THE SOFTWARE.
 */
 import React from 'react';
-import {
-  LabelElement,
-  RankedTester,
-  rankWith,
-  RendererProps,
-  uiTypeIs,
-} from '@jsonforms/core';
+import { LabelElement, RankedTester, rankWith, RendererProps, uiTypeIs } from '@jsonforms/core';
 import { withJsonFormsLayoutProps } from '@jsonforms/react';
 import { Text } from '@adobe/react-spectrum';
 
@@ -40,10 +34,7 @@ import { Text } from '@adobe/react-spectrum';
  * Default tester for a label.
  * @type {RankedTester}
  */
-export const SpectrumLabelRendererTester: RankedTester = rankWith(
-  1,
-  uiTypeIs('Label')
-);
+export const SpectrumLabelRendererTester: RankedTester = rankWith(1, uiTypeIs('Label'));
 
 /**
  * Default renderer for a label.
@@ -58,9 +49,7 @@ export const SpectrumLabelRenderer: React.FunctionComponent<RendererProps> = ({
 
   return (
     <Text isHidden={isHidden}>
-      {labelElement.text !== undefined &&
-        labelElement.text !== null &&
-        labelElement.text}
+      {labelElement.text !== undefined && labelElement.text !== null && labelElement.text}
     </Text>
   );
 };

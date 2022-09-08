@@ -61,9 +61,7 @@ export const InputControl = ({
     description: 'input-description',
   }; // TODO: remove when fully implemented with Spectrum
   const isValid = errors.length === 0;
-  const divClassNames = `validation  ${
-    isValid ? classNames.description : 'validation_error'
-  }`;
+  const divClassNames = `validation  ${isValid ? classNames.description : 'validation_error'}`;
 
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
   const showDescription = !isDescriptionHidden(
@@ -74,10 +72,7 @@ export const InputControl = ({
   );
 
   const cell = maxBy(cells, (r) => r.tester(uischema, schema, rootSchema));
-  if (
-    cell === undefined ||
-    cell.tester(uischema, schema, rootSchema) === NOT_APPLICABLE
-  ) {
+  if (cell === undefined || cell.tester(uischema, schema, rootSchema) === NOT_APPLICABLE) {
     console.warn('No applicable cell found.', uischema, schema);
     return null;
   } else {
@@ -90,16 +85,9 @@ export const InputControl = ({
         id={id}
       >
         <Flex direction='column'>
-          <DispatchCell
-            uischema={uischema}
-            schema={schema}
-            path={path}
-            id={id && `${id}-input`}
-          />
+          <DispatchCell uischema={uischema} schema={schema} path={path} id={id && `${id}-input`} />
           <div className={divClassNames}>
-            <Text>
-              {!isValid ? errors : showDescription ? description : null}
-            </Text>
+            <Text>{!isValid ? errors : showDescription ? description : null}</Text>
           </div>
         </Flex>
       </div>

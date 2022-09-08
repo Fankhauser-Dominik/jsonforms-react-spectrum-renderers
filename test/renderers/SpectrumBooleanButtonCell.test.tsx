@@ -56,20 +56,14 @@ const fixture = {
   uischema: control,
 };
 
-const cells = [
-  { tester: SpectrumBooleanButtonCellTester, cell: SpectrumBooleanCell },
-];
+const cells = [{ tester: SpectrumBooleanButtonCellTester, cell: SpectrumBooleanCell }];
 
 describe('Boolean cell tester', () => {
   test('tester', () => {
     expect(SpectrumBooleanButtonCellTester(undefined, undefined)).toBe(-1);
     expect(SpectrumBooleanButtonCellTester(null, undefined)).toBe(-1);
-    expect(SpectrumBooleanButtonCellTester({ type: 'Foo' }, undefined)).toBe(
-      -1
-    );
-    expect(
-      SpectrumBooleanButtonCellTester({ type: 'Control' }, undefined)
-    ).toBe(-1);
+    expect(SpectrumBooleanButtonCellTester({ type: 'Foo' }, undefined)).toBe(-1);
+    expect(SpectrumBooleanButtonCellTester({ type: 'Control' }, undefined)).toBe(-1);
   });
 
   test('tester with wrong prop type', () => {
@@ -276,9 +270,7 @@ describe('Boolean cell', () => {
     );
     const input = wrapper.find('input');
     input.simulate('change', { target: { checked: false } });
-    expect(onChange).toHaveBeenCalledWith(
-      expect.objectContaining({ data: { foo: false } })
-    );
+    expect(onChange).toHaveBeenCalledWith(expect.objectContaining({ data: { foo: false } }));
   });
 
   test('update via action', () => {

@@ -51,10 +51,7 @@ export default function ModalItemDelete({
           <Divider />
           <Content>Are you sure you wish to delete this item?</Content>
           <ButtonGroup>
-            <Button
-              variant='secondary'
-              onPress={() => setDeleteModalOpen(false)}
-            >
+            <Button variant='secondary' onPress={() => setDeleteModalOpen(false)}>
               Cancel
             </Button>
             <Button

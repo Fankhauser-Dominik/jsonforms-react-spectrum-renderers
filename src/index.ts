@@ -87,6 +87,8 @@ import {
   SpectrumTextAreaControlTester,
   SpectrumTextControl,
   SpectrumTextControlTester,
+  SpectrumTextAndButtonControl,
+  SpectrumTextAndButtonControlTester,
   SpectrumTimeControl,
   SpectrumTimeControlTester,
 } from './controls';
@@ -119,16 +121,15 @@ import {
 import {
   SpectrumGroupLayout,
   SpectrumGroupLayoutTester,
+  ContentFragmentReferenceWithDetailLayout,
+  ContentFragmentReferenceWithDetailLayoutTester,
   SpectrumHorizontalLayout,
   SpectrumHorizontalLayoutTester,
   SpectrumVerticalLayout,
   SpectrumVerticalLayoutTester,
 } from './layouts';
 
-import {
-  SpectrumListWithDetailRenderer,
-  SpectrumListWithDetailTester,
-} from './additional';
+import { SpectrumListWithDetailRenderer, SpectrumListWithDetailTester } from './additional';
 
 export * from './controls';
 export * from './complex';
@@ -170,6 +171,10 @@ export const SpectrumRenderers: { tester: RankedTester; renderer: any }[] = [
   { tester: SpectrumNumberControlTester, renderer: SpectrumNumberControl },
   { tester: SpectrumTextAreaControlTester, renderer: SpectrumTextAreaControl },
   { tester: SpectrumTextControlTester, renderer: SpectrumTextControl },
+  {
+    tester: SpectrumTextAndButtonControlTester,
+    renderer: SpectrumTextAndButtonControl,
+  },
   { tester: SpectrumTimeControlTester, renderer: SpectrumTimeControl },
   { tester: arrayControlTester, renderer: ArrayControl },
   {
@@ -215,6 +220,10 @@ export const SpectrumRenderers: { tester: RankedTester; renderer: any }[] = [
     renderer: SpectrumArrayControlGrid,
   },
   { tester: SpectrumGroupLayoutTester, renderer: SpectrumGroupLayout },
+  {
+    tester: ContentFragmentReferenceWithDetailLayoutTester,
+    renderer: ContentFragmentReferenceWithDetailLayout,
+  },
   { tester: SpectrumVerticalLayoutTester, renderer: SpectrumVerticalLayout },
   {
     tester: SpectrumHorizontalLayoutTester,

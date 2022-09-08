@@ -28,11 +28,7 @@
 
 import Enzyme, { ReactWrapper } from 'enzyme';
 import Adapter from '@cfaester/enzyme-adapter-react-18';
-import {
-  ControlElement,
-  RuleEffect,
-  SchemaBasedCondition,
-} from '@jsonforms/core';
+import { ControlElement, RuleEffect, SchemaBasedCondition } from '@jsonforms/core';
 import { mountForm } from '../util';
 import { Tabs, Dialog } from '@adobe/react-spectrum';
 import { SpectrumOneOfRenderer } from '../../src';
@@ -51,11 +47,7 @@ const clickAddButton = (wrapper: ReactWrapper, times: number) => {
   wrapper.update();
 };
 
-const selectOneOfTab = (
-  wrapper: ReactWrapper,
-  at: number,
-  expectConfim: boolean
-) => {
+const selectOneOfTab = (wrapper: ReactWrapper, at: number, expectConfim: boolean) => {
   // select oneOf
   const tabs = wrapper.find(Tabs);
   tabs.at(at).simulate('click'); // TODO: how to select Spectrum tab?
@@ -238,13 +230,7 @@ describe('Spectrum oneOf renderer', () => {
       scope: '#/properties/value',
     };
 
-    wrapper = mountForm(
-      uischema,
-      schema,
-      undefined,
-      undefined,
-      ({ data }) => (state = data)
-    );
+    wrapper = mountForm(uischema, schema, undefined, undefined, ({ data }) => (state = data));
 
     const input = wrapper.find('input').first();
     input.simulate('change', { target: { value: 'test' } });
@@ -348,13 +334,7 @@ describe('Spectrum oneOf renderer', () => {
       scope: '#/properties/thingOrThings',
     };
 
-    wrapper = mountForm(
-      uischema,
-      schema,
-      {},
-      undefined,
-      ({ data }) => (state = data)
-    );
+    wrapper = mountForm(uischema, schema, {}, undefined, ({ data }) => (state = data));
 
     await waitForAsync();
 
@@ -417,13 +397,7 @@ describe('Spectrum oneOf renderer', () => {
       scope: '#/properties/thingOrThings',
     };
 
-    wrapper = mountForm(
-      uischema,
-      schema,
-      {},
-      undefined,
-      ({ data }) => (state = data)
-    );
+    wrapper = mountForm(uischema, schema, {}, undefined, ({ data }) => (state = data));
 
     await waitForAsync();
 
@@ -507,9 +481,7 @@ describe('Spectrum oneOf renderer', () => {
     };
 
     wrapper = mountForm(uischema, schema);
-    const renderer = wrapper
-      .find(SpectrumOneOfRenderer)
-      .getDOMNode() as HTMLElement;
+    const renderer = wrapper.find(SpectrumOneOfRenderer).getDOMNode() as HTMLElement;
     expect(renderer.style.display).toBe('none');
   });
 });

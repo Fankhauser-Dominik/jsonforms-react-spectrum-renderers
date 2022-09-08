@@ -57,9 +57,7 @@ const fixture = {
   uischema: control,
 };
 
-const cells = [
-  { tester: SpectrumIntegerCellTester, cell: SpectrumIntegerCell },
-];
+const cells = [{ tester: SpectrumIntegerCellTester, cell: SpectrumIntegerCell }];
 
 describe('Integer cell tester', () => {
   test('tester', () => {
@@ -253,9 +251,7 @@ describe('Integer cell', () => {
     );
     const input = wrapper.find('input');
     input.simulate('change', { target: { value: '13' } });
-    expect(onChange).toHaveBeenCalledWith(
-      expect.objectContaining({ data: { foo: 13 } })
-    );
+    expect(onChange).toHaveBeenCalledWith(expect.objectContaining({ data: { foo: 13 } }));
   });
 
   test('update via action', () => {

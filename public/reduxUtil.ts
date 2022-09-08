@@ -69,17 +69,13 @@ const mapStateToProps = (state: any) => {
     extensionState,
   };
 };
-const mapDispatchToProps = (
-  dispatch: Dispatch<AnyAction>
-): ExampleDispatchProps => ({
+const mapDispatchToProps = (dispatch: Dispatch<AnyAction>): ExampleDispatchProps => ({
   changeExample: (example: ReactExampleDescription) => {
     dispatch(Actions.init(example.data, example.schema, example.uischema));
     dispatch(Actions.setConfig(example.config));
   },
   getComponent: (example: ReactExampleDescription) =>
-    example.customReactExtension
-      ? example.customReactExtension(dispatch)
-      : null,
+    example.customReactExtension ? example.customReactExtension(dispatch) : null,
   onChange: (example: ReactExampleDescription) =>
     example.onChange ? example.onChange(dispatch) : null,
 });
@@ -92,10 +88,7 @@ const initState: ExamplesState = {
   data: [],
 };
 
-export const exampleReducer = (
-  state: ExamplesState = initState,
-  action: any
-) => {
+export const exampleReducer = (state: ExamplesState = initState, action: any) => {
   switch (action.type) {
     case UPDATE_EXAMPLE_EXTENSION_STATE:
       return Object.assign({}, state, {

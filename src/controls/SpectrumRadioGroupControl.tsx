@@ -30,9 +30,7 @@ import {
 import { withJsonFormsEnumProps } from '@jsonforms/react';
 import { SpectrumRadioGroup } from './SpectrumRadioGroup';
 
-export const SpectrumRadioGroupControl = (
-  props: ControlProps & OwnPropsOfEnum
-) => {
+export const SpectrumRadioGroupControl = (props: ControlProps & OwnPropsOfEnum) => {
   return <SpectrumRadioGroup {...props} />;
 };
 

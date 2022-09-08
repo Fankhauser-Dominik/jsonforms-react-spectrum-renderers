@@ -47,9 +47,7 @@ export const InputTextArea = React.memo(
   }: CellProps & SpectrumInputProps) => {
     const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
-    const width: DimensionValue | undefined = appliedUiSchemaOptions.trim
-      ? undefined
-      : '100%';
+    const width: DimensionValue | undefined = appliedUiSchemaOptions.trim ? undefined : '100%';
 
     const [inputText, onChange] = useDebouncedChange(
       handleChange,
@@ -65,11 +63,7 @@ export const InputTextArea = React.memo(
         return true;
       } else if (!inputText) {
         return false;
-      } else if (
-        isValid &&
-        inputText.length >= minLength &&
-        inputText.length <= maxLength
-      ) {
+      } else if (isValid && inputText.length >= minLength && inputText.length <= maxLength) {
         return true;
       } else {
         return false;
@@ -123,9 +117,7 @@ export const InputTextArea = React.memo(
           inputMode={appliedUiSchemaOptions.inputMode ?? 'none'}
           isDisabled={enabled === undefined ? false : !enabled}
           isQuiet={appliedUiSchemaOptions.isQuiet ?? false}
-          isReadOnly={
-            appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false
-          }
+          isReadOnly={appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false}
           isRequired={required}
           label={label}
           labelAlign={appliedUiSchemaOptions.labelAlign ?? null}

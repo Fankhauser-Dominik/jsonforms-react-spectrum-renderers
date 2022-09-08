@@ -26,11 +26,7 @@
   THE SOFTWARE.
 */
 import React, { useCallback, useState, useEffect } from 'react';
-import {
-  ArrayControlProps,
-  OwnPropsOfControl,
-  createDefaultValue,
-} from '@jsonforms/core';
+import { ArrayControlProps, OwnPropsOfControl, createDefaultValue } from '@jsonforms/core';
 import { Button, Flex, Heading, Text, View } from '@adobe/react-spectrum';
 import SpectrumArrayModalItem from '../SpectrumArrayModalItem';
 import Add from '@spectrum-icons/workflow/Add';
@@ -81,10 +77,7 @@ export const SpectrumArrayModalControl = React.memo(
     );
 
     const handleOnConfirm = (handleClose: any, index: number) => {
-      setIndexOfFittingSchemaArray([
-        ...indexOfFittingSchemaArray,
-        Math.floor(index),
-      ]);
+      setIndexOfFittingSchemaArray([...indexOfFittingSchemaArray, Math.floor(index)]);
       if (schema.oneOf) {
         addItem(path, createDefaultValue(schema.oneOf[index]))();
       }

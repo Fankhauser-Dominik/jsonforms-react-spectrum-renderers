@@ -24,7 +24,7 @@
   "jsxSingleQuote": true,
   "packageManager": "npm",
   "prettierPath": "",
-  "printWidth": 80,
+  "printWidth": 100,
   "proseWrap": "preserve",
   "quoteProps": "as-needed",
   "requireConfig": false,

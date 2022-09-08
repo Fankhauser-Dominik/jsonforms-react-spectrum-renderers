@@ -54,11 +54,7 @@ import {
   findUISchema,
   getData,
 } from '@jsonforms/core';
-import {
-  JsonFormsStateContext,
-  JsonFormsDispatch,
-  withJsonFormsContext,
-} from '@jsonforms/react';
+import { JsonFormsStateContext, JsonFormsDispatch, withJsonFormsContext } from '@jsonforms/react';
 import areEqual from '../../util/areEqual';
 import Delete from '@spectrum-icons/workflow/Delete';
 import ChevronDown from '@spectrum-icons/workflow/ChevronDown';
@@ -107,19 +103,9 @@ const SpectrumArrayItem = ({
   childLabel = childLabel ?? `Item ${index + 1}`;
   return (
     <SpectrumProvider>
-      <View
-        borderWidth='thin'
-        borderColor='dark'
-        borderRadius='medium'
-        padding='size-250'
-      >
+      <View borderWidth='thin' borderColor='dark' borderRadius='medium' padding='size-250'>
         <View aria-selected={isExpanded}>
-          <Flex
-            direction='row'
-            margin='size-50'
-            justifyContent='space-between'
-            alignItems='center'
-          >
+          <Flex direction='row' margin='size-50' justifyContent='space-between' alignItems='center'>
             <View UNSAFE_className='spectrum-array-item-number'>
               <Text>{index + 1}</Text>
             </View>
@@ -160,9 +146,7 @@ const SpectrumArrayItem = ({
                   <Dialog>
                     <Heading>Delete Item?</Heading>
                     <Divider />
-                    <Content>
-                      Are you sure you wish to delete this item?
-                    </Content>
+                    <Content>Are you sure you wish to delete this item?</Content>
                     <ButtonGroup>
                       <Button variant='secondary' onPress={handleClose}>
                         Cancel
@@ -213,14 +197,8 @@ export const mapStateToSpectrumArrayItemProps = (
   const { schema, path, index, uischema } = ownProps;
   const firstPrimitiveProp = schema.properties
     ? Object.keys(schema.properties).find((propName) => {
-        const prop = schema?.properties
-          ? schema?.properties[propName]
-          : { type: 'string' };
-        return (
-          prop.type === 'string' ||
-          prop.type === 'number' ||
-          prop.type === 'integer'
-        );
+        const prop = schema?.properties ? schema?.properties[propName] : { type: 'string' };
+        return prop.type === 'string' || prop.type === 'number' || prop.type === 'integer';
       })
     : undefined;
   const childPath = composePaths(path, `${index}`);
@@ -258,10 +236,7 @@ export const withJsonFormsSpectrumArrayItemProps = (
     withContextToSpectrumArrayItemProps(
       React.memo(
         Component,
-        (
-          prevProps: OwnPropsOfSpectrumArrayItem,
-          nextProps: OwnPropsOfSpectrumArrayItem
-        ) => {
+        (prevProps: OwnPropsOfSpectrumArrayItem, nextProps: OwnPropsOfSpectrumArrayItem) => {
           const {
             handleExpand: prevHandleExpand,
             removeItem: prevRemoveItem,

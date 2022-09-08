@@ -40,17 +40,11 @@ import { ErrorIndicator } from '../../components/ErrorIndicator';
 import SpectrumProvider from '../../additional/SpectrumProvider';
 import settings from '../../util/settings';
 
-export function getUIOptions(
-  uischema: UISchemaElement,
-  defaultLabel: string
-): UIOptions {
+export function getUIOptions(uischema: UISchemaElement, defaultLabel: string): UIOptions {
   return {
-    addButtonPosition:
-      uischema.options?.addButtonPosition === 'bottom' ? 'bottom' : 'top',
-    addButtonLabel:
-      uischema.options?.addButtonLabel || `Add to ${defaultLabel}`,
-    addButtonLabelType:
-      uischema.options?.addButtonLabelType === 'inline' ? 'inline' : 'tooltip',
+    addButtonPosition: uischema.options?.addButtonPosition === 'bottom' ? 'bottom' : 'top',
+    addButtonLabel: uischema.options?.addButtonLabel || `Add to ${defaultLabel}`,
+    addButtonLabelType: uischema.options?.addButtonLabelType === 'inline' ? 'inline' : 'tooltip',
   };
 }
 
@@ -105,9 +99,7 @@ export function ArrayHeader(
             />
           ) : null}
         </View>
-        {props.addButtonPosition === 'top' && (
-          <AddButton {...props} onPress={props.add} />
-        )}
+        {props.addButtonPosition === 'top' && <AddButton {...props} onPress={props.add} />}
       </Flex>
     </Header>
   );
@@ -128,9 +120,7 @@ interface UIOptions {
 }
 
 export function getChildError(e: ErrorObject[], path: string) {
-  const childPropErrors = e.filter(
-    (localError) => localError.instancePath === path
-  );
+  const childPropErrors = e.filter((localError) => localError.instancePath === path);
 
   if (childPropErrors.length > 0) {
     // TODO: is it possible to have multiple errors on a property?

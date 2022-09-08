@@ -35,9 +35,7 @@ import {
 } from '@jsonforms/core';
 import Adapter from '@cfaester/enzyme-adapter-react-18';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
-import SpectrumTextCell, {
-  SpectrumTextCellTester,
-} from '../../src/cells/SpectrumTextCell';
+import SpectrumTextCell, { SpectrumTextCellTester } from '../../src/cells/SpectrumTextCell';
 import { SpectrumRenderers } from '../../src';
 import { JsonForms } from '@jsonforms/react';
 
@@ -201,9 +199,7 @@ describe('Text cell', () => {
     );
     const input = wrapper.find('input');
     input.simulate('change', { target: { value: 'Bar' } });
-    expect(onChange).toHaveBeenCalledWith(
-      expect.objectContaining({ data: { name: 'Bar' } })
-    );
+    expect(onChange).toHaveBeenCalledWith(expect.objectContaining({ data: { name: 'Bar' } }));
   });
 
   test('update via action', () => {

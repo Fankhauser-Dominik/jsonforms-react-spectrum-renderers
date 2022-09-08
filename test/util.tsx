@@ -35,10 +35,7 @@ import {
 } from '@jsonforms/core';
 import { JsonForms } from '@jsonforms/react';
 import { SpectrumRenderers } from '../src/index';
-import {
-  defaultTheme,
-  Provider as SpectrumThemeProvider,
-} from '@adobe/react-spectrum';
+import { defaultTheme, Provider as SpectrumThemeProvider } from '@adobe/react-spectrum';
 import { act } from 'react-dom/test-utils';
 import { render, RenderResult } from '@testing-library/react';
 import { fireEvent } from '@testing-library/react';
@@ -98,8 +95,7 @@ export function mountForm<T extends object>(
 
 export const simulateClick = (element: ReactWrapper) => {
   const clickHandler =
-    element.prop<Function | undefined>('onPress') ||
-    element.prop<Function | undefined>('onClick');
+    element.prop<Function | undefined>('onPress') || element.prop<Function | undefined>('onClick');
   if (clickHandler) {
     act(() => clickHandler());
   } else {

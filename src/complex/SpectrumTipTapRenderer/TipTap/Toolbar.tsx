@@ -9,23 +9,12 @@ import TextSuperscript from '@spectrum-icons/workflow/TextSuperscript';
 import TextSubscript from '@spectrum-icons/workflow/TextSubscript';
 import TagUnderline from '@spectrum-icons/workflow/TagUnderline';
 import TextStrikethrough from '@spectrum-icons/workflow/TextStrikethrough';
-import Code from '@spectrum-icons/workflow/Code';
-import ColorFill from '@spectrum-icons/workflow/ColorFill';
-import Link from '@spectrum-icons/workflow/Link';
-import Unlink from '@spectrum-icons/workflow/Unlink';
 import TextBulleted from '@spectrum-icons/workflow/TextBulleted';
 import TextNumbered from '@spectrum-icons/workflow/TextNumbered';
 import Undo from '@spectrum-icons/workflow/Undo';
 import Redo from '@spectrum-icons/workflow/Redo';
 
-import {
-  Divider,
-  Flex,
-  ToggleButton,
-  Tooltip,
-  TooltipTrigger,
-  View,
-} from '@adobe/react-spectrum';
+import { Flex, ToggleButton, Tooltip, TooltipTrigger, View } from '@adobe/react-spectrum';
 
 import settings from '../../../util/settings';
 import HeadingToolbarButtons from './toolbars/HeadingToolbarButtons';
@@ -39,7 +28,7 @@ const ProjectCreateContentToolbar = ({ editor }: { editor: Editor }) => {
       borderRadius='regular'
       UNSAFE_className='TipTapToolbar'
     >
-      <Flex gap='size-50' margin='size-100' wrap>
+      <Flex gap='size-25' margin='size-100' wrap>
         <HeadingToolbarButtons editor={editor} />
         <TooltipTrigger delay={settings.toolTipDelay}>
           <ToggleButton
@@ -81,7 +70,6 @@ const ProjectCreateContentToolbar = ({ editor }: { editor: Editor }) => {
           </ToggleButton>
           <Tooltip>Text Strikethrough</Tooltip>
         </TooltipTrigger>
-        <Divider orientation='vertical' size='M' />
         <TooltipTrigger delay={settings.toolTipDelay}>
           <ToggleButton
             onPress={() => editor.chain().focus().setTextAlign('left').run()}
@@ -122,7 +110,6 @@ const ProjectCreateContentToolbar = ({ editor }: { editor: Editor }) => {
           </ToggleButton>
           <Tooltip>Align justified</Tooltip>
         </TooltipTrigger>
-        <Divider orientation='vertical' size='M' />
         <TooltipTrigger delay={settings.toolTipDelay}>
           <ToggleButton
             onPress={() => editor.chain().focus().toggleSuperscript().run()}
@@ -145,90 +132,47 @@ const ProjectCreateContentToolbar = ({ editor }: { editor: Editor }) => {
         </TooltipTrigger>
         <TooltipTrigger delay={settings.toolTipDelay}>
           <ToggleButton
-            onPress={() => editor.chain().focus().toggleCode().run()}
-            aria-label='code'
-            isSelected={editor.isActive('code')}
+            onPress={() => editor.chain().focus().toggleBulletList().run()}
+            aria-label='bullettList'
+            isSelected={editor.isActive('bulletList')}
           >
-            <Code size='S' />
+            <TextBulleted size='S' />
           </ToggleButton>
-          <Tooltip>Code Area</Tooltip>
+          <Tooltip>Bullet List</Tooltip>
         </TooltipTrigger>
         <TooltipTrigger delay={settings.toolTipDelay}>
           <ToggleButton
-            onPress={() => editor.chain().focus().toggleHighlight().run()}
-            aria-label='highlight'
-            isSelected={editor.isActive('highlight')}
+            onPress={() => editor.chain().focus().toggleOrderedList().run()}
+            aria-label='orderedList'
+            isSelected={editor.isActive('orderedList')}
           >
-            <ColorFill size='S' />
+            <TextNumbered size='S' />
           </ToggleButton>
-          <Tooltip>Higlight</Tooltip>
+          <Tooltip>Ordered List</Tooltip>
         </TooltipTrigger>
         <TooltipTrigger delay={settings.toolTipDelay}>
           <ToggleButton
-            onPress={() => {
-              const previousUrl = editor.getAttributes('link').href;
-              const url = window.prompt('URL', previousUrl);
-
-              // cancelled
-              if (url === null) {
-                return;
-              }
-
-              // empty
-              if (url === '') {
-                editor
-                  .chain()
-                  .focus()
-                  .extendMarkRange('link')
-                  .unsetLink()
-                  .run();
-
-                return;
-              }
-
-              // update link
-              editor
-                .chain()
-                .focus()
-                .extendMarkRange('link')
-                .setLink({ href: url })
-                .run();
-            }}
-            isSelected={editor.isActive('link')}
-            aria-label='link'
+            onPress={() => editor.chain().focus().undo().run()}
+            aria-label='undo'
+            isSelected={false}
+            isDisabled={!editor.can().undo()}
           >
-            {editor.isActive('link') ? <Unlink size='S' /> : <Link size='S' />}
+            <Undo size='S' />
           </ToggleButton>
-          <Tooltip>URL</Tooltip>
+          <Tooltip>Undo</Tooltip>
         </TooltipTrigger>
-        <ToggleButton
-          onPress={() => editor.chain().focus().toggleBulletList().run()}
-          aria-label='bullettList'
-          isSelected={editor.isActive('bulletList')}
-        >
-          <TextBulleted size='S' />
-        </ToggleButton>
-        <ToggleButton
-          onPress={() => editor.chain().focus().toggleOrderedList().run()}
-          aria-label='orderedList'
-          isSelected={editor.isActive('orderedList')}
-        >
-          <TextNumbered size='S' />
-        </ToggleButton>
-        <Divider orientation='vertical' size='M' />
-
-        <ToggleButton
-          onPress={() => editor.chain().focus().undo().run()}
-          aria-label='undo'
-        >
-          <Undo size='S' />
-        </ToggleButton>
-        <ToggleButton
-          onPress={() => editor.chain().focus().redo().run()}
-          aria-label='redo'
-        >
-          <Redo size='S' />
-        </ToggleButton>
+        <TooltipTrigger delay={settings.toolTipDelay}>
+          <ToggleButton
+            onPress={() => editor.chain().focus().redo().run()}
+            aria-label='redo'
+            isSelected={false}
+            isDisabled={!editor.can().redo()}
+            UNSAFE_className='LastToolbarButton'
+          >
+            <Redo size='S' />
+          </ToggleButton>
+          <Tooltip>Redo</Tooltip>
+        </TooltipTrigger>
       </Flex>
     </View>
   );

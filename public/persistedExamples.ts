@@ -58,16 +58,10 @@ export function getExamplesFromLocalStorage(): ReactExampleDescription[] {
 
 export function setExampleInLocalStorage(example: ReactExampleDescription) {
   const examples = getExamplesFromLocalStorage();
-  const indexOfExample = examples.findIndex(
-    ({ name }) => example.name === name
-  );
+  const indexOfExample = examples.findIndex(({ name }) => example.name === name);
   const newExamples =
     indexOfExample === -1
       ? examples.concat(example)
-      : [
-          ...examples.slice(0, indexOfExample),
-          example,
-          ...examples.slice(indexOfExample + 1),
-        ];
+      : [...examples.slice(0, indexOfExample), example, ...examples.slice(indexOfExample + 1)];
   localStorage.setItem(key, JSON.stringify(newExamples));
 }

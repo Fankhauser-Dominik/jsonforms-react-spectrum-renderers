@@ -29,10 +29,7 @@ import React from 'react';
 import Adapter from '@cfaester/enzyme-adapter-react-18';
 import Enzyme, { mount, ReactWrapper } from 'enzyme';
 import { ControlElement } from '@jsonforms/core';
-import {
-  defaultTheme,
-  Provider as SpectrumThemeProvider,
-} from '@adobe/react-spectrum';
+import { defaultTheme, Provider as SpectrumThemeProvider } from '@adobe/react-spectrum';
 
 import SpectrumOneOfEnumControl, {
   SpectrumOneOfEnumControlTester,
@@ -79,9 +76,7 @@ test('tester', () => {
   expect(SpectrumOneOfEnumControlTester(undefined, undefined)).toBe(-1);
   expect(SpectrumOneOfEnumControlTester(null, undefined)).toBe(-1);
   expect(SpectrumOneOfEnumControlTester({ type: 'Foo' }, undefined)).toBe(-1);
-  expect(SpectrumOneOfEnumControlTester({ type: 'Control' }, undefined)).toBe(
-    -1
-  );
+  expect(SpectrumOneOfEnumControlTester({ type: 'Control' }, undefined)).toBe(-1);
 });
 
 test('tester with wrong prop type', () => {
@@ -108,9 +103,7 @@ test('tester with wrong prop type, but sibling has correct one', () => {
 });
 
 test('tester with matching string type', () => {
-  expect(SpectrumOneOfEnumControlTester(fixture.uischema, fixture.schema)).toBe(
-    5
-  );
+  expect(SpectrumOneOfEnumControlTester(fixture.uischema, fixture.schema)).toBe(5);
 });
 
 test('tester with matching numeric type', () => {

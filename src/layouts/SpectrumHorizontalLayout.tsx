@@ -26,13 +26,7 @@
   THE SOFTWARE.
 */
 import React from 'react';
-import {
-  HorizontalLayout,
-  RankedTester,
-  rankWith,
-  RendererProps,
-  uiTypeIs,
-} from '@jsonforms/core';
+import { HorizontalLayout, RankedTester, rankWith, RendererProps, uiTypeIs } from '@jsonforms/core';
 import { withJsonFormsLayoutProps } from '@jsonforms/react';
 import { StyleProps } from '@react-types/shared';
 import { SpectrumLayout } from './SpectrumLayout';
@@ -48,9 +42,13 @@ export const SpectrumHorizontalLayoutTester: RankedTester = rankWith(
   uiTypeIs('HorizontalLayout')
 );
 
-const SpectrumHorizontalLayoutRenderer: React.FunctionComponent<
-  RendererProps
-> = ({ schema, uischema, enabled, visible, path }: RendererProps) => {
+const SpectrumHorizontalLayoutRenderer: React.FunctionComponent<RendererProps> = ({
+  schema,
+  uischema,
+  enabled,
+  visible,
+  path,
+}: RendererProps) => {
   const horizontalLayout = uischema as HorizontalLayout;
   const spacing: number[] = horizontalLayout.options?.spacing ?? [];
   const direction = 'row';
@@ -70,13 +68,7 @@ const SpectrumHorizontalLayoutRenderer: React.FunctionComponent<
         uischema={uischema}
         schema={schema}
       >
-        {renderChildren(
-          horizontalLayout,
-          schema,
-          childrenStyles,
-          path,
-          enabled
-        )}
+        {renderChildren(horizontalLayout, schema, childrenStyles, path, enabled)}
       </SpectrumLayout>
     </SpectrumProvider>
   );

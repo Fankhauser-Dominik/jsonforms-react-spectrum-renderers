@@ -68,12 +68,7 @@ export default function ModalItemHeader({
 
   return (
     <View aria-selected={expanded} UNSAFE_className='array-item-header'>
-      <Flex
-        direction='row'
-        margin='size-50'
-        justifyContent='space-between'
-        alignItems='center'
-      >
+      <Flex direction='row' margin='size-50' justifyContent='space-between' alignItems='center'>
         <View UNSAFE_className='spectrum-array-item-number'>
           <Text>{index + 1}</Text>
         </View>
@@ -84,10 +79,7 @@ export default function ModalItemHeader({
             onPress={() => handleExpand()}
             aria-label={`expand-item-${childLabel}`}
           >
-            <Text
-              UNSAFE_className='spectrum-array-item-name'
-              UNSAFE_style={{ textAlign: 'left' }}
-            >
+            <Text UNSAFE_className='spectrum-array-item-name' UNSAFE_style={{ textAlign: 'left' }}>
               {childLabel}
             </Text>
           </ActionButton>
@@ -95,11 +87,7 @@ export default function ModalItemHeader({
         </TooltipTrigger>
         <View>
           <Flex gap={'size-0'}>
-            <ActionMenu
-              align='end'
-              onAction={actionMenuTriggered}
-              isQuiet={true}
-            >
+            <ActionMenu align='end' onAction={actionMenuTriggered} isQuiet={true}>
               <Item key='delete' textValue={`delete-item-${childLabel}`}>
                 <Text>Delete</Text>
                 <Delete size='S' />
@@ -149,11 +137,7 @@ export default function ModalItemHeader({
             </TooltipTrigger>
             {DNDHandle && !expanded && (
               <>
-                <Divider
-                  orientation='vertical'
-                  size='M'
-                  marginStart={'size-100'}
-                />
+                <Divider orientation='vertical' size='M' marginStart={'size-100'} />
                 {DNDHandle}
               </>
             )}

@@ -53,9 +53,7 @@ export const InputText = React.memo(
     const appliedUiSchemaOptions = merge({}, config, uischema.options);
     //const uuid = (prefix: string) => `${prefix}-${uuidv4()}`;
 
-    const width: DimensionValue | undefined = appliedUiSchemaOptions.trim
-      ? undefined
-      : '100%';
+    const width: DimensionValue | undefined = appliedUiSchemaOptions.trim ? undefined : '100%';
 
     const [inputText, onChange] = useDebouncedChange(
       handleChange,
@@ -71,11 +69,7 @@ export const InputText = React.memo(
         return true;
       } else if (!inputText) {
         return false;
-      } else if (
-        isValid &&
-        inputText.length >= minLength &&
-        inputText.length <= maxLength
-      ) {
+      } else if (isValid && inputText.length >= minLength && inputText.length <= maxLength) {
         return true;
       } else {
         return false;
@@ -124,15 +118,9 @@ export const InputText = React.memo(
     const fileBrowser = uischema.options?.fileBrowser;
     const idlePostMessage = uischema.options?.idlePostMessage;
     const fileBrowserOptions =
-      fileBrowser?.send?.message &&
-      fileBrowser?.receive?.message &&
-      fileBrowser?.receive?.type;
+      fileBrowser?.send?.message && fileBrowser?.receive?.message && fileBrowser?.receive?.type;
 
-    const sendMessage = (
-      message: any,
-      targetOrigin: string = '*',
-      transfer?: any
-    ) => {
+    const sendMessage = (message: any, targetOrigin: string = '*', transfer?: any) => {
       //var popUp = window.open(targetOrigin);
       window.postMessage(message, targetOrigin, transfer);
     };
@@ -177,9 +165,7 @@ export const InputText = React.memo(
             inputMode={appliedUiSchemaOptions.inputMode ?? 'none'}
             isDisabled={enabled === undefined ? false : !enabled}
             isQuiet={appliedUiSchemaOptions.isQuiet ?? false}
-            isReadOnly={
-              appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false
-            }
+            isReadOnly={appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false}
             isRequired={required}
             label={label}
             labelAlign={appliedUiSchemaOptions.labelAlign ?? null}
@@ -187,9 +173,7 @@ export const InputText = React.memo(
             maxLength={appliedUiSchemaOptions.maxLength ?? null}
             width={width}
             minLength={appliedUiSchemaOptions.minLength ?? null}
-            necessityIndicator={
-              appliedUiSchemaOptions.necessityIndicator ?? null
-            }
+            necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
             /* onBlur={() =>
               sendMessage(
                 idlePostMessage?.info
@@ -216,12 +200,10 @@ export const InputText = React.memo(
               }
               aria-label={fileBrowser?.buttonText ?? `Filebrowser`}
               UNSAFE_className='fileBrowserButton'
-              UNSAFE_style={
-                fileBrowser?.icon === false ? undefined : { paddingRight: 8 }
-              }
+              UNSAFE_style={fileBrowser?.icon === false ? undefined : { paddingRight: 8 }}
             >
-              {fileBrowser?.icon === false ? undefined : uischema.options
-                  ?.fileBrowser?.icon === 'url' ? (
+              {fileBrowser?.icon === false ? undefined : uischema.options?.fileBrowser?.icon ===
+                'url' ? (
                 <Link size='S' />
               ) : fileBrowser?.icon === 'asset' ? (
                 <Asset size='S' />
