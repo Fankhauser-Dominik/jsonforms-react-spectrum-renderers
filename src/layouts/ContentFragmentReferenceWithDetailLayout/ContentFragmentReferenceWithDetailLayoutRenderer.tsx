@@ -26,43 +26,24 @@
   THE SOFTWARE.
 */
 import React from 'react';
-import { ArrayControlProps, ControlElement, Helpers } from '@jsonforms/core';
+import { RendererProps, ControlElement, Helpers } from '@jsonforms/core';
 import { withJsonFormsArrayControlProps } from '@jsonforms/react';
 import { SpectrumContentFragmentReference } from './SpectrumContentFragmentReference';
 
 const ContentFragmentReferenceWithDetailLayoutRenderer = React.memo(
-  ({
-    addItem,
-    data,
-    enabled,
-    errors,
-    id,
-    path,
-    removeItems,
-    rootSchema,
-    schema,
-    uischema,
-    uischemas = [],
-    visible,
-  }: ArrayControlProps) => {
+  ({ data, enabled, path, schema, uischema, visible }: RendererProps) => {
     const controlElement = uischema as ControlElement;
     const labelDescription = Helpers.createLabelDescriptionFrom(controlElement, schema);
     const label = labelDescription.show ? labelDescription.text : undefined;
 
     return visible ? (
       <SpectrumContentFragmentReference
-        addItem={addItem}
         data={data}
         enabled={enabled}
-        errors={errors}
-        id={id}
         label={label ?? ''}
         path={path}
-        removeItems={removeItems}
-        rootSchema={rootSchema}
         schema={schema}
         uischema={uischema}
-        uischemas={uischemas}
         visible={visible}
       />
     ) : null;

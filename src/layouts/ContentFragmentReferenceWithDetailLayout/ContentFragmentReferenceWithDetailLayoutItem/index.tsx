@@ -1,5 +1,5 @@
 import React, { ComponentType } from 'react';
-import SpectrumArrayModalItem from './Component';
+import CFRWithDetailLayoutItem from './Component';
 import {
   ControlElement,
   JsonFormsRendererRegistryEntry,
@@ -29,9 +29,8 @@ export interface OwnPropsOfSpectrumArrayModalItem {
   childLabel: string;
   childData?: any;
   rowIndex?: number;
-  callbackFunction: any;
   elements: any;
-  group: any;
+  layout: any;
 }
 
 /**
@@ -102,4 +101,4 @@ export const withJsonFormsSpectrumArrayModalItemProps = (
     )
   );
 
-export default withJsonFormsSpectrumArrayModalItemProps(SpectrumArrayModalItem);
+export default withJsonFormsSpectrumArrayModalItemProps(CFRWithDetailLayoutItem);
