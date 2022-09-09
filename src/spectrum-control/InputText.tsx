@@ -52,7 +52,6 @@ export const InputText = React.memo(
   }: CellProps & SpectrumInputProps) => {
     const appliedUiSchemaOptions = merge({}, config, uischema.options);
     //const uuid = (prefix: string) => `${prefix}-${uuidv4()}`;
-    console.log('SCHEMA', schema);
 
     const width: DimensionValue | undefined = appliedUiSchemaOptions.trim ? undefined : '100%';
 
