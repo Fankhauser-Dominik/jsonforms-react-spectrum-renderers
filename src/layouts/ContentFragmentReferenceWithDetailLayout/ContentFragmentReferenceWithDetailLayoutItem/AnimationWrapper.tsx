@@ -9,7 +9,6 @@ interface AnimationWrapperProps {
   isAnimating: boolean;
   setIsAnimating: (isAnimating: boolean) => void;
   path: string;
-  children: React.ReactNode;
   Header: any;
   elements: any;
 }

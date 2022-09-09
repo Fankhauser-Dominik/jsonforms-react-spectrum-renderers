@@ -22,8 +22,6 @@
 */
 import React from 'react';
 import { View } from '@adobe/react-spectrum';
-import { composePaths, findUISchema } from '@jsonforms/core';
-import { JsonFormsDispatch } from '@jsonforms/react';
 import { OwnPropsOfSpectrumArrayModalItem } from '.';
 
 import ModalItemAnimatedWrapper from './AnimationWrapper';
@@ -40,15 +38,10 @@ const CFRWithDetailLayoutItem = React.memo(
     childLabel,
     path,
     removeItem,
-    renderers,
-    schema,
     uischema,
-    uischemas = [],
     elements,
     layout,
   }: OwnPropsOfSpectrumArrayModalItem) => {
-    const foundUISchema = findUISchema(uischemas, schema, uischema.scope, path);
-    const childPath = composePaths(path, `${index}`);
     const [expanded, setExpanded] = React.useState(false);
     const [isAnimating, setIsAnimating] = React.useState(false);
 
@@ -105,7 +98,6 @@ const CFRWithDetailLayoutItem = React.memo(
       window.postMessage({
         type: 'customPicker:open',
         open: true,
-        schema,
         current: {
           path,
           index,
@@ -155,20 +147,7 @@ const CFRWithDetailLayoutItem = React.memo(
             path={path}
             elements={elements[index]}
             Header={Header}
-          >
-            {expanded || isAnimating ? (
-              <View UNSAFE_className='json-form-dispatch-wrapper'>
-                {Header}
-                <JsonFormsDispatch
-                  key={childPath}
-                  path={childPath}
-                  renderers={renderers}
-                  schema={schema}
-                  uischema={foundUISchema || uischema}
-                />
-              </View>
-            ) : null}
-          </ModalItemAnimatedWrapper>
+          ></ModalItemAnimatedWrapper>
         </View>
       </SpectrumProvider>
     );

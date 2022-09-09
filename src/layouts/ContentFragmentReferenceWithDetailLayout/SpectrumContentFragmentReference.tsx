@@ -26,19 +26,17 @@
   THE SOFTWARE.
 */
 import React from 'react';
-import { RendererProps, Layout } from '@jsonforms/core';
+import { RendererProps } from '@jsonforms/core';
 import { Flex, Heading, Text, View } from '@adobe/react-spectrum';
 import CFRWithDetailLayoutItem from './ContentFragmentReferenceWithDetailLayoutItem';
-import { renderChildren } from '../util';
-
 export interface extendedLayoutRendererProps extends RendererProps {
   label: string;
+  elements: JSX.Element[];
+  layout: any;
 }
 
 export const SpectrumContentFragmentReference = React.memo(
-  ({ path, renderers, schema, uischema, enabled, label }: extendedLayoutRendererProps) => {
-    const layout = uischema as Layout;
-
+  ({ path, renderers, elements, layout, uischema, label }: extendedLayoutRendererProps) => {
     /* const handleCustomPickerMessage = (e: MessageEvent) => {
       console.log('handleCustomPickerMessage', e?.data);
       if (e?.data?.type === 'customPicker:return' && e?.data?.data) {
@@ -71,8 +69,6 @@ export const SpectrumContentFragmentReference = React.memo(
       };
     }, [data]); */
 
-    const elements = renderChildren(layout, schema, {}, path, enabled);
-
     return (
       <View id='json-form-array-wrapper'>
         <Flex direction='row' justifyContent='space-between'>
@@ -91,7 +87,6 @@ export const SpectrumContentFragmentReference = React.memo(
                     index={index}
                     path={path}
                     renderers={renderers}
-                    schema={schema}
                     uischema={uischema}
                     elements={elements}
                     layout={layout?.elements[index]}
