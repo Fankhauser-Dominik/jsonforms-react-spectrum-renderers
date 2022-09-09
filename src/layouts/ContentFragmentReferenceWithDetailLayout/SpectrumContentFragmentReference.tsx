@@ -25,41 +25,19 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React, { useCallback, useState, useEffect } from 'react';
-import { ArrayControlProps, GroupLayout } from '@jsonforms/core';
+import React from 'react';
+import { RendererProps } from '@jsonforms/core';
 import { Flex, Heading, Text, View } from '@adobe/react-spectrum';
-import SpectrumArrayModalItem from './ContentFragmentReferenceWithDetailLayoutItem';
-import { renderChildren } from '../util';
+import CFRWithDetailLayoutItem from './ContentFragmentReferenceWithDetailLayoutItem';
+export interface extendedLayoutRendererProps extends RendererProps {
+  label: string;
+  elements: JSX.Element[];
+  layout: any;
+}
 
 export const SpectrumContentFragmentReference = React.memo(
-  ({
-    data,
-    label,
-    path,
-    removeItems,
-    renderers,
-    schema,
-    uischema,
-    uischemas,
-    enabled,
-  }: ArrayControlProps) => {
-    const group = uischema as unknown as GroupLayout;
-    const handleRemoveItem = useCallback(
-      (path: string, value: any) => () => {
-        if (removeItems) {
-          removeItems(path, [value])();
-          setRefKey(Math.random());
-        }
-      },
-      [removeItems]
-    );
-
-    const [RefKey, setRefKey] = useState<number>(0);
-    const callbackFunction = (editorJSON: any) => {
-      setRefKey(editorJSON);
-    };
-
-    const handleCustomPickerMessage = (e: MessageEvent) => {
+  ({ path, renderers, elements, layout, uischema, label }: extendedLayoutRendererProps) => {
+    /* const handleCustomPickerMessage = (e: MessageEvent) => {
       console.log('handleCustomPickerMessage', e?.data);
       if (e?.data?.type === 'customPicker:return' && e?.data?.data) {
         console.log('handleCustomPickerMessage', e?.data?.data);
@@ -89,11 +67,7 @@ export const SpectrumContentFragmentReference = React.memo(
           window.removeEventListener('message', handleCustomPickerMessage);
         }
       };
-    }, [data]);
-
-    const elements = renderChildren(group, schema, {}, path, enabled);
-
-    console.log('Path:', path);
+    }, [data]); */
 
     return (
       <View id='json-form-array-wrapper'>
@@ -108,24 +82,15 @@ export const SpectrumContentFragmentReference = React.memo(
           {elements?.length ? (
             Array.from(Array(elements?.length)).map((_, index) => {
               return (
-                <Flex
-                  key={`${index}_${RefKey}`}
-                  direction='row'
-                  alignItems='stretch'
-                  flex='auto inherit'
-                >
-                  <SpectrumArrayModalItem
+                <Flex key={index} direction='row' alignItems='stretch' flex='auto inherit'>
+                  <CFRWithDetailLayoutItem
                     index={index}
                     path={path}
-                    removeItem={handleRemoveItem}
                     renderers={renderers}
-                    schema={schema}
                     uischema={uischema}
-                    uischemas={uischemas}
-                    callbackFunction={callbackFunction}
                     elements={elements}
-                    group={group?.elements[index]}
-                  ></SpectrumArrayModalItem>
+                    layout={layout?.elements[index]}
+                  ></CFRWithDetailLayoutItem>
                 </Flex>
               );
             })

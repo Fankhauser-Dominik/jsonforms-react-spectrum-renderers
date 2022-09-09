@@ -29,7 +29,7 @@ interface ArrayModalItemHeaderProps {
     enabled: boolean;
     handler: (current?: object) => void;
   };
-  group: any;
+  layout: any;
 }
 
 export default function ModalItemHeader({
@@ -40,7 +40,7 @@ export default function ModalItemHeader({
   removeItem,
   childLabel,
   customPicker,
-  group,
+  layout,
 }: ArrayModalItemHeaderProps) {
   const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
   const actionMenuTriggered = (action: any) => {
@@ -55,7 +55,7 @@ export default function ModalItemHeader({
     lookupObj[actionName]();
   };
 
-  childLabel = group?.label || childLabel;
+  childLabel = layout?.label || childLabel;
 
   return (
     <View aria-selected={expanded} UNSAFE_className='array-item-header'>
@@ -71,7 +71,7 @@ export default function ModalItemHeader({
               {childLabel}
             </Text>
           </ActionButton>
-          <Tooltip>{group?._path || childLabel}</Tooltip>
+          <Tooltip>{layout?._path || childLabel}</Tooltip>
         </TooltipTrigger>
         <View>
           <Flex gap={'size-0'}>

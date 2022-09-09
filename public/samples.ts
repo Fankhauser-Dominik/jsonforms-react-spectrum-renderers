@@ -1493,6 +1493,24 @@ samples.push({
           },
         ],
       },
+      {
+        type: 'VerticalLayout',
+        elements: [
+          {
+            type: 'Control',
+            scope: '#/properties/addressOrUsers',
+            options: {
+              DataAsLabel: 0,
+              modal: true,
+              OneOfModal: true,
+              showSortButtons: true,
+              sortButtonDirection: 'Vertical',
+              enableDetailedView: true,
+              DND: false,
+            },
+          },
+        ],
+      },
     ],
   },
   schema: {
@@ -1540,6 +1558,63 @@ samples.push({
         type: 'string',
         maxLength: 5,
       },
+
+      addressOrUsers: {
+        type: 'array',
+        items: {
+          oneOf: [
+            {
+              type: 'object',
+              title: 'Address',
+              properties: {
+                street_address: {
+                  type: 'string',
+                },
+                componentType: {
+                  type: 'string',
+                  default: 'Address',
+                  const: 'Address',
+                },
+                city: {
+                  type: 'string',
+                },
+                state: {
+                  type: 'string',
+                },
+                optional: {
+                  type: 'string',
+                },
+                indexOfFittingSchema: {
+                  type: 'integer',
+                  default: 0,
+                },
+              },
+              required: ['street_address', 'city', 'state', 'optional'],
+            },
+            {
+              type: 'object',
+              properties: {
+                componentType: {
+                  type: 'string',
+                  default: 'User',
+                  const: 'User',
+                },
+                name: {
+                  type: 'string',
+                },
+                mail: {
+                  type: 'string',
+                },
+                indexOfFittingSchema: {
+                  type: 'number',
+                  default: 1,
+                },
+              },
+              required: ['name', 'mail'],
+            },
+          ],
+        },
+      },
     },
     required: ['occupation', 'nationality'],
   },
@@ -1552,5 +1627,326 @@ samples.push({
       drivingSkill: 7,
     },
     postalCode: '12345',
+  },
+});
+
+samples.push({
+  name: 'spectrum-cfr-testarea',
+  label: 'ContentFragmentReferenceWithDetail TestArea',
+  uischema: {
+    type: 'ContentFragmentReferenceWithDetail',
+    label: 'Page Metadata Component',
+    elements: [
+      {
+        type: 'VerticalLayout',
+        label: 'Page Metadata',
+        elements: [
+          {
+            type: 'Control',
+            scope: '#/properties/_path',
+            rule: {
+              effect: 'HIDE',
+              condition: {},
+            },
+          },
+          {
+            type: 'Control',
+            scope: '#/properties/_model/properties/_path',
+            rule: {
+              effect: 'HIDE',
+              condition: {},
+            },
+          },
+          {
+            type: 'Control',
+            scope: '#/properties/_model/properties/title',
+            rule: {
+              effect: 'HIDE',
+              condition: {},
+            },
+          },
+          {
+            type: 'HorizontalLayout',
+            elements: [
+              {
+                type: 'Control',
+                scope: '#/properties/seoTitle',
+                label: 'SEO Title',
+              },
+              {
+                type: 'Control',
+                scope: '#/properties/seoType',
+                label: 'SEO Type',
+                options: {
+                  autocomplete: false,
+                },
+              },
+            ],
+          },
+          {
+            type: 'Control',
+            label: 'SEO Description',
+            scope: '#/properties/seoDescription/properties/html',
+            options: {
+              richText: true,
+            },
+          },
+          {
+            type: 'Control',
+            scope: '#/properties/seoImage/properties/_path',
+            label: 'SEO Image',
+            options: {
+              fileBrowser: {
+                icon: true,
+                buttonText: '',
+                send: {
+                  message: {
+                    type: 'fileBrowser',
+                    data: 'TestMessage',
+                    targetOrigin: '*',
+                  },
+                },
+                receive: {
+                  message: 'string',
+                  targetOrigin: 'string',
+                  type: 'fileBrowser',
+                  data: 'Test',
+                },
+              },
+            },
+          },
+        ],
+      },
+    ],
+  },
+  schema: {
+    type: 'object',
+    title: 'Page Metadata Component',
+    properties: {
+      _path: {
+        type: 'string',
+        default: '/content/dam/golfdigest-schools/content-fragments/marketing/test-folder/CFNAME',
+      },
+      _model: {
+        type: 'object',
+        readOnly: true,
+        properties: {
+          _path: {
+            type: 'string',
+            default: '/conf/golfdigest-schools/settings/dam/cfm/models/page-metadata-component',
+            const: '/conf/golfdigest-schools/settings/dam/cfm/models/page-metadata-component',
+          },
+          title: {
+            type: 'string',
+            default: 'Page Metadata Component',
+            const: 'Page Metadata Component',
+          },
+        },
+      },
+      _variations: {
+        type: 'array',
+        items: {
+          name: {
+            type: 'string',
+          },
+          value: {
+            type: 'string',
+          },
+        },
+      },
+      _metadata: {
+        type: 'object',
+        booleanArrayMetadata: {
+          type: 'array',
+          items: {
+            name: {
+              type: 'string',
+            },
+            value: {
+              type: 'string',
+            },
+          },
+        },
+        booleanMetadata: {
+          type: 'array',
+          items: {
+            name: {
+              type: 'string',
+            },
+            value: {
+              type: 'string',
+            },
+          },
+        },
+        calendarArrayMetadata: {
+          type: 'array',
+          items: {
+            name: {
+              type: 'string',
+            },
+            value: {
+              type: 'string',
+            },
+          },
+        },
+        calendarMetadata: {
+          type: 'array',
+          items: {
+            name: {
+              type: 'string',
+            },
+            value: {
+              type: 'string',
+            },
+          },
+        },
+        floatArrayMetadata: {
+          type: 'array',
+          items: {
+            name: {
+              type: 'string',
+            },
+            value: {
+              type: 'string',
+            },
+          },
+        },
+        floatMetadata: {
+          type: 'array',
+          items: {
+            name: {
+              type: 'string',
+            },
+            value: {
+              type: 'string',
+            },
+          },
+        },
+        intArrayMetadata: {
+          type: 'array',
+          items: {
+            name: {
+              type: 'string',
+            },
+            value: {
+              type: 'string',
+            },
+          },
+        },
+        intMetadata: {
+          type: 'array',
+          items: {
+            name: {
+              type: 'string',
+            },
+            value: {
+              type: 'string',
+            },
+          },
+        },
+        stringArrayMetadata: {
+          type: 'array',
+          items: {
+            name: {
+              type: 'string',
+            },
+            value: {
+              type: 'string',
+            },
+          },
+        },
+        stringMetadata: {
+          type: 'array',
+          items: {
+            name: {
+              type: 'string',
+            },
+            value: {
+              type: 'string',
+            },
+          },
+        },
+      },
+      seoTitle: {
+        title: 'SEO Title',
+        type: 'string',
+      },
+      seoDescription: {
+        type: 'object',
+        html: {
+          title: 'HTML',
+          type: 'string',
+        },
+        json: {
+          title: 'JSON',
+          type: 'string',
+        },
+        plaintext: {
+          title: 'Plain Text',
+          type: 'string',
+        },
+        markdown: {
+          title: 'Markdown',
+          type: 'string',
+        },
+      },
+      seoImage: {
+        title: 'SEO Image',
+        pattern: 'uri-reference',
+        type: 'object',
+        properties: {
+          type: {
+            type: 'string',
+          },
+          mimeType: {
+            type: 'string',
+          },
+          height: {
+            type: 'number',
+          },
+          width: {
+            type: 'number',
+          },
+          _authorUrl: {
+            type: 'string',
+          },
+          _path: {
+            type: 'string',
+          },
+          _publishUrl: {
+            type: 'string',
+          },
+        },
+      },
+      seoType: {
+        title: 'SEO Type',
+        oneOf: [
+          {
+            title: 'Article',
+            const: 'article',
+          },
+          {
+            title: 'Website',
+            const: 'website',
+          },
+        ],
+        type: 'string',
+      },
+    },
+  },
+  data: {
+    _path: '/content/dam/golfdigest-schools/content-fragments/marketing/test-folder/CFNAME',
+    _model: {
+      _path: '/conf/golfdigest-schools/settings/dam/cfm/models/page-metadata-component',
+      title: 'Page Metadata Component',
+    },
+    c: '',
+    seoTitle: '',
+    seoImage: {
+      _path: '',
+    },
+    seoDescription: {
+      html: '<p></p>',
+    },
   },
 });

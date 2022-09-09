@@ -15,3 +15,7 @@
   border-bottom-width: var(--spectrum-alias-border-size-thin);
   border-bottom-style: solid;
 }
+
+.App-Form {
+  min-height: 80vh;
+}

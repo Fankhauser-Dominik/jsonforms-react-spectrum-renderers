@@ -25,14 +25,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import {
-  ControlProps,
-  RankedTester,
-  // and,
-  // isObjectControl,
-  optionIs,
-  rankWith,
-} from '@jsonforms/core';
+import { ControlProps, RankedTester, optionIs, rankWith } from '@jsonforms/core';
 import { withJsonFormsControlProps } from '@jsonforms/react';
 import { InputTextArea } from './InputTipTap';
 import { SpectrumInputControl } from '../../controls/SpectrumInputControl';
@@ -41,10 +34,6 @@ export const SpectrumTipTapRenderer = (props: ControlProps) => (
   <SpectrumInputControl {...props} input={InputTextArea} />
 );
 
-export const SpectrumTipTapRendererTester: RankedTester = rankWith(
-  8,
-  // and(isObjectControl, optionIs('richText', true))
-  optionIs('richText', true)
-);
+export const SpectrumTipTapRendererTester: RankedTester = rankWith(8, optionIs('richText', true));
 
 export default withJsonFormsControlProps(SpectrumTipTapRenderer);
