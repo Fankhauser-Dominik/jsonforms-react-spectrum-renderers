@@ -34,13 +34,13 @@ import ModalItemHeader from './Header';
 const CFRWithDetailLayoutItem = React.memo(
   ({
     childData,
-    index,
     childLabel,
+    elements,
+    index,
+    layout,
     path,
     removeItem,
     uischema,
-    elements,
-    layout,
   }: OwnPropsOfSpectrumArrayModalItem) => {
     const [expanded, setExpanded] = React.useState(false);
     const [isAnimating, setIsAnimating] = React.useState(false);

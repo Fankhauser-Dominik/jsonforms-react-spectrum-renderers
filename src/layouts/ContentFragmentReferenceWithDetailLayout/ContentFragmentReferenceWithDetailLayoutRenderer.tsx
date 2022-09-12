@@ -40,19 +40,17 @@ const ContentFragmentReferenceWithDetailLayoutRenderer = React.memo(
     const layout = uischema as Layout;
     const elements = renderChildren(layout, schema, {}, path, enabled);
     return visible ? (
-      <>
-        <SpectrumContentFragmentReference
-          data={data}
-          enabled={enabled}
-          label={label ?? ''}
-          layout={layout}
-          path={path}
-          schema={schema}
-          uischema={uischema}
-          visible={visible}
-          elements={elements}
-        />
-      </>
+      <SpectrumContentFragmentReference
+        data={data}
+        enabled={enabled}
+        label={label ?? ''}
+        layout={layout}
+        path={path}
+        schema={schema}
+        uischema={uischema}
+        visible={visible}
+        elements={elements}
+      />
     ) : null;
   }
 );
