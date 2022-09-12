@@ -2,12 +2,9 @@ import React, { ComponentType } from 'react';
 import CFRWithDetailLayoutItem from './Component';
 import {
   ControlElement,
-  JsonFormsRendererRegistryEntry,
   JsonFormsState,
   JsonSchema,
   Resolve,
-  UISchemaElement,
-  UISchemaTester,
   composePaths,
   getData,
 } from '@jsonforms/core';
@@ -16,21 +13,15 @@ import areEqual from '../../../util/areEqual';
 import { findValue } from '../utils';
 
 export interface OwnPropsOfSpectrumArrayModalItem {
-  index: number;
-  path: string;
-  schema: JsonSchema;
-  removeItem(path: string, value: number): () => void;
-  uischema: ControlElement;
-  renderers?: JsonFormsRendererRegistryEntry[];
-  uischemas?: {
-    tester: UISchemaTester;
-    uischema: UISchemaElement;
-  }[];
-  childLabel: string;
   childData?: any;
-  rowIndex?: number;
+  childLabel: string;
   elements: any;
+  index: number;
   layout: any;
+  path: string;
+  removeItem(path: string, value: number): () => void;
+  schema: JsonSchema;
+  uischema: ControlElement;
 }
 
 /**
