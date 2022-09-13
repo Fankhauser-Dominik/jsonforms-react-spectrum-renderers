@@ -117,3 +117,20 @@ button {
   overflow-x: hidden;
   overflow-y: auto;
 }
+
+.JsonFormsDispatchContainer {
+  background-color: red;
+  width: 100%;
+}
+
+.JsonFormsDispatchContainer label {
+  display: none;
+}
+
+.JsonFormsDispatchContainer section {
+  margin: 0 0 0 10px !important;
+}
+
+.list-array-item.enableDetailedView {
+  padding: 6px 12px !important;
+}

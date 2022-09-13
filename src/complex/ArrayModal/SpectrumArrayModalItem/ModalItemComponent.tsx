@@ -104,7 +104,8 @@ const SpectrumArrayModalItem = React.memo(
       if (window.location.href.endsWith(`${path}.${index}`)) {
         newUrl = url.replace(`${path}.${index}`, '');
       } else {
-        newUrl = url.substring(0, url.lastIndexOf('-'));
+        if (window.location.href.includes('formLocation='))
+          newUrl = url.substring(0, url.lastIndexOf('-'));
       }
       window.history.pushState('', '', newUrl);
 
@@ -154,6 +155,16 @@ const SpectrumArrayModalItem = React.memo(
       });
     };
 
+    const JsonFormsDispatchComponent = (
+      <JsonFormsDispatch
+        key={childPath}
+        path={childPath}
+        renderers={renderers}
+        schema={schema}
+        uischema={foundUISchema || uischema}
+      />
+    );
+
     const Header = (
       <ModalItemHeader
         expanded={expanded}
@@ -170,6 +181,8 @@ const SpectrumArrayModalItem = React.memo(
           enabled: uischema?.options?.picker,
           handler: customPickerHandler,
         }}
+        uischema={uischema}
+        JsonFormsDispatch={JsonFormsDispatchComponent}
       />
     );
 
@@ -201,13 +214,7 @@ const SpectrumArrayModalItem = React.memo(
             {expanded || isAnimating ? (
               <View UNSAFE_className='json-form-dispatch-wrapper'>
                 {enableDetailedView && Header}
-                <JsonFormsDispatch
-                  key={childPath}
-                  path={childPath}
-                  renderers={renderers}
-                  schema={schema}
-                  uischema={foundUISchema || uischema}
-                />
+                {JsonFormsDispatchComponent}
               </View>
             ) : null}
           </ModalItemAnimatedWrapper>

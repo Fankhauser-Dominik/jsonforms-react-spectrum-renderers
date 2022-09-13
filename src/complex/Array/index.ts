@@ -25,17 +25,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import {
-  RankedTester,
-  rankWith,
-  and,
-  uiTypeIs,
-  schemaMatches,
-  hasType,
-  // or,
-  // isObjectArrayControl,
-  // isPrimitiveArrayControl,
-} from '@jsonforms/core';
+import { RankedTester, rankWith, and, uiTypeIs, schemaMatches, hasType } from '@jsonforms/core';
 import ArrayControlRenderer from './SpectrumArrayControlRenderer';
 import { SpectrumArrayControl } from './SpectrumArrayControl';
 
@@ -43,7 +33,6 @@ export { SpectrumArrayControl, ArrayControlRenderer };
 
 export const arrayControlTester: RankedTester = rankWith(
   4,
-  // or(isObjectArrayControl, isPrimitiveArrayControl)
   and(
     uiTypeIs('Control'),
     schemaMatches((schema) => hasType(schema, 'array') && !Array.isArray(schema.items))

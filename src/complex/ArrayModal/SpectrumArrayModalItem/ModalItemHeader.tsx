@@ -37,20 +37,24 @@ interface ArrayModalItemHeaderProps {
     enabled: boolean;
     handler: (current?: object) => void;
   };
+  uischema: any;
+  JsonFormsDispatch: any;
 }
 
 export default function ModalItemHeader({
-  expanded,
+  DNDHandle = false,
+  childData,
+  childLabel,
+  customPicker,
+  duplicateItem,
   enableDetailedView,
+  expanded,
+  handleExpand,
   index,
   path,
-  handleExpand,
   removeItem,
-  duplicateItem,
-  childLabel,
-  childData,
-  DNDHandle = false,
-  customPicker,
+  uischema,
+  JsonFormsDispatch,
 }: ArrayModalItemHeaderProps) {
   const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
   const actionMenuTriggered = (action: any) => {
@@ -72,19 +76,26 @@ export default function ModalItemHeader({
         <View UNSAFE_className='spectrum-array-item-number'>
           <Text>{index + 1}</Text>
         </View>
-        <TooltipTrigger delay={settings.toolTipDelay} placement={'top'}>
-          <ActionButton
-            flex={'1 1 auto'}
-            isQuiet
-            onPress={() => handleExpand()}
-            aria-label={`expand-item-${childLabel}`}
-          >
-            <Text UNSAFE_className='spectrum-array-item-name' UNSAFE_style={{ textAlign: 'left' }}>
-              {childLabel}
-            </Text>
-          </ActionButton>
-          <Tooltip>{childData?._path || childLabel}</Tooltip>
-        </TooltipTrigger>
+        {uischema?.options?.noAccordion ? (
+          <View UNSAFE_className='JsonFormsDispatchContainer'>{JsonFormsDispatch}</View>
+        ) : (
+          <TooltipTrigger delay={settings.toolTipDelay} placement={'top'}>
+            <ActionButton
+              flex={'1 1 auto'}
+              isQuiet
+              onPress={() => handleExpand()}
+              aria-label={`expand-item-${childLabel}`}
+            >
+              <Text
+                UNSAFE_className='spectrum-array-item-name'
+                UNSAFE_style={{ textAlign: 'left' }}
+              >
+                {childLabel}
+              </Text>
+            </ActionButton>
+            <Tooltip>{childData?._path || childLabel}</Tooltip>
+          </TooltipTrigger>
+        )}
         <View>
           <Flex gap={'size-0'}>
             <ActionMenu align='end' onAction={actionMenuTriggered} isQuiet={true}>
@@ -112,29 +123,36 @@ export default function ModalItemHeader({
               </TooltipTrigger>
             )}
 
-            <TooltipTrigger delay={settings.toolTipDelay}>
-              <ActionButton
-                onPress={() => handleExpand()}
-                isQuiet={true}
-                aria-label={`expand-item-${childLabel}`}
-              >
-                {
-                  expanded ? (
-                enableDetailedView ? <Close aria-label='Close' size="S" /> : <ChevronUp aria-label='Collapse' size="S" /> //prettier-ignore
-              ) : //prettier-ignore
-              enableDetailedView ? <Edit aria-label='Edit' size="S" /> : <ChevronDown aria-label='Expand' size="S" /> //prettier-ignore
-                }
-              </ActionButton>
-              <Tooltip>
-                {expanded
-                  ? enableDetailedView
-                    ? 'Close'
-                    : 'Collapse'
-                  : enableDetailedView
-                  ? 'Edit'
-                  : 'Expand'}
-              </Tooltip>
-            </TooltipTrigger>
+            {uischema?.options?.noAccordion ? null : (
+              <TooltipTrigger delay={settings.toolTipDelay}>
+                <ActionButton
+                  onPress={() => handleExpand()}
+                  isQuiet={true}
+                  aria-label={`expand-item-${childLabel}`}
+                >
+                  {expanded ? (
+                    enableDetailedView ? (
+                      <Close aria-label='Close' size='S' />
+                    ) : (
+                      <ChevronUp aria-label='Collapse' size='S' />
+                    )
+                  ) : enableDetailedView ? (
+                    <Edit aria-label='Edit' size='S' />
+                  ) : (
+                    <ChevronDown aria-label='Expand' size='S' />
+                  )}
+                </ActionButton>
+                <Tooltip>
+                  {expanded
+                    ? enableDetailedView
+                      ? 'Close'
+                      : 'Collapse'
+                    : enableDetailedView
+                    ? 'Edit'
+                    : 'Expand'}
+                </Tooltip>
+              </TooltipTrigger>
+            )}
             {DNDHandle && !expanded && (
               <>
                 <Divider orientation='vertical' size='M' marginStart={'size-100'} />
