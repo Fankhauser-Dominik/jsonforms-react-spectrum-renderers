@@ -31,32 +31,24 @@ import { ArrayControlProps, ControlElement, Helpers } from '@jsonforms/core';
 import { withJsonFormsArrayControlProps } from '@jsonforms/react';
 import { SpectrumArrayModalControl } from './SpectrumArrayModalControl';
 
-// type overrideProps = { indexOfFittingSchema: number };
 const SpectrumArrayModalControlRenderer = React.memo(
-  (
-    {
-      addItem,
-      data,
-      enabled,
-      errors,
-      id,
-      path,
-      removeItems,
-      rootSchema,
-      schema,
-      uischema,
-      uischemas = [],
-      visible,
-    }: // indexOfFittingSchema,
-    ArrayControlProps /*  & overrideProps */
-  ) => {
+  ({
+    addItem,
+    data,
+    enabled,
+    errors,
+    id,
+    path,
+    removeItems,
+    rootSchema,
+    schema,
+    uischema,
+    uischemas = [],
+    visible,
+  }: ArrayControlProps) => {
     const controlElement = uischema as ControlElement;
     const labelDescription = Helpers.createLabelDescriptionFrom(controlElement, schema);
     const label = labelDescription.show ? labelDescription.text : undefined;
-
-    /* const handleChange = (value: any) => {
-      addItem(value, path);
-    }; */
 
     return visible ? (
       <SpectrumArrayModalControl
@@ -64,9 +56,7 @@ const SpectrumArrayModalControlRenderer = React.memo(
         data={data}
         enabled={enabled}
         errors={errors}
-        //handleChange={handleChange}
         id={id}
-        // indexOfFittingSchema={indexOfFittingSchema}
         label={label ?? ''}
         path={path}
         removeItems={removeItems}
@@ -81,4 +71,3 @@ const SpectrumArrayModalControlRenderer = React.memo(
 );
 
 export default withJsonFormsArrayControlProps(SpectrumArrayModalControlRenderer);
-// export default SpectrumArrayModalControlRenderer;

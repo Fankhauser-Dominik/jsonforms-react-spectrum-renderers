@@ -37,48 +37,12 @@ export interface extendedLayoutRendererProps extends RendererProps {
 
 export const SpectrumContentFragmentReference = React.memo(
   ({ path, renderers, elements, layout, uischema, label }: extendedLayoutRendererProps) => {
-    /* const handleCustomPickerMessage = (e: MessageEvent) => {
-      console.log('handleCustomPickerMessage', e?.data);
-      if (e?.data?.type === 'customPicker:return' && e?.data?.data) {
-        console.log('handleCustomPickerMessage', e?.data?.data);
-        let newData = [...data];
-        if (e?.data?.index && typeof e.data.index === 'number') {
-          console.log('replace existing data');
-          newData[e.data.index] = e.data.data;
-          console.log('newData', newData);
-          console.log('data', data);
-        } else {
-          console.log('handleCustomPickerMessage addItem', e?.data?.data, data);
-          newData.push(e.data.data);
-        }
-        data.splice(0, data.length);
-        data.push(...newData);
-        setRefKey(Math.random());
-      }
-    };
-
-    useEffect(() => {
-      if (uischema?.options?.picker) {
-        window.addEventListener('message', handleCustomPickerMessage);
-      }
-
-      return () => {
-        if (uischema?.options?.picker) {
-          window.removeEventListener('message', handleCustomPickerMessage);
-        }
-      };
-    }, [data]); */
-
     return (
-      <View id='json-form-array-wrapper'>
+      <View>
         <Flex direction='row' justifyContent='space-between'>
           <Heading level={4}>{label}</Heading>
         </Flex>
-        <Flex
-          id={`spectrum-renderer-arrayContentWrapper_${path}`}
-          direction='column'
-          gap='size-100'
-        >
+        <Flex direction='column' gap='size-100'>
           {elements?.length ? (
             Array.from(Array(elements?.length)).map((_, index) => {
               return (

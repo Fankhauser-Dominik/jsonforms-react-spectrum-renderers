@@ -30,6 +30,7 @@ import './Component.css';
 
 import SpectrumProvider from '../../../additional/SpectrumProvider';
 import ModalItemHeader from './Header';
+import { openItemWhenInQueryParam } from '../utils';
 
 const CFRWithDetailLayoutItem = React.memo(
   ({
@@ -74,6 +75,16 @@ const CFRWithDetailLayoutItem = React.memo(
         '*'
       );
       setExpanded(false);
+
+      const url = window.location.href;
+      let newUrl: any = new URL(url);
+      if (window.location.href.endsWith(`${path}.${index}`)) {
+        newUrl = url.replace(`${path}.${index}`, '');
+      } else {
+        newUrl = url.substring(0, url.lastIndexOf('-'));
+      }
+      window.history.pushState('', '', newUrl);
+
       return;
     };
 
@@ -86,6 +97,10 @@ const CFRWithDetailLayoutItem = React.memo(
         setExpanded(false);
       }
     }
+
+    React.useEffect(() => {
+      openItemWhenInQueryParam(path, index, setExpanded);
+    }, []);
 
     React.useEffect(() => {
       if (expanded) {

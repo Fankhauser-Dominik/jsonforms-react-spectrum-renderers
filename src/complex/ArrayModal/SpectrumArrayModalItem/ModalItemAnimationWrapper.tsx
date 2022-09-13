@@ -10,16 +10,18 @@ interface AnimationWrapperProps {
   setIsAnimating: (isAnimating: boolean) => void;
   path: string;
   children: React.ReactNode;
+  callbackFunction: any;
 }
 
 export default function ModalItemAnimationWrapper({
+  callbackFunction,
+  children,
+  enableDetailedView,
   expanded,
   handleExpand,
-  enableDetailedView,
   isAnimating,
-  setIsAnimating,
   path,
-  children,
+  setIsAnimating,
 }: AnimationWrapperProps) {
   const [isBlackoutHovered, setIsBlackoutHovered] = React.useState(false);
   const jsonFormWrapper =
@@ -28,6 +30,13 @@ export default function ModalItemAnimationWrapper({
   const addToZIndex = path.split('.').length;
   const leftOffset = (addToZIndex - 2) * 2.5;
 
+  const onRestFunction = () => {
+    setIsAnimating(false);
+    if (!expanded) {
+      callbackFunction(Math.random());
+    }
+  };
+
   const slideAnim = useSpring({
     config: { duration: 700, easing: easings.easeOutQuart },
     left: expanded
@@ -35,7 +44,7 @@ export default function ModalItemAnimationWrapper({
         ? `${10 + leftOffset}%`
         : `${5 + leftOffset}%`
       : '100%',
-    onRest: () => setIsAnimating(false),
+    onRest: () => onRestFunction(),
   });
 
   const darkenAnim = useSpring({

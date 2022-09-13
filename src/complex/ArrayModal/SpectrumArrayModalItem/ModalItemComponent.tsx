@@ -33,7 +33,7 @@ import './SpectrumArrayModalItem.css';
 import SpectrumProvider from '../../../additional/SpectrumProvider';
 import { indexOfFittingSchemaObject } from '../utils';
 import ModalItemHeader from './ModalItemHeader';
-// import { openItemWhenInQueryParam } from './ModalItemUtils';
+import { openItemWhenInQueryParam } from './ModalItemUtils';
 
 interface NonEmptyRowProps {
   rowIndex?: number | undefined;
@@ -47,7 +47,6 @@ const SpectrumArrayModalItem = React.memo(
     childData,
     index,
     childLabel,
-    // indexOfFittingSchema,
     callbackFunction,
     path,
     removeItem,
@@ -99,14 +98,20 @@ const SpectrumArrayModalItem = React.memo(
         );
       }
       setExpanded(false);
-      callbackFunction(Math.random());
+
+      const url = window.location.href;
+      let newUrl: any = new URL(url);
+      if (window.location.href.endsWith(`${path}.${index}`)) {
+        newUrl = url.replace(`${path}.${index}`, '');
+      } else {
+        newUrl = url.substring(0, url.lastIndexOf('-'));
+      }
+      window.history.pushState('', '', newUrl);
+
       return;
     };
 
     const enableDetailedView = uischema?.options?.enableDetailedView;
-
-    /* indexOfFittingSchemaObject[childPath] =
-      indexOfFittingSchema ?? findValue(childData, 'indexOfFittingSchema') ?? 0; */
 
     if (uischema.options?.OneOfModal) {
       indexOfFittingSchemaObject['OneOfModal'] = true;
@@ -115,9 +120,9 @@ const SpectrumArrayModalItem = React.memo(
       indexOfFittingSchemaObject['OneOfPicker'] = true;
     }
 
-    /* React.useEffect(() => {
-      openItemWhenInQueryParam(path, index, handleExpand);
-    }, []); */
+    React.useEffect(() => {
+      openItemWhenInQueryParam(path, index, setExpanded);
+    }, []);
 
     function breadCrumbClose(message: MessageEvent) {
       if (message.data.type !== 'close-item-breadcrumb') {
@@ -191,6 +196,7 @@ const SpectrumArrayModalItem = React.memo(
             isAnimating={isAnimating}
             setIsAnimating={setIsAnimating}
             path={path}
+            callbackFunction={callbackFunction}
           >
             {expanded || isAnimating ? (
               <View UNSAFE_className='json-form-dispatch-wrapper'>
