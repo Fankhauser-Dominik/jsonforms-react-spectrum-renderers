@@ -89,9 +89,6 @@ export const SpectrumArrayModalControl = React.memo(
     const duplicateContent = (index: number) => {
       data.push(data[index]);
       setRefKey(Math.random());
-      /* if (removeItems) {
-        removeItems(path, [999999999])();
-      } */
     };
 
     const [RefKey, setRefKey] = useState<number>(0);
@@ -100,7 +97,9 @@ export const SpectrumArrayModalControl = React.memo(
     };
 
     const onPressHandler = useCallback(() => {
-      if (uischema?.options?.picker) {
+      if (schema?.oneOf?.length === 1) {
+        addItem(path, createDefaultValue(schema.oneOf[0]))();
+      } else if (uischema?.options?.picker) {
         window.postMessage({ type: 'customPicker:open', open: true, schema });
       } else {
         setOpen(true);
@@ -115,7 +114,6 @@ export const SpectrumArrayModalControl = React.memo(
         if (e?.data?.index && typeof e.data.index === 'number') {
           console.log('replace existing data');
           newData[e.data.index] = e.data.data;
-          //if (removeItems) removeItems(path, [999999999])();
           console.log('newData', newData);
           console.log('data', data);
         } else {

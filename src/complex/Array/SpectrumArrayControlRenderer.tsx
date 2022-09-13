@@ -46,10 +46,8 @@ const SpectrumArrayControlRenderer = ({
   const controlElement = uischema as ControlElement;
   const labelDescription = Helpers.createLabelDescriptionFrom(controlElement, schema);
   const label = labelDescription?.show
-    ? labelDescription?.text === typeof 'string'
-      ? labelDescription?.text
-      : ''
-    : '';
+    ? labelDescription?.text ?? ''
+    : uischema?.options?.label ?? '';
 
   return (
     <SpectrumArrayControl

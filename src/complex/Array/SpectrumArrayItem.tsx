@@ -103,9 +103,15 @@ const SpectrumArrayItem = ({
   childLabel = childLabel ?? `Item ${index + 1}`;
   return (
     <SpectrumProvider>
-      <View borderWidth='thin' borderColor='dark' borderRadius='medium' padding='size-250'>
+      <View borderWidth='thin' borderColor='dark' borderRadius='medium' padding='size-100'>
         <View aria-selected={isExpanded}>
-          <Flex direction='row' margin='size-50' justifyContent='space-between' alignItems='center'>
+          <Flex
+            direction='row'
+            margin='size-50'
+            justifyContent='space-between'
+            alignItems='center'
+            UNSAFE_className='spectrum-array-item-container'
+          >
             <View UNSAFE_className='spectrum-array-item-number'>
               <Text>{index + 1}</Text>
             </View>
