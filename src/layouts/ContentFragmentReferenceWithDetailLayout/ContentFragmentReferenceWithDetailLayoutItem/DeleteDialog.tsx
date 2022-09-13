@@ -39,7 +39,6 @@ export default function ModalItemDelete({
   const onPressEndHandler = () => {
     setDeleteModalOpen(false);
     setTimeout(() => {
-      console.log(path, index);
       removeItem(path, index)();
     }, durationBeforeDelete);
   };

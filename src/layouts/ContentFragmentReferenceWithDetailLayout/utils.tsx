@@ -132,6 +132,30 @@ export function getChildError(e: ErrorObject[], path: string) {
 
 export const UPDATE_DATA: 'jsonforms/UPDATE' = 'jsonforms/UPDATE';
 
+export const openItemWhenInQueryParam = (
+  path: string,
+  index: number,
+  handleExpand: (refresh: boolean) => void
+) => {
+  try {
+    const url: any = new URL(window.location.toString());
+
+    const formLocation: any = url.search.split('formLocation=')[1];
+    if (!formLocation) {
+      return;
+    }
+
+    const formLocationArray: any[] = [];
+    formLocation.split('-').map((item: any) => {
+      item = item.split('-')[0];
+      if (`${formLocationArray.join('.')}.${item}`.includes(`${path}.${index}`)) {
+        handleExpand(true);
+      }
+      formLocationArray.push(item);
+    });
+  } catch {}
+};
+
 export const findValue: any = (obj: any, key: string) => {
   if (!obj || !key) {
     return undefined;

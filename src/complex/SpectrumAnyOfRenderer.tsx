@@ -67,8 +67,6 @@ const SpectrumAnyOfRenderer = ({
     );
   }
 
-  console.log(indexOfFittingSchema);
-
   return (
     <View isHidden={!visible} UNSAFE_className={`anyof-renderer`}>
       <CombinatorProperties schema={schema} combinatorKeyword={'anyOf'} path={path} />

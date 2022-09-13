@@ -27,16 +27,12 @@
 */
 import {
   RankedTester,
-  // isObjectArrayWithNesting,
   optionIs,
   rankWith,
   and,
   uiTypeIs,
   schemaMatches,
   hasType,
-  // or,
-  // isObjectArrayControl,
-  // isPrimitiveArrayControl,
 } from '@jsonforms/core';
 import SpectrumArrayModalControlRenderer from './SpectrumArrayModalControlRenderer';
 import { SpectrumArrayModalControl } from './SpectrumArrayModalControl';
@@ -50,11 +46,6 @@ export const SpectrumArrayModalControlTester: RankedTester = rankWith(
     schemaMatches((schema) => hasType(schema, 'array')),
     optionIs('modal', true)
   )
-  /* 6,
-  and(
-    or(isObjectArrayControl, isPrimitiveArrayControl),
-    optionIs('modal', true)
-  ) */
 );
 
 export default SpectrumArrayModalControlRenderer;

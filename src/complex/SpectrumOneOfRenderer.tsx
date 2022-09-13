@@ -73,8 +73,6 @@ const SpectrumOneOfRenderer = ({
   uischemas,
   visible,
 }: CombinatorRendererProps) => {
-  console.log('uischema', uischema);
-  console.log('uischemas', uischemas);
   const [open, setOpen] = React.useState(false);
   /* --Start-- Only used for AEM, else it get skipped */
   let oneOfList = schema?.oneOf?.map((item) => item['$ref']);
@@ -125,12 +123,9 @@ const SpectrumOneOfRenderer = ({
     (newOneOfIndex: React.Key) => {
       newOneOfIndex = Number(newOneOfIndex);
       setNewSelectedIndex(newOneOfIndex);
-      console.log(data);
-      console.log('HandleTabChange');
       if (isEmpty(data)) {
         openNewTab(newOneOfIndex);
       } else {
-        console.log(data);
         setOpen(true);
       }
     },

@@ -10,11 +10,15 @@ export const openItemWhenInQueryParam = (
     if (!formLocation) {
       return;
     }
-    const regex = new RegExp(`((^|_)${path}-${index}($|_))`);
 
-    if (regex.test(formLocation)) {
-      handleExpand(false);
-    }
+    const formLocationArray: any[] = [];
+    formLocation.split('-').map((item: any) => {
+      item = item.split('-')[0];
+      if (`${formLocationArray.join('.')}.${item}`.includes(`${path}.${index}`)) {
+        handleExpand(true);
+      }
+      formLocationArray.push(item);
+    });
   } catch {}
 };
 
