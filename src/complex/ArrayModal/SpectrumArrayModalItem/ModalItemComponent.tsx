@@ -195,7 +195,9 @@ const SpectrumArrayModalItem = React.memo(
           ref={ref}
           UNSAFE_className={`list-array-item ${
             enableDetailedView ? 'enableDetailedView' : 'accordionView'
-          } ${expanded ? 'expanded' : 'collapsed'}`}
+          } ${expanded ? 'expanded' : 'collapsed'} ${
+            uischema?.options?.noAccordion ? 'noAccordion' : null
+          }`}
           borderWidth='thin'
           borderColor='dark'
           borderRadius='medium'
