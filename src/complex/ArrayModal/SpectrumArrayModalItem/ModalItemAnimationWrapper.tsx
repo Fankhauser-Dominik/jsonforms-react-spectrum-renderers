@@ -27,12 +27,12 @@ export default function ModalItemAnimationWrapper({
   const jsonFormWrapper =
     document.getElementById('json-form-wrapper') || document.getElementsByClassName('App-Form')[0];
 
-  const addToZIndex = path.split('.').length;
+  const addToZIndex = path?.split('.').length;
   const leftOffset = (addToZIndex - 2) * 2.5;
 
   const onRestFunction = () => {
     setIsAnimating(false);
-    if (!expanded) {
+    if (!expanded && callbackFunction) {
       callbackFunction(Math.random());
     }
   };

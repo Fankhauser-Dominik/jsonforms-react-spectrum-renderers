@@ -27,7 +27,7 @@
 */
 import React from 'react';
 import { RendererProps, ControlElement, Helpers, Layout } from '@jsonforms/core';
-import { withJsonFormsArrayControlProps } from '@jsonforms/react';
+import { withJsonFormsLayoutProps } from '@jsonforms/react';
 import { SpectrumContentFragmentReference } from './SpectrumContentFragmentReference';
 import { renderChildren } from '../util';
 
@@ -55,4 +55,4 @@ const ContentFragmentReferenceWithDetailLayoutRenderer = React.memo(
   }
 );
 
-export default withJsonFormsArrayControlProps(ContentFragmentReferenceWithDetailLayoutRenderer);
+export default withJsonFormsLayoutProps(ContentFragmentReferenceWithDetailLayoutRenderer);
