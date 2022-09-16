@@ -26,7 +26,7 @@ export default function ModalItemAnimationWrapper({
   const jsonFormWrapper =
     document.getElementById('json-form-wrapper') || document.getElementsByClassName('App-Form')[0];
 
-  const addToZIndex = path.split('.').length;
+  const addToZIndex = path?.split('.').length ?? 1;
   const leftOffset = (addToZIndex - 2) * 2.5;
 
   const slideAnim = useSpring({

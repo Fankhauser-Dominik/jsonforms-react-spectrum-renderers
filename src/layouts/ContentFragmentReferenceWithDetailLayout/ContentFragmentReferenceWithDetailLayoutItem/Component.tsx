@@ -81,7 +81,9 @@ const CFRWithDetailLayoutItem = React.memo(
       if (window.location.href.endsWith(`${path}.${index}`)) {
         newUrl = url.replace(`${path}.${index}`, '');
       } else {
-        newUrl = url.substring(0, url.lastIndexOf('-'));
+        if (window.location.href.includes('formLocation=')) {
+          newUrl = url.substring(0, url.lastIndexOf('-'));
+        }
       }
       window.history.pushState('', '', newUrl);
 
