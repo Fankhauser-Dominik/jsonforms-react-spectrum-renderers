@@ -1,6 +1,9 @@
 /*
   The MIT License
 
+  Copyright (c) 2017-2019 EclipseSource Munich
+  https://github.com/eclipsesource/jsonforms
+
   Copyright (c) 2020 headwire.com, Inc
   https://github.com/headwirecom/jsonforms-react-spectrum-renderers
 
@@ -22,15 +25,14 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import { ControlProps, isStringControl, RankedTester, rankWith } from '@jsonforms/core';
+import { ControlProps, RankedTester, rankWith, optionIs } from '@jsonforms/core';
 import { withJsonFormsControlProps } from '@jsonforms/react';
-import { InputText } from '../spectrum-control';
+import { ImagePreview } from '../spectrum-control';
 import { SpectrumInputControl } from './SpectrumInputControl';
 
-export const SpectrumTextControl = (props: ControlProps) => (
-  <SpectrumInputControl {...props} input={InputText} />
+export const ImagePreviewControl = (props: ControlProps) => (
+  <SpectrumInputControl {...props} input={ImagePreview} />
 );
 
-export const SpectrumTextControlTester: RankedTester = rankWith(4, isStringControl);
-
-export default withJsonFormsControlProps(SpectrumTextControl);
+export const ImagePreviewControlTester: RankedTester = rankWith(4, optionIs('image', true));
+export default withJsonFormsControlProps(ImagePreviewControl);

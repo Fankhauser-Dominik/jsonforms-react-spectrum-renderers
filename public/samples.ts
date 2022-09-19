@@ -1950,3 +1950,39 @@ samples.push({
     },
   },
 });
+
+samples.push({
+  name: 'spectrum-image-preview',
+  label: 'Image Preview',
+  uischema: {
+    type: 'VerticalLayout',
+    elements: [
+      {
+        type: 'Control',
+        scope: '#/properties/image',
+      },
+      {
+        type: 'Control',
+        scope: '#/properties/image',
+        options: {
+          image: true,
+          description: 'Image Description',
+          gap: 'size-100',
+          alignItems: 'center',
+          flex: 'column',
+          height: 'auto',
+          width: 'auto',
+        },
+      },
+    ],
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      image: {
+        type: 'string',
+      },
+    },
+  },
+  data: { image: 'https://placebear.com/400/400' },
+});
