@@ -1311,13 +1311,13 @@ samples.push({
         type: 'Control',
         scope: '#/properties/addressOrUsers',
         options: {
-          DataAsLabel: 0,
+          dataAsLabel: 0,
           modal: true,
-          OneOfModal: true,
+          oneOfModal: true,
           showSortButtons: true,
           sortButtonDirection: 'Vertical',
           enableDetailedView: true,
-          DND: false,
+          dragAndDrop: false,
         },
       },
     ],
@@ -1500,13 +1500,13 @@ samples.push({
             type: 'Control',
             scope: '#/properties/addressOrUsers',
             options: {
-              DataAsLabel: 0,
+              dataAsLabel: 0,
               modal: true,
-              OneOfModal: true,
+              oneOfModal: true,
               showSortButtons: true,
               sortButtonDirection: 'Vertical',
               enableDetailedView: true,
-              DND: false,
+              dragAndDrop: false,
             },
           },
         ],
@@ -1949,4 +1949,40 @@ samples.push({
       html: '<p></p>',
     },
   },
+});
+
+samples.push({
+  name: 'spectrum-image-preview',
+  label: 'Image Preview',
+  uischema: {
+    type: 'VerticalLayout',
+    elements: [
+      {
+        type: 'Control',
+        scope: '#/properties/image',
+      },
+      {
+        type: 'Control',
+        scope: '#/properties/image',
+        options: {
+          image: true,
+          description: 'Image Description',
+          gap: 'size-100',
+          alignItems: 'center',
+          flex: 'column',
+          height: 'auto',
+          width: 'auto',
+        },
+      },
+    ],
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      image: {
+        type: 'string',
+      },
+    },
+  },
+  data: { image: 'https://placebear.com/400/400' },
 });

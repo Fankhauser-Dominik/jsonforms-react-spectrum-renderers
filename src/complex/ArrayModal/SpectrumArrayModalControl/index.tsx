@@ -81,9 +81,10 @@ export const SpectrumArrayModalControl = React.memo(
       if (schema.oneOf) {
         addItem(path, createDefaultValue(schema.oneOf[index]))();
       }
-      indexOfFittingSchemaObject[path + `.${data.length}`] = selectedIndex;
+      indexOfFittingSchemaObject[path + `.${data?.length}`] = selectedIndex;
       setSelectedIndex(0);
       handleClose();
+      console.log('TEST', indexOfFittingSchemaObject[path + `.${data?.length}`]);
     };
 
     const duplicateContent = (index: number) => {
@@ -160,7 +161,7 @@ export const SpectrumArrayModalControl = React.memo(
           direction='column'
           gap='size-100'
         >
-          {uischema?.options?.DND ? (
+          {uischema?.options?.dragAndDrop ? (
             <DragAndDrop
               data={data}
               handleRemoveItem={handleRemoveItem}

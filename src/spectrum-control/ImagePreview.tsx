@@ -1,22 +1,15 @@
 /*
   The MIT License
-
-  Copyright (c) 2017-2019 EclipseSource Munich
-  https://github.com/eclipsesource/jsonforms
-
   Copyright (c) 2022 headwire.com, Inc
   https://github.com/headwirecom/jsonforms-react-spectrum-renderers
-
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
   in the Software without restriction, including without limitation the rights
   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
   copies of the Software, and to permit persons to whom the Software is
   furnished to do so, subject to the following conditions:
-
   The above copyright notice and this permission notice shall be included in
   all copies or substantial portions of the Software.
-
   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -25,28 +18,34 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import {
-  RankedTester,
-  optionIs,
-  rankWith,
-  and,
-  uiTypeIs,
-  schemaMatches,
-  hasType,
-  or,
-} from '@jsonforms/core';
-import SpectrumArrayModalControlRenderer from './SpectrumArrayModalControlRenderer';
-import { SpectrumArrayModalControl } from './SpectrumArrayModalControl';
+import React from 'react';
+import { CellProps } from '@jsonforms/core';
+import merge from 'lodash/merge';
+import { SpectrumInputProps } from './index';
+import { DimensionValue } from '@react-types/shared';
+import SpectrumProvider from '../additional/SpectrumProvider';
+import { Flex } from '@adobe/react-spectrum';
 
-export { SpectrumArrayModalControl, SpectrumArrayModalControlRenderer };
+export const ImagePreview = React.memo(
+  ({ config, data, uischema }: CellProps & SpectrumInputProps) => {
+    const appliedUiSchemaOptions = merge({}, config, uischema.options);
+    const width: DimensionValue | undefined = appliedUiSchemaOptions.trim ? undefined : '100%';
 
-export const SpectrumArrayModalControlTester: RankedTester = rankWith(
-  6,
-  and(
-    uiTypeIs('Control'),
-    schemaMatches((schema) => hasType(schema, 'array')),
-    or(optionIs('oneOfModal', true), optionIs('modal', true))
-  )
+    return (
+      <SpectrumProvider width={width}>
+        <Flex
+          direction={appliedUiSchemaOptions.flex ?? 'column'}
+          alignItems={appliedUiSchemaOptions.alignItems ?? 'start'}
+          gap={appliedUiSchemaOptions.gap ?? 'size-0'}
+        >
+          <img
+            src={data}
+            height={appliedUiSchemaOptions.height ?? 'auto'}
+            width={appliedUiSchemaOptions.width ?? 'auto'}
+          />
+          {appliedUiSchemaOptions.description ?? null}
+        </Flex>
+      </SpectrumProvider>
+    );
+  }
 );
-
-export default SpectrumArrayModalControlRenderer;

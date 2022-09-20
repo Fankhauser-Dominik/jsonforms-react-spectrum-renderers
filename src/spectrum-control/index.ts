@@ -22,6 +22,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
+export * from './ImagePreview';
 export * from './InputBooleanButton';
 export * from './InputCheckbox';
 export * from './InputDate';

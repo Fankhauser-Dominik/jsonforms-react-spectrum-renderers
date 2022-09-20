@@ -135,7 +135,7 @@ const SpectrumOneOfRenderer = ({
     indexOfFittingSchemaObject['OneOfPicker'] === true || uischema.options?.OneOfPicker === true;
 
   const hideTabs =
-    indexOfFittingSchemaObject['OneOfModal'] === true || uischema.options?.OneOfModal === true;
+    indexOfFittingSchemaObject['oneOfModal'] === true || uischema.options?.oneOfModal === true;
 
   if (!oneOfRenderInfos) return null;
   return (

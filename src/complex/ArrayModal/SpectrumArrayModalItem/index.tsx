@@ -63,9 +63,9 @@ export const mapStateToSpectrumArrayModalItemProps = (
   const childLabel =
     uischema.options?.elementLabelProp ?? firstPrimitiveProp ?? uischema.options?.childDataAsLabel
       ? childData
-      : undefined ?? typeof uischema.options?.DataAsLabel === 'number'
-      ? Object.values(childData)[uischema.options?.DataAsLabel]
-      : findValue(childData, uischema.options?.DataAsLabel) ?? `Item ${index + 1}`;
+      : undefined ?? typeof uischema.options?.dataAsLabel === 'number'
+      ? Object.values(childData)[uischema.options?.dataAsLabel]
+      : findValue(childData, uischema.options?.dataAsLabel) ?? `Item ${index + 1}`;
 
   return {
     ...ownProps,

@@ -115,8 +115,8 @@ const SpectrumArrayModalItem = React.memo(
 
     const enableDetailedView = uischema?.options?.enableDetailedView;
 
-    if (uischema.options?.OneOfModal) {
-      indexOfFittingSchemaObject['OneOfModal'] = true;
+    if (uischema.options?.oneOfModal) {
+      indexOfFittingSchemaObject['oneOfModal'] = true;
     }
     if (uischema.options?.OneOfPicker) {
       indexOfFittingSchemaObject['OneOfPicker'] = true;
