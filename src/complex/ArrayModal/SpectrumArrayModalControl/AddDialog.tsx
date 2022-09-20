@@ -57,40 +57,32 @@ export default function AddDialog({
             <Heading margin='size-100'>Add a new item</Heading>
             <Divider />
             {usePickerInsteadOfListBox ? (
-              <>
-                <Picker
-                  aria-label='Select'
-                  margin='size-100'
-                  onSelectionChange={handlePickerChange}
-                  selectedKey={String(selectedIndex)}
-                  width='calc(100% - size-200)'
-                >
-                  {schema?.map((oneOfRenderInfo: any, oneOfIndex: number) => (
-                    <Item key={oneOfIndex}>
-                      {oneOfRenderInfo.title ?? `Item ${oneOfIndex + 1}`}
-                    </Item>
-                  ))}
-                </Picker>
-              </>
+              <Picker
+                aria-label='Select'
+                margin='size-100'
+                onSelectionChange={handlePickerChange}
+                selectedKey={String(selectedIndex)}
+                width='calc(100% - size-200)'
+              >
+                {schema?.map((oneOfRenderInfo: any, oneOfIndex: number) => (
+                  <Item key={oneOfIndex}>{oneOfRenderInfo.title ?? `Item ${oneOfIndex + 1}`}</Item>
+                ))}
+              </Picker>
             ) : (
-              <>
-                <ListBox
-                  aria-label='Select'
-                  items={schema}
-                  margin='size-100'
-                  onSelectionChange={(selected) => handleListBoxChange(selected)}
-                  selectedKeys={String(selectedIndex)}
-                  selectionMode='single'
-                  width='calc(100% - size-200)'
-                  maxHeight='size-2400'
-                >
-                  {schema?.oneOf?.map((oneOfRenderInfo: any, oneOfIndex: number) => (
-                    <Item key={oneOfIndex}>
-                      {oneOfRenderInfo.title ?? `Item ${oneOfIndex + 1}`}
-                    </Item>
-                  ))}
-                </ListBox>
-              </>
+              <ListBox
+                aria-label='Select'
+                items={schema}
+                margin='size-100'
+                onSelectionChange={(selected) => handleListBoxChange(selected)}
+                selectedKeys={String(selectedIndex)}
+                selectionMode='single'
+                width='calc(100% - size-200)'
+                maxHeight='size-2400'
+              >
+                {schema?.oneOf?.map((oneOfRenderInfo: any, oneOfIndex: number) => (
+                  <Item key={oneOfIndex}>{oneOfRenderInfo.title ?? `Item ${oneOfIndex + 1}`}</Item>
+                ))}
+              </ListBox>
             )}
           </div>
           <ButtonGroup>
