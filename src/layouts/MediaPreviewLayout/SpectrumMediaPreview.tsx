@@ -28,7 +28,7 @@
 import React from 'react';
 import { RendererProps } from '@jsonforms/core';
 import { Flex, Heading, Text, View } from '@adobe/react-spectrum';
-import CFRWithDetailLayoutItem from './ContentFragmentReferenceWithDetailLayoutItem';
+import CFRWithDetailLayoutItem from './MediaPreviewLayoutItem';
 export interface extendedLayoutRendererProps extends RendererProps {
   data: any;
   label: string;
@@ -36,8 +36,9 @@ export interface extendedLayoutRendererProps extends RendererProps {
   layout: any;
 }
 
-export const SpectrumContentFragmentReference = React.memo(
+export const SpectrumMediaPreview = React.memo(
   ({ data, path, renderers, elements, layout, uischema, label }: extendedLayoutRendererProps) => {
+    console.log(data);
     return (
       <View>
         <Flex direction='row' justifyContent='space-between'>

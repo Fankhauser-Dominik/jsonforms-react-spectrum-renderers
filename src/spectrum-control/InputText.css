@@ -2,13 +2,13 @@ div[class^='spectrum-Textfield'] {
   width: 100%;
 }
 
-.fileBrowserButton {
+.assetPickerButton {
   min-width: min-content !important;
   margin-top: 25px !important;
   margin-left: 5px !important;
 }
 
-.fileBrowserButtonBottom {
+.assetPickerButtonBottom {
   min-width: min-content !important;
   margin-top: 5px !important;
   margin-right: 3px !important;

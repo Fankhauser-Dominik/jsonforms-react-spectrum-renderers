@@ -139,6 +139,7 @@ const CFRWithDetailLayoutItem = React.memo(
           handler: customPickerHandler,
         }}
         layout={layout}
+        uischema={uischema}
       />
     );
 

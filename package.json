@@ -1,7 +1,7 @@
 {
   "name": "jsonforms-react-spectrum-vite-test",
   "private": false,
-  "version": "0.0.116",
+  "version": "0.0.117",
   "type": "module",
   "files": [
     "dist"
@@ -92,9 +92,9 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@codemirror/lang-javascript": "^6.0.2",
+    "@codemirror/lang-javascript": "^6.1.0",
     "@codemirror/language": "^6.2.1",
-    "@testing-library/dom": "^8.18.0",
+    "@testing-library/dom": "^8.18.1",
     "@testing-library/react": "^13.4.0",
     "@types/enzyme": "^3.10.12",
     "@types/jest": "^29.0.3",

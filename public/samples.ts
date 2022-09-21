@@ -1696,12 +1696,12 @@ samples.push({
             scope: '#/properties/seoImage/properties/_path',
             label: 'SEO Image',
             options: {
-              fileBrowser: {
+              assetPicker: {
                 icon: true,
                 buttonText: '',
                 send: {
                   message: {
-                    type: 'fileBrowser',
+                    type: 'assetPicker',
                     data: 'TestMessage',
                     targetOrigin: '*',
                   },
@@ -1709,7 +1709,7 @@ samples.push({
                 receive: {
                   message: 'string',
                   targetOrigin: 'string',
-                  type: 'fileBrowser',
+                  type: 'assetPicker',
                   data: 'Test',
                 },
               },

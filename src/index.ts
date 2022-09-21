@@ -125,6 +125,8 @@ import {
   SpectrumGroupLayoutTester,
   ContentFragmentReferenceWithDetailLayout,
   ContentFragmentReferenceWithDetailLayoutTester,
+  MediaPreviewLayout,
+  MediaPreviewLayoutTester,
   SpectrumHorizontalLayout,
   SpectrumHorizontalLayoutTester,
   SpectrumVerticalLayout,
@@ -226,6 +228,10 @@ export const SpectrumRenderers: { tester: RankedTester; renderer: any }[] = [
   {
     tester: ContentFragmentReferenceWithDetailLayoutTester,
     renderer: ContentFragmentReferenceWithDetailLayout,
+  },
+  {
+    tester: MediaPreviewLayoutTester,
+    renderer: MediaPreviewLayout,
   },
   { tester: SpectrumVerticalLayoutTester, renderer: SpectrumVerticalLayout },
   {
