@@ -18,6 +18,7 @@ import ModalItemDelete from './DeleteDialog';
 import FolderSearch from '@spectrum-icons/workflow/FolderSearch';
 
 interface ArrayModalItemHeaderProps {
+  data: any;
   expanded: boolean;
   index: number;
   path: string;
@@ -33,6 +34,7 @@ interface ArrayModalItemHeaderProps {
 }
 
 export default function ModalItemHeader({
+  data,
   expanded,
   index,
   path,
@@ -42,6 +44,7 @@ export default function ModalItemHeader({
   customPicker,
   layout,
 }: ArrayModalItemHeaderProps) {
+  const noData = data === undefined || Object.keys(data).length === 0;
   const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
   const actionMenuTriggered = (action: any) => {
     const testArr = action.split('-');
@@ -66,6 +69,7 @@ export default function ModalItemHeader({
             isQuiet
             onPress={() => handleExpand()}
             aria-label={`expand-item-${childLabel}`}
+            isDisabled={noData}
           >
             <Text UNSAFE_className='spectrum-array-item-name' UNSAFE_style={{ textAlign: 'left' }}>
               {childLabel}
@@ -74,48 +78,63 @@ export default function ModalItemHeader({
           <Tooltip>{layout?._path || childLabel}</Tooltip>
         </TooltipTrigger>
         <View>
-          <Flex gap={'size-0'}>
-            <ActionMenu align='end' onAction={actionMenuTriggered} isQuiet={true}>
-              <Item key='delete' textValue={`delete-item-${childLabel}`}>
-                <Text>Delete</Text>
-                <Delete size='S' />
-              </Item>
-            </ActionMenu>
+          {noData ? (
+            <Flex gap={'size-0'}>
+              <TooltipTrigger delay={settings.toolTipDelay}>
+                <ActionButton
+                  onPress={customPicker.handler}
+                  isQuiet={true}
+                  aria-label={`change-reference-${childLabel}`}
+                >
+                  <FolderSearch aria-label='Change Reference' size='S' />
+                </ActionButton>
+                <Tooltip>Change Content Fragment Reference</Tooltip>
+              </TooltipTrigger>
+            </Flex>
+          ) : (
+            <Flex gap={'size-0'}>
+              <ActionMenu align='end' onAction={actionMenuTriggered} isQuiet={true}>
+                <Item key='delete' textValue={`delete-item-${childLabel}`}>
+                  <Text>Delete</Text>
+                  <Delete size='S' />
+                </Item>
+              </ActionMenu>
 
-            <TooltipTrigger delay={settings.toolTipDelay}>
-              <ActionButton
-                onPress={customPicker.handler}
-                isQuiet={true}
-                aria-label={`change-reference-${childLabel}`}
-              >
-                <FolderSearch aria-label='Change Reference' size='S' />
-              </ActionButton>
-              <Tooltip>Change Content Fragment Reference</Tooltip>
-            </TooltipTrigger>
-            <TooltipTrigger delay={settings.toolTipDelay}>
-              <ActionButton
-                onPress={() => handleExpand()}
-                isQuiet={true}
-                aria-label={`expand-item-${childLabel}`}
-              >
-                {expanded ? (
-                  <Close aria-label='Close' size='S' />
-                ) : (
-                  <Edit aria-label='Edit' size='S' />
-                )}
-              </ActionButton>
-              <Tooltip>{expanded ? 'Close' : 'Edit'}</Tooltip>
-            </TooltipTrigger>
-            <ModalItemDelete
-              deleteModalOpen={deleteModalOpen}
-              setDeleteModalOpen={setDeleteModalOpen}
-              removeItem={removeItem}
-              path={path}
-              index={index}
-              expanded={expanded}
-              handleExpand={handleExpand}
-            />
-          </Flex>
+              <TooltipTrigger delay={settings.toolTipDelay}>
+                <ActionButton
+                  onPress={customPicker.handler}
+                  isQuiet={true}
+                  aria-label={`change-reference-${childLabel}`}
+                >
+                  <FolderSearch aria-label='Change Reference' size='S' />
+                </ActionButton>
+                <Tooltip>Change Content Fragment Reference</Tooltip>
+              </TooltipTrigger>
+              <TooltipTrigger delay={settings.toolTipDelay}>
+                <ActionButton
+                  onPress={() => handleExpand()}
+                  isQuiet={true}
+                  aria-label={`expand-item-${childLabel}`}
+                >
+                  {expanded ? (
+                    <Close aria-label='Close' size='S' />
+                  ) : (
+                    <Edit aria-label='Edit' size='S' />
+                  )}
+                </ActionButton>
+                <Tooltip>{expanded ? 'Close' : 'Edit'}</Tooltip>
+              </TooltipTrigger>
+              <ModalItemDelete
+                deleteModalOpen={deleteModalOpen}
+                setDeleteModalOpen={setDeleteModalOpen}
+                removeItem={removeItem}
+                path={path}
+                index={index}
+                expanded={expanded}
+                handleExpand={handleExpand}
+              />
+            </Flex>
+          )}
         </View>
       </Flex>
     </View>

@@ -37,13 +37,17 @@ export const ImagePreview = React.memo(
           direction={appliedUiSchemaOptions.flex ?? 'column'}
           alignItems={appliedUiSchemaOptions.alignItems ?? 'start'}
           gap={appliedUiSchemaOptions.gap ?? 'size-0'}
+          marginTop={appliedUiSchemaOptions.marginTop ?? 'size-100'}
         >
           <img
             src={data}
             height={appliedUiSchemaOptions.height ?? 'auto'}
             width={appliedUiSchemaOptions.width ?? 'auto'}
+            style={{ maxWidth: '100%', maxHeight: '70vh', objectFit: 'scale-down' }}
           />
-          {appliedUiSchemaOptions.description ?? null}
+          {appliedUiSchemaOptions.description === true
+            ? data.alt
+            : appliedUiSchemaOptions.description ?? null}
         </Flex>
       </SpectrumProvider>
     );

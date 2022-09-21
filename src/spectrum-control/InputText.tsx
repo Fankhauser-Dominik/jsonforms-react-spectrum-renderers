@@ -51,7 +51,6 @@ export const InputText = React.memo(
     uischema,
   }: CellProps & SpectrumInputProps) => {
     const appliedUiSchemaOptions = merge({}, config, uischema.options);
-    //const uuid = (prefix: string) => `${prefix}-${uuidv4()}`;
 
     const width: DimensionValue | undefined = appliedUiSchemaOptions.trim ? undefined : '100%';
 
@@ -88,47 +87,25 @@ export const InputText = React.memo(
       }
     };
 
-    /* useEffect(() => {
-      if (!data && schema?.default) {
-        handleChange(path, schema.default);
-      }
-      if (!data && !schema.default && appliedUiSchemaOptions.defaultUUID) {
-        handleChange(path, uuid(appliedUiSchemaOptions.defaultUUID));
-      }
-    }, [!data, schema?.default]); */
-
-    /* useEffect(() => {
-      if (
-        !data &&
-        !schema?.default &&
-        appliedUiSchemaOptions.NonFocusPlaceholder
-      ) {
-        handleChange(path, appliedUiSchemaOptions.NonFocusPlaceholder);
-      }
-    }, [appliedUiSchemaOptions.NonFocusPlaceholder]); */
-
-    /* const clearNonFocusPlaceholder = () => {
-      if (data === appliedUiSchemaOptions.NonFocusPlaceholder) {
-        handleChange(path, '');
-      } else if (!data && !schema?.default) {
-        handleChange(path, appliedUiSchemaOptions.NonFocusPlaceholder);
-      }
-    }; */
-
-    const fileBrowser = uischema.options?.fileBrowser;
+    const assetPicker = uischema.options?.assetPicker;
     const idlePostMessage = uischema.options?.idlePostMessage;
-    const fileBrowserOptions =
-      fileBrowser?.send?.message && fileBrowser?.receive?.message && fileBrowser?.receive?.type;
+    const assetPickerOptions = uischema.options?.assetPickerOptions;
 
-    const sendMessage = (message: any, targetOrigin: string = '*', transfer?: any) => {
-      //var popUp = window.open(targetOrigin);
-      window.postMessage(message, targetOrigin, transfer);
+    const sendMessage = () => {
+      const message: object = {
+        type: 'assetPickerOpen',
+        jsonFormsPath: path,
+        rootPath: 'x_rootPath',
+        selectedPath: '_path',
+      };
+      const targetOrigin: string = '*';
+      window.postMessage(message, targetOrigin);
     };
 
     window.addEventListener('message', (e) => {
-      if (e?.data?.type && e?.data?.type === fileBrowser?.receive?.type) {
-        //handleChange(path, e.data.message);
-        onChange(e.data.data);
+      if (e?.data?.type && e?.data?.type === 'assetPickerClose') {
+        if (e.data.jsonFormsPath !== path) return;
+        onChange(e.data.selectedPath);
       }
     });
 
@@ -140,13 +117,7 @@ export const InputText = React.memo(
           return;
         }
         const delayDebounceFn = setTimeout(() => {
-          sendMessage(
-            idlePostMessage?.info
-              ? { key: uischema?.scope, value: inputText, path: path }
-              : idlePostMessage?.message,
-            idlePostMessage?.targetOrigin,
-            idlePostMessage?.transfer
-          );
+          sendMessage();
         }, 3000);
 
         return () => clearTimeout(delayDebounceFn);
@@ -174,43 +145,31 @@ export const InputText = React.memo(
             width={width}
             minLength={appliedUiSchemaOptions.minLength ?? null}
             necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
-            /* onBlur={() =>
-              sendMessage(
-                idlePostMessage?.info
-                  ? { key: uischema?.scope, value: inputText, path: path }
-                  : idlePostMessage?.message,
-                idlePostMessage?.targetOrigin,
-                idlePostMessage?.transfer
-              )
-            } */
             onChange={onChange}
-            //onFocusChange={clearNonFocusPlaceholder}
             type={appliedUiSchemaOptions.format ?? 'text'}
             validationState={isValidCheck ? 'valid' : 'invalid'}
             value={inputText}
           />
-          {fileBrowserOptions && (
+          {assetPicker && (
             <ActionButton
-              onPress={() =>
-                sendMessage(
-                  fileBrowser?.send?.message,
-                  fileBrowser?.send?.targetOrigin,
-                  fileBrowser?.send?.transfer
-                )
+              onPress={() => sendMessage()}
+              aria-label={assetPickerOptions?.buttonText ?? `Asset Picker`}
+              UNSAFE_className='assetPickerButton'
+              UNSAFE_style={
+                assetPickerOptions?.icon === false || assetPickerOptions?.buttonText === false
+                  ? undefined
+                  : { paddingRight: 8 }
               }
-              aria-label={fileBrowser?.buttonText ?? `Filebrowser`}
-              UNSAFE_className='fileBrowserButton'
-              UNSAFE_style={fileBrowser?.icon === false ? undefined : { paddingRight: 8 }}
             >
-              {fileBrowser?.icon === false ? undefined : uischema.options?.fileBrowser?.icon ===
-                'url' ? (
+              {assetPickerOptions?.icon === false ? undefined : uischema.options?.assetPickerOptions
+                  ?.icon === 'url' ? (
                 <Link size='S' />
-              ) : fileBrowser?.icon === 'asset' ? (
+              ) : assetPickerOptions?.icon === 'asset' ? (
                 <Asset size='S' />
               ) : (
                 <FolderOpen size='S' />
               )}
-              {fileBrowser?.buttonText ?? null}
+              {assetPickerOptions?.buttonText}
             </ActionButton>
           )}
         </Flex>

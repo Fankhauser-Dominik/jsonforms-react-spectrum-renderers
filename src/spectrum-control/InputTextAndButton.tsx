@@ -94,24 +94,31 @@ export const InputTextAndButton = React.memo(
     const buttonBottom = uischema.options?.buttons.bottom;
     const idlePostMessage = uischema.options?.idlePostMessage;
 
-    const sendMessage = (message: any, targetOrigin: string = '*', transfer?: any) => {
-      window.postMessage(message, targetOrigin, transfer);
+    const sendMessage = () => {
+      const message: object = {
+        type: 'assetPickerOpen',
+        jsonFormsPath: path,
+        rootPath: 'x_rootPath',
+        selectedPath: '_path',
+      };
+      const targetOrigin: string = '*';
+      window.postMessage(message, targetOrigin);
     };
 
     window.addEventListener('message', (e) => {
-      if (e?.data?.type && e?.data?.type === buttonTop?.fileBrowser?.receive?.type) {
+      if (e?.data?.type && e?.data?.type === buttonTop?.assetPicker?.receive?.type) {
         onChange(e.data.data);
       }
     });
 
     window.addEventListener('message', (e) => {
-      if (e?.data?.type && e?.data?.type === buttonBottom?.left?.fileBrowser?.receive?.type) {
+      if (e?.data?.type && e?.data?.type === buttonBottom?.left?.assetPicker?.receive?.type) {
         onChange(e.data.data);
       }
     });
 
     window.addEventListener('message', (e) => {
-      if (e?.data?.type && e?.data?.type === buttonBottom?.right?.fileBrowser?.receive?.type) {
+      if (e?.data?.type && e?.data?.type === buttonBottom?.right?.assetPicker?.receive?.type) {
         onChange(e.data.data);
       }
     });
@@ -124,13 +131,7 @@ export const InputTextAndButton = React.memo(
           return;
         }
         const delayDebounceFn = setTimeout(() => {
-          sendMessage(
-            idlePostMessage?.info
-              ? { key: uischema?.scope, value: inputText, path: path }
-              : idlePostMessage?.message,
-            idlePostMessage?.targetOrigin,
-            idlePostMessage?.transfer
-          );
+          sendMessage();
         }, 3000);
 
         return () => clearTimeout(delayDebounceFn);
@@ -164,15 +165,9 @@ export const InputTextAndButton = React.memo(
             value={inputText}
           />
           <ActionButton
-            onPress={() =>
-              sendMessage(
-                buttonTop?.send?.message,
-                buttonTop?.send?.targetOrigin,
-                buttonTop?.send?.transfer
-              )
-            }
-            aria-label={buttonTop?.buttonText ?? `Filebrowser`}
-            UNSAFE_className='fileBrowserButton'
+            onPress={() => sendMessage()}
+            aria-label={buttonTop?.buttonText ?? `Asset Picker`}
+            UNSAFE_className='assetPickerButton'
             UNSAFE_style={
               buttonTop?.icon === false || !buttonTop?.text ? undefined : { paddingRight: 8 }
             }
@@ -194,15 +189,9 @@ export const InputTextAndButton = React.memo(
           </ActionButton>
         </Flex>
         <ActionButton
-          onPress={() =>
-            sendMessage(
-              buttonBottom?.send?.message,
-              buttonBottom?.send?.targetOrigin,
-              buttonBottom?.send?.transfer
-            )
-          }
-          aria-label={buttonBottom?.buttonText ?? `Filebrowser`}
-          UNSAFE_className='fileBrowserButtonBottom'
+          onPress={() => sendMessage()}
+          aria-label={buttonBottom?.buttonText ?? `Asset Picker`}
+          UNSAFE_className='assetPickerButtonBottom'
           UNSAFE_style={
             buttonBottom?.left?.icon === false || !buttonBottom?.left?.text
               ? undefined
@@ -229,15 +218,9 @@ export const InputTextAndButton = React.memo(
         </ActionButton>
         {buttonBottom?.right && (
           <ActionButton
-            onPress={() =>
-              sendMessage(
-                buttonBottom?.send?.message,
-                buttonBottom?.send?.targetOrigin,
-                buttonBottom?.send?.transfer
-              )
-            }
-            aria-label={buttonBottom?.buttonText ?? `Filebrowser`}
-            UNSAFE_className='fileBrowserButtonBottom'
+            onPress={() => sendMessage()}
+            aria-label={buttonBottom?.buttonText ?? `Asset Picker`}
+            UNSAFE_className='assetPickerButtonBottom'
             UNSAFE_style={
               buttonBottom?.right?.icon === false || !buttonBottom?.right?.text
                 ? undefined

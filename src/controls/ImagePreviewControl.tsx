@@ -34,5 +34,5 @@ export const ImagePreviewControl = (props: ControlProps) => (
   <SpectrumInputControl {...props} input={ImagePreview} />
 );
 
-export const ImagePreviewControlTester: RankedTester = rankWith(4, optionIs('image', true));
+export const ImagePreviewControlTester: RankedTester = rankWith(4, optionIs('mediaPreview', true));
 export default withJsonFormsControlProps(ImagePreviewControl);

@@ -15,7 +15,7 @@ import { findValue } from '../utils';
 export interface OwnPropsOfSpectrumArrayModalItem {
   childData?: any;
   childLabel: string;
-  data: any;
+  data?: any;
   elements: any;
   index: number;
   layout: any;
