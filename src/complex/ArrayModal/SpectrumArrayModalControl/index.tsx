@@ -101,15 +101,23 @@ export const SpectrumArrayModalControl = React.memo(
       if (schema?.oneOf?.length === 1) {
         addItem(path, createDefaultValue(schema.oneOf[0]))();
       } else if (uischema?.options?.picker) {
-        window.postMessage({ type: 'customPicker:open', open: true, schema });
+        window.postMessage({
+          type: 'customPicker:open',
+          open: true,
+          schema,
+          current: {
+            path,
+          },
+        });
       } else {
         setOpen(true);
       }
     }, [open]);
 
     const handleCustomPickerMessage = (e: MessageEvent) => {
+      debugger;
       console.log('handleCustomPickerMessage', e?.data);
-      if (e?.data?.type === 'customPicker:return' && e?.data?.data) {
+      if (e?.data?.type === 'customPicker:return' && e?.data?.path === path && e?.data?.data) {
         console.log('handleCustomPickerMessage', e?.data?.data);
         let newData = [...data];
         if (e?.data?.index && typeof e.data.index === 'number') {
