@@ -37,7 +37,16 @@ export interface extendedLayoutRendererProps extends RendererProps {
 }
 
 export const SpectrumContentFragmentReference = React.memo(
-  ({ data, path, renderers, elements, layout, uischema, label }: extendedLayoutRendererProps) => {
+  ({
+    data,
+    path,
+    renderers,
+    elements,
+    layout,
+    schema,
+    uischema,
+    label,
+  }: extendedLayoutRendererProps) => {
     return (
       <View>
         <Flex direction='row' justifyContent='space-between'>
@@ -53,6 +62,7 @@ export const SpectrumContentFragmentReference = React.memo(
                     index={index}
                     path={path}
                     renderers={renderers}
+                    schema={schema}
                     uischema={uischema}
                     elements={elements}
                     layout={layout?.elements[index]}
