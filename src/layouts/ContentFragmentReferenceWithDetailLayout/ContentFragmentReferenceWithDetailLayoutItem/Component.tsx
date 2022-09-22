@@ -42,6 +42,7 @@ const CFRWithDetailLayoutItem = React.memo(
     layout,
     path,
     removeItem,
+    schema,
     uischema,
   }: OwnPropsOfSpectrumArrayModalItem) => {
     const [expanded, setExpanded] = React.useState(false);
@@ -116,6 +117,7 @@ const CFRWithDetailLayoutItem = React.memo(
       window.postMessage({
         type: 'customPicker:open',
         open: true,
+        schema: [schema],
         current: {
           path,
           index,
