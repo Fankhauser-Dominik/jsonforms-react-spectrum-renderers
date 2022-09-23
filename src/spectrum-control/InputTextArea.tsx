@@ -88,23 +88,10 @@ export const InputTextArea = React.memo(
       }
     }, [!data, schema?.default]);
 
-    /* useEffect(() => {
-      if (
-        !data &&
-        !schema?.default &&
-        appliedUiSchemaOptions.NonFocusPlaceholder
-      ) {
-        handleChange(path, appliedUiSchemaOptions.NonFocusPlaceholder);
-      }
-    }, [appliedUiSchemaOptions.NonFocusPlaceholder]); */
-
-    /* const clearNonFocusPlaceholder = () => {
-      if (data === appliedUiSchemaOptions.NonFocusPlaceholder) {
-        handleChange(path, '');
-      } else if (!data && !schema?.default) {
-        handleChange(path, appliedUiSchemaOptions.NonFocusPlaceholder);
-      }
-    }; */
+    React.useEffect(() => {
+      console.log('data', data);
+      onChange(data);
+    }, [data]);
 
     return (
       <SpectrumProvider width={width}>

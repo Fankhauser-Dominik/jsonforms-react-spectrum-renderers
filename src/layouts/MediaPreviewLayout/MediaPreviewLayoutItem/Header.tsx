@@ -34,6 +34,7 @@ interface ArrayModalItemHeaderProps {
   };
   layout: any;
   uischema?: any;
+  keyNumber?: number;
 }
 
 export default function ModalItemHeader({
@@ -48,6 +49,7 @@ export default function ModalItemHeader({
   layout,
   uischema,
 }: ArrayModalItemHeaderProps) {
+  const noData = data === undefined || Object.keys(data).length === 0;
   const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
   const actionMenuTriggered = (action: any) => {
     const testArr = action.split('-');
@@ -61,12 +63,22 @@ export default function ModalItemHeader({
     lookupObj[actionName]();
   };
 
-  childLabel = layout?.label || childLabel;
+  childLabel =
+    uischema.options?.label ||
+    findValue(data, uischema.options?.dataAsLabel) ||
+    layout?.label ||
+    childLabel ||
+    `Media ${index + 1}`;
+
+  const mediaType =
+    uischema.options?.mediaType ||
+    findValue(data, uischema.options?.dataAsMediaType) ||
+    'undefined';
 
   const imageSrc =
     typeof uischema.options?.dataAsImage === 'number'
       ? Object.values(data)[uischema.options?.dataAsImage]
-      : findValue(data, uischema.options?.dataAsImage) ?? `Item ${index + 1}`;
+      : findValue(data, uischema.options?.dataAsImage) ?? undefined;
 
   return (
     <View aria-selected={expanded} UNSAFE_className='array-item-header'>
@@ -77,7 +89,17 @@ export default function ModalItemHeader({
             isQuiet
             onPress={() => handleExpand()}
             aria-label={`expand-item-${childLabel}`}
+            isDisabled={noData}
           >
+            {imageSrc && (
+              <img
+                src={imageSrc}
+                height='50'
+                width='50'
+                alt='Preview Picture'
+                style={{ objectFit: 'cover', marginRight: '10px', marginLeft: '2px' }}
+              />
+            )}
             <Text UNSAFE_className='spectrum-array-item-name' UNSAFE_style={{ textAlign: 'left' }}>
               <Heading level={4} UNSAFE_style={{ margin: 0 }}>
                 {childLabel}
@@ -86,16 +108,9 @@ export default function ModalItemHeader({
                 UNSAFE_className='spectrum-array-item-name'
                 UNSAFE_style={{ textAlign: 'left' }}
               >
-                JPG
+                {mediaType}
               </Text>
             </Text>
-            <img
-              src={imageSrc}
-              height='50'
-              width='50'
-              alt='Preview Picture'
-              style={{ objectFit: 'cover', marginRight: '10px' }}
-            />
           </ActionButton>
           <Tooltip>{layout?._path || imageSrc || childLabel}</Tooltip>
         </TooltipTrigger>
@@ -118,20 +133,22 @@ export default function ModalItemHeader({
               </ActionButton>
               <Tooltip>Change Content Fragment Reference</Tooltip>
             </TooltipTrigger>
-            <TooltipTrigger delay={settings.toolTipDelay}>
-              <ActionButton
-                onPress={() => handleExpand()}
-                isQuiet={true}
-                aria-label={`expand-item-${childLabel}`}
-              >
-                {expanded ? (
-                  <Close aria-label='Close' size='S' />
-                ) : (
-                  <Edit aria-label='Edit' size='S' />
-                )}
-              </ActionButton>
-              <Tooltip>{expanded ? 'Close' : 'Edit'}</Tooltip>
-            </TooltipTrigger>
+            {!noData && (
+              <TooltipTrigger delay={settings.toolTipDelay}>
+                <ActionButton
+                  onPress={() => handleExpand()}
+                  isQuiet={true}
+                  aria-label={`expand-item-${childLabel}`}
+                >
+                  {expanded ? (
+                    <Close aria-label='Close' size='S' />
+                  ) : (
+                    <Edit aria-label='Edit' size='S' />
+                  )}
+                </ActionButton>
+                <Tooltip>{expanded ? 'Close' : 'Edit'}</Tooltip>
+              </TooltipTrigger>
+            )}
             <ModalItemDelete
               deleteModalOpen={deleteModalOpen}
               setDeleteModalOpen={setDeleteModalOpen}

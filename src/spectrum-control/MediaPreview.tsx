@@ -26,7 +26,7 @@ import { DimensionValue } from '@react-types/shared';
 import SpectrumProvider from '../additional/SpectrumProvider';
 import { Flex } from '@adobe/react-spectrum';
 
-export const ImagePreview = React.memo(
+export const MediaPreview = React.memo(
   ({ config, data, uischema }: CellProps & SpectrumInputProps) => {
     const appliedUiSchemaOptions = merge({}, config, uischema.options);
     const width: DimensionValue | undefined = appliedUiSchemaOptions.trim ? undefined : '100%';
@@ -43,7 +43,11 @@ export const ImagePreview = React.memo(
             src={data}
             height={appliedUiSchemaOptions.height ?? 'auto'}
             width={appliedUiSchemaOptions.width ?? 'auto'}
-            style={{ maxWidth: '100%', maxHeight: '70vh', objectFit: 'scale-down' }}
+            style={{
+              maxWidth: appliedUiSchemaOptions.maxWidth ?? '100%',
+              maxHeight: appliedUiSchemaOptions.maxHeight ?? '70vh',
+              objectFit: 'scale-down',
+            }}
           />
           {appliedUiSchemaOptions.description === true
             ? data.alt

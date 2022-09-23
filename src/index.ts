@@ -54,8 +54,8 @@ import {
 import {
   InputControl,
   inputControlTester,
-  ImagePreviewControl,
-  ImagePreviewControlTester,
+  MediaPreviewControl,
+  MediaPreviewControlTester,
   SpectrumAnyOfStringOrEnumControl,
   SpectrumAnyOfStringOrEnumControlTester,
   SpectrumBooleanControl,
@@ -144,7 +144,7 @@ export * from './additional';
 
 export const SpectrumRenderers: { tester: RankedTester; renderer: any }[] = [
   { tester: inputControlTester, renderer: InputControl },
-  { tester: ImagePreviewControlTester, renderer: ImagePreviewControl },
+  { tester: MediaPreviewControlTester, renderer: MediaPreviewControl },
   {
     tester: SpectrumListWithDetailTester,
     renderer: SpectrumListWithDetailRenderer,

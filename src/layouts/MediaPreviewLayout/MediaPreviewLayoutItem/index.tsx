@@ -1,5 +1,5 @@
 import React, { ComponentType } from 'react';
-import CFRWithDetailLayoutItem from './Component';
+import MediaPreviewLayoutItem from './Component';
 import {
   ControlElement,
   JsonFormsState,
@@ -23,6 +23,7 @@ export interface OwnPropsOfSpectrumArrayModalItem {
   removeItem(path: string, value: number): () => void;
   schema: JsonSchema;
   uischema: ControlElement;
+  keyNumber?: number;
 }
 
 /**
@@ -93,4 +94,4 @@ export const withJsonFormsSpectrumArrayModalItemProps = (
     )
   );
 
-export default withJsonFormsSpectrumArrayModalItemProps(CFRWithDetailLayoutItem);
+export default withJsonFormsSpectrumArrayModalItemProps(MediaPreviewLayoutItem);

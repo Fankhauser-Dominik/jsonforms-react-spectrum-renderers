@@ -28,7 +28,7 @@
 import React from 'react';
 import { RendererProps } from '@jsonforms/core';
 import { Flex, Heading, Text, View } from '@adobe/react-spectrum';
-import CFRWithDetailLayoutItem from './MediaPreviewLayoutItem';
+import MediaPreviewLayoutItem from './MediaPreviewLayoutItem';
 export interface extendedLayoutRendererProps extends RendererProps {
   data: any;
   label: string;
@@ -38,7 +38,12 @@ export interface extendedLayoutRendererProps extends RendererProps {
 
 export const SpectrumMediaPreview = React.memo(
   ({ data, path, renderers, elements, layout, uischema, label }: extendedLayoutRendererProps) => {
-    console.log(data);
+    const [keyNumber, setKeyNumber] = React.useState(0);
+
+    React.useEffect(() => {
+      setKeyNumber(keyNumber + Math.random());
+    }, [data]);
+
     return (
       <View>
         <Flex direction='row' justifyContent='space-between'>
@@ -49,7 +54,7 @@ export const SpectrumMediaPreview = React.memo(
             Array.from(Array(elements?.length)).map((_, index) => {
               return (
                 <Flex key={index} direction='row' alignItems='stretch' flex='auto inherit'>
-                  <CFRWithDetailLayoutItem
+                  <MediaPreviewLayoutItem
                     data={data}
                     index={index}
                     path={path}
@@ -57,7 +62,8 @@ export const SpectrumMediaPreview = React.memo(
                     uischema={uischema}
                     elements={elements}
                     layout={layout?.elements[index]}
-                  ></CFRWithDetailLayoutItem>
+                    keyNumber={keyNumber}
+                  ></MediaPreviewLayoutItem>
                 </Flex>
               );
             })

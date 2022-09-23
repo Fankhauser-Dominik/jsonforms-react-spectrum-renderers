@@ -1955,18 +1955,18 @@ samples.push({
   name: 'spectrum-image-preview',
   label: 'Image Preview',
   uischema: {
-    type: 'VerticalLayout',
+    type: 'MediaPreviewLayout',
+    options: {
+      dataAsImage: 'image',
+      dataAsLabel: 'image',
+    },
     elements: [
       {
         type: 'Control',
         scope: '#/properties/image',
-      },
-      {
-        type: 'Control',
-        scope: '#/properties/image',
         options: {
-          image: true,
-          description: 'Image Description',
+          mediaPreview: true,
+          description: false,
           gap: 'size-100',
           alignItems: 'center',
           flex: 'column',
