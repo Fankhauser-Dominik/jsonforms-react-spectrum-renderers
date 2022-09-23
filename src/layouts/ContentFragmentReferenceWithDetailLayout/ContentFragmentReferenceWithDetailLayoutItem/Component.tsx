@@ -20,9 +20,9 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View } from '@adobe/react-spectrum';
-import { OwnPropsOfSpectrumArrayModalItem } from '.';
+import { HandleChange, OwnPropsOfSpectrumArrayModalItem } from '.';
 
 import ModalItemAnimatedWrapper from './AnimationWrapper';
 
@@ -44,7 +44,11 @@ const CFRWithDetailLayoutItem = React.memo(
     removeItem,
     schema,
     uischema,
-  }: OwnPropsOfSpectrumArrayModalItem) => {
+    handleChange,
+  }: OwnPropsOfSpectrumArrayModalItem & HandleChange) => {
+    console.log('CFRWithDetailLayoutItem data', data);
+    console.log('CFRWithDetailLayoutItem path', path);
+    console.log('CFRWithDetailLayoutItem elements', elements);
     const [expanded, setExpanded] = React.useState(false);
     const [isAnimating, setIsAnimating] = React.useState(false);
 
@@ -126,6 +130,26 @@ const CFRWithDetailLayoutItem = React.memo(
       });
     };
 
+    const handleCustomPickerMessage = (e: MessageEvent) => {
+      debugger;
+      if (e?.data?.type === 'customPicker:return') {
+        console.log('handleCustomPickerMessage', e?.data);
+      }
+      if (e?.data?.type === 'customPicker:return' && e?.data?.path === path && e?.data?.data) {
+        debugger;
+        console.log('handleCustomPickerMessage handling', e.data.data);
+        handleChange(path, e.data.data);
+      }
+    };
+
+    useEffect(() => {
+      window.addEventListener('message', handleCustomPickerMessage);
+
+      return () => {
+        window.removeEventListener('message', handleCustomPickerMessage);
+      };
+    }, [data]);
+
     const Header = (
       <ModalItemHeader
         data={data}
@@ -137,7 +161,7 @@ const CFRWithDetailLayoutItem = React.memo(
         childLabel={childLabel}
         childData={childData}
         customPicker={{
-          enabled: uischema?.options?.picker,
+          enabled: true,
           handler: customPickerHandler,
         }}
         layout={layout}

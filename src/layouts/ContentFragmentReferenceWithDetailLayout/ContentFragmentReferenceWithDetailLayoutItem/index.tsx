@@ -7,9 +7,10 @@ import {
   Resolve,
   composePaths,
   getData,
+  update as updateAction,
 } from '@jsonforms/core';
 import { JsonFormsStateContext, withJsonFormsContext } from '@jsonforms/react';
-import areEqual from '../../../util/areEqual';
+//import areEqual from '../../../util/areEqual';
 import { findValue } from '../utils';
 
 export interface OwnPropsOfSpectrumArrayModalItem {
@@ -23,6 +24,10 @@ export interface OwnPropsOfSpectrumArrayModalItem {
   removeItem(path: string, value: number): () => void;
   schema: JsonSchema;
   uischema: ControlElement;
+}
+
+export interface HandleChange {
+  handleChange: (path: string, data: any) => void;
 }
 
 /**
@@ -67,28 +72,34 @@ export const ctxToSpectrumArrayModalItemProps = (
 
 const withContextToSpectrumArrayModalItemProps =
   (
-    Component: ComponentType<OwnPropsOfSpectrumArrayModalItem>
+    Component: ComponentType<OwnPropsOfSpectrumArrayModalItem & HandleChange>
   ): ComponentType<OwnPropsOfSpectrumArrayModalItem> =>
   ({ ctx, props, DNDHandle }: JsonFormsStateContext & OwnPropsOfSpectrumArrayModalItem) => {
     const stateProps = ctxToSpectrumArrayModalItemProps(ctx, props);
-    return <Component {...stateProps} {...DNDHandle} />;
+    const handleChange = (path: string, data: any) => {
+      ctx.dispatch(updateAction(path, () => data));
+    };
+    return <Component {...stateProps} {...DNDHandle} handleChange={handleChange} />;
   };
 
 export const withJsonFormsSpectrumArrayModalItemProps = (
-  Component: ComponentType<OwnPropsOfSpectrumArrayModalItem>
+  Component: ComponentType<OwnPropsOfSpectrumArrayModalItem & HandleChange>
 ): ComponentType<any> =>
   withJsonFormsContext(
     withContextToSpectrumArrayModalItemProps(
       React.memo(
-        Component,
-        (
-          prevProps: OwnPropsOfSpectrumArrayModalItem,
-          nextProps: OwnPropsOfSpectrumArrayModalItem
-        ) => {
-          const { removeItem: prevRemoveItem, ...restPrevProps } = prevProps;
-          const { removeItem: nextRemoveItem, ...restNextProps } = nextProps;
-          return areEqual(restPrevProps, restNextProps);
-        }
+        Component //,
+        // (
+        //   prevProps: OwnPropsOfSpectrumArrayModalItem & HandleChange,
+        //   nextProps: OwnPropsOfSpectrumArrayModalItem & HandleChange
+        // ) => {
+        //   const { removeItem: prevRemoveItem, ...restPrevProps } = prevProps;
+        //   const { removeItem: nextRemoveItem, ...restNextProps } = nextProps;
+        //   const v = areEqual(restPrevProps, restNextProps);
+        //   console.log('memo', restPrevProps, restPrevProps, v);
+        //   console.log('memo', prevProps, nextProps, v);
+        //   return v;
+        // }
       )
     )
   );
