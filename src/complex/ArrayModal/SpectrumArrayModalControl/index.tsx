@@ -39,6 +39,10 @@ export interface OverrideProps extends OwnPropsOfControl {
   indexOfFittingSchema?: number;
 }
 
+export interface HandleChange {
+  handleChange: (path: string, data: any) => void;
+}
+
 export const SpectrumArrayModalControl = React.memo(
   ({
     addItem,
@@ -50,7 +54,8 @@ export const SpectrumArrayModalControl = React.memo(
     schema,
     uischema,
     uischemas,
-  }: ArrayControlProps & OverrideProps) => {
+    handleChange,
+  }: ArrayControlProps & OverrideProps & HandleChange) => {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [open, setOpen] = useState(false);
     const handleClose = () => setOpen(false);
@@ -115,22 +120,24 @@ export const SpectrumArrayModalControl = React.memo(
     }, [open]);
 
     const handleCustomPickerMessage = (e: MessageEvent) => {
-      debugger;
-      console.log('handleCustomPickerMessage', e?.data);
+      if (e?.data?.type === 'customPicker:return') {
+        console.log('handleCustomPickerMessage', e?.data);
+      }
       if (e?.data?.type === 'customPicker:return' && e?.data?.path === path && e?.data?.data) {
-        console.log('handleCustomPickerMessage', e?.data?.data);
+        console.log('handleCustomPickerMessage handling', e?.data?.data);
         let newData = [...data];
         if (e?.data?.index && typeof e.data.index === 'number') {
-          console.log('replace existing data');
+          console.log('handleCustomPickerMessage replace existing data');
           newData[e.data.index] = e.data.data;
-          console.log('newData', newData);
-          console.log('data', data);
+          console.log('handleCustomPickerMessage old data', data);
+          console.log('handleCustomPickerMessage newData', newData);
         } else {
-          console.log('handleCustomPickerMessage addItem', e?.data?.data, data);
+          console.log('handleCustomPickerMessage addItem', e.data.data, data);
           newData.push(e.data.data);
         }
-        data.splice(0, data.length);
-        data.push(...newData);
+        //data.splice(0, data.length);
+        //data.push(...newData);
+        handleChange(path, newData);
         setRefKey(Math.random());
       }
     };

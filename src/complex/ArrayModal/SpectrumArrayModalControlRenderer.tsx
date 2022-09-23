@@ -25,11 +25,22 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React from 'react';
+import React, { ComponentType } from 'react';
 
-import { ArrayControlProps, ControlElement, Helpers } from '@jsonforms/core';
-import { withJsonFormsArrayControlProps } from '@jsonforms/react';
-import { SpectrumArrayModalControl } from './SpectrumArrayModalControl';
+import {
+  ArrayControlProps,
+  ControlElement,
+  Helpers,
+  OwnPropsOfControl,
+  update as updateAction,
+} from '@jsonforms/core';
+import {
+  ctxDispatchToArrayControlProps,
+  ctxToArrayControlProps,
+  JsonFormsStateContext,
+  withJsonFormsContext,
+} from '@jsonforms/react';
+import { HandleChange, SpectrumArrayModalControl } from './SpectrumArrayModalControl';
 
 const SpectrumArrayModalControlRenderer = React.memo(
   ({
@@ -45,7 +56,8 @@ const SpectrumArrayModalControlRenderer = React.memo(
     uischema,
     uischemas = [],
     visible,
-  }: ArrayControlProps) => {
+    handleChange,
+  }: ArrayControlProps & HandleChange) => {
     const controlElement = uischema as ControlElement;
     const labelDescription = Helpers.createLabelDescriptionFrom(controlElement, schema);
     const label = labelDescription.show ? labelDescription.text : undefined;
@@ -65,9 +77,27 @@ const SpectrumArrayModalControlRenderer = React.memo(
         uischema={uischema}
         uischemas={uischemas}
         visible={visible}
+        handleChange={handleChange}
       />
     ) : null;
   }
 );
+
+const withContextToArrayControlProps =
+  (Component: ComponentType<ArrayControlProps & HandleChange>): ComponentType<ArrayControlProps> =>
+  ({ ctx, props }: JsonFormsStateContext & ArrayControlProps) => {
+    const stateProps = ctxToArrayControlProps(ctx, props);
+    const dispatchProps = ctxDispatchToArrayControlProps(ctx.dispatch);
+    const handleChange = (path: string, data: any) => {
+      ctx.dispatch(updateAction(path, () => data));
+    };
+    return <Component {...props} {...stateProps} {...dispatchProps} handleChange={handleChange} />;
+  };
+
+const withJsonFormsArrayControlProps = (
+  Component: ComponentType<ArrayControlProps & HandleChange>,
+  memoize = true
+): ComponentType<OwnPropsOfControl> =>
+  withJsonFormsContext(withContextToArrayControlProps(memoize ? React.memo(Component) : Component));
 
 export default withJsonFormsArrayControlProps(SpectrumArrayModalControlRenderer);
