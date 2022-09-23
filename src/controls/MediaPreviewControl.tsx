@@ -27,12 +27,12 @@
 */
 import { ControlProps, RankedTester, rankWith, optionIs } from '@jsonforms/core';
 import { withJsonFormsControlProps } from '@jsonforms/react';
-import { ImagePreview } from '../spectrum-control';
+import { MediaPreview } from '../spectrum-control';
 import { SpectrumInputControl } from './SpectrumInputControl';
 
-export const ImagePreviewControl = (props: ControlProps) => (
-  <SpectrumInputControl {...props} input={ImagePreview} />
+export const MediaPreviewControl = (props: ControlProps) => (
+  <SpectrumInputControl {...props} input={MediaPreview} />
 );
 
-export const ImagePreviewControlTester: RankedTester = rankWith(4, optionIs('mediaPreview', true));
-export default withJsonFormsControlProps(ImagePreviewControl);
+export const MediaPreviewControlTester: RankedTester = rankWith(4, optionIs('mediaPreview', true));
+export default withJsonFormsControlProps(MediaPreviewControl);

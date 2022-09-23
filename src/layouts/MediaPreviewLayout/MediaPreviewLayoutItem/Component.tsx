@@ -43,6 +43,7 @@ const CFRWithDetailLayoutItem = React.memo(
     path,
     removeItem,
     uischema,
+    keyNumber,
   }: OwnPropsOfSpectrumArrayModalItem) => {
     const [expanded, setExpanded] = React.useState(false);
     const [isAnimating, setIsAnimating] = React.useState(false);
@@ -140,6 +141,7 @@ const CFRWithDetailLayoutItem = React.memo(
         }}
         layout={layout}
         uischema={uischema}
+        key={`header-${keyNumber}`}
       />
     );
 

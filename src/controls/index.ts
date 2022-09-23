@@ -27,7 +27,7 @@
 */
 
 import InputControl, { inputControlTester } from './InputControl';
-import ImagePreviewControl, { ImagePreviewControlTester } from './ImagePreviewControl';
+import MediaPreviewControl, { MediaPreviewControlTester } from './MediaPreviewControl';
 import SpectrumAnyOfStringOrEnumControl, {
   SpectrumAnyOfStringOrEnumControlTester,
 } from './SpectrumAnyOfStringOrEnumControl';
@@ -63,8 +63,8 @@ import SpectrumTimeControl, { SpectrumTimeControlTester } from './SpectrumTimeCo
 export {
   InputControl,
   inputControlTester,
-  ImagePreviewControl,
-  ImagePreviewControlTester,
+  MediaPreviewControl,
+  MediaPreviewControlTester,
   SpectrumAnyOfStringOrEnumControl,
   SpectrumAnyOfStringOrEnumControlTester,
   SpectrumBooleanControl,

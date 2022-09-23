@@ -129,7 +129,7 @@ function App(props: AppProps & { selectedExample: ReactExampleDescription }) {
               <View padding='size-100'>
                 <Heading>Form: {props.selectedExample.label}</Heading>
                 {!!props.getComponent(props.selectedExample)}
-                <JsonFormsDispatch /* onChange={props.onChange} */ />
+                <JsonFormsDispatch />
               </View>
             </div>
 

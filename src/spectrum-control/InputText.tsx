@@ -124,6 +124,10 @@ export const InputText = React.memo(
       }, [inputText]);
     }
 
+    React.useEffect(() => {
+      onChange(data);
+    }, [data]);
+
     return (
       <SpectrumProvider width={width}>
         <Flex direction='row' alignItems='stretch' flex='auto inherit'>
