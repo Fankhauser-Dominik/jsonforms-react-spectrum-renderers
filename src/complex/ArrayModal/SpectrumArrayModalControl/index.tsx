@@ -34,16 +34,13 @@ import { indexOfFittingSchemaObject } from '../utils';
 import DragAndDrop from './DragAndDrop';
 import AddDialog from './AddDialog';
 import SortButtons from './SortButtons';
+import { HandleChangeProps, withHandleChange } from '../../../util';
 
 export interface OverrideProps extends OwnPropsOfControl {
   indexOfFittingSchema?: number;
 }
 
-export interface HandleChange {
-  handleChange: (path: string, data: any) => void;
-}
-
-export const SpectrumArrayModalControl = React.memo(
+const SpectrumArrayModalControl = React.memo(
   ({
     addItem,
     data,
@@ -55,7 +52,7 @@ export const SpectrumArrayModalControl = React.memo(
     uischema,
     uischemas,
     handleChange,
-  }: ArrayControlProps & OverrideProps & HandleChange) => {
+  }: ArrayControlProps & OverrideProps & HandleChangeProps) => {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [open, setOpen] = useState(false);
     const handleClose = () => setOpen(false);
@@ -232,3 +229,5 @@ export const SpectrumArrayModalControl = React.memo(
     );
   }
 );
+
+export default withHandleChange(SpectrumArrayModalControl);

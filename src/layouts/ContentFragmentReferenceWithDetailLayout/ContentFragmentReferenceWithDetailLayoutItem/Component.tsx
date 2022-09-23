@@ -22,7 +22,7 @@
 */
 import React, { useEffect } from 'react';
 import { View } from '@adobe/react-spectrum';
-import { HandleChange, OwnPropsOfSpectrumArrayModalItem } from '.';
+import { OwnPropsOfSpectrumArrayModalItem } from '.';
 
 import ModalItemAnimatedWrapper from './AnimationWrapper';
 
@@ -31,6 +31,7 @@ import './Component.css';
 import SpectrumProvider from '../../../additional/SpectrumProvider';
 import ModalItemHeader from './Header';
 import { openItemWhenInQueryParam } from '../utils';
+import { withHandleChange, HandleChangeProps } from '../../../util';
 
 const CFRWithDetailLayoutItem = React.memo(
   ({
@@ -45,7 +46,7 @@ const CFRWithDetailLayoutItem = React.memo(
     schema,
     uischema,
     handleChange,
-  }: OwnPropsOfSpectrumArrayModalItem & HandleChange) => {
+  }: OwnPropsOfSpectrumArrayModalItem & HandleChangeProps) => {
     console.log('CFRWithDetailLayoutItem data', data);
     console.log('CFRWithDetailLayoutItem path', path);
     console.log('CFRWithDetailLayoutItem elements', elements);
@@ -199,4 +200,4 @@ const CFRWithDetailLayoutItem = React.memo(
   }
 );
 
-export default CFRWithDetailLayoutItem;
+export default withHandleChange(CFRWithDetailLayoutItem);

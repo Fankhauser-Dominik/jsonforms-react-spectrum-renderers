@@ -29,6 +29,7 @@ import { ComponentType } from 'react';
 import Ajv from 'ajv';
 import { getAjv } from '@jsonforms/core';
 import { useJsonForms } from '@jsonforms/react';
+import { Actions } from '@jsonforms/core';
 
 export interface AjvProps {
   ajv: Ajv;
@@ -41,4 +42,20 @@ export const withAjvProps =
     const ajv = getAjv({ jsonforms: { ...ctx } });
 
     return <Component {...props} ajv={ajv} />;
+  };
+
+export interface HandleChangeProps {
+  handleChange: (path: string, data: any) => void;
+}
+
+export const withHandleChange =
+  <P extends {}>(Component: ComponentType<P & HandleChangeProps>) =>
+  (props: P) => {
+    const ctx = useJsonForms();
+    const handleChange = (path: string, data: any) => {
+      if (ctx.dispatch) {
+        ctx.dispatch(Actions.update(path, () => data));
+      }
+    };
+    return <Component {...props} handleChange={handleChange} />;
   };

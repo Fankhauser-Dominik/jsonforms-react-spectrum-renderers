@@ -7,7 +7,6 @@ import {
   Resolve,
   composePaths,
   getData,
-  update as updateAction,
 } from '@jsonforms/core';
 import { JsonFormsStateContext, withJsonFormsContext } from '@jsonforms/react';
 //import areEqual from '../../../util/areEqual';
@@ -24,10 +23,6 @@ export interface OwnPropsOfSpectrumArrayModalItem {
   removeItem(path: string, value: number): () => void;
   schema: JsonSchema;
   uischema: ControlElement;
-}
-
-export interface HandleChange {
-  handleChange: (path: string, data: any) => void;
 }
 
 /**
@@ -72,18 +67,15 @@ export const ctxToSpectrumArrayModalItemProps = (
 
 const withContextToSpectrumArrayModalItemProps =
   (
-    Component: ComponentType<OwnPropsOfSpectrumArrayModalItem & HandleChange>
+    Component: ComponentType<OwnPropsOfSpectrumArrayModalItem>
   ): ComponentType<OwnPropsOfSpectrumArrayModalItem> =>
   ({ ctx, props, DNDHandle }: JsonFormsStateContext & OwnPropsOfSpectrumArrayModalItem) => {
     const stateProps = ctxToSpectrumArrayModalItemProps(ctx, props);
-    const handleChange = (path: string, data: any) => {
-      ctx.dispatch(updateAction(path, () => data));
-    };
-    return <Component {...stateProps} {...DNDHandle} handleChange={handleChange} />;
+    return <Component {...stateProps} {...DNDHandle} />;
   };
 
 export const withJsonFormsSpectrumArrayModalItemProps = (
-  Component: ComponentType<OwnPropsOfSpectrumArrayModalItem & HandleChange>
+  Component: ComponentType<OwnPropsOfSpectrumArrayModalItem>
 ): ComponentType<any> =>
   withJsonFormsContext(
     withContextToSpectrumArrayModalItemProps(
