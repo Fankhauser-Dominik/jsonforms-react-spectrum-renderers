@@ -44,7 +44,10 @@ export default function ModalItemHeader({
   customPicker,
   layout,
 }: ArrayModalItemHeaderProps) {
-  const noData = data === undefined || Object.keys(data).length === 0;
+  console.log('ModalItemHeader data', data);
+  console.log('ModalItemHeader path', path);
+  const noData = !(data?.['_path'] as boolean);
+  console.log('ModalItemHeader noData', noData);
   const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
   const actionMenuTriggered = (action: any) => {
     const testArr = action.split('-');
