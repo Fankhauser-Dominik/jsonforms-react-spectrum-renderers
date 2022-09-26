@@ -32,7 +32,7 @@ import SpectrumProvider from '../../../additional/SpectrumProvider';
 import ModalItemHeader from './Header';
 import { openItemWhenInQueryParam } from '../utils';
 
-const CFRWithDetailLayoutItem = React.memo(
+const Component = React.memo(
   ({
     childData,
     childLabel,
@@ -145,6 +145,10 @@ const CFRWithDetailLayoutItem = React.memo(
       />
     );
 
+    React.useEffect(() => {
+      console.log('3', 'Component');
+    }, [data]);
+
     return (
       <SpectrumProvider
         flex='auto'
@@ -176,4 +180,4 @@ const CFRWithDetailLayoutItem = React.memo(
   }
 );
 
-export default CFRWithDetailLayoutItem;
+export default Component;
