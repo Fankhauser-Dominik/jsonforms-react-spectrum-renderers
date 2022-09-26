@@ -98,9 +98,7 @@ export const SpectrumArrayModalControl = React.memo(
     };
 
     const onPressHandler = useCallback(() => {
-      if (schema?.oneOf?.length === 1) {
-        addItem(path, createDefaultValue(schema.oneOf[0]))();
-      } else if (uischema?.options?.picker) {
+      if (uischema?.options?.picker) {
         window.postMessage({
           type: 'customPicker:open',
           open: true,
@@ -109,6 +107,8 @@ export const SpectrumArrayModalControl = React.memo(
             path,
           },
         });
+      } else if (schema?.oneOf?.length === 1) {
+        addItem(path, createDefaultValue(schema.oneOf[0]))();
       } else {
         setOpen(true);
       }

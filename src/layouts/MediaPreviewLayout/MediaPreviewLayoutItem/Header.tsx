@@ -80,6 +80,9 @@ export default function ModalItemHeader({
       ? Object.values(data)[uischema.options?.dataAsImage]
       : findValue(data, uischema.options?.dataAsImage) ?? undefined;
 
+  React.useEffect(() => {
+    console.log('4', 'Header');
+  }, [data]);
   return (
     <View aria-selected={expanded} UNSAFE_className='array-item-header'>
       <Flex direction='row' margin='size-50' justifyContent='space-between' alignItems='center'>

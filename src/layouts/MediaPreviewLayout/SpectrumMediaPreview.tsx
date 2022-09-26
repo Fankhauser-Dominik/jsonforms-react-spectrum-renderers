@@ -44,6 +44,10 @@ export const SpectrumMediaPreview = React.memo(
       setKeyNumber(keyNumber + Math.random());
     }, [data]);
 
+    React.useEffect(() => {
+      console.log('2', 'SpectrumMediaPreview');
+    }, [data]);
+
     return (
       <View>
         <Flex direction='row' justifyContent='space-between'>

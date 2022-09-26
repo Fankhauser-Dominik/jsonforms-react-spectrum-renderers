@@ -98,8 +98,8 @@ export const InputTextAndButton = React.memo(
       const message: object = {
         type: 'assetPickerOpen',
         jsonFormsPath: path,
-        rootPath: 'x_rootPath',
-        selectedPath: '_path',
+        /* rootPath: 'x_rootPath',
+        selectedPath: '_path', */
       };
       const targetOrigin: string = '*';
       window.postMessage(message, targetOrigin);
