@@ -14,7 +14,7 @@ interface ModalItemDeleteProps {
   setDeleteModalOpen: (value: boolean) => void;
   path: string;
   index: number;
-  removeItem: (path: string, value: number) => () => void;
+  removeItem?: (path: string, value: number) => () => void;
   expanded: boolean;
   handleExpand: () => void;
 }
@@ -39,7 +39,9 @@ export default function ModalItemDelete({
   const onPressEndHandler = () => {
     setDeleteModalOpen(false);
     setTimeout(() => {
-      removeItem(path, index)();
+      if (removeItem) {
+        removeItem(path, index)();
+      }
     }, durationBeforeDelete);
   };
 

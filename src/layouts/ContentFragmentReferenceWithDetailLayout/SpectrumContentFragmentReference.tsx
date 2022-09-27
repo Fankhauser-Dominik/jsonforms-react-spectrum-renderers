@@ -28,24 +28,29 @@
 import React from 'react';
 import { RendererProps } from '@jsonforms/core';
 import { Flex, Heading, Text, View } from '@adobe/react-spectrum';
-import CFRWithDetailLayoutItem from './ContentFragmentReferenceWithDetailLayoutItem';
+// import CFRWithDetailLayoutItem from './ContentFragmentReferenceWithDetailLayoutItem';
 export interface extendedLayoutRendererProps extends RendererProps {
-  data: any;
-  label: string;
+  data?: any;
   elements: JSX.Element[];
+  enabled: boolean;
+  label?: string | undefined;
   layout: any;
+  removeItem?: (path: string, value: number) => () => void;
 }
 
 export const SpectrumContentFragmentReference = React.memo(
   ({
     data,
-    path,
-    renderers,
     elements,
+    enabled,
+    label,
     layout,
+    path,
+    removeItem,
+    renderers,
     schema,
     uischema,
-    label,
+    visible,
   }: extendedLayoutRendererProps) => {
     return (
       <View>
@@ -57,16 +62,19 @@ export const SpectrumContentFragmentReference = React.memo(
             Array.from(Array(elements?.length)).map((_, index) => {
               return (
                 <Flex key={index} direction='row' alignItems='stretch' flex='auto inherit'>
-                  <CFRWithDetailLayoutItem
+                  <Item
                     data={data}
+                    elements={elements}
+                    enabled={enabled}
                     index={index}
+                    layout={layout?.elements[index]}
                     path={path}
+                    removeItem={removeItem}
                     renderers={renderers}
                     schema={schema}
                     uischema={uischema}
-                    elements={elements}
-                    layout={layout?.elements[index]}
-                  ></CFRWithDetailLayoutItem>
+                    visible={visible}
+                  ></Item>
                 </Flex>
               );
             })
@@ -78,3 +86,105 @@ export const SpectrumContentFragmentReference = React.memo(
     );
   }
 );
+
+import {
+  JsonFormsRendererRegistryEntry,
+  JsonFormsState,
+  JsonSchema,
+  Resolve,
+  UISchemaElement,
+  composePaths,
+  getData,
+} from '@jsonforms/core';
+import { JsonFormsStateContext, withJsonFormsContext } from '@jsonforms/react';
+import areEqual from '../../util/areEqual';
+import { findValue } from './utils';
+import Item from './ContentFragmentReferenceWithDetailLayoutItem/Item';
+
+export interface OwnPropsOfSpectrumArrayModalItem {
+  childData?: any;
+  childLabel?: string | undefined;
+  data?: any;
+  elements: any;
+  enabled: boolean;
+  index: number;
+  keyNumber?: number;
+  label?: string | undefined;
+  layout: any;
+  path: string;
+  removeItem?: (path: string, value: number) => () => void;
+  renderers?: JsonFormsRendererRegistryEntry[] | undefined;
+  schema: JsonSchema;
+  uischema: UISchemaElement;
+  visible: boolean;
+}
+
+/**
+ * Map state to control props.No indexOfFittingSchema found
+ * @param state the store's state
+ * @param ownProps any own props
+ * @returns {StatePropsOfControl} state props for a control
+ */
+export const mapStateToSpectrumArrayModalItemProps = (
+  state: JsonFormsState,
+  ownProps: OwnPropsOfSpectrumArrayModalItem
+): OwnPropsOfSpectrumArrayModalItem => {
+  const { schema, path, index, uischema } = ownProps;
+  const firstPrimitiveProp = schema?.properties
+    ? Object.keys(schema?.properties).find((propName) => {
+        if (schema.properties) {
+          const prop = schema?.properties[propName];
+          return prop.type === 'string' || prop.type === 'number' || prop.type === 'integer';
+        }
+      })
+    : undefined;
+  const childPath = composePaths(path, `${index}`);
+  const childData = Resolve.data(getData(state), childPath);
+  const childLabel =
+    uischema.options?.elementLabelProp ?? firstPrimitiveProp ?? uischema.options?.childDataAsLabel
+      ? childData
+      : undefined ?? typeof uischema.options?.dataAsLabel === 'number'
+      ? Object.values(childData)[uischema.options?.dataAsLabel]
+      : findValue(childData, uischema.options?.dataAsLabel) ?? `Item ${index + 1}`;
+
+  return {
+    ...ownProps,
+    childLabel,
+    childData,
+  };
+};
+
+export const ctxToSpectrumArrayModalItemProps = (
+  ctx: JsonFormsStateContext,
+  ownProps: OwnPropsOfSpectrumArrayModalItem
+) => mapStateToSpectrumArrayModalItemProps({ jsonforms: { ...ctx } }, ownProps);
+
+const withContextToSpectrumArrayModalItemProps =
+  (
+    Component: React.ComponentType<OwnPropsOfSpectrumArrayModalItem>
+  ): React.ComponentType<OwnPropsOfSpectrumArrayModalItem> =>
+  ({ ctx, props, DNDHandle }: JsonFormsStateContext & OwnPropsOfSpectrumArrayModalItem) => {
+    const stateProps = ctxToSpectrumArrayModalItemProps(ctx, props);
+    return <Component {...stateProps} {...DNDHandle} />;
+  };
+
+export const withJsonFormsSpectrumArrayModalItemProps = (
+  Component: React.ComponentType<OwnPropsOfSpectrumArrayModalItem>
+): React.ComponentType<any> =>
+  withJsonFormsContext(
+    withContextToSpectrumArrayModalItemProps(
+      React.memo(
+        Component,
+        (
+          prevProps: OwnPropsOfSpectrumArrayModalItem,
+          nextProps: OwnPropsOfSpectrumArrayModalItem
+        ) => {
+          const { removeItem: prevRemoveItem, ...restPrevProps } = prevProps;
+          const { removeItem: nextRemoveItem, ...restNextProps } = nextProps;
+          return areEqual(restPrevProps, restNextProps);
+        }
+      )
+    )
+  );
+
+export default withJsonFormsSpectrumArrayModalItemProps(SpectrumContentFragmentReference);
