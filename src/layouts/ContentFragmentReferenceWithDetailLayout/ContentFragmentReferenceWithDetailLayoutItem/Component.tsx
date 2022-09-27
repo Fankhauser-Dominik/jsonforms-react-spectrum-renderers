@@ -20,7 +20,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React, { useEffect } from 'react';
+import React from 'react';
 import { View } from '@adobe/react-spectrum';
 import { OwnPropsOfSpectrumArrayModalItem } from '.';
 
@@ -47,9 +47,6 @@ const CFRWithDetailLayoutItem = React.memo(
     uischema,
     handleChange,
   }: OwnPropsOfSpectrumArrayModalItem & HandleChangeProps) => {
-    console.log('CFRWithDetailLayoutItem data', data);
-    console.log('CFRWithDetailLayoutItem path', path);
-    console.log('CFRWithDetailLayoutItem elements', elements);
     const [expanded, setExpanded] = React.useState(false);
     const [isAnimating, setIsAnimating] = React.useState(false);
 
@@ -130,22 +127,24 @@ const CFRWithDetailLayoutItem = React.memo(
     };
 
     const handleCustomPickerMessage = (e: MessageEvent) => {
-      debugger;
       if (e?.data?.type === 'customPicker:return') {
         console.log('handleCustomPickerMessage', e?.data);
       }
       if (e?.data?.type === 'customPicker:return' && e?.data?.path === path && e?.data?.data) {
-        debugger;
         console.log('handleCustomPickerMessage handling', e.data.data);
         handleChange(path, e.data.data);
       }
     };
 
-    useEffect(() => {
-      window.addEventListener('message', handleCustomPickerMessage);
+    React.useEffect(() => {
+      if (uischema?.options?.picker) {
+        window.addEventListener('message', handleCustomPickerMessage);
+      }
 
       return () => {
-        window.removeEventListener('message', handleCustomPickerMessage);
+        if (uischema?.options?.picker) {
+          window.removeEventListener('message', handleCustomPickerMessage);
+        }
       };
     }, [data]);
 
@@ -160,7 +159,7 @@ const CFRWithDetailLayoutItem = React.memo(
         childLabel={childLabel}
         childData={childData}
         customPicker={{
-          enabled: true,
+          enabled: uischema?.options?.picker,
           handler: customPickerHandler,
         }}
         layout={layout}
