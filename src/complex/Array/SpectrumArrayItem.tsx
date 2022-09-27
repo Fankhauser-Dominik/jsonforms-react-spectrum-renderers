@@ -71,7 +71,7 @@ export interface OwnPropsOfSpectrumArrayItem {
   path: string;
   schema: JsonSchema;
   handleExpand(index: number): () => void;
-  removeItem(path: string, value: number): () => void;
+  removeItem: (path: string, value: number) => () => void;
   uischema: ControlElement;
   renderers?: JsonFormsRendererRegistryEntry[];
   uischemas?: {

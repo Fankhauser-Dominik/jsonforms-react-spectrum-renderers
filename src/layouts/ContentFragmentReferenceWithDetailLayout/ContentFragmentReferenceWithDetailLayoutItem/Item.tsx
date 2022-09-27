@@ -22,28 +22,28 @@
 */
 import React from 'react';
 import { View } from '@adobe/react-spectrum';
-import { OwnPropsOfSpectrumArrayModalItem } from '.';
 
 import ModalItemAnimatedWrapper from './AnimationWrapper';
 
-import './Component.css';
+import './Item.css';
 
 import SpectrumProvider from '../../../additional/SpectrumProvider';
 import ModalItemHeader from './Header';
 import { openItemWhenInQueryParam } from '../utils';
+import { OwnPropsOfSpectrumArrayModalItem } from '../SpectrumContentFragmentReference';
 
-const Component = React.memo(
+const Item = React.memo(
   ({
     childData,
-    childLabel,
+    childLabel = '',
     data,
     elements,
     index,
     layout,
     path,
     removeItem,
+    schema,
     uischema,
-    keyNumber,
   }: OwnPropsOfSpectrumArrayModalItem) => {
     const [expanded, setExpanded] = React.useState(false);
     const [isAnimating, setIsAnimating] = React.useState(false);
@@ -117,6 +117,7 @@ const Component = React.memo(
       window.postMessage({
         type: 'customPicker:open',
         open: true,
+        schema: [schema],
         current: {
           path,
           index,
@@ -140,14 +141,8 @@ const Component = React.memo(
           handler: customPickerHandler,
         }}
         layout={layout}
-        uischema={uischema}
-        key={`header-${keyNumber}`}
       />
     );
-
-    React.useEffect(() => {
-      console.log('3', 'Component');
-    }, [data]);
 
     return (
       <SpectrumProvider
@@ -180,4 +175,4 @@ const Component = React.memo(
   }
 );
 
-export default Component;
+export default Item;

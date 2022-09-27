@@ -25,7 +25,7 @@ interface ArrayModalItemHeaderProps {
   index: number;
   path: string;
   handleExpand: () => void;
-  removeItem: (path: string, value: number) => () => void;
+  removeItem?: (path: string, value: number) => () => void;
   childLabel: string;
   childData: any;
   customPicker: {

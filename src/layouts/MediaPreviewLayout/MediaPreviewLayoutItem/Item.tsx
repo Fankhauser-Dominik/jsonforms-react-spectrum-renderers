@@ -22,27 +22,27 @@
 */
 import React from 'react';
 import { View } from '@adobe/react-spectrum';
-import { OwnPropsOfSpectrumArrayModalItem } from '.';
 
 import ModalItemAnimatedWrapper from './AnimationWrapper';
 
-import './Component.css';
+import './Item.css';
 
 import SpectrumProvider from '../../../additional/SpectrumProvider';
 import ModalItemHeader from './Header';
 import { openItemWhenInQueryParam } from '../utils';
+import { OwnPropsOfSpectrumArrayModalItem } from '../SpectrumMediaPreview';
 
-const CFRWithDetailLayoutItem = React.memo(
+const Item = React.memo(
   ({
     childData,
-    childLabel,
+    childLabel = '',
     data,
     elements,
     index,
+    keyNumber,
     layout,
     path,
     removeItem,
-    schema,
     uischema,
   }: OwnPropsOfSpectrumArrayModalItem) => {
     const [expanded, setExpanded] = React.useState(false);
@@ -96,7 +96,7 @@ const CFRWithDetailLayoutItem = React.memo(
       if (message.data.type !== 'close-item-breadcrumb') {
         return;
       }
-      if (message.data.path.includes(`${path}-${index}-${childLabel.replaceAll(/(-|_)/g, '+')}`)) {
+      if (message.data.path.includes(`${path}-${index}-${childLabel?.replaceAll(/(-|_)/g, '+')}`)) {
         setIsAnimating(true);
         setExpanded(false);
       }
@@ -117,7 +117,6 @@ const CFRWithDetailLayoutItem = React.memo(
       window.postMessage({
         type: 'customPicker:open',
         open: true,
-        schema: [schema],
         current: {
           path,
           index,
@@ -128,21 +127,27 @@ const CFRWithDetailLayoutItem = React.memo(
 
     const Header = (
       <ModalItemHeader
+        childLabel={childLabel}
         data={data}
         expanded={expanded}
+        handleExpand={handleExpand}
         index={index}
         path={path}
-        handleExpand={handleExpand}
         removeItem={removeItem}
-        childLabel={childLabel}
         childData={childData}
         customPicker={{
           enabled: uischema?.options?.picker,
           handler: customPickerHandler,
         }}
         layout={layout}
+        uischema={uischema}
+        key={`header-${keyNumber}`}
       />
     );
+
+    React.useEffect(() => {
+      console.log('3', 'Item');
+    }, [data]);
 
     return (
       <SpectrumProvider
@@ -175,4 +180,4 @@ const CFRWithDetailLayoutItem = React.memo(
   }
 );
 
-export default CFRWithDetailLayoutItem;
+export default Item;
