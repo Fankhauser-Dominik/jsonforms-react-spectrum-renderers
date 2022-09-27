@@ -25,11 +25,10 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import { ComponentType } from 'react';
+import { ComponentType, useCallback } from 'react';
 import Ajv from 'ajv';
-import { getAjv } from '@jsonforms/core';
+import { getAjv, Actions } from '@jsonforms/core';
 import { useJsonForms } from '@jsonforms/react';
-import { Actions } from '@jsonforms/core';
 
 export interface AjvProps {
   ajv: Ajv;
@@ -52,10 +51,14 @@ export const withHandleChange =
   <P extends {}>(Component: ComponentType<P & HandleChangeProps>) =>
   (props: P) => {
     const ctx = useJsonForms();
-    const handleChange = (path: string, data: any) => {
-      if (ctx.dispatch) {
-        ctx.dispatch(Actions.update(path, () => data));
-      }
-    };
+    const dispatch = ctx.dispatch;
+    const handleChange = useCallback(
+      (path: string, data: any) => {
+        if (dispatch) {
+          dispatch(Actions.update(path, () => data));
+        }
+      },
+      [dispatch]
+    );
     return <Component {...props} handleChange={handleChange} />;
   };
