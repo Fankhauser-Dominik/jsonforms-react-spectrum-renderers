@@ -53,8 +53,6 @@ const CFRWithDetailLayoutItem = React.memo(
     const [expanded, setExpanded] = React.useState(false);
     const [isAnimating, setIsAnimating] = React.useState(false);
 
-    const ref = React.useRef(null);
-
     const handleExpand = () => {
       setIsAnimating(true);
       if (expanded === false) {
@@ -175,7 +173,6 @@ const CFRWithDetailLayoutItem = React.memo(
         width={uischema.options?.showSortButtons ? 'calc(100% - 66px)' : '100%'}
       >
         <View
-          ref={ref}
           UNSAFE_className={`list-array-item enableDetailedView ${
             expanded ? 'expanded' : 'collapsed'
           }`}
