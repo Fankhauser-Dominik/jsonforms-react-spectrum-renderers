@@ -78,7 +78,7 @@ export default function ModalItemHeader({
               {childLabel}
             </Text>
           </ActionButton>
-          <Tooltip>{layout?._path || childLabel}</Tooltip>
+          <Tooltip>{data?._path || childLabel}</Tooltip>
         </TooltipTrigger>
         <View>
           {noData ? (
