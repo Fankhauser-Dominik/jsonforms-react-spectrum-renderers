@@ -36,7 +36,7 @@ import {
   or,
 } from '@jsonforms/core';
 import SpectrumArrayModalControlRenderer from './SpectrumArrayModalControlRenderer';
-import { SpectrumArrayModalControl } from './SpectrumArrayModalControl';
+import SpectrumArrayModalControl from './SpectrumArrayModalControl';
 
 export { SpectrumArrayModalControl, SpectrumArrayModalControlRenderer };
 

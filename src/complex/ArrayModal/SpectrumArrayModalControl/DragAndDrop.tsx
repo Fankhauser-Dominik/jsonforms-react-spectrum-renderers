@@ -17,9 +17,12 @@ interface ArrayModalControlDragAndDropProps {
   uischema: any;
   uischemas: any;
   callbackFunction: any;
+  handleChange: any;
+  openedIndex: number | undefined;
+  callbackOpenedIndex: any;
 }
 
-export default function DragAndDrop({
+const DragAndDrop = ({
   path,
   data,
   renderers,
@@ -29,7 +32,10 @@ export default function DragAndDrop({
   indexOfFittingSchemaArray,
   handleRemoveItem,
   callbackFunction,
-}: ArrayModalControlDragAndDropProps) {
+  handleChange,
+  openedIndex,
+  callbackOpenedIndex,
+}: ArrayModalControlDragAndDropProps) => {
   const stringified = (arr: any) => {
     return arr?.map((item: any) => {
       return JSON.stringify(item);
@@ -44,23 +50,14 @@ export default function DragAndDrop({
   const fn =
     (order: any[], active: boolean = false) =>
     (index: number) =>
-      active && index === grabbedIndex
+      active
         ? {
             y: stringified(order).indexOf(JSON.stringify(data[index])) * HEIGHT_OF_COMPONENT,
-            scale: 1.01,
-            zIndex: 20,
-            immediate: false,
-          }
-        : active
-        ? {
-            y: stringified(order).indexOf(JSON.stringify(data[index])) * HEIGHT_OF_COMPONENT,
-            scale: 1,
             zIndex: 20,
             immediate: false,
           }
         : {
             y: stringified(order).indexOf(JSON.stringify(data[index])) * HEIGHT_OF_COMPONENT,
-            scale: 1,
             zIndex: 20,
             immediate: true,
           };
@@ -93,13 +90,13 @@ export default function DragAndDrop({
 
       if (!active) {
         order.current[0] = newOrder;
-        setGrabbedIndex(null);
         data.splice(0, data?.length);
         data.push(...newOrder);
-        callbackFunction(Math.random());
-
+        handleChange(path, newOrder);
         api.start(fn(newOrder, active));
+        callbackFunction(Math.random());
         setRefKey(RefKey + 1);
+        setGrabbedIndex(null);
       }
     }
   });
@@ -109,6 +106,19 @@ export default function DragAndDrop({
     callbackFunction(Math.random());
     setRefKey(Math.random());
   };
+
+  React.useEffect(() => {
+    if (openedIndex === undefined) {
+      order.current[0] = data;
+      api.start(fn(data, false));
+      setRefKey(RefKey + 1);
+    }
+  }, [openedIndex]);
+
+  React.useEffect(() => {
+    order.current[0] = data;
+    api.start(fn(data, false));
+  }, [data]);
 
   return (
     <div
@@ -120,15 +130,15 @@ export default function DragAndDrop({
         transformOrigin: '50% 50% 0px',
         position: 'relative',
       }}
+      key={RefKey}
     >
-      {springs?.map(({ zIndex, y, scale }, index: number) => (
+      {springs?.map(({ zIndex, y }, index: number) => (
         <animated.div
-          {...bind(`${index}_${RefKey}`)}
-          key={`${index}_${RefKey}`}
+          {...bind(`${path}_${index}_${RefKey}`)}
+          key={`${path}_${index}_${RefKey}`}
           style={{
             zIndex,
             y,
-            scale,
             width: '100%',
             touchAction: 'none',
             transformOrigin: '50% 50% 0px',
@@ -147,6 +157,7 @@ export default function DragAndDrop({
               schema={schema}
               uischema={uischema}
               uischemas={uischemas}
+              callbackOpenedIndex={callbackOpenedIndex}
               DNDHandle={
                 <div
                   ref={DragHandleRef}
@@ -173,4 +184,6 @@ export default function DragAndDrop({
       ))}
     </div>
   );
-}
+};
+
+export default DragAndDrop;

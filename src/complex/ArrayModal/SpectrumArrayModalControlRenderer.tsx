@@ -29,7 +29,7 @@ import React from 'react';
 
 import { ArrayControlProps, ControlElement, Helpers } from '@jsonforms/core';
 import { withJsonFormsArrayControlProps } from '@jsonforms/react';
-import { SpectrumArrayModalControl } from './SpectrumArrayModalControl';
+import SpectrumArrayModalControl from './SpectrumArrayModalControl';
 
 const SpectrumArrayModalControlRenderer = React.memo(
   ({
