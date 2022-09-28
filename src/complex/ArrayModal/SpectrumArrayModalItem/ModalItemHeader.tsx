@@ -70,6 +70,10 @@ export default function ModalItemHeader({
     lookupObj[actionName]();
   };
 
+  React.useEffect(() => {
+    console.log(childLabel);
+  }, [childLabel]);
+
   return (
     <View aria-selected={expanded} UNSAFE_className='array-item-header'>
       <Flex direction='row' margin='size-50' justifyContent='space-between' alignItems='center'>

@@ -44,7 +44,7 @@ export default function ModalItemHeader({
   customPicker,
   layout,
 }: ArrayModalItemHeaderProps) {
-  const noData = data === undefined || Object.keys(data).length === 0;
+  const noData = data === undefined || Object.keys(data).length === 0 || !data?.['_path'];
   const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
   const actionMenuTriggered = (action: any) => {
     const testArr = action.split('-');
@@ -75,7 +75,7 @@ export default function ModalItemHeader({
               {childLabel}
             </Text>
           </ActionButton>
-          <Tooltip>{layout?._path || childLabel}</Tooltip>
+          <Tooltip>{data?._path || childLabel}</Tooltip>
         </TooltipTrigger>
         <View>
           {noData ? (

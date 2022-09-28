@@ -65,6 +65,7 @@ const SpectrumArrayModalItem = React.memo(
     uischema,
     uischemas = [],
     DNDHandle = false,
+    callbackOpenedIndex,
   }: OwnPropsOfSpectrumArrayModalItem & NonEmptyRowProps) => {
     const foundUISchema = findUISchema(uischemas, schema, uischema.scope, path);
     const childPath = composePaths(path, `${index}`);
@@ -91,6 +92,7 @@ const SpectrumArrayModalItem = React.memo(
             '*'
           );
         }
+        callbackOpenedIndex(index);
         setExpanded(true);
         return;
       }
@@ -106,6 +108,7 @@ const SpectrumArrayModalItem = React.memo(
           '*'
         );
       }
+      callbackOpenedIndex(undefined);
       setExpanded(false);
 
       const url = window.location.href;
@@ -142,6 +145,7 @@ const SpectrumArrayModalItem = React.memo(
       if (message.data.path.includes(`${path}-${index}-${childLabel.replaceAll(/(-|_)/g, '+')}`)) {
         setIsAnimating(true);
         setExpanded(false);
+        callbackOpenedIndex(undefined);
       }
     }
 
@@ -199,7 +203,7 @@ const SpectrumArrayModalItem = React.memo(
     return (
       <SpectrumProvider
         flex='auto'
-        width={uischema.options?.showSortButtons ? 'calc(100% - 66px)' : '100%'}
+        width={uischema.options?.sortMode === 'arrows' ? 'calc(100% - 66px)' : '100%'}
       >
         <View
           ref={ref}
@@ -258,6 +262,7 @@ export interface OwnPropsOfSpectrumArrayModalItem {
   moveUpCreator?: ((path: string, position: number) => () => void) | undefined;
   moveDownCreator?: ((path: string, position: number) => () => void) | undefined;
   callbackFunction: any;
+  callbackOpenedIndex: any;
 }
 
 /**

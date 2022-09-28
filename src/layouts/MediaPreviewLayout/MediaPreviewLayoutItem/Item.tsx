@@ -152,7 +152,7 @@ const Item = React.memo(
     return (
       <SpectrumProvider
         flex='auto'
-        width={uischema.options?.showSortButtons ? 'calc(100% - 66px)' : '100%'}
+        width={uischema.options?.sortMode === 'arrows' ? 'calc(100% - 66px)' : '100%'}
       >
         <View
           ref={ref}

@@ -34,12 +34,13 @@ import { indexOfFittingSchemaObject } from '../utils';
 import DragAndDrop from './DragAndDrop';
 import AddDialog from './AddDialog';
 import SortButtons from './SortButtons';
+import { withHandleChange, HandleChangeProps } from '../../../util';
 
 export interface OverrideProps extends OwnPropsOfControl {
   indexOfFittingSchema?: number;
 }
 
-export const SpectrumArrayModalControl = React.memo(
+const SpectrumArrayModalControl = React.memo(
   ({
     addItem,
     data,
@@ -50,9 +51,11 @@ export const SpectrumArrayModalControl = React.memo(
     schema,
     uischema,
     uischemas,
-  }: ArrayControlProps & OverrideProps) => {
+    handleChange,
+  }: ArrayControlProps & OverrideProps & HandleChangeProps) => {
     const [selectedIndex, setSelectedIndex] = React.useState(0);
     const [open, setOpen] = React.useState(false);
+    const [openedIndex, setOpenedIndex] = React.useState<number | undefined>(undefined);
     const handleClose = () => setOpen(false);
 
     const [indexOfFittingSchemaArray, setIndexOfFittingSchemaArray] = React.useState(
@@ -97,6 +100,10 @@ export const SpectrumArrayModalControl = React.memo(
       setRefKey(editorJSON);
     };
 
+    const callbackOpenedIndex = (index: number | undefined) => {
+      setOpenedIndex(index);
+    };
+
     const onPressHandler = React.useCallback(() => {
       if (uischema?.options?.picker) {
         window.postMessage({
@@ -115,22 +122,24 @@ export const SpectrumArrayModalControl = React.memo(
     }, [open]);
 
     const handleCustomPickerMessage = (e: MessageEvent) => {
-      debugger;
-      console.log('handleCustomPickerMessage', e?.data);
+      if (e?.data?.type === 'customPicker:return') {
+        console.log('handleCustomPickerMessage', e?.data);
+      }
       if (e?.data?.type === 'customPicker:return' && e?.data?.path === path && e?.data?.data) {
-        console.log('handleCustomPickerMessage', e?.data?.data);
+        console.log('handleCustomPickerMessage handling', e?.data?.data);
         let newData = [...data];
         if (e?.data?.index && typeof e.data.index === 'number') {
-          console.log('replace existing data');
+          console.log('handleCustomPickerMessage replace existing data');
           newData[e.data.index] = e.data.data;
-          console.log('newData', newData);
-          console.log('data', data);
+          console.log('handleCustomPickerMessage old data', data);
+          console.log('handleCustomPickerMessage newData', newData);
         } else {
-          console.log('handleCustomPickerMessage addItem', e?.data?.data, data);
+          console.log('handleCustomPickerMessage addItem', e.data.data, data);
           newData.push(e.data.data);
         }
-        data.splice(0, data.length);
-        data.push(...newData);
+        //data.splice(0, data.length);
+        //data.push(...newData);
+        handleChange(path, newData);
         setRefKey(Math.random());
       }
     };
@@ -169,20 +178,7 @@ export const SpectrumArrayModalControl = React.memo(
           direction='column'
           gap='size-100'
         >
-          {uischema?.options?.dragAndDrop ? (
-            <DragAndDrop
-              data={data}
-              handleRemoveItem={handleRemoveItem}
-              indexOfFittingSchemaArray={indexOfFittingSchemaArray}
-              path={path}
-              removeItems={removeItems}
-              renderers={renderers}
-              schema={schema}
-              uischema={uischema}
-              uischemas={uischemas}
-              callbackFunction={callbackFunction}
-            />
-          ) : data && data?.length ? (
+          {uischema?.options?.sortMode === 'disabled' && data && data?.length ? (
             Array.from(Array(data?.length)).map((_, index) => {
               indexOfFittingSchemaObject[`${path}itemQuantity`] = data?.length;
               return (
@@ -204,7 +200,7 @@ export const SpectrumArrayModalControl = React.memo(
                     uischemas={uischemas}
                     callbackFunction={callbackFunction}
                   ></SpectrumArrayModalItem>
-                  {uischema.options?.showSortButtons && (
+                  {uischema.options?.sortMode === 'arrows' && (
                     <SortButtons
                       data={data}
                       index={index}
@@ -217,6 +213,24 @@ export const SpectrumArrayModalControl = React.memo(
                 </Flex>
               );
             })
+          ) : data && data?.length ? (
+            <div>
+              <DragAndDrop
+                data={data}
+                handleRemoveItem={handleRemoveItem}
+                indexOfFittingSchemaArray={indexOfFittingSchemaArray}
+                path={path}
+                removeItems={removeItems}
+                renderers={renderers}
+                schema={schema}
+                uischema={uischema}
+                uischemas={uischemas}
+                callbackFunction={callbackFunction}
+                handleChange={handleChange}
+                openedIndex={openedIndex}
+                callbackOpenedIndex={callbackOpenedIndex}
+              />
+            </div>
           ) : (
             <Text>No data</Text>
           )}
@@ -225,3 +239,5 @@ export const SpectrumArrayModalControl = React.memo(
     );
   }
 );
+
+export default withHandleChange(SpectrumArrayModalControl);
