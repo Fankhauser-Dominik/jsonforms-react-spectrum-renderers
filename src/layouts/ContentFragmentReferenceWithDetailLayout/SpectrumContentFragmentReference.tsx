@@ -26,9 +26,21 @@
   THE SOFTWARE.
 */
 import React from 'react';
-import { RendererProps } from '@jsonforms/core';
 import { Flex, Heading, Text, View } from '@adobe/react-spectrum';
-// import CFRWithDetailLayoutItem from './ContentFragmentReferenceWithDetailLayoutItem';
+import {
+  JsonFormsRendererRegistryEntry,
+  JsonFormsState,
+  JsonSchema,
+  RendererProps,
+  Resolve,
+  UISchemaElement,
+  composePaths,
+  getData,
+} from '@jsonforms/core';
+import { JsonFormsStateContext, withJsonFormsContext } from '@jsonforms/react';
+import areEqual from '../../util/areEqual';
+import { findValue } from './utils';
+import Item from './ContentFragmentReferenceWithDetailLayoutItem/Item';
 export interface extendedLayoutRendererProps extends RendererProps {
   data?: any;
   elements: JSX.Element[];
@@ -86,20 +98,6 @@ export const SpectrumContentFragmentReference = React.memo(
     );
   }
 );
-
-import {
-  JsonFormsRendererRegistryEntry,
-  JsonFormsState,
-  JsonSchema,
-  Resolve,
-  UISchemaElement,
-  composePaths,
-  getData,
-} from '@jsonforms/core';
-import { JsonFormsStateContext, withJsonFormsContext } from '@jsonforms/react';
-import areEqual from '../../util/areEqual';
-import { findValue } from './utils';
-import Item from './ContentFragmentReferenceWithDetailLayoutItem/Item';
 
 export interface OwnPropsOfSpectrumArrayModalItem {
   childData?: any;

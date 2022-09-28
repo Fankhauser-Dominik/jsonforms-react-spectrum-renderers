@@ -22,18 +22,27 @@
 */
 import React from 'react';
 import { View } from '@adobe/react-spectrum';
-import { composePaths, findUISchema } from '@jsonforms/core';
-import { JsonFormsDispatch } from '@jsonforms/react';
-import { OwnPropsOfSpectrumArrayModalItem } from '.';
-
+import { JsonFormsDispatch, JsonFormsStateContext, withJsonFormsContext } from '@jsonforms/react';
+import {
+  ControlElement,
+  JsonFormsRendererRegistryEntry,
+  JsonFormsState,
+  JsonSchema,
+  Resolve,
+  UISchemaElement,
+  UISchemaTester,
+  composePaths,
+  findUISchema,
+  getData,
+} from '@jsonforms/core';
 import ModalItemAnimatedWrapper from './ModalItemAnimationWrapper';
-
-import './SpectrumArrayModalItem.css';
-
 import SpectrumProvider from '../../../additional/SpectrumProvider';
 import { indexOfFittingSchemaObject } from '../utils';
 import ModalItemHeader from './ModalItemHeader';
 import { openItemWhenInQueryParam } from './ModalItemUtils';
+import areEqual from '../../../util/areEqual';
+import { findValue } from './ModalItemUtils';
+import './SpectrumArrayModalItem.css';
 
 interface NonEmptyRowProps {
   rowIndex?: number | undefined;
@@ -227,4 +236,104 @@ const SpectrumArrayModalItem = React.memo(
   }
 );
 
-export default SpectrumArrayModalItem;
+export interface OwnPropsOfSpectrumArrayModalItem {
+  index: number;
+  DNDHandle: any;
+  // expanded: boolean;
+  path: string;
+  schema: JsonSchema;
+  indexOfFittingSchema?: number;
+  // handleExpand(index: number, path?: any, isDetailedView?: boolean): () => void;
+  removeItem(path: string, value: number): () => void;
+  duplicateItem(index: number): () => void;
+  uischema: ControlElement;
+  renderers?: JsonFormsRendererRegistryEntry[];
+  uischemas?: {
+    tester: UISchemaTester;
+    uischema: UISchemaElement;
+  }[];
+  childLabel: string;
+  childData?: any;
+  rowIndex?: number;
+  moveUpCreator?: ((path: string, position: number) => () => void) | undefined;
+  moveDownCreator?: ((path: string, position: number) => () => void) | undefined;
+  callbackFunction: any;
+}
+
+/**
+ * Map state to control props.No indexOfFittingSchema found
+ * @param state the store's state
+ * @param ownProps any own props
+ * @returns {StatePropsOfControl} state props for a control
+ */
+export const mapStateToSpectrumArrayModalItemProps = (
+  state: JsonFormsState,
+  ownProps: OwnPropsOfSpectrumArrayModalItem
+): OwnPropsOfSpectrumArrayModalItem => {
+  const { schema, path, index, uischema } = ownProps;
+  const firstPrimitiveProp = schema?.properties
+    ? Object.keys(schema?.properties).find((propName) => {
+        if (schema?.properties) {
+          const prop = schema?.properties[propName];
+          return prop.type === 'string' || prop.type === 'number' || prop.type === 'integer';
+        }
+      })
+    : undefined;
+  const childPath = composePaths(path, `${index}`);
+  const childData = Resolve.data(getData(state), childPath);
+  const childLabel =
+    uischema.options?.elementLabelProp ?? firstPrimitiveProp ?? uischema.options?.childDataAsLabel
+      ? childData
+      : undefined ?? typeof uischema.options?.dataAsLabel === 'number'
+      ? Object.values(childData)[uischema.options?.dataAsLabel]
+      : findValue(childData, uischema.options?.dataAsLabel) ?? `Item ${index + 1}`;
+
+  return {
+    ...ownProps,
+    childLabel,
+    childData,
+  };
+};
+
+export const ctxToSpectrumArrayModalItemProps = (
+  ctx: JsonFormsStateContext,
+  ownProps: OwnPropsOfSpectrumArrayModalItem
+) => mapStateToSpectrumArrayModalItemProps({ jsonforms: { ...ctx } }, ownProps);
+
+const withContextToSpectrumArrayModalItemProps =
+  (
+    Component: React.ComponentType<OwnPropsOfSpectrumArrayModalItem>
+  ): React.ComponentType<OwnPropsOfSpectrumArrayModalItem> =>
+  ({ ctx, props, DNDHandle }: JsonFormsStateContext & OwnPropsOfSpectrumArrayModalItem) => {
+    const stateProps = ctxToSpectrumArrayModalItemProps(ctx, props);
+    return <Component {...stateProps} {...DNDHandle} />;
+  };
+
+export const withJsonFormsSpectrumArrayModalItemProps = (
+  Component: React.ComponentType<OwnPropsOfSpectrumArrayModalItem>
+): React.ComponentType<any> =>
+  withJsonFormsContext(
+    withContextToSpectrumArrayModalItemProps(
+      React.memo(
+        Component,
+        (
+          prevProps: OwnPropsOfSpectrumArrayModalItem,
+          nextProps: OwnPropsOfSpectrumArrayModalItem
+        ) => {
+          const {
+            // handleExpand: prevHandleExpand,
+            removeItem: prevRemoveItem,
+            ...restPrevProps
+          } = prevProps;
+          const {
+            // handleExpand: nextHandleExpand,
+            removeItem: nextRemoveItem,
+            ...restNextProps
+          } = nextProps;
+          return areEqual(restPrevProps, restNextProps);
+        }
+      )
+    )
+  );
+
+export default withJsonFormsSpectrumArrayModalItemProps(SpectrumArrayModalItem);

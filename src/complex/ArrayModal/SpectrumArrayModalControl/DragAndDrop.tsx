@@ -1,9 +1,9 @@
 import React from 'react';
 import { Flex } from '@adobe/react-spectrum';
 import DragHandle from '@spectrum-icons/workflow/DragHandle';
-import SpectrumArrayModalItem from '../SpectrumArrayModalItem';
+import SpectrumArrayModalItem from '../SpectrumArrayModalItem/ModalItemComponent';
 import { swap, clamp } from '../utils';
-import { useSprings, useSpringRef, config, animated } from '@react-spring/web';
+import { useSprings, useSpringRef, animated } from '@react-spring/web';
 import { useDrag } from '@use-gesture/react';
 
 interface ArrayModalControlDragAndDropProps {
@@ -19,7 +19,6 @@ interface ArrayModalControlDragAndDropProps {
   callbackFunction: any;
 }
 
-// Drag and Drop
 export default function DragAndDrop({
   path,
   data,
@@ -27,7 +26,6 @@ export default function DragAndDrop({
   schema,
   uischema,
   uischemas,
-  // removeItems,
   indexOfFittingSchemaArray,
   handleRemoveItem,
   callbackFunction,
@@ -42,37 +40,36 @@ export default function DragAndDrop({
   }
   const [RefKey, setRefKey] = React.useState(0);
   const order = React.useRef(Array.from(Array(data))?.map((data: any, _: any) => data));
-  const HEIGHT_OF_COMPONENT = 88;
+  const HEIGHT_OF_COMPONENT = 70;
   const fn =
-    (
-      order: any[],
-      active: boolean = false,
-      originalIndex: number = 0,
-      curIndex: number = 0,
-      y: number = 0
-    ) =>
+    (order: any[], active: boolean = false) =>
     (index: number) =>
-      active && index === originalIndex
+      active && index === grabbedIndex
         ? {
-            y: curIndex * HEIGHT_OF_COMPONENT + y,
-            scale: 1.03,
-            zIndex: 50,
-            shadow: 15,
-            immediate: (key: string) => key === 'zIndex',
-            config: (key: string) => (key === 'y' ? config.stiff : config.default),
+            y: stringified(order).indexOf(JSON.stringify(data[index])) * HEIGHT_OF_COMPONENT,
+            scale: 1.01,
+            zIndex: 20,
+            immediate: false,
+          }
+        : active
+        ? {
+            y: stringified(order).indexOf(JSON.stringify(data[index])) * HEIGHT_OF_COMPONENT,
+            scale: 1,
+            zIndex: 20,
+            immediate: false,
           }
         : {
             y: stringified(order).indexOf(JSON.stringify(data[index])) * HEIGHT_OF_COMPONENT,
             scale: 1,
             zIndex: 20,
-            shadow: 1,
-            immediate: false,
+            immediate: true,
           };
   const [springs, api] = useSprings(data?.length ?? 0, fn(order.current[0]));
   const DragHandleRef: any = useSpringRef();
 
   const [grabbedIndex, setGrabbedIndex]: any = React.useState(undefined);
   const bind: any = useDrag(({ args: [originalIndex], active, movement: [, y] }) => {
+    if (!originalIndex) return;
     if (grabbedIndex !== null) {
       const curRow = clamp(
         Math.round((grabbedIndex * HEIGHT_OF_COMPONENT + y) / HEIGHT_OF_COMPONENT),
@@ -84,7 +81,7 @@ export default function DragAndDrop({
         stringified(order.current[0]).indexOf(JSON.stringify(order.current[0][grabbedIndex])),
         stringified(order.current[0]).indexOf(JSON.stringify(order.current[0][curRow]))
       );
-      api.start(fn(newOrder, active, originalIndex, curRow, y)); // Feed springs new style data, they'll animate the view without causing a single render
+      api.start(fn(newOrder, active)); // Feed springs new style data, they'll animate the view without causing a single render
 
       if (
         stringified(order.current[0]).indexOf(JSON.stringify(order.current[0][grabbedIndex])) ===
@@ -101,7 +98,7 @@ export default function DragAndDrop({
         data.push(...newOrder);
         callbackFunction(Math.random());
 
-        api.start(fn(newOrder, active, originalIndex, curRow, y));
+        api.start(fn(newOrder, active));
         setRefKey(RefKey + 1);
       }
     }
@@ -124,13 +121,12 @@ export default function DragAndDrop({
         position: 'relative',
       }}
     >
-      {springs?.map(({ zIndex, shadow, y, scale }, index: number) => (
+      {springs?.map(({ zIndex, y, scale }, index: number) => (
         <animated.div
           {...bind(`${index}_${RefKey}`)}
           key={`${index}_${RefKey}`}
           style={{
             zIndex,
-            boxShadow: shadow.to((s) => `rgba(0, 0, 0, 0.15) 0px ${s}px ${2 * s}px 0px`),
             y,
             scale,
             width: '100%',
@@ -167,6 +163,7 @@ export default function DragAndDrop({
                     size='L'
                     alignSelf='center'
                     width={'100%'}
+                    UNSAFE_style={{ margin: '-2px 0' }}
                   />
                 </div>
               }

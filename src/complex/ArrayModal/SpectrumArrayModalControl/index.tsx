@@ -25,10 +25,10 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React, { useCallback, useState, useEffect } from 'react';
+import React from 'react';
 import { ArrayControlProps, OwnPropsOfControl, createDefaultValue } from '@jsonforms/core';
 import { Button, Flex, Heading, Text, View } from '@adobe/react-spectrum';
-import SpectrumArrayModalItem from '../SpectrumArrayModalItem';
+import SpectrumArrayModalItem from '../SpectrumArrayModalItem/ModalItemComponent';
 import Add from '@spectrum-icons/workflow/Add';
 import { indexOfFittingSchemaObject } from '../utils';
 import DragAndDrop from './DragAndDrop';
@@ -51,21 +51,21 @@ export const SpectrumArrayModalControl = React.memo(
     uischema,
     uischemas,
   }: ArrayControlProps & OverrideProps) => {
-    const [selectedIndex, setSelectedIndex] = useState(0);
-    const [open, setOpen] = useState(false);
+    const [selectedIndex, setSelectedIndex] = React.useState(0);
+    const [open, setOpen] = React.useState(false);
     const handleClose = () => setOpen(false);
 
-    const [indexOfFittingSchemaArray, setIndexOfFittingSchemaArray] = useState(
+    const [indexOfFittingSchemaArray, setIndexOfFittingSchemaArray] = React.useState(
       data?.map((boundData: any) => (boundData ? undefined : 999)) ?? []
     );
 
-    useEffect(() => {
+    React.useEffect(() => {
       setIndexOfFittingSchemaArray(
         data?.map((boundData: any) => (boundData ? undefined : 999)) ?? []
       );
     }, []);
 
-    const handleRemoveItem = useCallback(
+    const handleRemoveItem = React.useCallback(
       (path: string, value: any) => () => {
         if (removeItems) {
           removeItems(path, [value])();
@@ -92,12 +92,12 @@ export const SpectrumArrayModalControl = React.memo(
       setRefKey(Math.random());
     };
 
-    const [RefKey, setRefKey] = useState<number>(0);
+    const [RefKey, setRefKey] = React.useState<number>(0);
     const callbackFunction = (editorJSON: any) => {
       setRefKey(editorJSON);
     };
 
-    const onPressHandler = useCallback(() => {
+    const onPressHandler = React.useCallback(() => {
       if (uischema?.options?.picker) {
         window.postMessage({
           type: 'customPicker:open',
@@ -135,7 +135,7 @@ export const SpectrumArrayModalControl = React.memo(
       }
     };
 
-    useEffect(() => {
+    React.useEffect(() => {
       if (uischema?.options?.picker) {
         window.addEventListener('message', handleCustomPickerMessage);
       }
