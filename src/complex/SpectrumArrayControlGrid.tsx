@@ -20,7 +20,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import startCase from 'lodash/startCase';
 import {
   ArrayControlProps,
@@ -93,9 +93,9 @@ const SpectrumArrayControlGrid = ({
 }: ArrayControlProps) => {
   if (!schema) return null;
 
-  const [deleteIndex, setdeleteIndex] = useState(0);
-  const [open, setOpen] = useState(false);
-  const handleClose = useCallback(() => setOpen(false), [setOpen]);
+  const [deleteIndex, setdeleteIndex] = React.useState(0);
+  const [open, setOpen] = React.useState(false);
+  const handleClose = React.useCallback(() => setOpen(false), [setOpen]);
 
   const setOpenAndsetdeleteIndex = (index: number) => {
     setOpen(true);

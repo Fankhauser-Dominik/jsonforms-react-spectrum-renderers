@@ -44,4 +44,7 @@ export default defineConfig({
     'process.platform': null,
     'global.setImmediate': null,
   },
+  esbuild: {
+    logOverride: { 'this-is-undefined-in-esm': 'silent' },
+  },
 });

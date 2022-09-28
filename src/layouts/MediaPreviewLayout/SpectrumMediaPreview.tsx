@@ -26,9 +26,20 @@
   THE SOFTWARE.
 */
 import React from 'react';
-import { RendererProps } from '@jsonforms/core';
 import { Flex, Heading, Text, View } from '@adobe/react-spectrum';
-// import MediaPreviewLayoutItem from './MediaPreviewLayoutItem';
+import {
+  JsonFormsRendererRegistryEntry,
+  JsonFormsState,
+  JsonSchema,
+  RendererProps,
+  Resolve,
+  UISchemaElement,
+  composePaths,
+  getData,
+} from '@jsonforms/core';
+import { JsonFormsStateContext, withJsonFormsContext } from '@jsonforms/react';
+import areEqual from '../../util/areEqual';
+import { findValue } from './utils';
 import Item from './MediaPreviewLayoutItem/Item';
 export interface extendedLayoutRendererProps extends RendererProps {
   data?: any;
@@ -99,19 +110,6 @@ export const SpectrumMediaPreview = React.memo(
     );
   }
 );
-
-import {
-  JsonFormsRendererRegistryEntry,
-  JsonFormsState,
-  JsonSchema,
-  Resolve,
-  UISchemaElement,
-  composePaths,
-  getData,
-} from '@jsonforms/core';
-import { JsonFormsStateContext, withJsonFormsContext } from '@jsonforms/react';
-import areEqual from '../../util/areEqual';
-import { findValue } from './utils';
 
 export interface OwnPropsOfSpectrumArrayModalItem {
   childData?: any;
