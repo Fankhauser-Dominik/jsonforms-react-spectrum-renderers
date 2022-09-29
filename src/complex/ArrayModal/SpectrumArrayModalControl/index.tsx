@@ -127,7 +127,7 @@ const SpectrumArrayModalControl = React.memo(
       }
       if (e?.data?.type === 'customPicker:return' && e?.data?.path === path && e?.data?.data) {
         console.log('handleCustomPickerMessage handling', e?.data?.data);
-        let newData = [...data];
+        let newData = data || [];
         if (e?.data?.index && typeof e.data.index === 'number') {
           console.log('handleCustomPickerMessage replace existing data');
           newData[e.data.index] = e.data.data;
