@@ -49,7 +49,7 @@ export default function ModalItemHeader({
   layout,
   uischema,
 }: ArrayModalItemHeaderProps) {
-  const noData = data === undefined || Object.keys(data).length === 0;
+  const noData = data === undefined || Object.keys(data).length === 0 || !data?.['_path'];
   const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
   const actionMenuTriggered = (action: any) => {
     const testArr = action.split('-');
@@ -115,7 +115,7 @@ export default function ModalItemHeader({
               </Text>
             </Text>
           </ActionButton>
-          <Tooltip>{layout?._path || imageSrc || childLabel}</Tooltip>
+          <Tooltip>{data?._path || imageSrc || childLabel}</Tooltip>
         </TooltipTrigger>
         <View>
           <Flex gap={'size-0'}>

@@ -102,9 +102,14 @@ const DragAndDrop = ({
   });
 
   const duplicateContent = (index: number) => {
+    /* Implement a way to include a change of _path while cloning */
+    setRefKey(RefKey + 1);
     data.push(data[index]);
+    order.current[0] = data;
+    handleChange(path, data);
+    api.start(fn(data, false));
     callbackFunction(Math.random());
-    setRefKey(Math.random());
+    setRefKey(RefKey + 1);
   };
 
   React.useEffect(() => {
