@@ -37,7 +37,8 @@ const DragAndDrop = ({
   callbackOpenedIndex,
 }: ArrayModalControlDragAndDropProps) => {
   const stringified = (arr: any) => {
-    return arr?.map((item: any) => {
+    return arr?.map((item: any, index: number) => {
+      item._Temporary_Index_Key_Is_Unique = index;
       return JSON.stringify(item);
     });
   };
