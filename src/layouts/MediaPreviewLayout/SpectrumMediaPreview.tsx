@@ -38,7 +38,7 @@ import {
   getData,
 } from '@jsonforms/core';
 import { JsonFormsStateContext, withJsonFormsContext } from '@jsonforms/react';
-import areEqual from '../../util/areEqual';
+// import areEqual from '../../util/areEqual';
 import { findValue } from './utils';
 import Item from './MediaPreviewLayoutItem/Item';
 export interface extendedLayoutRendererProps extends RendererProps {
@@ -184,7 +184,7 @@ export const withJsonFormsSpectrumArrayModalItemProps = (
   withJsonFormsContext(
     withContextToSpectrumArrayModalItemProps(
       React.memo(
-        Component,
+        Component /* ,
         (
           prevProps: OwnPropsOfSpectrumArrayModalItem,
           nextProps: OwnPropsOfSpectrumArrayModalItem
@@ -192,7 +192,7 @@ export const withJsonFormsSpectrumArrayModalItemProps = (
           const { removeItem: prevRemoveItem, ...restPrevProps } = prevProps;
           const { removeItem: nextRemoveItem, ...restNextProps } = nextProps;
           return areEqual(restPrevProps, restNextProps);
-        }
+        } */
       )
     )
   );

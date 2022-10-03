@@ -22,15 +22,13 @@
 */
 import React from 'react';
 import { View } from '@adobe/react-spectrum';
-
 import ModalItemAnimatedWrapper from './AnimationWrapper';
-
-import './Item.css';
-
 import SpectrumProvider from '../../../additional/SpectrumProvider';
 import ModalItemHeader from './Header';
 import { openItemWhenInQueryParam } from '../utils';
 import { OwnPropsOfSpectrumArrayModalItem } from '../SpectrumMediaPreview';
+import { withHandleChange, HandleChangeProps } from '../../../util';
+import './Item.css';
 
 const Item = React.memo(
   ({
@@ -44,11 +42,10 @@ const Item = React.memo(
     path,
     removeItem,
     uischema,
-  }: OwnPropsOfSpectrumArrayModalItem) => {
+    handleChange,
+  }: OwnPropsOfSpectrumArrayModalItem & HandleChangeProps) => {
     const [expanded, setExpanded] = React.useState(false);
     const [isAnimating, setIsAnimating] = React.useState(false);
-
-    const ref = React.useRef(null);
 
     const handleExpand = () => {
       setIsAnimating(true);
@@ -125,6 +122,28 @@ const Item = React.memo(
       });
     };
 
+    const handleCustomPickerMessage = (e: MessageEvent) => {
+      if (e?.data?.type === 'customPicker:return') {
+        console.log('handleCustomPickerMessage', e?.data);
+      }
+      if (e?.data?.type === 'customPicker:return' && e?.data?.path === path && e?.data?.data) {
+        console.log('handleCustomPickerMessage handling', e.data.data);
+        handleChange(path, e.data.data);
+      }
+    };
+
+    React.useEffect(() => {
+      if (uischema?.options?.picker) {
+        window.addEventListener('message', handleCustomPickerMessage);
+      }
+
+      return () => {
+        if (uischema?.options?.picker) {
+          window.removeEventListener('message', handleCustomPickerMessage);
+        }
+      };
+    }, [data]);
+
     const Header = (
       <ModalItemHeader
         childLabel={childLabel}
@@ -155,7 +174,6 @@ const Item = React.memo(
         width={uischema.options?.sortMode === 'arrows' ? 'calc(100% - 66px)' : '100%'}
       >
         <View
-          ref={ref}
           UNSAFE_className={`list-array-item enableDetailedView ${
             expanded ? 'expanded' : 'collapsed'
           }`}
@@ -180,4 +198,4 @@ const Item = React.memo(
   }
 );
 
-export default Item;
+export default withHandleChange(Item);
