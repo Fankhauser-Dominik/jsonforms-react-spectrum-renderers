@@ -1,7 +1,7 @@
 {
   "name": "jsonforms-react-spectrum-vite-test",
   "private": false,
-  "version": "0.0.125",
+  "version": "0.0.127",
   "type": "module",
   "files": [
     "dist"
@@ -71,6 +71,7 @@
     "@types/uuid": "^8.3.4",
     "@use-gesture/react": "^10.2.20",
     "ajv": "^8.11.0",
+    "html-react-parser": "^3.0.4",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "react": "^18.2.0",
@@ -97,15 +98,15 @@
     "@testing-library/dom": "^8.18.1",
     "@testing-library/react": "^13.4.0",
     "@types/enzyme": "^3.10.12",
-    "@types/jest": "^29.1.1",
-    "@uiw/react-codemirror": "^4.12.3",
+    "@types/jest": "^29.1.2",
+    "@uiw/react-codemirror": "^4.12.4",
     "@vitejs/plugin-react": "^2.1.0",
     "codemirror": "^6.0.1",
     "enzyme": "^3.11.0",
     "rimraf": "^3.0.2",
     "typescript": "^4.8.4",
-    "vite": "^3.1.5",
+    "vite": "^3.1.6",
     "vite-plugin-css-injected-by-js": "^2.1.0",
-    "vite-plugin-dts": "^1.6.4"
+    "vite-plugin-dts": "^1.6.5"
   }
 }

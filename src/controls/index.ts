@@ -53,6 +53,7 @@ import SpectrumOneOfRadioGroupControl, {
 import SpectrumSliderControl, { SpectrumSliderControlTester } from './SpectrumSliderControl';
 import SpectrumTextAreaControl, { SpectrumTextAreaControlTester } from './SpectrumTextAreaControl';
 import SpectrumTextControl, { SpectrumTextControlTester } from './SpectrumTextControl';
+import SpectrumLabelControl, { SpectrumLabelControlTester } from './SpectrumLabelControl';
 import SpectrumTextAndButtonControl, {
   SpectrumTextAndButtonControlTester,
 } from './SpectrumTextAndButtonControl';
@@ -103,4 +104,6 @@ export {
   SpectrumTextAndButtonControlTester,
   SpectrumTimeControl,
   SpectrumTimeControlTester,
+  SpectrumLabelControl,
+  SpectrumLabelControlTester,
 };
