@@ -34,10 +34,11 @@ export const MediaPreview = React.memo(
     return (
       <SpectrumProvider width={width}>
         <Flex
-          direction={appliedUiSchemaOptions.flex ?? 'column'}
           alignItems={appliedUiSchemaOptions.alignItems ?? 'start'}
+          direction={appliedUiSchemaOptions.flex ?? 'column'}
           gap={appliedUiSchemaOptions.gap ?? 'size-0'}
           marginTop={appliedUiSchemaOptions.marginTop ?? 'size-100'}
+          minWidth={appliedUiSchemaOptions.minWidth ?? 'size-2000'}
         >
           <img
             src={data}

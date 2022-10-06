@@ -82,9 +82,10 @@ export const InputTime = React.memo(
             isReadOnly={appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false}
             isRequired={required}
             label={label}
-            labelAlign={appliedUiSchemaOptions.labelAlign ?? null}
-            labelPosition={appliedUiSchemaOptions.labelPosition ?? null}
-            necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
+            labelAlign={appliedUiSchemaOptions.labelAlign ?? 'start'}
+            labelPosition={appliedUiSchemaOptions.labelPosition ?? 'top'}
+            minWidth={appliedUiSchemaOptions.minWidth ?? 'size-2000'}
+            necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? false}
             width={width}
             minValue={
               appliedUiSchemaOptions.minValue

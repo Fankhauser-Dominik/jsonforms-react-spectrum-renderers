@@ -37,6 +37,7 @@ export const SpectrumLayout = ({ children, visible, ...flexProps }: RendererProp
         isHidden={visible === undefined || visible === null ? false : !visible}
         gap='size-100'
         {...flexProps}
+        wrap
       >
         {children}
       </Flex>

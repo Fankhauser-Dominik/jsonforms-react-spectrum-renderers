@@ -60,6 +60,7 @@ export const InputCheckbox = React.memo(
           isReadOnly={appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false}
           isRequired={required}
           isSelected={isSelected}
+          minWidth={appliedUiSchemaOptions.minWidth ?? 'size-2000'}
           onChange={setSelected}
           validationState={isValid ? 'valid' : 'invalid'}
           value={data ?? schema?.default}

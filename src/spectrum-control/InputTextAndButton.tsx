@@ -79,7 +79,7 @@ export const InputTextAndButton = React.memo(
     }, [inputText, appliedUiSchemaOptions, isValid, required]);
 
     const errorMessage = () => {
-      let minLength = appliedUiSchemaOptions.minLength ?? (required ? 1 : null);
+      let minLength = appliedUiSchemaOptions.minLength ?? (required ? 1 : false);
       let maxLength = appliedUiSchemaOptions.maxLength;
       if (minLength && maxLength) {
         return `Must be between ${minLength} and ${maxLength} characters`;
@@ -140,11 +140,16 @@ export const InputTextAndButton = React.memo(
 
     return (
       <SpectrumProvider width={width}>
-        <Flex direction='row' alignItems='stretch' flex='auto inherit'>
+        <Flex
+          direction='row'
+          alignItems='stretch'
+          flex='auto inherit'
+          minWidth={appliedUiSchemaOptions.minWidth ?? 'size-2000'}
+        >
           <TextField
             aria-label={label ? label : 'textfield'}
             autoFocus={appliedUiSchemaOptions.focus}
-            description={appliedUiSchemaOptions.description ?? null}
+            description={appliedUiSchemaOptions.description ?? false}
             errorMessage={appliedUiSchemaOptions.errorMessage ?? errorMessage()}
             id={id && `${id}-input`}
             inputMode={appliedUiSchemaOptions.inputMode ?? 'none'}
@@ -153,16 +158,16 @@ export const InputTextAndButton = React.memo(
             isReadOnly={appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false}
             isRequired={required}
             label={label}
-            labelAlign={appliedUiSchemaOptions.labelAlign ?? null}
-            labelPosition={appliedUiSchemaOptions.labelPosition ?? null}
-            maxLength={appliedUiSchemaOptions.maxLength ?? null}
-            width={width}
-            minLength={appliedUiSchemaOptions.minLength ?? null}
-            necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
+            labelAlign={appliedUiSchemaOptions.labelAlign ?? 'start'}
+            labelPosition={appliedUiSchemaOptions.labelPosition ?? 'top'}
+            maxLength={appliedUiSchemaOptions.maxLength ?? false}
+            minLength={appliedUiSchemaOptions.minLength ?? false}
+            necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? false}
             onChange={onChange}
             type={appliedUiSchemaOptions.format ?? 'text'}
             validationState={isValidCheck ? 'valid' : 'invalid'}
             value={inputText}
+            width={width}
           />
           <ActionButton
             onPress={() => sendMessage()}

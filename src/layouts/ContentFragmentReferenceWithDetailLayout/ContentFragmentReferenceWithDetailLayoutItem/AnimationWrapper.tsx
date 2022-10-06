@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import { useSpring, animated, easings } from 'react-spring';
-import { Content } from '@adobe/react-spectrum';
+import { Content, View } from '@adobe/react-spectrum';
 
 interface AnimationWrapperProps {
   expanded: boolean;
@@ -60,8 +60,10 @@ export default function ModalItemAnimationWrapper({
           width: `${95 - leftOffset}%`,
         }}
       >
-        {Header}
-        <Content marginX='size-250'>{elements}</Content>
+        <View UNSAFE_className='json-form-dispatch-wrapper'>
+          {Header}
+          <Content marginX='size-250'>{elements}</Content>
+        </View>
       </animated.div>
       <animated.div
         onClick={() => expanded && handleExpand()}

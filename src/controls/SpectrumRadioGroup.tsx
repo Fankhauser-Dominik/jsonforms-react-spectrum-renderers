@@ -34,8 +34,8 @@ export const SpectrumRadioGroup = (props: ControlProps & OwnPropsOfEnum) => {
           isEmphasized={appliedUiSchemaOptions.isEmphasized ?? false}
           isRequired={required}
           label={label}
-          labelAlign={appliedUiSchemaOptions.labelAlign ?? null}
-          labelPosition={appliedUiSchemaOptions.labelPosition ?? null}
+          labelAlign={appliedUiSchemaOptions.labelAlign ?? 'start'}
+          labelPosition={appliedUiSchemaOptions.labelPosition ?? 'top'}
           necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
           onChange={(ev) => handleChange(path, ev)}
           orientation={appliedUiSchemaOptions.orientation ?? 'vertical'}

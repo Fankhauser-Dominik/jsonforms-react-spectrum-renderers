@@ -44,15 +44,8 @@
     )
     var(--spectrum-textfield-border-radius, var(--spectrum-alias-border-radius-regular)) 0 0 !important;
   border-bottom: none !important;
-  /* 
-  height: 50px;
-  overflow-x: auto !important;
-  overflow-y: hidden !important;
-  scroll-behavior: smooth !important;
-  -webkit-overflow-x-scrolling: touch; */
 }
 
 .LastToolbarButton {
-  /* background-color: red; */
   margin-right: 8px;
 }

@@ -56,7 +56,7 @@ export const InputSlider = React.memo(
     return (
       <SpectrumProvider width={width}>
         <Slider
-          fillOffset={appliedUiSchemaOptions.fillOffset ?? null}
+          fillOffset={appliedUiSchemaOptions.fillOffset ?? false}
           formatOptions={appliedUiSchemaOptions.formatOptions ?? false}
           getValueLabel={
             appliedUiSchemaOptions.getValueLabel
@@ -70,11 +70,12 @@ export const InputSlider = React.memo(
           labelPosition={appliedUiSchemaOptions.labelPosition ?? 'top'}
           maxValue={schema.maximum}
           minValue={schema.minimum}
+          minWidth={appliedUiSchemaOptions.minWidth ?? 'size-2000'}
           onChange={onChange}
           orientation={appliedUiSchemaOptions.orientation ?? 'horizontal'}
           showValueLabel={appliedUiSchemaOptions.showValueLabel ?? true}
           step={schema.multipleOf || 1}
-          trackGradient={appliedUiSchemaOptions.trackGradient ?? null}
+          trackGradient={appliedUiSchemaOptions.trackGradient ?? false}
           value={inputSlider}
           width={width}
         />

@@ -76,7 +76,7 @@ export const InputNumber = React.memo(
           decrementAriaLabel={
             appliedUiSchemaOptions.incrementAriaLabel ?? `Decrement -${stepValue}`
           }
-          description={appliedUiSchemaOptions.description ?? null}
+          description={appliedUiSchemaOptions.description ?? false}
           errorMessage={appliedUiSchemaOptions.errorMessage ?? errorMessage()}
           formatOptions={appliedUiSchemaOptions.formatOptions ?? false}
           hideStepper={appliedUiSchemaOptions.hideStepper ?? false}
@@ -88,11 +88,13 @@ export const InputNumber = React.memo(
           isReadOnly={appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false}
           isRequired={required}
           label={label}
-          labelAlign={appliedUiSchemaOptions.labelAlign ?? null}
-          labelPosition={appliedUiSchemaOptions.labelPosition ?? null}
+          labelAlign={appliedUiSchemaOptions.labelAlign ?? 'start'}
+          labelPosition={appliedUiSchemaOptions.labelPosition ?? 'top'}
           maxValue={schema.maximum}
+          maxWidth='100%'
           minValue={schema.minimum}
-          necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
+          minWidth={appliedUiSchemaOptions.minWidth ?? 'size-2000'}
+          necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? false}
           onChange={(value: number) => handleChange(path, value)}
           step={stepValue}
           validationState={isValid ? 'valid' : 'invalid'}

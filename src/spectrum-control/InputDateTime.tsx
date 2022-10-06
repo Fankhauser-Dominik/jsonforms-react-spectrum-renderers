@@ -106,7 +106,7 @@ export const InputDateTime = React.memo(
           <DatePicker
             aria-label={label ?? 'DateTime'}
             autoFocus={uischema.options && uischema.options.focus}
-            description={appliedUiSchemaOptions.description ?? null}
+            description={appliedUiSchemaOptions.description ?? false}
             errorMessage={appliedUiSchemaOptions.errorMessage ?? errorMessage()}
             granularity={appliedUiSchemaOptions.granularity ?? 'minute'}
             hideTimeZone={appliedUiSchemaOptions.hideTimeZone ?? true}
@@ -117,12 +117,13 @@ export const InputDateTime = React.memo(
             isReadOnly={appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false}
             isRequired={required}
             label={label}
-            labelAlign={appliedUiSchemaOptions.labelAlign ?? null}
-            labelPosition={appliedUiSchemaOptions.labelPosition ?? null}
+            labelAlign={appliedUiSchemaOptions.labelAlign ?? 'start'}
+            labelPosition={appliedUiSchemaOptions.labelPosition ?? 'top'}
             maxValue={getMinMaxValue(maxValue)}
             maxVisibleMonths={appliedUiSchemaOptions.maxVisibleMonths ?? 1}
             minValue={getMinMaxValue(minValue)}
-            necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
+            minWidth={appliedUiSchemaOptions.minWidth ?? 'size-2000'}
+            necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? false}
             onChange={(datetime: any) =>
               handleChange(path, datetime ? toISOString(datetime?.toString()) : '')
             }
