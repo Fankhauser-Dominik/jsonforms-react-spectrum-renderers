@@ -59,6 +59,7 @@ export const InputSwitch = React.memo(
           isSelected={isSelected}
           onChange={setSelected}
           width={width}
+          minWidth={appliedUiSchemaOptions.minWidth ?? 'size-2000'}
         >
           {label}
         </Switch>

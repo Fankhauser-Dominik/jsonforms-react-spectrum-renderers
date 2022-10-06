@@ -83,7 +83,7 @@ export const InputDate = React.memo(
           <DatePicker
             aria-label={label ?? 'Date picker'}
             autoFocus={uischema.options && uischema.options.focus}
-            description={appliedUiSchemaOptions.description ?? null}
+            description={appliedUiSchemaOptions.description ?? false}
             errorMessage={appliedUiSchemaOptions.errorMessage ?? errorMessage()}
             granularity='day'
             hideTimeZone={appliedUiSchemaOptions.hideTimeZone ?? true}
@@ -93,16 +93,18 @@ export const InputDate = React.memo(
             isReadOnly={appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false}
             isRequired={required}
             label={label}
-            labelAlign={appliedUiSchemaOptions.labelAlign ?? null}
-            labelPosition={appliedUiSchemaOptions.labelPosition ?? null}
+            labelAlign={appliedUiSchemaOptions.labelAlign ?? 'start'}
+            labelPosition={appliedUiSchemaOptions.labelPosition ?? 'top'}
             maxValue={getMinMaxValue(maxValue)}
             maxVisibleMonths={appliedUiSchemaOptions.maxVisibleMonths ?? 1}
+            maxWidth='100%'
             minValue={getMinMaxValue(minValue)}
-            necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
+            minWidth={appliedUiSchemaOptions.minWidth ?? 'size-2000'}
+            necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? false}
             onChange={(datetime: any) => handleChange(path, datetime ? datetime?.toString() : '')}
             showFormatHelpText={appliedUiSchemaOptions.showFormatHelpText ?? false}
-            width={width}
             value={data ? parseDate(data) : undefined}
+            width={width}
           />
         </Provider>
       </SpectrumProvider>

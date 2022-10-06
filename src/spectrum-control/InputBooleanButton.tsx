@@ -55,10 +55,11 @@ export const InputBooleanButton = React.memo(
           id={id}
           isDisabled={enabled === undefined ? false : !enabled}
           isEmphasized={appliedUiSchemaOptions.isEmphasized ?? false}
-          isSelected={isSelected}
-          onChange={setSelected}
           isQuiet={appliedUiSchemaOptions.isQuiet ?? false}
-          staticColor={appliedUiSchemaOptions.staticColor ?? null}
+          isSelected={isSelected}
+          minWidth={appliedUiSchemaOptions.minWidth ?? 'size-2000'}
+          onChange={setSelected}
+          staticColor={appliedUiSchemaOptions.staticColor ?? false}
           width={width}
         >
           {label}

@@ -156,6 +156,8 @@ const SpectrumArrayModalControl = React.memo(
       };
     }, [data]);
 
+    const sortMode: string | boolean = uischema?.options?.sortMode ?? 'arrows';
+
     return (
       <View id='json-form-array-wrapper'>
         <Flex direction='row' justifyContent='space-between'>
@@ -178,7 +180,25 @@ const SpectrumArrayModalControl = React.memo(
           direction='column'
           gap='size-100'
         >
-          {uischema?.options?.sortMode === 'disabled' && data && data?.length ? (
+          {sortMode === 'DragAndDrop' && data && data?.length ? (
+            <div>
+              <DragAndDrop
+                data={data}
+                handleRemoveItem={handleRemoveItem}
+                indexOfFittingSchemaArray={indexOfFittingSchemaArray}
+                path={path}
+                removeItems={removeItems}
+                renderers={renderers}
+                schema={schema}
+                uischema={uischema}
+                uischemas={uischemas}
+                callbackFunction={callbackFunction}
+                handleChange={handleChange}
+                openedIndex={openedIndex}
+                callbackOpenedIndex={callbackOpenedIndex}
+              />
+            </div>
+          ) : /* (sortMode === 'disabled' || sortMode === 'arrows') &&  */ data && data?.length ? (
             Array.from(Array(data?.length)).map((_, index) => {
               indexOfFittingSchemaObject[`${path}itemQuantity`] = data?.length;
               return (
@@ -200,7 +220,7 @@ const SpectrumArrayModalControl = React.memo(
                     uischemas={uischemas}
                     callbackFunction={callbackFunction}
                   ></SpectrumArrayModalItem>
-                  {uischema.options?.sortMode === 'arrows' && (
+                  {sortMode === 'arrows' && (
                     <SortButtons
                       data={data}
                       index={index}
@@ -213,24 +233,6 @@ const SpectrumArrayModalControl = React.memo(
                 </Flex>
               );
             })
-          ) : data && data?.length ? (
-            <div>
-              <DragAndDrop
-                data={data}
-                handleRemoveItem={handleRemoveItem}
-                indexOfFittingSchemaArray={indexOfFittingSchemaArray}
-                path={path}
-                removeItems={removeItems}
-                renderers={renderers}
-                schema={schema}
-                uischema={uischema}
-                uischemas={uischemas}
-                callbackFunction={callbackFunction}
-                handleChange={handleChange}
-                openedIndex={openedIndex}
-                callbackOpenedIndex={callbackOpenedIndex}
-              />
-            </div>
           ) : (
             <Text>No data</Text>
           )}

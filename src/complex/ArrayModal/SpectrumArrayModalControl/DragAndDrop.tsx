@@ -40,6 +40,10 @@ const DragAndDrop = ({
     return arr?.map((item: any) => {
       return JSON.stringify(item);
     });
+    /* return arr?.map((item: any, index: number) => {
+      item._arrayIndex = index;
+      return JSON.stringify(item);
+    }); */
   };
   if (!data) {
     return null;

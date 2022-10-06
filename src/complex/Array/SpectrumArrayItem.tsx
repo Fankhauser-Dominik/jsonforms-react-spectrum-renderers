@@ -103,11 +103,19 @@ const SpectrumArrayItem = ({
   childLabel = childLabel ?? `Item ${index + 1}`;
   return (
     <SpectrumProvider>
-      <View borderWidth='thin' borderColor='dark' borderRadius='medium' padding='size-100'>
+      <View
+        UNSAFE_className={`list-array-item ${
+          uischema?.options?.enableDetailedView ? 'enableDetailedView' : 'accordionView'
+        } ${uischema?.options?.noAccordion ? 'noAccordion' : null}`}
+        borderWidth='thin'
+        borderColor='dark'
+        borderRadius='medium'
+        padding='size-150'
+      >
         <View aria-selected={isExpanded}>
           <Flex
             direction='row'
-            margin='size-50'
+            // margin='size-50'
             justifyContent='space-between'
             alignItems='center'
             UNSAFE_className='spectrum-array-item-container'

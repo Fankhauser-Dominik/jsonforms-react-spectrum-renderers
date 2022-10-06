@@ -71,7 +71,7 @@ export const InputTextArea = React.memo(
     }, [inputText]);
 
     const errorMessage = () => {
-      let minLength = appliedUiSchemaOptions.minLength ?? (required ? 1 : null);
+      let minLength = appliedUiSchemaOptions.minLength ?? (required ? 1 : false);
       let maxLength = appliedUiSchemaOptions.maxLength;
       if (minLength && maxLength) {
         return `Must be between ${minLength} and ${maxLength} characters`;
@@ -94,12 +94,13 @@ export const InputTextArea = React.memo(
     }, [data]);
 
     return (
-      <SpectrumProvider width={width}>
+      <SpectrumProvider width={width} maxHeight={appliedUiSchemaOptions.maxHeight ?? '45vh'}>
         <TextArea
           aria-label={label ? label : 'textarea'}
           autoFocus={appliedUiSchemaOptions.focus}
-          description={appliedUiSchemaOptions.description ?? null}
+          description={appliedUiSchemaOptions.description ?? false}
           errorMessage={appliedUiSchemaOptions.errorMessage ?? errorMessage()}
+          height={'auto'}
           id={id && `${id}-input`}
           inputMode={appliedUiSchemaOptions.inputMode ?? 'none'}
           isDisabled={enabled === undefined ? false : !enabled}
@@ -107,11 +108,13 @@ export const InputTextArea = React.memo(
           isReadOnly={appliedUiSchemaOptions.readonly ?? schema.readOnly ?? false}
           isRequired={required}
           label={label}
-          labelAlign={appliedUiSchemaOptions.labelAlign ?? null}
-          labelPosition={appliedUiSchemaOptions.labelPosition ?? null}
-          maxLength={appliedUiSchemaOptions.maxLength ?? null}
-          minLength={appliedUiSchemaOptions.minLength ?? null}
-          necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? null}
+          labelAlign={appliedUiSchemaOptions.labelAlign ?? 'start'}
+          labelPosition={appliedUiSchemaOptions.labelPosition ?? 'top'}
+          maxHeight={appliedUiSchemaOptions.maxHeight ?? '45vh'}
+          maxLength={appliedUiSchemaOptions.maxLength ?? false}
+          minLength={appliedUiSchemaOptions.minLength ?? false}
+          minWidth={appliedUiSchemaOptions.minWidth ?? 'size-2000'}
+          necessityIndicator={appliedUiSchemaOptions.necessityIndicator ?? false}
           onChange={onChange}
           type={appliedUiSchemaOptions.format ?? 'text'}
           validationState={isValidCheck ? 'valid' : 'invalid'}

@@ -43,7 +43,7 @@ button {
   cursor: -moz-grabbing;
   cursor: -webkit-grabbing;
 }
-.list-array-item.enableDetailedView {
+.list-array-item {
   background-color: var(--spectrum-global-color-gray-100);
 }
 
@@ -137,10 +137,10 @@ button {
   margin: 0 0 0 10px !important;
 }
 
-.list-array-item.enableDetailedView {
+.list-array-item {
   padding: 10px 12px !important;
 }
 
-.list-array-item.enableDetailedView.noAccordion {
+.list-array-item.noAccordion {
   padding: 8px 12px !important;
 }
