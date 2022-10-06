@@ -49,6 +49,8 @@ import {
   SpectrumTextAreaCellTester,
   SpectrumTextCell,
   SpectrumTextCellTester,
+  // SpectrumLabelCell,
+  // SpectrumLabelCellTester,
 } from './cells';
 
 import {
@@ -89,6 +91,8 @@ import {
   SpectrumTextAreaControlTester,
   SpectrumTextControl,
   SpectrumTextControlTester,
+  SpectrumLabelControl,
+  SpectrumLabelControlTester,
   SpectrumTextAndButtonControl,
   SpectrumTextAndButtonControlTester,
   SpectrumTimeControl,
@@ -176,6 +180,7 @@ export const SpectrumRenderers: { tester: RankedTester; renderer: any }[] = [
   { tester: SpectrumNumberControlTester, renderer: SpectrumNumberControl },
   { tester: SpectrumTextAreaControlTester, renderer: SpectrumTextAreaControl },
   { tester: SpectrumTextControlTester, renderer: SpectrumTextControl },
+  { tester: SpectrumLabelControlTester, renderer: SpectrumLabelControl },
   {
     tester: SpectrumTextAndButtonControlTester,
     renderer: SpectrumTextAndButtonControl,

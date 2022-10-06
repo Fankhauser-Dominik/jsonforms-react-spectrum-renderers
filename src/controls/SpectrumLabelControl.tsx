@@ -22,31 +22,15 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-export * from './InputBooleanButton';
-export * from './InputCheckbox';
-export * from './InputDate';
-export * from './InputDateTime';
-export * from './InputEnum';
-export * from './InputInteger';
-export * from './InputNumber';
-export * from './InputRating';
-export * from './InputSlider';
-export * from './InputSwitch';
-export * from './InputText';
-export * from './InputTextAndButton';
-export * from './InputTextArea';
-export * from './InputTime';
-export * from './Label';
-export * from './MediaPreview';
+import { ControlProps, uiTypeIs, RankedTester, rankWith } from '@jsonforms/core';
+import { withJsonFormsControlProps } from '@jsonforms/react';
+import { Label } from '../spectrum-control';
+import { SpectrumInputControl } from './SpectrumInputControl';
 
-/**
- * Additional props for Spectrum input controls
- */
-export interface SpectrumInputProps {
-  required?: boolean;
-  label?: string;
-  schema?: {
-    [key: string]: any;
-    readOnly?: boolean;
-  };
-}
+export const SpectrumLabelControl = (props: ControlProps) => (
+  <SpectrumInputControl {...props} input={Label} />
+);
+
+export const SpectrumLabelControlTester: RankedTester = rankWith(5, uiTypeIs('label'));
+
+export default withJsonFormsControlProps(SpectrumLabelControl);
