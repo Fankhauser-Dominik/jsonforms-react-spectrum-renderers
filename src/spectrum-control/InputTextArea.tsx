@@ -25,7 +25,7 @@
 import React from 'react';
 import { CellProps } from '@jsonforms/core';
 import merge from 'lodash/merge';
-import { TextArea } from '@adobe/react-spectrum';
+import { TextArea, Text, ContextualHelp, Heading, Content } from '@adobe/react-spectrum';
 import { DimensionValue } from '@react-types/shared';
 import { SpectrumInputProps } from './index';
 import SpectrumProvider from '../additional/SpectrumProvider';
@@ -89,9 +89,10 @@ export const InputTextArea = React.memo(
     }, [!data, schema?.default]);
 
     React.useEffect(() => {
-      console.log('data', data);
       onChange(data);
     }, [data]);
+
+    const contextualHelp = appliedUiSchemaOptions?.contextualHelp ?? schema?.fieldDescription;
 
     return (
       <SpectrumProvider width={width} maxHeight={appliedUiSchemaOptions.maxHeight ?? '45vh'}>
@@ -122,6 +123,14 @@ export const InputTextArea = React.memo(
           width={width}
           //onFocusChange={clearNonFocusPlaceholder}
         />
+        {contextualHelp ? (
+          <ContextualHelp variant={contextualHelp?.variant === 'help' ? 'help' : 'info'}>
+            {contextualHelp?.title && <Heading>{contextualHelp?.title}</Heading>}
+            <Content>
+              <Text>{schema?.fieldDescription ?? contextualHelp?.content}</Text>
+            </Content>
+          </ContextualHelp>
+        ) : null}
       </SpectrumProvider>
     );
   }

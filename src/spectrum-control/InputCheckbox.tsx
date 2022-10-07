@@ -21,7 +21,7 @@
 import React from 'react';
 import { CellProps } from '@jsonforms/core';
 import merge from 'lodash/merge';
-import { Checkbox } from '@adobe/react-spectrum';
+import { Checkbox, Content, ContextualHelp, Heading, Text } from '@adobe/react-spectrum';
 import { SpectrumInputProps } from './index';
 import { DimensionValue } from '@react-types/shared';
 import SpectrumProvider from '../additional/SpectrumProvider';
@@ -50,6 +50,8 @@ export const InputCheckbox = React.memo(
       handleChange(path, isSelected);
     }, [isSelected]);
 
+    const contextualHelp = appliedUiSchemaOptions?.contextualHelp ?? schema?.fieldDescription;
+
     return (
       <SpectrumProvider width={width}>
         <Checkbox
@@ -70,6 +72,14 @@ export const InputCheckbox = React.memo(
         </Checkbox>
         {appliedUiSchemaOptions.description ? (
           <div style={{ fontStyle: 'italic' }}>{appliedUiSchemaOptions.description}</div>
+        ) : null}
+        {contextualHelp ? (
+          <ContextualHelp variant={contextualHelp?.variant === 'help' ? 'help' : 'info'}>
+            {contextualHelp?.title && <Heading>{contextualHelp?.title}</Heading>}
+            <Content>
+              <Text>{schema?.fieldDescription ?? contextualHelp?.content}</Text>
+            </Content>
+          </ContextualHelp>
         ) : null}
       </SpectrumProvider>
     );

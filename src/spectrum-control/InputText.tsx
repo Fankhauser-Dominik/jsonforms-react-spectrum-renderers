@@ -25,7 +25,15 @@
 import React from 'react';
 import { CellProps } from '@jsonforms/core';
 import merge from 'lodash/merge';
-import { TextField, ActionButton, Flex } from '@adobe/react-spectrum';
+import {
+  TextField,
+  ActionButton,
+  Flex,
+  ContextualHelp,
+  Heading,
+  Content,
+  Text,
+} from '@adobe/react-spectrum';
 import { DimensionValue } from '@react-types/shared';
 import { SpectrumInputProps } from './index';
 import SpectrumProvider from '../additional/SpectrumProvider';
@@ -125,8 +133,11 @@ export const InputText = React.memo(
     }
 
     React.useEffect(() => {
+      // console.log('InputText: ', schema);
       onChange(data);
     }, [data]);
+
+    const contextualHelp = appliedUiSchemaOptions?.contextualHelp ?? schema?.fieldDescription;
 
     return (
       <SpectrumProvider width={width}>
@@ -177,6 +188,14 @@ export const InputText = React.memo(
               {assetPickerOptions?.buttonText}
             </ActionButton>
           )}
+          {contextualHelp ? (
+            <ContextualHelp variant={contextualHelp?.variant === 'help' ? 'help' : 'info'}>
+              {contextualHelp?.title && <Heading>{contextualHelp?.title}</Heading>}
+              <Content>
+                <Text>{schema?.fieldDescription ?? contextualHelp?.content}</Text>
+              </Content>
+            </ContextualHelp>
+          ) : null}
         </Flex>
       </SpectrumProvider>
     );

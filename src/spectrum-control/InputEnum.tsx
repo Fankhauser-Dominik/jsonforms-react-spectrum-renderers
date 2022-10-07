@@ -27,7 +27,7 @@ import { EnumCellProps, JsonSchema, JsonSchema4 } from '@jsonforms/core';
 import merge from 'lodash/merge';
 import { SpectrumInputProps } from './index';
 import { DimensionValue } from '@react-types/shared';
-import { Item, Picker } from '@adobe/react-spectrum';
+import { Content, ContextualHelp, Heading, Item, Picker, Text } from '@adobe/react-spectrum';
 import SpectrumProvider from '../additional/SpectrumProvider';
 
 export const InputEnum = React.memo(
@@ -72,6 +72,9 @@ export const InputEnum = React.memo(
     label = label === '' || !label ? 'Enum' : label;
 
     const fallbackJsonSchema: JsonSchema4[] = [];
+
+    const contextualHelp = appliedUiSchemaOptions?.contextualHelp ?? schema?.fieldDescription;
+
     return (
       <SpectrumProvider width={width}>
         <Picker
@@ -102,6 +105,14 @@ export const InputEnum = React.memo(
         >
           {(item) => <Item key={item.value}>{item.label}</Item>}
         </Picker>
+        {contextualHelp ? (
+          <ContextualHelp variant={contextualHelp?.variant === 'help' ? 'help' : 'info'}>
+            {contextualHelp?.title && <Heading>{contextualHelp?.title}</Heading>}
+            <Content>
+              <Text>{schema?.fieldDescription ?? contextualHelp?.content}</Text>
+            </Content>
+          </ContextualHelp>
+        ) : null}
       </SpectrumProvider>
     );
   }

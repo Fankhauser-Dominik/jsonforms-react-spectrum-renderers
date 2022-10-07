@@ -29,7 +29,6 @@ import { DimensionValue } from '@react-types/shared';
 import { Content, Flex, Heading } from '@adobe/react-spectrum';
 import { SpectrumInputProps } from './index';
 import SpectrumProvider from '../additional/SpectrumProvider';
-import parse from 'html-react-parser';
 
 export const Label = React.memo(({ config, uischema }: CellProps & SpectrumInputProps) => {
   const appliedUiSchemaOptions = merge({}, config, uischema.options);
@@ -37,14 +36,12 @@ export const Label = React.memo(({ config, uischema }: CellProps & SpectrumInput
   const heading = appliedUiSchemaOptions.heading ?? false;
   const headingLevel = appliedUiSchemaOptions.headingLevel ?? 2;
   const content = appliedUiSchemaOptions.content ?? false;
-  const html = appliedUiSchemaOptions.html ?? false;
 
   return (
     <SpectrumProvider width={width}>
       <Flex direction='column' alignItems='stretch' flex='auto inherit'>
         {heading && <Heading level={headingLevel}>{heading}</Heading>}
         {content && <Content>{content}</Content>}
-        {html && parse(html)}
       </Flex>
     </SpectrumProvider>
   );

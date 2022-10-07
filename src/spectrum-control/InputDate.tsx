@@ -26,7 +26,7 @@ import React from 'react';
 import { CellProps } from '@jsonforms/core';
 import merge from 'lodash/merge';
 import { SpectrumInputProps } from './index';
-import { Provider } from '@adobe/react-spectrum';
+import { Content, ContextualHelp, Heading, Provider, Text } from '@adobe/react-spectrum';
 import { DimensionValue } from '@react-types/shared';
 import { DatePicker } from '@react-spectrum/datepicker';
 import { getLocalTimeZone, parseDate, today } from '@internationalized/date';
@@ -77,6 +77,8 @@ export const InputDate = React.memo(
       }
     }, [schema?.default]);
 
+    const contextualHelp = appliedUiSchemaOptions?.contextualHelp ?? schema?.fieldDescription;
+
     return (
       <SpectrumProvider width={width}>
         <Provider locale={appliedUiSchemaOptions.locale ?? 'gregory'}>
@@ -107,6 +109,14 @@ export const InputDate = React.memo(
             width={width}
           />
         </Provider>
+        {contextualHelp ? (
+          <ContextualHelp variant={contextualHelp?.variant === 'help' ? 'help' : 'info'}>
+            {contextualHelp?.title && <Heading>{contextualHelp?.title}</Heading>}
+            <Content>
+              <Text>{schema?.fieldDescription ?? contextualHelp?.content}</Text>
+            </Content>
+          </ContextualHelp>
+        ) : null}
       </SpectrumProvider>
     );
   }
