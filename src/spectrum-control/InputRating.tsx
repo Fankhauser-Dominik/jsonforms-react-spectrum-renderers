@@ -21,7 +21,7 @@
 import React from 'react';
 import { CellProps } from '@jsonforms/core';
 import merge from 'lodash/merge';
-import { RadioGroup, Radio } from '@adobe/react-spectrum';
+import { RadioGroup, Radio, ContextualHelp, Heading, Content, Text } from '@adobe/react-spectrum';
 import { SpectrumInputProps } from './index';
 import { DimensionValue } from '@react-types/shared';
 import StarOutline from '@spectrum-icons/workflow/StarOutline';
@@ -60,6 +60,8 @@ export const InputRating = React.memo(
         handleOnChange(schema.default);
       }
     }, [schema?.default]);
+
+    const contextualHelp = appliedUiSchemaOptions?.contextualHelp ?? schema?.fieldDescription;
 
     return (
       <SpectrumProvider width={width}>
@@ -108,6 +110,14 @@ export const InputRating = React.memo(
             );
           })}
         </RadioGroup>
+        {contextualHelp ? (
+          <ContextualHelp variant={contextualHelp?.variant === 'help' ? 'help' : 'info'}>
+            {contextualHelp?.title && <Heading>{contextualHelp?.title}</Heading>}
+            <Content>
+              <Text>{schema?.fieldDescription ?? contextualHelp?.content}</Text>
+            </Content>
+          </ContextualHelp>
+        ) : null}
       </SpectrumProvider>
     );
   }

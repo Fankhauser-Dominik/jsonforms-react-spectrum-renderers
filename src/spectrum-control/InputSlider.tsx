@@ -27,7 +27,7 @@ import { CellProps } from '@jsonforms/core';
 import { merge } from 'lodash';
 import { DimensionValue } from '@react-types/shared';
 import { SpectrumInputProps } from './index';
-import { Slider } from '@adobe/react-spectrum';
+import { Content, ContextualHelp, Heading, Slider, Text } from '@adobe/react-spectrum';
 import SpectrumProvider from '../additional/SpectrumProvider';
 import { useDebouncedChange } from '../util/debounce';
 
@@ -53,6 +53,9 @@ export const InputSlider = React.memo(
       data,
       path
     );
+
+    const contextualHelp = appliedUiSchemaOptions?.contextualHelp ?? schema?.fieldDescription;
+
     return (
       <SpectrumProvider width={width}>
         <Slider
@@ -79,6 +82,14 @@ export const InputSlider = React.memo(
           value={inputSlider}
           width={width}
         />
+        {contextualHelp ? (
+          <ContextualHelp variant={contextualHelp?.variant === 'help' ? 'help' : 'info'}>
+            {contextualHelp?.title && <Heading>{contextualHelp?.title}</Heading>}
+            <Content>
+              <Text>{schema?.fieldDescription ?? contextualHelp?.content}</Text>
+            </Content>
+          </ContextualHelp>
+        ) : null}
       </SpectrumProvider>
     );
   }

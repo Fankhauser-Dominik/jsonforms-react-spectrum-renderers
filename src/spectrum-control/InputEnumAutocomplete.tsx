@@ -27,7 +27,7 @@ import { EnumCellProps } from '@jsonforms/core';
 import merge from 'lodash/merge';
 import { SpectrumInputProps } from './index';
 import { DimensionValue } from '@react-types/shared';
-import { Item, ComboBox } from '@adobe/react-spectrum';
+import { Item, ComboBox, ContextualHelp, Heading, Content, Text } from '@adobe/react-spectrum';
 import SpectrumProvider from '../additional/SpectrumProvider';
 
 export const InputEnumAutocomplete = React.memo(
@@ -62,6 +62,8 @@ export const InputEnumAutocomplete = React.memo(
 
     label = label === '' || !label ? 'Enum' : label;
 
+    const contextualHelp = appliedUiSchemaOptions?.contextualHelp ?? schema?.fieldDescription;
+
     return (
       <SpectrumProvider width={width}>
         {options && (
@@ -95,6 +97,14 @@ export const InputEnumAutocomplete = React.memo(
             ))}
           </ComboBox>
         )}
+        {contextualHelp ? (
+          <ContextualHelp variant={contextualHelp?.variant === 'help' ? 'help' : 'info'}>
+            {contextualHelp?.title && <Heading>{contextualHelp?.title}</Heading>}
+            <Content>
+              <Text>{schema?.fieldDescription ?? contextualHelp?.content}</Text>
+            </Content>
+          </ContextualHelp>
+        ) : null}
       </SpectrumProvider>
     );
   }

@@ -24,12 +24,14 @@ import merge from 'lodash/merge';
 import { SpectrumInputProps } from './index';
 import { DimensionValue } from '@react-types/shared';
 import SpectrumProvider from '../additional/SpectrumProvider';
-import { Flex } from '@adobe/react-spectrum';
+import { Flex, Text, Content, ContextualHelp, Heading } from '@adobe/react-spectrum';
 
 export const MediaPreview = React.memo(
-  ({ config, data, uischema }: CellProps & SpectrumInputProps) => {
+  ({ config, data, uischema, schema }: CellProps & SpectrumInputProps) => {
     const appliedUiSchemaOptions = merge({}, config, uischema.options);
     const width: DimensionValue | undefined = appliedUiSchemaOptions.trim ? undefined : '100%';
+
+    const contextualHelp = appliedUiSchemaOptions?.contextualHelp ?? schema?.fieldDescription;
 
     return (
       <SpectrumProvider width={width}>
@@ -54,6 +56,14 @@ export const MediaPreview = React.memo(
             ? data.alt
             : appliedUiSchemaOptions.description ?? null}
         </Flex>
+        {contextualHelp ? (
+          <ContextualHelp variant={contextualHelp?.variant === 'help' ? 'help' : 'info'}>
+            {contextualHelp?.title && <Heading>{contextualHelp?.title}</Heading>}
+            <Content>
+              <Text>{schema?.fieldDescription ?? contextualHelp?.content}</Text>
+            </Content>
+          </ContextualHelp>
+        ) : null}
       </SpectrumProvider>
     );
   }

@@ -21,7 +21,7 @@
 import React from 'react';
 import { CellProps } from '@jsonforms/core';
 import merge from 'lodash/merge';
-import { Switch } from '@adobe/react-spectrum';
+import { Content, ContextualHelp, Heading, Switch, Text } from '@adobe/react-spectrum';
 import { SpectrumInputProps } from './index';
 import { DimensionValue } from '@react-types/shared';
 import SpectrumProvider from '../additional/SpectrumProvider';
@@ -48,6 +48,8 @@ export const InputSwitch = React.memo(
       handleChange(path, isSelected);
     }, [isSelected]);
 
+    const contextualHelp = appliedUiSchemaOptions?.contextualHelp ?? schema?.fieldDescription;
+
     return (
       <SpectrumProvider width={width}>
         <Switch
@@ -65,6 +67,14 @@ export const InputSwitch = React.memo(
         </Switch>
         {appliedUiSchemaOptions.description ? (
           <div style={{ fontStyle: 'italic' }}>{appliedUiSchemaOptions.description}</div>
+        ) : null}
+        {contextualHelp ? (
+          <ContextualHelp variant={contextualHelp?.variant === 'help' ? 'help' : 'info'}>
+            {contextualHelp?.title && <Heading>{contextualHelp?.title}</Heading>}
+            <Content>
+              <Text>{schema?.fieldDescription ?? contextualHelp?.content}</Text>
+            </Content>
+          </ContextualHelp>
         ) : null}
       </SpectrumProvider>
     );
