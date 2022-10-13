@@ -118,7 +118,7 @@ const SpectrumArrayControlGrid = ({
   const { text } = createLabelDescriptionFrom(controlElement, schema);
   let uioptions = getUIOptions(uischema, text || '');
   const spacing: number[] = uischema.options?.spacing ?? [];
-  const add = addItem(path, createDefaultValue(schema));
+  const add = addItem(path, createDefaultValue(schema ?? {}));
   const fields = schema.properties ? Object.keys(schema.properties) : ['items'];
   return (
     <View isHidden={visible === undefined || visible === null ? false : !visible}>

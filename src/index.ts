@@ -108,6 +108,8 @@ import {
   SpectrumAnyOfRendererTester,
   SpectrumTipTapRenderer,
   SpectrumTipTapRendererTester,
+  SpectrumCodeMirror,
+  SpectrumCodeMirrorTester,
   SpectrumAllOfRenderer,
   SpectrumAllOfRendererTester,
   SpectrumCategorizationRenderer,
@@ -216,6 +218,10 @@ export const SpectrumRenderers: { tester: RankedTester; renderer: any }[] = [
   {
     tester: SpectrumTipTapRendererTester,
     renderer: SpectrumTipTapRenderer,
+  },
+  {
+    tester: SpectrumCodeMirrorTester,
+    renderer: SpectrumCodeMirror,
   },
   {
     tester: SpectrumAllOfRendererTester,

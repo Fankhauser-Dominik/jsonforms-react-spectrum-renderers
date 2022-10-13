@@ -26,8 +26,15 @@
     var(--spectrum-alias-body-text-line-height)
   );
   text-overflow: ellipsis;
-  -moz-appearance: textfield;
+  /* -moz-appearance: textfield; */
   outline: 0;
+}
+
+.noToolbar > .ProseMirror {
+  border-radius: var(
+    --spectrum-textfield-border-radius,
+    var(--spectrum-alias-border-radius-regular)
+  ) !important;
 }
 
 .ProseMirror-focused {

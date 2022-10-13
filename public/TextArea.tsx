@@ -22,20 +22,13 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-/* import 'codemirror/lib/codemirror.css';
-import 'codemirror/theme/mbo.css';
-import 'codemirror/theme/base16-light.css'; */
 import * as React from 'react';
-// import { UnControlled as CodeMirror } from 'react-codemirror2';
 import CodeMirror from '@uiw/react-codemirror';
-import { javascript } from '@codemirror/lang-javascript';
-// import { ColorSchemeContext } from '../../src/util/ColorSchemeContext';
+import { json, jsonParseLinter } from '@codemirror/lang-json';
+import { linter, lintGutter } from '@codemirror/lint';
 import { ButtonGroup, Button, StatusLight, View } from '@adobe/react-spectrum';
 
-// import 'codemirror/mode/javascript/javascript';
-
 export function TextArea(props: { value: string; onChange: (newValue: string) => void }) {
-  // const colorScheme = React.useContext(ColorSchemeContext);
   const [value, setValue] = React.useState(props.value);
   const err = getErr(value);
   const [key, setKey] = React.useState(Math.random()); // used to force-rerender CodeMirror when Reset button is clicked
@@ -51,13 +44,23 @@ export function TextArea(props: { value: string; onChange: (newValue: string) =>
     setValue(value);
   }, []);
 
+  const theme = document.cookie.includes('preferTheme=dark')
+    ? 'dark'
+    : document.cookie.includes('preferTheme=light')
+    ? 'light'
+    : window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+    ? 'dark'
+    : 'light';
+
   return (
     <>
       <CodeMirror
         key={key}
         value={props.value}
         onChange={onChangeHandler}
-        extensions={[javascript()]}
+        extensions={err ? [json(), linter(jsonParseLinter()), lintGutter()] : [json()]}
+        className='SpectrumCodeMirror'
+        theme={theme}
       />
       <View paddingTop='size-50'>
         {value && err && <StatusLight variant='negative'>{err}</StatusLight>}

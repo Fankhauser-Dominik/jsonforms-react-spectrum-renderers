@@ -30,6 +30,7 @@ import ArrayControl, { arrayControlTester } from './Array';
 import SpectrumArrayModalControl, { SpectrumArrayModalControlTester } from './ArrayModal';
 import SpectrumAnyOfRenderer, { SpectrumAnyOfRendererTester } from './SpectrumAnyOfRenderer';
 import SpectrumTipTapRenderer, { SpectrumTipTapRendererTester } from './SpectrumTipTapRenderer';
+import SpectrumCodeMirror, { SpectrumCodeMirrorTester } from './SpectrumCodeMirror';
 import SpectrumAllOfRenderer, { SpectrumAllOfRendererTester } from './SpectrumAllOfRenderer';
 import SpectrumCategorizationRenderer, {
   SpectrumCategorizationRendererTester,
@@ -52,6 +53,8 @@ export {
   SpectrumAnyOfRendererTester,
   SpectrumTipTapRenderer,
   SpectrumTipTapRendererTester,
+  SpectrumCodeMirror,
+  SpectrumCodeMirrorTester,
   SpectrumAllOfRenderer,
   SpectrumAllOfRendererTester,
   SpectrumCategorizationRenderer,
