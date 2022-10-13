@@ -29,7 +29,11 @@ import { DimensionValue } from '@react-types/shared';
 import { SpectrumInputProps } from '../../spectrum-control/index';
 import SpectrumProvider from '../../additional/SpectrumProvider';
 
-import Editor from './TipTap/index';
+import CodeMirror from '@uiw/react-codemirror';
+import { json, jsonParseLinter } from '@codemirror/lang-json';
+import { linter, lintGutter } from '@codemirror/lint';
+
+import './index.css';
 
 export const InputTextArea = React.memo(
   ({
@@ -52,14 +56,40 @@ export const InputTextArea = React.memo(
         handleChange(path, editorJSON);
       }
     };
+
+    function getErr(value: string) {
+      if (!value) {
+        return null;
+      }
+
+      try {
+        JSON.parse(value);
+        return null;
+      } catch (err) {
+        return String(err);
+      }
+    }
+
+    const theme = document.cookie.includes('preferTheme=dark')
+      ? 'dark'
+      : document.cookie.includes('preferTheme=light')
+      ? 'light'
+      : window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dark'
+      : 'light';
+
     return (
       <SpectrumProvider width={width} isHidden={!visible}>
-        {label && <h4>{label}</h4>}
-        <Editor
-          content={editorJSON}
-          EditorJSONCallback={callbackFunction}
-          returnMode={appliedUiSchemaOptions.returnMode}
-          noToolbar={appliedUiSchemaOptions.noToolbar}
+        {label && <label className='SpectrumLabel'>{label}</label>}
+        <CodeMirror
+          value={editorJSON}
+          height='200px'
+          extensions={
+            getErr(editorJSON) ? [json(), linter(jsonParseLinter()), lintGutter()] : [json()]
+          }
+          onChange={callbackFunction}
+          className='SpectrumCodeMirror'
+          theme={theme}
         />
       </SpectrumProvider>
     );

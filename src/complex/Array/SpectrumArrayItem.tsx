@@ -209,8 +209,8 @@ export const mapStateToSpectrumArrayItemProps = (
   ownProps: OwnPropsOfSpectrumArrayItem
 ): OwnPropsOfSpectrumArrayItem => {
   const { schema, path, index, uischema } = ownProps;
-  const firstPrimitiveProp = schema.properties
-    ? Object.keys(schema.properties).find((propName) => {
+  const firstPrimitiveProp = schema?.properties
+    ? Object.keys(schema?.properties).find((propName) => {
         const prop = schema?.properties ? schema?.properties[propName] : { type: 'string' };
         return prop.type === 'string' || prop.type === 'number' || prop.type === 'integer';
       })

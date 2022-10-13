@@ -64,7 +64,7 @@ export const SpectrumArrayControl = ({
         <Button
           variant='primary'
           alignSelf='center'
-          onPress={addItem(path, createDefaultValue(schema))}
+          onPress={addItem(path, createDefaultValue(schema ?? {}))}
         >
           <Add aria-label='Add' size='S' />
         </Button>

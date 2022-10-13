@@ -17,12 +17,16 @@ import { Flex } from '@adobe/react-spectrum';
 
 interface TipTapProps {
   EditorJSONCallback: any;
+  returnMode: any;
+  noToolbar: boolean;
 }
 
 export default function EditorComponent({
   // setContent,
   content,
   EditorJSONCallback,
+  noToolbar = false,
+  returnMode = false,
 }: TipTapProps & {
   // setContent: (value: string) => void;
   content: string;
@@ -54,7 +58,13 @@ export default function EditorComponent({
       return;
     }
     const delayDebounceFn = setTimeout(() => {
-      EditorJSONCallback(editor?.getHTML());
+      if (returnMode === 'json') {
+        EditorJSONCallback(editor?.getJSON());
+      } else if (returnMode === 'text') {
+        EditorJSONCallback(editor?.getText());
+      } else {
+        EditorJSONCallback(editor?.getHTML());
+      }
     }, 500);
 
     return () => clearTimeout(delayDebounceFn);
@@ -64,8 +74,8 @@ export default function EditorComponent({
 
   return (
     <Flex direction='column'>
-      <ProjectCreateContentToolbar editor={editor} />
-      <EditorContent editor={editor} />
+      {!noToolbar && <ProjectCreateContentToolbar editor={editor} />}
+      <EditorContent editor={editor} className={noToolbar ? 'noToolbar' : ''} />
     </Flex>
   );
 }
