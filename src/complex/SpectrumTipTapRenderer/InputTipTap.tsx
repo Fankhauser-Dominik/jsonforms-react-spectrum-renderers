@@ -54,7 +54,7 @@ export const InputTextArea = React.memo(
     };
     return (
       <SpectrumProvider width={width} isHidden={!visible}>
-        {label && <h4>{label}</h4>}
+        {label && <label className='SpectrumLabel'>{label}</label>}
         <Editor
           content={editorJSON}
           EditorJSONCallback={callbackFunction}

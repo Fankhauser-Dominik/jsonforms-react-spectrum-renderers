@@ -17,7 +17,6 @@
   overflow-x: hidden;
   overflow-y: auto;
   width: auto;
-  min-height: 129px;
   padding: 0 3px var(--spectrum-textfield-padding-x, var(--spectrum-global-dimension-size-150)) 5px
     calc(var(--spectrum-textfield-padding-x, var(--spectrum-global-dimension-size-150)) - 1px);
   text-indent: 0;

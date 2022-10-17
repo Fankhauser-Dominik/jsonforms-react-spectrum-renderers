@@ -28,6 +28,7 @@ import merge from 'lodash/merge';
 import { DimensionValue } from '@react-types/shared';
 import { SpectrumInputProps } from '../../spectrum-control/index';
 import SpectrumProvider from '../../additional/SpectrumProvider';
+import { Button, View } from '@adobe/react-spectrum';
 
 import CodeMirror from '@uiw/react-codemirror';
 import { json, jsonParseLinter } from '@codemirror/lang-json';
@@ -35,7 +36,34 @@ import { linter, lintGutter } from '@codemirror/lint';
 
 import './index.css';
 
-export const InputTextArea = React.memo(
+const circularReferenceReplacer = () => {
+  const paths = new Map();
+  const finalPaths = new Map();
+  let root: any = null;
+
+  return function (this: Object, field: string, value: any) {
+    const p = paths.get(this) + '/' + field;
+    const isComplex = value === Object(value);
+
+    if (isComplex) paths.set(value, p);
+
+    const existingPath = finalPaths.get(value) || '';
+    const path = p.replace(/undefined\/\/?/, '');
+    let val = existingPath ? { $ref: `#/${existingPath}` } : value;
+
+    if (!root) {
+      root = value;
+    } else if (val === root) {
+      val = { $ref: '#/' };
+    }
+
+    if (!existingPath && isComplex) finalPaths.set(value, path);
+
+    return val;
+  };
+};
+
+export const InputCodeMirror = React.memo(
   ({
     config,
     data,
@@ -46,16 +74,36 @@ export const InputTextArea = React.memo(
     label,
   }: CellProps & SpectrumInputProps) => {
     const appliedUiSchemaOptions = merge({}, config, uischema.options);
-
     const width: DimensionValue | undefined = appliedUiSchemaOptions.trim ? undefined : '100%';
-
-    const [editorJSON, setEditorJSON] = React.useState<any>(data);
-    const callbackFunction = (editorJSON: any) => {
-      setEditorJSON(editorJSON);
-      if (editorJSON !== data) {
-        handleChange(path, editorJSON);
+    const showSaveButton: boolean = appliedUiSchemaOptions.showSaveButton ?? false;
+    const [value, setValue] = React.useState(data);
+    const [initialValue, setInitialValue] = React.useState(data);
+    const [cachedValue, setCachedValue] = React.useState(data);
+    const err = getErr(value);
+    const cachedErr = getErr(cachedValue);
+    const [key, setKey] = React.useState(Math.random()); // used to force-rerender CodeMirror when Reset button is clicked
+    const save = React.useCallback(() => {
+      if (typeof cachedValue === 'string') {
+        handleChange(path, JSON.parse(cachedValue));
+        setValue(JSON.parse(cachedValue));
+      } else {
+        handleChange(path, JSON.parse(JSON.stringify(cachedValue, circularReferenceReplacer())));
+        setValue(JSON.parse(JSON.stringify(cachedValue, circularReferenceReplacer())));
       }
+    }, [cachedValue]);
+    const saveAndFormat = () => {
+      save();
+      setInitialValue(JSON.parse(JSON.stringify(value, circularReferenceReplacer())));
+      setKey(Math.random());
     };
+
+    const onChangeHandler = React.useCallback((newValue: any, _viewUpdate: any) => {
+      setCachedValue(newValue);
+      if (!getErr(newValue) && !cachedErr && !showSaveButton) {
+        setValue(JSON.parse(newValue));
+        handleChange(path, JSON.parse(newValue));
+      }
+    }, []);
 
     function getErr(value: string) {
       if (!value) {
@@ -63,7 +111,11 @@ export const InputTextArea = React.memo(
       }
 
       try {
-        JSON.parse(value);
+        if (typeof value === 'string') {
+          JSON.parse(value);
+        } else {
+          JSON.parse(JSON.stringify(value, circularReferenceReplacer()));
+        }
         return null;
       } catch (err) {
         return String(err);
@@ -82,15 +134,30 @@ export const InputTextArea = React.memo(
       <SpectrumProvider width={width} isHidden={!visible}>
         {label && <label className='SpectrumLabel'>{label}</label>}
         <CodeMirror
-          value={editorJSON}
-          height='200px'
+          key={key}
+          value={JSON.stringify(initialValue, circularReferenceReplacer(), 2) || ''}
+          onChange={onChangeHandler}
           extensions={
-            getErr(editorJSON) ? [json(), linter(jsonParseLinter()), lintGutter()] : [json()]
+            err || cachedErr ? [json(), linter(jsonParseLinter()), lintGutter()] : [json()]
           }
-          onChange={callbackFunction}
           className='SpectrumCodeMirror'
           theme={theme}
         />
+        <View paddingTop='size-50'>
+          {cachedValue !== data && showSaveButton ? (
+            <Button variant='cta' onPress={save} isDisabled={!!err || !!cachedErr}>
+              Save
+            </Button>
+          ) : (
+            <Button
+              variant='cta'
+              onPress={saveAndFormat}
+              isDisabled={!!err || !!cachedErr || cachedValue === initialValue}
+            >
+              Format
+            </Button>
+          )}
+        </View>
       </SpectrumProvider>
     );
   }

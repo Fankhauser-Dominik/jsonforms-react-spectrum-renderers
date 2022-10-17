@@ -88,7 +88,7 @@ export default function ModalItemHeader({
             >
               <Text
                 UNSAFE_className='spectrum-array-item-name'
-                UNSAFE_style={{ textAlign: 'left' }}
+                UNSAFE_style={{ textAlign: 'left', width: '100%' }}
               >
                 {childLabel}
               </Text>
