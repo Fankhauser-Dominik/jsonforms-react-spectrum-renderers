@@ -1,7 +1,7 @@
 {
   "name": "jsonforms-react-spectrum-vite-test",
   "private": false,
-  "version": "0.0.129",
+  "version": "0.0.132",
   "type": "module",
   "files": [
     "dist"
@@ -52,7 +52,6 @@
     "@date-io/moment": "2.16.0",
     "@internationalized/date": "^3.0.1",
     "@jsonforms/core": "^3.0.0",
-    "@jsonforms/examples": "^3.0.0",
     "@jsonforms/react": "^3.0.0",
     "@spectrum-icons/workflow": "^4.0.3",
     "@tiptap/extension-focus": "^2.0.0-beta.199",
@@ -82,7 +81,6 @@
     "react-router-dom": "^6.4.2",
     "react-spring": "^9.5.5",
     "redux": "^4.2.0",
-    "run-script-os": "^1.1.6",
     "tslib": "^2.4.0",
     "uuid": "^9.0.0"
   },
@@ -95,16 +93,18 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@jsonforms/examples": "^3.0.0",
     "@testing-library/dom": "^8.19.0",
     "@testing-library/react": "^13.4.0",
     "@types/enzyme": "^3.10.12",
-    "@types/jest": "^29.1.2",
+    "@types/jest": "^29.2.0",
     "@vitejs/plugin-react": "^2.1.0",
     "enzyme": "^3.11.0",
     "rimraf": "^3.0.2",
+    "run-script-os": "^1.1.6",
     "typescript": "^4.8.4",
     "vite": "^3.1.8",
     "vite-plugin-css-injected-by-js": "^2.1.0",
-    "vite-plugin-dts": "^1.6.5"
+    "vite-plugin-dts": "^1.6.6"
   }
 }

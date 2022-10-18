@@ -27,12 +27,11 @@
 */
 import { ControlProps, RankedTester, optionIs, rankWith } from '@jsonforms/core';
 import { withJsonFormsControlProps } from '@jsonforms/react';
-import { InputTextArea } from './CodeMirror';
-import { SpectrumInputControl } from '../../controls/SpectrumInputControl';
+import { InputCodeMirror } from './CodeMirror';
 
-export const SpectrumCodeMirror = (props: ControlProps) => (
-  <SpectrumInputControl {...props} input={InputTextArea} />
-);
+export const SpectrumCodeMirror = (props: ControlProps) => {
+  return <InputCodeMirror {...props} isValid={true} />;
+};
 
 export const SpectrumCodeMirrorTester: RankedTester = rankWith(8, optionIs('codeMirror', true));
 

@@ -28,14 +28,14 @@ import merge from 'lodash/merge';
 import { DimensionValue } from '@react-types/shared';
 import { SpectrumInputProps } from '../../spectrum-control/index';
 import SpectrumProvider from '../../additional/SpectrumProvider';
-
+import { Button, View, useProvider } from '@adobe/react-spectrum';
+import circularReferenceReplacer from '../../util/circularReferenceReplacer';
 import CodeMirror from '@uiw/react-codemirror';
 import { json, jsonParseLinter } from '@codemirror/lang-json';
 import { linter, lintGutter } from '@codemirror/lint';
-
 import './index.css';
 
-export const InputTextArea = React.memo(
+export const InputCodeMirror = React.memo(
   ({
     config,
     data,
@@ -45,52 +45,82 @@ export const InputTextArea = React.memo(
     path,
     label,
   }: CellProps & SpectrumInputProps) => {
+    let { colorScheme } = useProvider();
     const appliedUiSchemaOptions = merge({}, config, uischema.options);
-
     const width: DimensionValue | undefined = appliedUiSchemaOptions.trim ? undefined : '100%';
-
-    const [editorJSON, setEditorJSON] = React.useState<any>(data);
-    const callbackFunction = (editorJSON: any) => {
-      setEditorJSON(editorJSON);
-      if (editorJSON !== data) {
-        handleChange(path, editorJSON);
+    const showSaveButton: boolean = appliedUiSchemaOptions.showSaveButton ?? false;
+    const [value, setValue] = React.useState(data);
+    const [initialValue, setInitialValue] = React.useState(data);
+    const [cachedValue, setCachedValue] = React.useState(data);
+    const err = getErr(value);
+    const cachedErr = getErr(cachedValue);
+    /* const save = React.useCallback(() => {
+      if (typeof cachedValue === 'string') {
+        handleChange(path, JSON.parse(cachedValue));
+        setValue(JSON.parse(cachedValue));
+      } else {
+        handleChange(path, JSON.parse(JSON.stringify(cachedValue, circularReferenceReplacer())));
+        setValue(JSON.parse(JSON.stringify(cachedValue, circularReferenceReplacer())));
       }
+    }, [cachedValue]); */
+    const saveAndFormat = () => {
+      if (typeof cachedValue === 'string') {
+        handleChange(path, JSON.parse(cachedValue));
+        setValue(JSON.parse(cachedValue));
+      } else {
+        handleChange(path, JSON.parse(JSON.stringify(cachedValue, circularReferenceReplacer())));
+        setValue(JSON.parse(JSON.stringify(cachedValue, circularReferenceReplacer())));
+      }
+      setInitialValue(JSON.parse(JSON.stringify(value, circularReferenceReplacer())));
     };
+
+    const onChangeHandler = React.useCallback((newValue: any, _viewUpdate: any) => {
+      setCachedValue(newValue);
+      setValue(JSON.parse(newValue));
+      if (!getErr(newValue) && !cachedErr && !showSaveButton) {
+        handleChange(path, JSON.parse(newValue));
+      }
+    }, []);
 
     function getErr(value: string) {
       if (!value) {
         return null;
       }
-
       try {
-        JSON.parse(value);
+        if (typeof value === 'string') {
+          JSON.parse(value);
+        } else {
+          JSON.parse(JSON.stringify(value, circularReferenceReplacer()));
+        }
         return null;
       } catch (err) {
         return String(err);
       }
     }
 
-    const theme = document.cookie.includes('preferTheme=dark')
-      ? 'dark'
-      : document.cookie.includes('preferTheme=light')
-      ? 'light'
-      : window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
-      ? 'dark'
-      : 'light';
-
     return (
       <SpectrumProvider width={width} isHidden={!visible}>
         {label && <label className='SpectrumLabel'>{label}</label>}
         <CodeMirror
-          value={editorJSON}
-          height='200px'
+          value={JSON.stringify(initialValue, circularReferenceReplacer(), 2) || ''}
+          onChange={onChangeHandler}
           extensions={
-            getErr(editorJSON) ? [json(), linter(jsonParseLinter()), lintGutter()] : [json()]
+            err || cachedErr ? [json(), linter(jsonParseLinter()), lintGutter()] : [json()]
           }
-          onChange={callbackFunction}
           className='SpectrumCodeMirror'
-          theme={theme}
+          theme={colorScheme === 'dark' ? 'dark' : 'light'}
         />
+        <View paddingTop='size-50'>
+          <Button
+            variant='cta'
+            onPress={saveAndFormat}
+            isDisabled={
+              !!err || !!cachedErr || JSON.stringify(value) === JSON.stringify(initialValue)
+            }
+          >
+            {showSaveButton ? 'Save' : 'Format'}
+          </Button>
+        </View>
       </SpectrumProvider>
     );
   }
