@@ -1,7 +1,7 @@
 {
   "name": "jsonforms-react-spectrum-vite-test",
   "private": false,
-  "version": "0.0.131",
+  "version": "0.0.132",
   "type": "module",
   "files": [
     "dist"
@@ -97,7 +97,7 @@
     "@testing-library/dom": "^8.19.0",
     "@testing-library/react": "^13.4.0",
     "@types/enzyme": "^3.10.12",
-    "@types/jest": "^29.1.2",
+    "@types/jest": "^29.2.0",
     "@vitejs/plugin-react": "^2.1.0",
     "enzyme": "^3.11.0",
     "rimraf": "^3.0.2",
