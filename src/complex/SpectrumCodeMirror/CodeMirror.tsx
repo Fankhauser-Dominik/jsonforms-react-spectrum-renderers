@@ -49,6 +49,7 @@ export const InputCodeMirror = React.memo(
     const appliedUiSchemaOptions = merge({}, config, uischema.options);
     const width: DimensionValue | undefined = appliedUiSchemaOptions.trim ? undefined : '100%';
     const showSaveButton: boolean = appliedUiSchemaOptions.showSaveButton ?? false;
+    const readOnly: boolean = appliedUiSchemaOptions.readOnly ?? false;
     const [value, setValue] = React.useState(data);
     const [initialValue, setInitialValue] = React.useState(data);
     const [cachedValue, setCachedValue] = React.useState(data);
@@ -109,18 +110,21 @@ export const InputCodeMirror = React.memo(
           }
           className='SpectrumCodeMirror'
           theme={colorScheme === 'dark' ? 'dark' : 'light'}
+          editable={!readOnly}
         />
-        <View paddingTop='size-50'>
-          <Button
-            variant='cta'
-            onPress={saveAndFormat}
-            isDisabled={
-              !!err || !!cachedErr || JSON.stringify(value) === JSON.stringify(initialValue)
-            }
-          >
-            {showSaveButton ? 'Save' : 'Format'}
-          </Button>
-        </View>
+        {!readOnly && (
+          <View paddingTop='size-50'>
+            <Button
+              variant='cta'
+              onPress={saveAndFormat}
+              isDisabled={
+                !!err || !!cachedErr || JSON.stringify(value) === JSON.stringify(initialValue)
+              }
+            >
+              {showSaveButton ? 'Save' : 'Format'}
+            </Button>
+          </View>
+        )}
       </SpectrumProvider>
     );
   }

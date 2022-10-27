@@ -37,13 +37,19 @@ const DragAndDrop = ({
   callbackOpenedIndex,
 }: ArrayModalControlDragAndDropProps) => {
   const stringified = (arr: any) => {
+    return arr?.map((item: any, index: number) => {
+      try {
+        item._arrayIndex = index;
+      } finally {
+        return JSON.stringify(item);
+      }
+    });
+  };
+  const stringified2 = (arr: any) => {
     return arr?.map((item: any) => {
+      delete item._arrayIndex;
       return JSON.stringify(item);
     });
-    /* return arr?.map((item: any, index: number) => {
-      item._arrayIndex = index;
-      return JSON.stringify(item);
-    }); */
   };
   if (!data) {
     return null;
@@ -65,7 +71,7 @@ const DragAndDrop = ({
             zIndex: 20,
             immediate: true,
           };
-  const [springs, api] = useSprings(data?.length ?? 0, fn(order.current[0]));
+  const [springs, setSprings] = useSprings(data?.length ?? 0, fn(order.current[0]));
   const DragHandleRef: any = useSpringRef();
 
   const [grabbedIndex, setGrabbedIndex]: any = React.useState(undefined);
@@ -82,11 +88,11 @@ const DragAndDrop = ({
         stringified(order.current[0]).indexOf(JSON.stringify(order.current[0][grabbedIndex])),
         stringified(order.current[0]).indexOf(JSON.stringify(order.current[0][curRow]))
       );
-      api.start(fn(newOrder, active)); // Feed springs new style data, they'll animate the view without causing a single render
+      setSprings.start(fn(newOrder, active)); // Feed springs new style data, they'll animate the view without causing a single render
 
       if (
-        stringified(order.current[0]).indexOf(JSON.stringify(order.current[0][grabbedIndex])) ===
-          stringified(order.current[0]).indexOf(JSON.stringify(order.current[0][curRow])) ||
+        stringified2(order.current[0]).indexOf(JSON.stringify(order.current[0][grabbedIndex])) ===
+          stringified2(order.current[0]).indexOf(JSON.stringify(order.current[0][curRow])) ||
         data === newOrder
       ) {
         return;
@@ -97,7 +103,7 @@ const DragAndDrop = ({
         data.splice(0, data?.length);
         data.push(...newOrder);
         handleChange(path, newOrder);
-        api.start(fn(newOrder, active));
+        setSprings.start(fn(newOrder, active));
         callbackFunction(Math.random());
         setRefKey(RefKey + 1);
         setGrabbedIndex(null);
@@ -111,7 +117,7 @@ const DragAndDrop = ({
     data.push(data[index]);
     order.current[0] = data;
     handleChange(path, data);
-    api.start(fn(data, false));
+    setSprings.start(fn(data, false));
     callbackFunction(Math.random());
     setRefKey(RefKey + 1);
   };
@@ -119,14 +125,14 @@ const DragAndDrop = ({
   React.useEffect(() => {
     if (openedIndex === undefined) {
       order.current[0] = data;
-      api.start(fn(data, false));
+      setSprings.start(fn(data, false));
       setRefKey(RefKey + 1);
     }
   }, [openedIndex]);
 
   React.useEffect(() => {
     order.current[0] = data;
-    api.start(fn(data, false));
+    setSprings.start(fn(data, false));
   }, [data]);
 
   return (

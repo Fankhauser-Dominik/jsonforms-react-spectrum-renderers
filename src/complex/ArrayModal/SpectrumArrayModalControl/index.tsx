@@ -156,7 +156,7 @@ const SpectrumArrayModalControl = React.memo(
       };
     }, [data]);
 
-    const sortMode: string | boolean = uischema?.options?.sortMode ?? 'arrows';
+    const sortMode: string | boolean = uischema?.options?.sortMode ?? 'DragAndDrop';
 
     return (
       <View id='json-form-array-wrapper'>
