@@ -90,3 +90,47 @@
     var(--spectrum-alias-highlight-hover)
   );
 }
+
+.readOnly,
+.SpectrumCodeMirror.readOnly > .cm-editor > .cm-scroller {
+  background-color: var(
+    --spectrum-textfield-background-color-disabled,
+    var(--spectrum-global-color-gray-200)
+  );
+  color: var(--spectrum-textfield-text-color-disabled, var(--spectrum-alias-text-color-disabled));
+  -webkit-text-fill-color: var(
+    --spectrum-textfield-text-color-disabled,
+    var(--spectrum-alias-text-color-disabled)
+  );
+  border-color: var(
+    --spectrum-textfield-border-color-disabled,
+    var(--spectrum-alias-border-color-transparent)
+  );
+}
+
+.SpectrumCodeMirror.readOnly,
+.SpectrumCodeMirror.readOnly > .cm-editor > .cm-scroller {
+  background-color: var(
+    --spectrum-textfield-background-color-disabled,
+    var(--spectrum-global-color-gray-200)
+  );
+  color: var(--spectrum-textfield-text-color-disabled, var(--spectrum-alias-text-color-disabled));
+  -webkit-text-fill-color: var(
+    --spectrum-textfield-text-color-disabled,
+    var(--spectrum-alias-text-color-disabled)
+  );
+  border-color: var(
+    --spectrum-textfield-border-color-disabled,
+    var(--spectrum-alias-border-color-transparent)
+  );
+}
+
+.SpectrumCodeMirror.readOnly > .cm-editor > .cm-scroller > .cm-content > .cm-activeLine,
+.SpectrumCodeMirror.readOnly
+  > .cm-editor
+  > .cm-scroller
+  > .cm-gutters
+  > .cm-gutter
+  > .cm-activeLineGutter {
+  background-color: transparent !important;
+}

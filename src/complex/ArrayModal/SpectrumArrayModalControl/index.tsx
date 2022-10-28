@@ -44,6 +44,8 @@ const SpectrumArrayModalControl = React.memo(
   ({
     addItem,
     data,
+    enabled,
+    handleChange,
     label,
     path,
     removeItems,
@@ -51,7 +53,6 @@ const SpectrumArrayModalControl = React.memo(
     schema,
     uischema,
     uischemas,
-    handleChange,
   }: ArrayControlProps & OverrideProps & HandleChangeProps) => {
     const [selectedIndex, setSelectedIndex] = React.useState(0);
     const [open, setOpen] = React.useState(false);
@@ -196,6 +197,7 @@ const SpectrumArrayModalControl = React.memo(
                 handleChange={handleChange}
                 openedIndex={openedIndex}
                 callbackOpenedIndex={callbackOpenedIndex}
+                enabled={enabled}
               />
             </div>
           ) : /* (sortMode === 'disabled' || sortMode === 'arrows') &&  */ data && data?.length ? (
@@ -220,6 +222,7 @@ const SpectrumArrayModalControl = React.memo(
                     uischemas={uischemas}
                     callbackFunction={callbackFunction}
                     callbackOpenedIndex={callbackOpenedIndex}
+                    enabled={enabled}
                   ></SpectrumArrayModalItem>
                   {sortMode === 'arrows' && (
                     <SortButtons

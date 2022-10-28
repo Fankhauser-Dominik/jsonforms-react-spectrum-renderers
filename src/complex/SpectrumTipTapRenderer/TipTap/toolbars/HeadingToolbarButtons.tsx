@@ -3,7 +3,13 @@ import { Editor } from '@tiptap/react';
 
 import { Flex, ToggleButton, Picker, Item } from '@adobe/react-spectrum';
 
-export default function HeadingToolbarButtons({ editor }: { editor: Editor }) {
+export default function HeadingToolbarButtons({
+  editor,
+  readOnly,
+}: {
+  editor: Editor;
+  readOnly: boolean;
+}) {
   const currentText = () => {
     if (editor.isActive('heading')) {
       'H' + editor.getAttributes('heading').level;
@@ -87,6 +93,7 @@ export default function HeadingToolbarButtons({ editor }: { editor: Editor }) {
           selectedKey={heading}
           onSelectionChange={(selected: any) => pickerChange(selected)}
           maxWidth='size-1600'
+          isDisabled={readOnly}
         >
           {(item) => <Item key={item.name}>{item.name}</Item>}
         </Picker>

@@ -44,7 +44,7 @@ export const SpectrumVerticalLayoutRenderer: React.FunctionComponent<RendererPro
   uischema,
   path,
   visible,
-  enabled,
+  enabled = false,
 }: RendererProps) => {
   const verticalLayout = uischema as VerticalLayout;
   const direction = 'column';
@@ -53,9 +53,9 @@ export const SpectrumVerticalLayoutRenderer: React.FunctionComponent<RendererPro
     maxWidth: '100%',
     flexBasis: 0,
   };
-
   return (
     <SpectrumProvider>
+      {enabled?.toString() ?? 'undefined'} --Does not work 1
       <SpectrumLayout
         direction={direction}
         uischema={uischema}
