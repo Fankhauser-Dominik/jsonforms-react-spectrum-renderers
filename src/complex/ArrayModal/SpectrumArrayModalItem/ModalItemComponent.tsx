@@ -44,8 +44,6 @@ import areEqual from '../../../util/areEqual';
 import { findValue } from './ModalItemUtils';
 import './SpectrumArrayModalItem.css';
 
-import SpectrumVerticalLayout from '../../../layouts/SpectrumVerticalLayout';
-
 interface NonEmptyRowProps {
   rowIndex?: number | undefined;
   moveUpCreator?: (path: string, position: number) => () => void;
@@ -172,23 +170,10 @@ const SpectrumArrayModalItem = React.memo(
       });
     };
 
-    /* const JsonFormsDispatchComponent = (
+    const JsonFormsDispatchComponent = (
       <JsonFormsDispatch
         enabled={enabled}
         visible={false}
-        key={childPath}
-        path={childPath}
-        renderers={renderers}
-        schema={schema}
-        uischema={foundUISchema || uischema}
-      />
-    ); */
-
-    const JsonFormsDispatchComponent = (
-      <SpectrumVerticalLayout
-        enabled={false}
-        visible={true}
-        direction={'column'}
         key={childPath}
         path={childPath}
         renderers={renderers}
@@ -223,7 +208,6 @@ const SpectrumArrayModalItem = React.memo(
         flex='auto'
         width={uischema.options?.sortMode === 'arrows' ? 'calc(100% - 66px)' : '100%'}
       >
-        {enabled?.toString() ?? 'undefined'} --Works4
         <View
           ref={ref}
           UNSAFE_className={`list-array-item ${

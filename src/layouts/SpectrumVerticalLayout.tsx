@@ -25,8 +25,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React from 'react';
-import { RankedTester, rankWith, RendererProps, uiTypeIs, VerticalLayout } from '@jsonforms/core';
+import { LayoutProps, RankedTester, rankWith, uiTypeIs, VerticalLayout } from '@jsonforms/core';
 import { withJsonFormsLayoutProps } from '@jsonforms/react';
 import { StyleProps } from '@react-types/shared';
 import { SpectrumLayout } from './SpectrumLayout';
@@ -39,13 +38,13 @@ import SpectrumProvider from '../additional/SpectrumProvider';
  */
 export const SpectrumVerticalLayoutTester: RankedTester = rankWith(1, uiTypeIs('VerticalLayout'));
 
-export const SpectrumVerticalLayoutRenderer: React.FunctionComponent<RendererProps> = ({
+export const SpectrumVerticalLayoutRenderer = ({
   schema,
   uischema,
   path,
   visible,
-  enabled = false,
-}: RendererProps) => {
+  enabled,
+}: LayoutProps) => {
   const verticalLayout = uischema as VerticalLayout;
   const direction = 'column';
   const childrenStyles: StyleProps = {
@@ -55,7 +54,6 @@ export const SpectrumVerticalLayoutRenderer: React.FunctionComponent<RendererPro
   };
   return (
     <SpectrumProvider>
-      {enabled?.toString() ?? 'undefined'} --Does not work 1
       <SpectrumLayout
         direction={direction}
         uischema={uischema}

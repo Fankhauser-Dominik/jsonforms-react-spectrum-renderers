@@ -39,15 +39,16 @@ import CombinatorProperties from './CombinatorProperties';
 import { Content, Item, View, TabList, TabPanels, Tabs } from '@adobe/react-spectrum';
 
 const SpectrumAnyOfRenderer = ({
-  schema,
-  rootSchema,
+  cells,
+  enabled,
   indexOfFittingSchema,
-  visible,
   path,
   renderers,
-  cells,
+  rootSchema,
+  schema,
   uischema,
   uischemas,
+  visible,
 }: StatePropsOfCombinator) => {
   const [selectedAnyOf, setSelectedAnyOf] = React.useState(indexOfFittingSchema || 0);
   const handleChange = React.useCallback(
@@ -82,12 +83,13 @@ const SpectrumAnyOfRenderer = ({
               <Item key={anyOfIndex} title={anyOfRenderInfo.label}>
                 <Content margin='size-160'>
                   <JsonFormsDispatch
+                    cells={cells}
+                    enabled={enabled}
                     key={anyOfIndex}
-                    schema={anyOfRenderInfo.schema}
-                    uischema={anyOfRenderInfo.uischema}
                     path={path}
                     renderers={renderers}
-                    cells={cells}
+                    schema={anyOfRenderInfo.schema}
+                    uischema={anyOfRenderInfo.uischema}
                   />
                 </Content>
               </Item>

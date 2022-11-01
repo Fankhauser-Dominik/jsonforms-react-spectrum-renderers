@@ -43,7 +43,7 @@ export const renderChildren = (
   schema: JsonSchema,
   styleProps: StyleProps | ((childIndex: number) => StyleProps),
   path: string,
-  enabled = true
+  enabled: boolean
 ) => {
   if (isEmpty(layout.elements)) {
     return [];

@@ -49,6 +49,7 @@ export const SpectrumListWithDetailRenderer = React.memo(
     cells,
     config,
     data,
+    enabled,
     errors,
     path,
     removeItems,
@@ -130,6 +131,7 @@ export const SpectrumListWithDetailRenderer = React.memo(
             {selectedIndex !== undefined ? (
               <JsonFormsDispatch
                 cells={cells}
+                enabled={enabled}
                 path={composePaths(path, `${selectedIndex}`)}
                 renderers={renderers}
                 schema={schema}

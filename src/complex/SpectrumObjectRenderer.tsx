@@ -65,13 +65,13 @@ const SpectrumObjectRenderer = ({
   }
   return (
     <JsonFormsDispatch
-      visible={visible}
+      cells={cells}
       enabled={enabled}
-      schema={schema}
-      uischema={detailUiSchema}
       path={path}
       renderers={renderers}
-      cells={cells}
+      schema={schema}
+      uischema={detailUiSchema}
+      visible={visible}
     />
   );
 };

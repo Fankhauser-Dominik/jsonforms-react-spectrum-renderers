@@ -193,6 +193,7 @@ const SpectrumOneOfRenderer = ({
                     <Content margin='size-160'>
                       <JsonFormsDispatch
                         cells={cells}
+                        enabled={enabled}
                         key={oneOfIndex}
                         path={path}
                         renderers={renderers}
