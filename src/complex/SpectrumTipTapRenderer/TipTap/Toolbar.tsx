@@ -20,7 +20,13 @@ import settings from '../../../util/settings';
 import HeadingToolbarButtons from './toolbars/HeadingToolbarButtons';
 import './styles.css';
 
-const ProjectCreateContentToolbar = ({ editor }: { editor: Editor }) => {
+const ProjectCreateContentToolbar = ({
+  editor,
+  readOnly,
+}: {
+  editor: Editor;
+  readOnly: boolean;
+}) => {
   return (
     <View
       borderWidth='thin'
@@ -29,12 +35,13 @@ const ProjectCreateContentToolbar = ({ editor }: { editor: Editor }) => {
       UNSAFE_className='TipTapToolbar'
     >
       <Flex gap='size-25' margin='size-100' wrap>
-        <HeadingToolbarButtons editor={editor} />
+        <HeadingToolbarButtons editor={editor} readOnly={readOnly} />
         <TooltipTrigger delay={settings.toolTipDelay}>
           <ToggleButton
             onPress={() => editor.chain().focus().toggleBold().run()}
-            isSelected={editor.isActive('bold')}
             aria-label='bold'
+            isSelected={editor.isActive('bold')}
+            isDisabled={readOnly}
           >
             <TagBold size='S' />
           </ToggleButton>
@@ -45,6 +52,7 @@ const ProjectCreateContentToolbar = ({ editor }: { editor: Editor }) => {
             onPress={() => editor.chain().focus().toggleItalic().run()}
             aria-label='italic'
             isSelected={editor.isActive('italic')}
+            isDisabled={readOnly}
           >
             <TagItalic size='S' />
           </ToggleButton>
@@ -53,8 +61,9 @@ const ProjectCreateContentToolbar = ({ editor }: { editor: Editor }) => {
         <TooltipTrigger delay={settings.toolTipDelay}>
           <ToggleButton
             onPress={() => editor.chain().focus().toggleUnderline().run()}
-            isSelected={editor.isActive('underline')}
             aria-label='underline'
+            isSelected={editor.isActive('underline')}
+            isDisabled={readOnly}
           >
             <TagUnderline size='S' />
           </ToggleButton>
@@ -65,6 +74,7 @@ const ProjectCreateContentToolbar = ({ editor }: { editor: Editor }) => {
             onPress={() => editor.chain().focus().toggleStrike().run()}
             aria-label='strike'
             isSelected={editor.isActive('strike')}
+            isDisabled={readOnly}
           >
             <TextStrikethrough size='S' />
           </ToggleButton>
@@ -73,8 +83,9 @@ const ProjectCreateContentToolbar = ({ editor }: { editor: Editor }) => {
         <TooltipTrigger delay={settings.toolTipDelay}>
           <ToggleButton
             onPress={() => editor.chain().focus().setTextAlign('left').run()}
-            isSelected={editor.isActive({ textAlign: 'left' })}
             aria-label='left aligned'
+            isSelected={editor.isActive({ textAlign: 'left' })}
+            isDisabled={readOnly}
           >
             <TextAlignLeft size='S' />
           </ToggleButton>
@@ -83,8 +94,9 @@ const ProjectCreateContentToolbar = ({ editor }: { editor: Editor }) => {
         <TooltipTrigger delay={settings.toolTipDelay}>
           <ToggleButton
             onPress={() => editor.chain().focus().setTextAlign('center').run()}
-            isSelected={editor.isActive({ textAlign: 'center' })}
             aria-label='Center aligned'
+            isSelected={editor.isActive({ textAlign: 'center' })}
+            isDisabled={readOnly}
           >
             <TextAlignCenter size='S' />
           </ToggleButton>
@@ -93,8 +105,9 @@ const ProjectCreateContentToolbar = ({ editor }: { editor: Editor }) => {
         <TooltipTrigger delay={settings.toolTipDelay}>
           <ToggleButton
             onPress={() => editor.chain().focus().setTextAlign('right').run()}
-            isSelected={editor.isActive({ textAlign: 'right' })}
             aria-label='Right aligned'
+            isSelected={editor.isActive({ textAlign: 'right' })}
+            isDisabled={readOnly}
           >
             <TextAlignRight size='S' />
           </ToggleButton>
@@ -103,8 +116,9 @@ const ProjectCreateContentToolbar = ({ editor }: { editor: Editor }) => {
         <TooltipTrigger delay={settings.toolTipDelay}>
           <ToggleButton
             onPress={() => editor.chain().focus().setTextAlign('justify').run()}
-            isSelected={editor.isActive({ textAlign: 'justify' })}
             aria-label='Justify aligned'
+            isSelected={editor.isActive({ textAlign: 'justify' })}
+            isDisabled={readOnly}
           >
             <TextAlignJustify size='S' />
           </ToggleButton>
@@ -113,8 +127,9 @@ const ProjectCreateContentToolbar = ({ editor }: { editor: Editor }) => {
         <TooltipTrigger delay={settings.toolTipDelay}>
           <ToggleButton
             onPress={() => editor.chain().focus().toggleSuperscript().run()}
-            isSelected={editor.isActive('superscript')}
             aria-label='superscript'
+            isSelected={editor.isActive('superscript')}
+            isDisabled={readOnly}
           >
             <TextSuperscript size='S' />
           </ToggleButton>
@@ -123,8 +138,9 @@ const ProjectCreateContentToolbar = ({ editor }: { editor: Editor }) => {
         <TooltipTrigger delay={settings.toolTipDelay}>
           <ToggleButton
             onPress={() => editor.chain().focus().toggleSubscript().run()}
-            isSelected={editor.isActive('subscript')}
             aria-label='subscript'
+            isSelected={editor.isActive('subscript')}
+            isDisabled={readOnly}
           >
             <TextSubscript size='S' />
           </ToggleButton>
@@ -135,6 +151,7 @@ const ProjectCreateContentToolbar = ({ editor }: { editor: Editor }) => {
             onPress={() => editor.chain().focus().toggleBulletList().run()}
             aria-label='bullettList'
             isSelected={editor.isActive('bulletList')}
+            isDisabled={readOnly}
           >
             <TextBulleted size='S' />
           </ToggleButton>
@@ -145,6 +162,7 @@ const ProjectCreateContentToolbar = ({ editor }: { editor: Editor }) => {
             onPress={() => editor.chain().focus().toggleOrderedList().run()}
             aria-label='orderedList'
             isSelected={editor.isActive('orderedList')}
+            isDisabled={readOnly}
           >
             <TextNumbered size='S' />
           </ToggleButton>
@@ -155,7 +173,7 @@ const ProjectCreateContentToolbar = ({ editor }: { editor: Editor }) => {
             onPress={() => editor.chain().focus().undo().run()}
             aria-label='undo'
             isSelected={false}
-            isDisabled={!editor.can().undo()}
+            isDisabled={!editor.can().undo() ?? readOnly}
           >
             <Undo size='S' />
           </ToggleButton>
@@ -166,7 +184,7 @@ const ProjectCreateContentToolbar = ({ editor }: { editor: Editor }) => {
             onPress={() => editor.chain().focus().redo().run()}
             aria-label='redo'
             isSelected={false}
-            isDisabled={!editor.can().redo()}
+            isDisabled={!editor.can().redo() ?? readOnly}
             UNSAFE_className='LastToolbarButton'
           >
             <Redo size='S' />

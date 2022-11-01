@@ -19,6 +19,7 @@ interface TipTapProps {
   EditorJSONCallback: any;
   returnMode: any;
   noToolbar: boolean;
+  readOnly: boolean;
 }
 
 export default function EditorComponent({
@@ -27,11 +28,13 @@ export default function EditorComponent({
   EditorJSONCallback,
   noToolbar = false,
   returnMode = false,
+  readOnly = false,
 }: TipTapProps & {
   // setContent: (value: string) => void;
   content: string;
 }) {
   const editor = useEditor({
+    editable: !readOnly,
     extensions: [
       StarterKit,
       Subscript,
@@ -74,8 +77,11 @@ export default function EditorComponent({
 
   return (
     <Flex direction='column'>
-      {!noToolbar && <ProjectCreateContentToolbar editor={editor} />}
-      <EditorContent editor={editor} className={noToolbar ? 'noToolbar' : ''} />
+      {!noToolbar && <ProjectCreateContentToolbar editor={editor} readOnly={readOnly} />}
+      <EditorContent
+        editor={editor}
+        className={`${noToolbar ? 'noToolbar' : ''} ${readOnly ? 'readOnly' : ''}`}
+      />
     </Flex>
   );
 }

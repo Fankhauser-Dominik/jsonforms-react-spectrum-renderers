@@ -53,19 +53,20 @@ interface NonEmptyRowProps {
 
 const SpectrumArrayModalItem = React.memo(
   ({
-    childData,
-    index,
-    childLabel,
+    DNDHandle = false,
     callbackFunction,
+    callbackOpenedIndex,
+    childData,
+    childLabel,
+    duplicateItem,
+    enabled,
+    index,
     path,
     removeItem,
-    duplicateItem,
     renderers,
     schema,
     uischema,
     uischemas = [],
-    DNDHandle = false,
-    callbackOpenedIndex,
   }: OwnPropsOfSpectrumArrayModalItem & NonEmptyRowProps) => {
     const foundUISchema = findUISchema(uischemas, schema, uischema.scope, path);
     const childPath = composePaths(path, `${index}`);
@@ -171,6 +172,8 @@ const SpectrumArrayModalItem = React.memo(
 
     const JsonFormsDispatchComponent = (
       <JsonFormsDispatch
+        enabled={enabled}
+        visible={false}
         key={childPath}
         path={childPath}
         renderers={renderers}
@@ -244,6 +247,7 @@ export interface OwnPropsOfSpectrumArrayModalItem {
   index: number;
   DNDHandle: any;
   // expanded: boolean;
+  enabled: boolean;
   path: string;
   schema: JsonSchema;
   indexOfFittingSchema?: number;

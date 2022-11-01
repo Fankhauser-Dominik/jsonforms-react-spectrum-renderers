@@ -34,5 +34,6 @@ export const SpectrumCodeMirror = (props: ControlProps) => {
 };
 
 export const SpectrumCodeMirrorTester: RankedTester = rankWith(8, optionIs('codeMirror', true));
+// export const SpectrumCodeMirrorTester: RankedTester = rankWith(8, isStringControl);
 
 export default withJsonFormsControlProps(SpectrumCodeMirror);

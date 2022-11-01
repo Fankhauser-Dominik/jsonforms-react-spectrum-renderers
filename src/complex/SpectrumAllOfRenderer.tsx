@@ -38,14 +38,15 @@ import { View } from '@adobe/react-spectrum';
 import SpectrumProvider from '../additional/SpectrumProvider';
 
 const SpectrumAllOfRenderer = ({
-  schema,
-  rootSchema,
-  visible,
-  renderers,
   cells,
+  enabled,
   path,
-  uischemas,
+  renderers,
+  rootSchema,
+  schema,
   uischema,
+  uischemas,
+  visible,
 }: StatePropsOfCombinator) => {
   const delegateUISchema = findMatchingUISchema(uischemas)(schema, uischema.scope, path);
   if (delegateUISchema) {
@@ -53,11 +54,12 @@ const SpectrumAllOfRenderer = ({
       <View isHidden={!visible}>
         <SpectrumProvider>
           <JsonFormsDispatch
-            schema={schema}
-            uischema={delegateUISchema}
+            cells={cells}
+            enabled={enabled}
             path={path}
             renderers={renderers}
-            cells={cells}
+            schema={schema}
+            uischema={delegateUISchema}
           />
         </SpectrumProvider>
       </View>

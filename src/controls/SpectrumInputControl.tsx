@@ -32,6 +32,8 @@ import { useFocus } from '../util/focus';
 import SpectrumProvider from '../additional/SpectrumProvider';
 interface WithInput {
   input: any;
+  noToolbar?: boolean;
+  returnMode?: 'html' | 'json' | 'text';
 }
 
 export const SpectrumInputControl = (props: ControlProps & WithInput) => {

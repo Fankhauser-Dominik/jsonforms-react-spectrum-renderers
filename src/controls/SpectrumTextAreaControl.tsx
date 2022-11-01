@@ -24,11 +24,14 @@
 */
 import { ControlProps, isMultiLineControl, RankedTester, rankWith } from '@jsonforms/core';
 import { withJsonFormsControlProps } from '@jsonforms/react';
-import { InputTextArea } from '../spectrum-control';
+// import { InputTextArea } from '../spectrum-control';
+/* We changed the "normal" TextArea from RS, because it does not expand properly */
+import { InputTextArea } from '../complex/SpectrumTipTapRenderer/InputTipTap';
 import { SpectrumInputControl } from './SpectrumInputControl';
 
 export const SpectrumTextAreaControl = (props: ControlProps) => (
-  <SpectrumInputControl {...props} input={InputTextArea} />
+  // <SpectrumInputControl {...props} input={InputTextArea} />
+  <SpectrumInputControl {...props} input={InputTextArea} noToolbar={true} returnMode={'text'} />
 );
 
 export const SpectrumTextAreaControlTester: RankedTester = rankWith(5, isMultiLineControl);

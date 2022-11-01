@@ -39,17 +39,20 @@ export const InputCodeMirror = React.memo(
   ({
     config,
     data,
+    enabled,
+    handleChange,
+    label,
+    path,
+    schema,
     uischema,
     visible,
-    handleChange,
-    path,
-    label,
   }: CellProps & SpectrumInputProps) => {
     let { colorScheme } = useProvider();
     const appliedUiSchemaOptions = merge({}, config, uischema.options);
     const width: DimensionValue | undefined = appliedUiSchemaOptions.trim ? undefined : '100%';
     const showSaveButton: boolean = appliedUiSchemaOptions.showSaveButton ?? false;
-    const readOnly: boolean = appliedUiSchemaOptions.readOnly ?? false;
+    const readOnly: boolean = appliedUiSchemaOptions.readOnly ?? schema.readOnly ?? false;
+    const hideFormatButton: boolean = appliedUiSchemaOptions.hideFormatButton ?? false;
     const [value, setValue] = React.useState(data);
     const [initialValue, setInitialValue] = React.useState(data);
     const [cachedValue, setCachedValue] = React.useState(data);
@@ -72,16 +75,21 @@ export const InputCodeMirror = React.memo(
         handleChange(path, JSON.parse(JSON.stringify(cachedValue, circularReferenceReplacer())));
         setValue(JSON.parse(JSON.stringify(cachedValue, circularReferenceReplacer())));
       }
-      setInitialValue(JSON.parse(JSON.stringify(value, circularReferenceReplacer())));
+      setInitialValue(JSON.parse(JSON.stringify(JSON.parse(value), circularReferenceReplacer())));
     };
 
-    const onChangeHandler = React.useCallback((newValue: any, _viewUpdate: any) => {
-      setCachedValue(newValue);
-      setValue(JSON.parse(newValue));
-      if (!getErr(newValue) && !cachedErr && !showSaveButton) {
-        handleChange(path, JSON.parse(newValue));
-      }
-    }, []);
+    const onChangeHandler = React.useCallback(
+      (newValue: any, _viewUpdate: any) => {
+        setCachedValue(newValue);
+        setValue(newValue);
+        console.log(cachedValue, newValue);
+        if (!getErr(newValue) && !cachedErr && !showSaveButton) {
+          window.alert('save');
+          handleChange(path, JSON.parse(newValue));
+        }
+      },
+      [cachedValue]
+    );
 
     function getErr(value: string) {
       if (!value) {
@@ -108,11 +116,11 @@ export const InputCodeMirror = React.memo(
           extensions={
             err || cachedErr ? [json(), linter(jsonParseLinter()), lintGutter()] : [json()]
           }
-          className='SpectrumCodeMirror'
+          className={`SpectrumCodeMirror ${enabled ? '' : 'readOnly'}`}
           theme={colorScheme === 'dark' ? 'dark' : 'light'}
-          editable={!readOnly}
+          editable={!readOnly && enabled}
         />
-        {!readOnly && (
+        {!hideFormatButton && !readOnly && enabled && (
           <View paddingTop='size-50'>
             <Button
               variant='cta'

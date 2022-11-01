@@ -56,3 +56,22 @@
 .LastToolbarButton {
   margin-right: 8px;
 }
+
+.readOnly > .ProseMirror {
+  background-color: var(
+    --spectrum-textfield-background-color-disabled,
+    var(--spectrum-global-color-gray-200)
+  );
+  color: var(--spectrum-textfield-text-color-disabled, var(--spectrum-alias-text-color-disabled));
+  -webkit-text-fill-color: var(
+    --spectrum-textfield-text-color-disabled,
+    var(--spectrum-alias-text-color-disabled)
+  );
+}
+
+.readOnly.noToolbar > .ProseMirror {
+  border-color: var(
+    --spectrum-textfield-border-color-disabled,
+    var(--spectrum-alias-border-color-transparent)
+  );
+}

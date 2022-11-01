@@ -66,32 +66,34 @@ import SpectrumProvider from '../../additional/SpectrumProvider';
 import settings from '../../util/settings';
 
 export interface OwnPropsOfSpectrumArrayItem {
-  index: number;
+  childLabel?: string;
+  enabled?: boolean;
   expanded: number | undefined;
-  path: string;
-  schema: JsonSchema;
   handleExpand(index: number): () => void;
+  index: number;
+  path: string;
   removeItem: (path: string, value: number) => () => void;
-  uischema: ControlElement;
   renderers?: JsonFormsRendererRegistryEntry[];
+  schema: JsonSchema;
+  uischema: ControlElement;
   uischemas?: {
     tester: UISchemaTester;
     uischema: UISchemaElement;
   }[];
-  childLabel?: string;
 }
 
 const SpectrumArrayItem = ({
-  index,
   childLabel,
+  enabled,
   expanded,
-  removeItem,
-  path,
   handleExpand,
+  index,
+  path,
+  removeItem,
+  renderers,
   schema,
   uischema,
   uischemas = [],
-  renderers,
 }: OwnPropsOfSpectrumArrayItem) => {
   const foundUISchema = findUISchema(uischemas, schema, uischema.scope, path);
   const childPath = composePaths(path, `${index}`);
@@ -183,11 +185,12 @@ const SpectrumArrayItem = ({
         {isExpanded ? (
           <View>
             <JsonFormsDispatch
+              enabled={enabled}
+              key={childPath}
+              path={childPath}
+              renderers={renderers}
               schema={schema}
               uischema={foundUISchema || uischema}
-              path={childPath}
-              key={childPath}
-              renderers={renderers}
             />
           </View>
         ) : (

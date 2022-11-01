@@ -20,21 +20,23 @@ interface ArrayModalControlDragAndDropProps {
   handleChange: any;
   openedIndex: number | undefined;
   callbackOpenedIndex: any;
+  enabled: boolean;
 }
 
 const DragAndDrop = ({
-  path,
+  callbackFunction,
+  callbackOpenedIndex,
   data,
+  enabled,
+  handleChange,
+  handleRemoveItem,
+  indexOfFittingSchemaArray,
+  openedIndex,
+  path,
   renderers,
   schema,
   uischema,
   uischemas,
-  indexOfFittingSchemaArray,
-  handleRemoveItem,
-  callbackFunction,
-  handleChange,
-  openedIndex,
-  callbackOpenedIndex,
 }: ArrayModalControlDragAndDropProps) => {
   const stringified = (arr: any) => {
     return arr?.map((item: any, index: number) => {
@@ -164,6 +166,7 @@ const DragAndDrop = ({
           <Flex direction='row' alignItems='stretch' flex='auto inherit'>
             <SpectrumArrayModalItem
               index={index}
+              enabled={enabled}
               indexOfFittingSchema={indexOfFittingSchemaArray[index]}
               path={path}
               removeItem={handleRemoveItem}

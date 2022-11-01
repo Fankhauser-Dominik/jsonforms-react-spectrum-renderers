@@ -31,16 +31,25 @@ import SpectrumProvider from '../../additional/SpectrumProvider';
 
 import Editor from './TipTap/index';
 
+interface TipTapCellProps {
+  noToolbar?: boolean;
+  returnMode?: 'html' | 'json' | 'text';
+}
+
 export const InputTextArea = React.memo(
   ({
     config,
     data,
+    enabled = true,
+    handleChange,
+    label,
+    noToolbar = false,
+    path,
+    returnMode,
+    schema,
     uischema,
     visible,
-    handleChange,
-    path,
-    label,
-  }: CellProps & SpectrumInputProps) => {
+  }: CellProps & SpectrumInputProps & TipTapCellProps) => {
     const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
     const width: DimensionValue | undefined = appliedUiSchemaOptions.trim ? undefined : '100%';
@@ -58,8 +67,9 @@ export const InputTextArea = React.memo(
         <Editor
           content={editorJSON}
           EditorJSONCallback={callbackFunction}
-          returnMode={appliedUiSchemaOptions.returnMode}
-          noToolbar={appliedUiSchemaOptions.noToolbar}
+          returnMode={returnMode ?? appliedUiSchemaOptions.returnMode}
+          noToolbar={noToolbar ?? appliedUiSchemaOptions.noToolbar}
+          readOnly={!enabled ?? appliedUiSchemaOptions.readOnly ?? schema.readOnly ?? false}
         />
       </SpectrumProvider>
     );
