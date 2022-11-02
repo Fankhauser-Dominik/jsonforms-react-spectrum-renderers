@@ -36,8 +36,8 @@ import {
   today,
 } from '@internationalized/date';
 import SpectrumProvider from '../additional/SpectrumProvider';
-
 import moment from 'moment';
+import isISODate from '../util/isISODate';
 
 export const InputDateTime = React.memo(
   ({
@@ -102,6 +102,19 @@ export const InputDateTime = React.memo(
 
     const contextualHelp = appliedUiSchemaOptions?.contextualHelp ?? schema?.fieldDescription;
 
+    const formatValue = (value: string) => {
+      if (value) {
+        if (isISODate(value)) {
+          return parseAbsoluteToLocal(moment().format(value));
+        } else if (isISODate(parseAbsoluteToLocal(moment(value).toISOString()))) {
+          return parseAbsoluteToLocal(moment(value).toISOString());
+        } else {
+          return undefined;
+        }
+      }
+      return undefined;
+    };
+
     return (
       <SpectrumProvider width={width}>
         <Provider locale={appliedUiSchemaOptions.locale ?? 'gregory'}>
@@ -130,7 +143,7 @@ export const InputDateTime = React.memo(
               handleChange(path, datetime ? toISOString(datetime?.toString()) : '')
             }
             showFormatHelpText={appliedUiSchemaOptions.showFormatHelpText ?? false}
-            value={data ? parseAbsoluteToLocal(moment().format(data)) : undefined}
+            value={formatValue(data)}
             width={width}
           />
         </Provider>
