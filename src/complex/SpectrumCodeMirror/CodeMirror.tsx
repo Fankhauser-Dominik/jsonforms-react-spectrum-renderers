@@ -84,7 +84,6 @@ export const InputCodeMirror = React.memo(
         setValue(newValue);
         console.log(cachedValue, newValue);
         if (!getErr(newValue) && !cachedErr && !showSaveButton) {
-          window.alert('save');
           handleChange(path, JSON.parse(newValue));
         }
       },
@@ -109,7 +108,14 @@ export const InputCodeMirror = React.memo(
 
     return (
       <SpectrumProvider width={width} isHidden={!visible}>
-        {label && <label className='SpectrumLabel'>{label}</label>}
+        {label && (
+          <label
+            className='SpectrumLabel'
+            style={{ display: 'flex', paddingTop: 4, paddingBottom: 5 }}
+          >
+            {label}
+          </label>
+        )}
         <CodeMirror
           value={JSON.stringify(initialValue, circularReferenceReplacer(), 2) || ''}
           onChange={onChangeHandler}

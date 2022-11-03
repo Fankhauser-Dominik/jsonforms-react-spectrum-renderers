@@ -13,6 +13,7 @@
     var(--spectrum-alias-border-radius-regular)
   );
   height: auto;
+  min-height: 30px;
   max-height: 45vh;
   overflow-x: hidden;
   overflow-y: auto;
@@ -27,6 +28,17 @@
     var(--spectrum-alias-body-text-line-height)
   );
   outline: 0;
+}
+
+.cm-gutters,
+.cm-gutter {
+  min-height: 28px !important;
+  height: 100% !important;
+  padding-bottom: 2.5px !important;
+}
+
+.cm-content {
+  padding: 5px 0 !important;
 }
 
 .SpectrumCodeMirror:focus-within {
@@ -134,3 +146,9 @@
   > .cm-activeLineGutter {
   background-color: transparent !important;
 }
+
+/* .cm-selectionBackground,
+span::selection {
+  background-color: #348fff !important;
+  color: white !important;
+} */
