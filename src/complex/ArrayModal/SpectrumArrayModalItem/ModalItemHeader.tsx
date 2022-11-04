@@ -23,26 +23,26 @@ import ModalItemDelete from './ModalItemDelete';
 import FolderSearch from '@spectrum-icons/workflow/FolderSearch';
 
 interface ArrayModalItemHeaderProps {
-  expanded: boolean;
+  DNDHandle?: any;
+  JsonFormsDispatch: any;
+  callbackFunction: any;
+  childData: any;
+  childLabel: string;
+  customPicker: { enabled: boolean; handler: (current?: object) => void };
+  duplicateItem: (index: number) => () => void;
   enableDetailedView: boolean;
+  expanded: boolean;
+  handleExpand: () => void;
   index: number;
   path: string;
-  handleExpand: () => void;
   removeItem: (path: string, value: number) => () => void;
-  duplicateItem: (index: number) => () => void;
-  childLabel: string;
-  childData: any;
-  DNDHandle?: any;
-  customPicker: {
-    enabled: boolean;
-    handler: (current?: object) => void;
-  };
   uischema: any;
-  JsonFormsDispatch: any;
 }
 
 export default function ModalItemHeader({
   DNDHandle = false,
+  JsonFormsDispatch,
+  callbackFunction,
   childData,
   childLabel,
   customPicker,
@@ -54,7 +54,6 @@ export default function ModalItemHeader({
   path,
   removeItem,
   uischema,
-  JsonFormsDispatch,
 }: ArrayModalItemHeaderProps) {
   const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
   const actionMenuTriggered = (action: any) => {
@@ -69,6 +68,10 @@ export default function ModalItemHeader({
 
     lookupObj[actionName]();
   };
+
+  /* React.useEffect(() => {
+    console.log(callbackFunction);
+  }, [deleteModalOpen]); */
 
   return (
     <View aria-selected={expanded} UNSAFE_className='array-item-header'>
@@ -167,6 +170,7 @@ export default function ModalItemHeader({
               index={index}
               expanded={expanded}
               handleExpand={handleExpand}
+              callbackFunction={callbackFunction}
             />
           </Flex>
         </View>

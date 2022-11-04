@@ -72,6 +72,7 @@ const SpectrumArrayModalControl = React.memo(
     const handleRemoveItem = React.useCallback(
       (path: string, value: any) => () => {
         if (removeItems) {
+          console.log('removeItems', removeItems);
           removeItems(path, [value])();
           setRefKey(Math.random());
         }
@@ -98,8 +99,14 @@ const SpectrumArrayModalControl = React.memo(
 
     const [RefKey, setRefKey] = React.useState<number>(0);
     const callbackFunction = (editorJSON: any) => {
+      console.log('BEFORE', RefKey);
       setRefKey(editorJSON);
+      console.log('AFTER', editorJSON);
     };
+
+    React.useEffect(() => {
+      console.log('REFKEY', RefKey);
+    }, [RefKey]);
 
     const callbackOpenedIndex = (index: number | undefined) => {
       setOpenedIndex(index);
@@ -158,7 +165,6 @@ const SpectrumArrayModalControl = React.memo(
     }, [data]);
 
     const sortMode: string | boolean = uischema?.options?.sortMode ?? 'DragAndDrop';
-
     return (
       <View id='json-form-array-wrapper'>
         <Flex direction='row' justifyContent='space-between'>
@@ -198,6 +204,7 @@ const SpectrumArrayModalControl = React.memo(
                 openedIndex={openedIndex}
                 callbackOpenedIndex={callbackOpenedIndex}
                 enabled={enabled}
+                indexRefKey={RefKey}
               />
             </div>
           ) : /* (sortMode === 'disabled' || sortMode === 'arrows') &&  */ data && data?.length ? (
