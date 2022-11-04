@@ -184,22 +184,20 @@ const SpectrumArrayModalItem = React.memo(
 
     const Header = (
       <ModalItemHeader
-        expanded={expanded}
+        DNDHandle={DNDHandle}
+        JsonFormsDispatch={JsonFormsDispatchComponent}
+        callbackFunction={callbackFunction}
+        childData={childData}
+        childLabel={childLabel}
+        customPicker={{ enabled: uischema?.options?.picker, handler: customPickerHandler }}
+        duplicateItem={duplicateItem}
         enableDetailedView={enableDetailedView}
+        expanded={expanded}
+        handleExpand={handleExpand}
         index={index}
         path={path}
-        handleExpand={handleExpand}
         removeItem={removeItem}
-        duplicateItem={duplicateItem}
-        childLabel={childLabel}
-        childData={childData}
-        DNDHandle={DNDHandle}
-        customPicker={{
-          enabled: uischema?.options?.picker,
-          handler: customPickerHandler,
-        }}
         uischema={uischema}
-        JsonFormsDispatch={JsonFormsDispatchComponent}
       />
     );
 

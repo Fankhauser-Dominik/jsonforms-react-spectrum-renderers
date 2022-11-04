@@ -7,20 +7,21 @@ import { useSprings, useSpringRef, animated } from '@react-spring/web';
 import { useDrag } from '@use-gesture/react';
 
 interface ArrayModalControlDragAndDropProps {
+  indexRefKey: number;
+  callbackFunction: any;
+  callbackOpenedIndex: any;
   data: any;
+  enabled: boolean;
+  handleChange: any;
   handleRemoveItem: any;
   indexOfFittingSchemaArray: any[];
+  openedIndex: number | undefined;
   path: string;
   removeItems: any;
   renderers: any;
   schema: any;
   uischema: any;
   uischemas: any;
-  callbackFunction: any;
-  handleChange: any;
-  openedIndex: number | undefined;
-  callbackOpenedIndex: any;
-  enabled: boolean;
 }
 
 const DragAndDrop = ({
@@ -31,6 +32,7 @@ const DragAndDrop = ({
   handleChange,
   handleRemoveItem,
   indexOfFittingSchemaArray,
+  indexRefKey,
   openedIndex,
   path,
   renderers,
@@ -65,12 +67,10 @@ const DragAndDrop = ({
       active
         ? {
             y: stringified(order).indexOf(JSON.stringify(data[index])) * HEIGHT_OF_COMPONENT,
-            zIndex: 20,
             immediate: false,
           }
         : {
             y: stringified(order).indexOf(JSON.stringify(data[index])) * HEIGHT_OF_COMPONENT,
-            zIndex: 20,
             immediate: true,
           };
   const [springs, setSprings] = useSprings(data?.length ?? 0, fn(order.current[0]));
@@ -137,6 +137,12 @@ const DragAndDrop = ({
     setSprings.start(fn(data, false));
   }, [data]);
 
+  React.useEffect(() => {
+    order.current[0] = data;
+    setSprings.start(fn(data, false));
+    setRefKey(Math.random());
+  }, [indexRefKey]);
+
   return (
     <div
       style={{
@@ -149,12 +155,12 @@ const DragAndDrop = ({
       }}
       key={RefKey}
     >
-      {springs?.map(({ zIndex, y }, index: number) => (
+      {springs?.map(({ y }, index: number) => (
         <animated.div
           {...bind(`${path}_${index}_${RefKey}`)}
           key={`${path}_${index}_${RefKey}`}
           style={{
-            zIndex,
+            zIndex: grabbedIndex === index ? 30 : 20,
             y,
             width: '100%',
             touchAction: 'none',
@@ -166,6 +172,7 @@ const DragAndDrop = ({
           <Flex direction='row' alignItems='stretch' flex='auto inherit'>
             <SpectrumArrayModalItem
               index={index}
+              callbackFunction={callbackFunction}
               enabled={enabled}
               indexOfFittingSchema={indexOfFittingSchemaArray[index]}
               path={path}
