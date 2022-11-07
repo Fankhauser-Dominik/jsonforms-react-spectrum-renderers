@@ -99,14 +99,8 @@ const SpectrumArrayModalControl = React.memo(
 
     const [RefKey, setRefKey] = React.useState<number>(0);
     const callbackFunction = (editorJSON: any) => {
-      console.log('BEFORE', RefKey);
       setRefKey(editorJSON);
-      console.log('AFTER', editorJSON);
     };
-
-    React.useEffect(() => {
-      console.log('REFKEY', RefKey);
-    }, [RefKey]);
 
     const callbackOpenedIndex = (index: number | undefined) => {
       setOpenedIndex(index);

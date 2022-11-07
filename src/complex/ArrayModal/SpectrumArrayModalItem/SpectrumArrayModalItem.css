@@ -23,6 +23,14 @@ button {
 
 .grabbable {
   display: flex;
+  width: 50px;
+  background-color: transparent;
+  border-radius: var(
+    --spectrum-actionbutton-quiet-border-radius,
+    var(--spectrum-alias-border-radius-regular)
+  );
+  border-color: transparent;
+  margin: -3px -12px -3px 0px;
   touch-action: none;
   cursor: move; /* fallback if grab cursor is unsupported */
   cursor: grab;
@@ -43,6 +51,24 @@ button {
   cursor: -moz-grabbing;
   cursor: -webkit-grabbing;
 }
+
+.grabbable:focus {
+  outline: none;
+}
+
+.grabbable:focus-visible {
+  box-shadow: 0 0 0 1px
+    var(
+      --spectrum-actionbutton-quiet-border-color-key-focus,
+      var(--spectrum-alias-border-color-focus)
+    );
+  border-color: var(
+    --spectrum-actionbutton-quiet-border-color-key-focus,
+    var(--spectrum-alias-border-color-focus)
+  );
+  border-width: var(--spectrum-actionbutton-border-size, var(--spectrum-alias-border-size-thin));
+}
+
 .list-array-item {
   background-color: var(--spectrum-global-color-gray-100);
 }
