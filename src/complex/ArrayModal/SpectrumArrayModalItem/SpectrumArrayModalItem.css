@@ -30,12 +30,14 @@ button {
     var(--spectrum-alias-border-radius-regular)
   );
   border-color: transparent;
-  margin: -3px -12px -3px 0px;
+  margin: -5px -12px -5px 0px;
   touch-action: none;
-  cursor: move; /* fallback if grab cursor is unsupported */
-  cursor: grab;
-  cursor: -moz-grab;
-  cursor: -webkit-grab;
+  cursor: move !important; /* fallback if grab cursor is unsupported */
+  cursor: grab !important;
+  cursor: -webkit-grab !important;
+  cursor: -moz-grab !important;
+  cursor: -o-grab !important;
+  cursor: -ms-grab !important;
   min-width: 34px;
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Safari */
@@ -45,11 +47,18 @@ button {
   user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
 }
 
+.grabbable svg {
+  margin-bottom: -2px;
+  margin-left: 2px;
+}
+
 /* Apply a "closed-hand" cursor during drag operation. */
 .grabbable:active {
-  cursor: grabbing;
-  cursor: -moz-grabbing;
-  cursor: -webkit-grabbing;
+  cursor: grabbing !important;
+  cursor: -webkit-grabbing !important;
+  cursor: -moz-grabbing !important;
+  cursor: -o-grabbing !important;
+  cursor: -ms-grabbing !important;
 }
 
 .grabbable:focus {

@@ -1,7 +1,7 @@
 {
   "name": "jsonforms-react-spectrum-vite-test",
   "private": false,
-  "version": "0.0.137",
+  "version": "0.0.138",
   "type": "module",
   "files": [
     "dist"
@@ -23,8 +23,8 @@
     "postinstall:default": "rm -rf ./node_modules/.vite",
     "postinstall:win32": "IF EXIST .\\node_modules\\.vite (rmdir /q /s .\\node_modules\\.vite)",
     "dev": "vite",
-    "build": "tsc && npm version patch && vite build",
-    "build-without-patch": "tsc && vite build",
+    "build": "tsc && vite build",
+    "build-with-patch": "tsc && npm version patch && vite build",
     "preview": "vite preview"
   },
   "keywords": [
@@ -70,7 +70,7 @@
     "@types/react-redux": "^7.1.24",
     "@types/react-router-dom": "^5.3.3",
     "@types/uuid": "^8.3.4",
-    "@uiw/react-codemirror": "^4.12.4",
+    "@uiw/react-codemirror": "^4.13.0",
     "@use-gesture/react": "^10.2.22",
     "ajv": "^8.11.0",
     "lodash": "^4.17.21",

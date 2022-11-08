@@ -132,6 +132,7 @@ const DragAndDrop = ({
       );
       setSprings.start(fn(newOrder, true));
       setTimeout(() => {
+        setGrabbedIndex(index - 1);
         finalChange(newOrder);
         setGrabbedIndex(index - 1);
       }, 500);
@@ -142,8 +143,11 @@ const DragAndDrop = ({
         stringified(order.current[0]).indexOf(JSON.stringify(order.current[0][index + 1]))
       );
       setSprings.start(fn(newOrder, true));
-      finalChange(newOrder);
-      setGrabbedIndex(index + 1);
+      setTimeout(() => {
+        setGrabbedIndex(index + 1);
+        finalChange(newOrder);
+        setGrabbedIndex(index + 1);
+      }, 500);
     }
   };
 
@@ -178,74 +182,70 @@ const DragAndDrop = ({
   }, [indexRefKey]);
 
   return (
-    <div>
-      {grabbedIndex ?? 'null'}
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          height: data?.length ? HEIGHT_OF_COMPONENT * data?.length : 0,
-          touchAction: 'none',
-          transformOrigin: '50% 50% 0px',
-          position: 'relative',
-        }}
-        key={RefKey}
-      >
-        {springs?.map(({ y }, index: number) => (
-          <animated.div
-            {...bind(`${path}_${index}_${RefKey}`)}
-            key={`${path}_${index}_${RefKey}`}
-            style={{
-              zIndex: grabbedIndex === index ? 30 : 20,
-              y,
-              width: '100%',
-              touchAction: 'none',
-              transformOrigin: '50% 50% 0px',
-              position: 'absolute',
-            }}
-            height={HEIGHT_OF_COMPONENT + 'px'}
-          >
-            <Flex direction='row' alignItems='stretch' flex='auto inherit'>
-              <SpectrumArrayModalItem
-                index={index}
-                callbackFunction={callbackFunction}
-                enabled={enabled}
-                indexOfFittingSchema={indexOfFittingSchemaArray[index]}
-                path={path}
-                removeItem={handleRemoveItem}
-                duplicateItem={duplicateContent}
-                renderers={renderers}
-                schema={schema}
-                uischema={uischema}
-                uischemas={uischemas}
-                callbackOpenedIndex={callbackOpenedIndex}
-                DNDHandle={
-                  <button
-                    ref={DragHandleRef}
-                    autoFocus={grabbedIndex === index}
-                    className={'grabbable'}
-                    onMouseDown={() => setGrabbedIndex(index)}
-                    onFocus={() => setGrabbedIndex(index)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
-                        move(e.key, index);
-                      }
-                    }}
-                  >
-                    <DragHandle
-                      aria-label='Drag and Drop Handle'
-                      size='L'
-                      alignSelf='center'
-                      width={'100%'}
-                      UNSAFE_style={{ margin: '-2px 0' }}
-                    />
-                  </button>
-                }
-              />
-            </Flex>
-          </animated.div>
-        ))}
-      </div>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: data?.length ? HEIGHT_OF_COMPONENT * data?.length : 0,
+        touchAction: 'none',
+        transformOrigin: '50% 50% 0px',
+        position: 'relative',
+      }}
+      key={RefKey}
+    >
+      {springs?.map(({ y }, index: number) => (
+        <animated.div
+          {...bind(`${path}_${index}_${RefKey}`)}
+          key={`${path}_${index}_${RefKey}`}
+          style={{
+            zIndex: grabbedIndex === index ? 30 : 20,
+            y,
+            width: '100%',
+            touchAction: 'none',
+            transformOrigin: '50% 50% 0px',
+            position: 'absolute',
+          }}
+          height={HEIGHT_OF_COMPONENT + 'px'}
+        >
+          <Flex direction='row' alignItems='stretch' flex='auto inherit'>
+            <SpectrumArrayModalItem
+              index={index}
+              callbackFunction={callbackFunction}
+              enabled={enabled}
+              indexOfFittingSchema={indexOfFittingSchemaArray[index]}
+              path={path}
+              removeItem={handleRemoveItem}
+              duplicateItem={duplicateContent}
+              renderers={renderers}
+              schema={schema}
+              uischema={uischema}
+              uischemas={uischemas}
+              callbackOpenedIndex={callbackOpenedIndex}
+              DNDHandle={
+                <button
+                  ref={DragHandleRef}
+                  autoFocus={grabbedIndex === index}
+                  className='grabbable'
+                  onMouseDown={() => setGrabbedIndex(index)}
+                  onFocus={() => setGrabbedIndex(index)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+                      move(e.key, index);
+                    }
+                  }}
+                >
+                  <DragHandle
+                    aria-label='Drag and Drop Handle'
+                    size='L'
+                    alignSelf='center'
+                    width={'100%'}
+                  />
+                </button>
+              }
+            />
+          </Flex>
+        </animated.div>
+      ))}
     </div>
   );
 };
