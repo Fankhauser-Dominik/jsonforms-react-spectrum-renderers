@@ -42,6 +42,7 @@ const DragAndDrop = ({
   if (!data) {
     return null;
   }
+  const [rerender, setRerender] = React.useState(0);
   const order = React.useRef<number[]>(data?.map((_: any, index: any) => index));
   const HEIGHT_OF_COMPONENT = 70;
   const fn =
@@ -101,6 +102,7 @@ const DragAndDrop = ({
       data.map((_: any, index: number) => data[newOrder[index]])
     );
     setSprings.start(fn(newOrder, false));
+    setRerender((x: number) => x + 1);
   };
 
   const move = (pressedKey: string, index: number) => {
@@ -165,7 +167,7 @@ const DragAndDrop = ({
       {springs?.map(({ y }, index: number) => (
         <animated.div
           {...bind(index)}
-          key={`${path}_${index}`}
+          key={`${path}_${index}_${rerender}`}
           style={{
             zIndex: grabbedIndex === index ? 30 : 20,
             y,

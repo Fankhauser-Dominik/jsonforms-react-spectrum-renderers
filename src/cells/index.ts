@@ -33,6 +33,9 @@ import SpectrumBooleanButtonCell, {
 import SpectrumCheckboxCell, { SpectrumCheckboxCellTester } from './SpectrumCheckboxCell';
 import SpectrumSwitchCell, { SpectrumSwitchCellTester } from './SpectrumSwitchCell';
 import SpectrumEnumControl, { SpectrumEnumControlTester } from '../controls/SpectrumEnumControl';
+import SpectrumEnumWithBadgeControl, {
+  SpectrumEnumWithBadgeControlTester,
+} from '../controls/SpectrumEnumWithBadgeControl';
 import SpectrumIntegerCell, { SpectrumIntegerCellTester } from './SpectrumIntegerCell';
 import SpectrumNumberCell, { SpectrumNumberCellTester } from './SpectrumNumberCell';
 import SpectrumSliderCell, { SpectrumSliderCellTester } from './SpectrumSliderCell';
@@ -53,6 +56,8 @@ export {
   SpectrumSwitchCellTester,
   SpectrumEnumControl,
   SpectrumEnumControlTester,
+  SpectrumEnumWithBadgeControl,
+  SpectrumEnumWithBadgeControlTester,
   SpectrumIntegerCell,
   SpectrumIntegerCellTester,
   SpectrumNumberCell,

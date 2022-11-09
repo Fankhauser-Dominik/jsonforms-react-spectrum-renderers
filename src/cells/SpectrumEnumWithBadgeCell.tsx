@@ -1,6 +1,9 @@
 /*
   The MIT License
 
+  Copyright (c) 2017-2019 EclipseSource Munich
+  https://github.com/eclipsesource/jsonforms
+
   Copyright (c) 2020 headwire.com, Inc
   https://github.com/headwirecom/jsonforms-react-spectrum-renderers
 
@@ -22,33 +25,18 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-export * from './InputBooleanButton';
-export * from './InputCheckbox';
-export * from './InputDate';
-export * from './InputDateTime';
-export * from './InputEnum';
-export * from './InputEnumAutocomplete';
-export * from './InputEnumAutocompleteWithBadge';
-export * from './InputInteger';
-export * from './InputNumber';
-export * from './InputRating';
-export * from './InputSlider';
-export * from './InputSwitch';
-export * from './InputText';
-export * from './InputTextAndButton';
-export * from './InputTextArea';
-export * from './InputTime';
-export * from './Label';
-export * from './MediaPreview';
+import { EnumCellProps, isEnumControl, RankedTester, rankWith } from '@jsonforms/core';
+import { withJsonFormsEnumCellProps } from '@jsonforms/react';
+import { SpectrumInputProps } from '../spectrum-control';
+import { InputEnum } from '../spectrum-control/InputEnum';
 
+export const SpectrumEnumWithBadgeCell = (props: EnumCellProps & SpectrumInputProps) => (
+  <InputEnum {...props} />
+);
 /**
- * Additional props for Spectrum input controls
+ * Default tester for enum controls.
+ * @type {RankedTester}
  */
-export interface SpectrumInputProps {
-  required?: boolean;
-  label?: string;
-  schema?: {
-    [key: string]: any;
-    readOnly?: boolean;
-  };
-}
+export const SpectrumEnumCellTester: RankedTester = rankWith(2, isEnumControl);
+
+export default withJsonFormsEnumCellProps(SpectrumEnumWithBadgeCell);
