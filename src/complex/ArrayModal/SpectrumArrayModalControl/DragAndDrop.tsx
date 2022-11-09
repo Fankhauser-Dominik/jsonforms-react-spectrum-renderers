@@ -42,7 +42,6 @@ const DragAndDrop = ({
   if (!data) {
     return null;
   }
-  const [rerender, setRerender] = React.useState(0);
   const order = React.useRef<number[]>(data?.map((_: any, index: any) => index));
   const HEIGHT_OF_COMPONENT = 70;
   const fn =
@@ -102,7 +101,6 @@ const DragAndDrop = ({
       data.map((_: any, index: number) => data[newOrder[index]])
     );
     setSprings.start(fn(newOrder, false));
-    setRerender((x: number) => x + 1);
   };
 
   const move = (pressedKey: string, index: number) => {
@@ -129,7 +127,6 @@ const DragAndDrop = ({
       setTimeout(() => {
         setGrabbedIndex(index + 1);
         finalChange(newOrder);
-        setRerender((x) => x + 1);
         setGrabbedIndex(index + 1);
       }, 500);
     }
@@ -139,18 +136,20 @@ const DragAndDrop = ({
     const newData = [...data, data[index]];
     order.current = newData.map((_: any, index: any) => index);
     handleChange(path, newData);
-    console.log('emiting', { newData: JSON.stringify(newData) });
     setSprings.start(fn(newData, false));
   };
 
   React.useEffect(() => {
-    console.log('useEffect');
     if (openedIndex === undefined) {
       order.current = data?.map((_: any, index: any) => index);
       setSprings.start(fn(order.current, false));
     }
-    setRerender((x) => x + 1);
-  }, [openedIndex, data, indexRefKey]);
+  }, [openedIndex]);
+
+  React.useEffect(() => {
+    order.current = data?.map((_: any, index: any) => index);
+    setSprings.start(fn(order.current, false));
+  }, [data, indexRefKey]);
 
   return (
     <div
@@ -166,7 +165,7 @@ const DragAndDrop = ({
       {springs?.map(({ y }, index: number) => (
         <animated.div
           {...bind(index)}
-          key={`${path}_${index}_${rerender}`}
+          key={`${path}_${index}`}
           style={{
             zIndex: grabbedIndex === index ? 30 : 20,
             y,
