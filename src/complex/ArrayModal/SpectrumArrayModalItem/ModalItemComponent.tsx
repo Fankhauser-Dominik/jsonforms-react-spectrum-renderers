@@ -288,6 +288,7 @@ export const mapStateToSpectrumArrayModalItemProps = (
     : undefined;
   const childPath = composePaths(path, `${index}`);
   const childData = Resolve.data(getData(state), childPath);
+
   const childLabel =
     uischema.options?.elementLabelProp ?? firstPrimitiveProp ?? uischema.options?.childDataAsLabel
       ? childData
@@ -295,6 +296,17 @@ export const mapStateToSpectrumArrayModalItemProps = (
       ? Object.values(childData)[uischema.options?.dataAsLabel]
       : findValue(childData, uischema.options?.dataAsLabel) ?? `Item ${index + 1}`;
 
+  console.log({
+    schema,
+    path,
+    index,
+    uischema,
+    childLabel,
+    childData,
+    elementLabelProp: uischema.options?.elementLabelProp,
+    firstPrimitiveProp,
+    childDataAsLabel: uischema.options?.childDataAsLabel,
+  });
   return {
     ...ownProps,
     childLabel,
@@ -322,23 +334,23 @@ export const withJsonFormsSpectrumArrayModalItemProps = (
   withJsonFormsContext(
     withContextToSpectrumArrayModalItemProps(
       React.memo(
-        Component,
-        (
-          prevProps: OwnPropsOfSpectrumArrayModalItem,
-          nextProps: OwnPropsOfSpectrumArrayModalItem
-        ) => {
-          const {
-            // handleExpand: prevHandleExpand,
-            removeItem: prevRemoveItem,
-            ...restPrevProps
-          } = prevProps;
-          const {
-            // handleExpand: nextHandleExpand,
-            removeItem: nextRemoveItem,
-            ...restNextProps
-          } = nextProps;
-          return areEqual(restPrevProps, restNextProps);
-        }
+        Component
+        // (
+        //   prevProps: OwnPropsOfSpectrumArrayModalItem,
+        //   nextProps: OwnPropsOfSpectrumArrayModalItem
+        // ) => {
+        //   const {
+        //     // handleExpand: prevHandleExpand,
+        //     removeItem: prevRemoveItem,
+        //     ...restPrevProps
+        //   } = prevProps;
+        //   const {
+        //     // handleExpand: nextHandleExpand,
+        //     removeItem: nextRemoveItem,
+        //     ...restNextProps
+        //   } = nextProps;
+        //   return areEqual(restPrevProps, restNextProps);
+        // }
       )
     )
   );

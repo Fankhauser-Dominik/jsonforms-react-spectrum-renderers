@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Flex } from '@adobe/react-spectrum';
 import DragHandle from '@spectrum-icons/workflow/DragHandle';
 import SpectrumArrayModalItem from '../SpectrumArrayModalItem/ModalItemComponent';
@@ -40,108 +40,80 @@ const DragAndDrop = ({
   uischema,
   uischemas,
 }: ArrayModalControlDragAndDropProps) => {
-  const stringified = (arr: any) => {
-    return arr?.map((item: any, index: number) => {
-      try {
-        item._arrayIndex = index;
-      } finally {
-        return JSON.stringify(item);
-      }
-    });
-  };
-  const stringified2 = (arr: any) => {
-    return arr?.map((item: any) => {
-      delete item._arrayIndex;
-      return JSON.stringify(item);
-    });
-  };
   if (!data) {
     return null;
   }
-  const [RefKey, setRefKey] = React.useState(0);
-  const order = React.useRef(Array.from(Array(data))?.map((data: any, _: any) => data));
+  console.log('Rendering');
+  const [_, rerender] = useState(0);
+  const order = React.useRef<number[]>(data?.map((_: any, index: any) => index));
   const HEIGHT_OF_COMPONENT = 70;
   const fn =
-    (order: any[], active: boolean = false) =>
+    (order: number[], active: boolean = false) =>
     (index: number) =>
       active
         ? {
-            y: stringified(order).indexOf(JSON.stringify(data[index])) * HEIGHT_OF_COMPONENT,
+            y: order.indexOf(index) * HEIGHT_OF_COMPONENT,
             immediate: false,
           }
         : {
-            y: stringified(order).indexOf(JSON.stringify(data[index])) * HEIGHT_OF_COMPONENT,
+            y: order.indexOf(index) * HEIGHT_OF_COMPONENT,
             immediate: true,
           };
-  const [springs, setSprings] = useSprings(data?.length ?? 0, fn(order.current[0]));
+  const [springs, setSprings] = useSprings(data?.length ?? 0, fn(order.current));
   const DragHandleRef: any = useSpringRef();
-
-  const [grabbedIndex, setGrabbedIndex]: any = React.useState(undefined);
   const bind: any = useDrag(({ args: [originalIndex], active, movement: [, y] }) => {
-    if (!originalIndex) return;
-    if (grabbedIndex !== null) {
+    if (originalIndex !== null) {
       const curRow = clamp(
-        Math.round((grabbedIndex * HEIGHT_OF_COMPONENT + y) / HEIGHT_OF_COMPONENT),
+        Math.round((originalIndex * HEIGHT_OF_COMPONENT + y) / HEIGHT_OF_COMPONENT),
         0,
         data?.length - 1
       );
       const newOrder = swap(
-        order.current[0],
-        stringified(order.current[0]).indexOf(JSON.stringify(order.current[0][grabbedIndex])),
-        stringified(order.current[0]).indexOf(JSON.stringify(order.current[0][curRow]))
+        order.current,
+        order.current.indexOf(order.current[originalIndex]),
+        order.current.indexOf(order.current[curRow])
       );
       setSprings.start(fn(newOrder, active)); // Feed springs new style data, they'll animate the view without causing a single render
 
       if (
-        stringified2(order.current[0]).indexOf(JSON.stringify(order.current[0][grabbedIndex])) ===
-          stringified2(order.current[0]).indexOf(JSON.stringify(order.current[0][curRow])) ||
-        data === newOrder
+        order.current.indexOf(order.current[originalIndex]) ===
+          order.current.indexOf(order.current[curRow]) ||
+        order.current === newOrder
       ) {
         return;
       }
 
       if (!active) {
-        order.current[0] = newOrder;
-        data.splice(0, data?.length);
-        data.push(...newOrder);
-        handleChange(path, newOrder);
+        order.current = newOrder;
+        handleChange(
+          path,
+          data.map((_: any, index: number) => data[newOrder[index]])
+        );
+        console.log('emiting', {
+          newData: JSON.stringify(data.map((_: any, index: number) => data[newOrder[index]])),
+        });
         setSprings.start(fn(newOrder, active));
-        callbackFunction(Math.random());
-        setRefKey(RefKey + 1);
-        setGrabbedIndex(null);
+        rerender((x) => x + 1);
       }
     }
   });
 
   const duplicateContent = (index: number) => {
-    /* Implement a way to include a change of _path while cloning */
-    setRefKey(RefKey + 1);
-    data.push(data[index]);
-    order.current[0] = data;
-    handleChange(path, data);
-    setSprings.start(fn(data, false));
-    callbackFunction(Math.random());
-    setRefKey(RefKey + 1);
+    const newData = [...data, data[index]];
+    order.current = newData.map((_: any, index: any) => index);
+    handleChange(path, newData);
+    console.log('emiting', { newData: JSON.stringify(newData) });
+    setSprings.start(fn(newData, false));
   };
 
   React.useEffect(() => {
+    console.log('useEffect');
     if (openedIndex === undefined) {
-      order.current[0] = data;
-      setSprings.start(fn(data, false));
-      setRefKey(RefKey + 1);
+      order.current = data?.map((_: any, index: any) => index);
+      setSprings.start(fn(order.current, false));
     }
-  }, [openedIndex]);
-
-  React.useEffect(() => {
-    order.current[0] = data;
-    setSprings.start(fn(data, false));
-  }, [data]);
-
-  React.useEffect(() => {
-    order.current[0] = data;
-    setSprings.start(fn(data, false));
-    setRefKey(Math.random());
-  }, [indexRefKey]);
+    rerender((x) => x + 1);
+  }, [openedIndex, data, indexRefKey]);
 
   return (
     <div
@@ -153,14 +125,12 @@ const DragAndDrop = ({
         transformOrigin: '50% 50% 0px',
         position: 'relative',
       }}
-      key={RefKey}
     >
       {springs?.map(({ y }, index: number) => (
         <animated.div
-          {...bind(`${path}_${index}_${RefKey}`)}
-          key={`${path}_${index}_${RefKey}`}
+          {...bind(index)}
+          key={`${path}_${index}`}
           style={{
-            zIndex: grabbedIndex === index ? 30 : 20,
             y,
             width: '100%',
             touchAction: 'none',
@@ -187,7 +157,6 @@ const DragAndDrop = ({
                 <div
                   ref={DragHandleRef}
                   className='grabbable'
-                  onMouseDown={() => setGrabbedIndex(index)}
                   style={{
                     display: 'flex',
                     width: '50px',
