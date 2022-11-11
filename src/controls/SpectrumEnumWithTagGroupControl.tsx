@@ -23,14 +23,24 @@
   THE SOFTWARE.
 */
 
-import { ControlProps, isEnumControl, RankedTester, rankWith } from '@jsonforms/core';
+import {
+  and,
+  ControlProps,
+  isEnumControl,
+  schemaTypeIs,
+  RankedTester,
+  rankWith,
+} from '@jsonforms/core';
 import { withJsonFormsEnumProps } from '@jsonforms/react';
 import { SpectrumInputControl } from './SpectrumInputControl';
-import { InputEnumAutocompleteWithBadge } from '../spectrum-control/InputEnumAutocompleteWithBadge';
+import { InputEnumAutocompleteWithTagGroup } from '../spectrum-control/InputEnumAutocompleteWithTagGroup';
 
-export const SpectrumEnumWithBadgeControl = (props: ControlProps) => {
-  return <SpectrumInputControl {...props} input={InputEnumAutocompleteWithBadge} />;
+export const SpectrumEnumWithTagGroupControl = (props: ControlProps) => {
+  return <SpectrumInputControl {...props} input={InputEnumAutocompleteWithTagGroup} />;
 };
-export const SpectrumEnumWithBadgeControlTester: RankedTester = rankWith(2, isEnumControl);
+export const SpectrumEnumWithTagGroupControlTester: RankedTester = rankWith(
+  15,
+  and(isEnumControl, schemaTypeIs('array'))
+);
 
-export default withJsonFormsEnumProps(SpectrumEnumWithBadgeControl);
+export default withJsonFormsEnumProps(SpectrumEnumWithTagGroupControl);

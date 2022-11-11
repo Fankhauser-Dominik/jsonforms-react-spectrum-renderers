@@ -1,10 +1,13 @@
 import React from 'react';
-import { Flex } from '@adobe/react-spectrum';
+import { Button, Flex } from '@adobe/react-spectrum';
 import DragHandle from '@spectrum-icons/workflow/DragHandle';
+import ArrowUp from '@spectrum-icons/workflow/ArrowUp';
+import ArrowDown from '@spectrum-icons/workflow/ArrowDown';
 import SpectrumArrayModalItem from '../SpectrumArrayModalItem/ModalItemComponent';
 import { swap, clamp } from '../utils';
 import { useSprings, useSpringRef, animated } from '@react-spring/web';
 import { useDrag } from '@use-gesture/react';
+import Add from '@spectrum-icons/workflow/Add';
 interface ArrayModalControlDragAndDropProps {
   indexRefKey: number;
   callbackFunction: any;
@@ -21,6 +24,9 @@ interface ArrayModalControlDragAndDropProps {
   schema: any;
   uischema: any;
   uischemas: any;
+  onPressHandler: any;
+  moveUpIndex: number | null;
+  setMoveUpIndex: any;
 }
 
 const DragAndDrop = ({
@@ -33,6 +39,9 @@ const DragAndDrop = ({
   indexOfFittingSchemaArray,
   indexRefKey,
   openedIndex,
+  moveUpIndex,
+  setMoveUpIndex,
+  onPressHandler,
   path,
   renderers,
   schema,
@@ -63,10 +72,19 @@ const DragAndDrop = ({
   const DragHandleRef: any = useSpringRef();
 
   const [grabbedIndex, setGrabbedIndex]: any = React.useState(null);
-  const dragConfig = { pointer: { keys: false } };
+  const [hoveredIndex, setHoveredIndex]: any = React.useState(null);
+  const [delayHandler, setDelayHandler]: any = React.useState(null);
+  const [touchMovement, setTouchMovement] = React.useState(false);
+  const dragConfig = {
+    pointer: { keys: false },
+  };
   const bind: any = useDrag(
     ({ args: [originalIndex], active, movement: [, y] }) => {
-      if (originalIndex !== null) {
+      if (originalIndex !== null && grabbedIndex !== null) {
+        if (touchMovement) {
+          setTouchMovement(false);
+          setGrabbedIndex(null);
+        }
         const curRow = clamp(
           Math.round((originalIndex * HEIGHT_OF_COMPONENT + y) / HEIGHT_OF_COMPONENT),
           0,
@@ -77,6 +95,7 @@ const DragAndDrop = ({
           order.current.indexOf(order.current[originalIndex]),
           order.current.indexOf(order.current[curRow])
         );
+        console.log(newOrder);
         setSprings.start(fn(newOrder, active)); // Feed springs new style data, they'll animate the view without causing a single render
 
         if (
@@ -105,9 +124,12 @@ const DragAndDrop = ({
     setRerender((x: number) => x + 1);
   };
 
+  let [keyboardClass, setKeyboardClass] = React.useState('');
+
   const move = (pressedKey: string, index: number) => {
     let newOrder: any = false;
     if (pressedKey === 'ArrowUp' && index > 0) {
+      setKeyboardClass('keyboardUp');
       newOrder = swap(
         order.current,
         order.current.indexOf(order.current[index]),
@@ -117,9 +139,11 @@ const DragAndDrop = ({
       setTimeout(() => {
         setGrabbedIndex(index - 1);
         finalChange(newOrder);
+        setKeyboardClass('');
         setGrabbedIndex(index - 1);
       }, 500);
     } else if (pressedKey === 'ArrowDown' && index < data?.length - 1) {
+      setKeyboardClass('keyboardDown');
       newOrder = swap(
         order.current,
         order.current.indexOf(order.current[index]),
@@ -129,6 +153,7 @@ const DragAndDrop = ({
       setTimeout(() => {
         setGrabbedIndex(index + 1);
         finalChange(newOrder);
+        setKeyboardClass('');
         setGrabbedIndex(index + 1);
       }, 500);
     }
@@ -153,6 +178,41 @@ const DragAndDrop = ({
     setSprings.start(fn(order.current, false));
   }, [data, indexRefKey]);
 
+  const enableTouch = (index: number) => {
+    setGrabbedIndex(index);
+    setTouchMovement(true);
+  };
+
+  const showAddBetween = (index: number) => {
+    setDelayHandler(
+      setTimeout(() => {
+        setHoveredIndex(index);
+      }, 500)
+    );
+  };
+
+  const hideAddBetween = () => {
+    clearTimeout(delayHandler);
+    setHoveredIndex(null);
+  };
+
+  const addBetween = (index: number) => {
+    setMoveUpIndex(index);
+    onPressHandler();
+  };
+
+  React.useEffect(() => {
+    if (moveUpIndex !== null) {
+      const newOrder = swap(
+        order.current,
+        order.current.indexOf(order.current[data.length - 1]),
+        order.current.indexOf(order.current[moveUpIndex])
+      );
+      setMoveUpIndex(null);
+      finalChange(newOrder);
+    }
+  }, [data.length]);
+
   return (
     <div
       style={{
@@ -169,7 +229,6 @@ const DragAndDrop = ({
           {...bind(index)}
           key={`${path}_${index}_${rerender}`}
           style={{
-            zIndex: grabbedIndex === index ? 30 : 20,
             y,
             width: '100%',
             touchAction: 'none',
@@ -178,7 +237,12 @@ const DragAndDrop = ({
           }}
           height={HEIGHT_OF_COMPONENT + 'px'}
         >
-          <Flex direction='row' alignItems='stretch' flex='auto inherit'>
+          <Flex
+            direction='row'
+            alignItems='stretch'
+            flex='auto inherit'
+            UNSAFE_style={{ zIndex: grabbedIndex === index ? 30 : 20 }}
+          >
             <SpectrumArrayModalItem
               index={index}
               callbackFunction={callbackFunction}
@@ -197,25 +261,74 @@ const DragAndDrop = ({
                   ref={DragHandleRef}
                   autoFocus={grabbedIndex === index}
                   className='grabbable'
-                  onMouseDown={() => setGrabbedIndex(index)}
                   onFocus={() => setGrabbedIndex(index)}
+                  onBlur={() => setGrabbedIndex(null)}
+                  onMouseEnter={() => setGrabbedIndex(index)}
+                  onMouseLeave={() => setGrabbedIndex(null)}
+                  onTouchMove={() => enableTouch(index)}
                   onKeyDown={(e) => {
                     if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
                       move(e.key, index);
                     }
                   }}
                 >
+                  <ArrowUp
+                    aria-label='Arrow Up'
+                    size='S'
+                    alignSelf='center'
+                    width={'100%'}
+                    UNSAFE_className={
+                      keyboardClass === 'keyboardUp' && index === grabbedIndex
+                        ? 'keyboardMovement'
+                        : 'keyboardUser'
+                    }
+                  />
+                  <ArrowDown
+                    aria-label='Arrow Down'
+                    size='S'
+                    alignSelf='center'
+                    width={'100%'}
+                    UNSAFE_className={
+                      keyboardClass === 'keyboardDown' && index === grabbedIndex
+                        ? 'keyboardMovement'
+                        : 'keyboardUser'
+                    }
+                  />
                   <DragHandle
                     aria-label='Drag and Drop Handle'
                     size='L'
                     alignSelf='center'
                     width={'100%'}
+                    UNSAFE_className={
+                      index === grabbedIndex ? 'keyboardMovement mouseUser' : 'mouseUser'
+                    }
                   />
                 </button>
               }
             />
           </Flex>
         </animated.div>
+      ))}
+      {data.map((_: any, index: number) => (
+        <div
+          style={{
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            zIndex: 80,
+            position: 'absolute',
+            top: `${index * HEIGHT_OF_COMPONENT - 20}px`,
+            opacity: hoveredIndex === index ? 1 : 0,
+          }}
+          key={`${path}_${index}_addBetween`}
+          onMouseEnter={() => showAddBetween(index)}
+          onMouseLeave={() => hideAddBetween()}
+          className='add-container'
+        >
+          <Button variant='cta' onPress={() => addBetween(index)}>
+            <Add />
+          </Button>
+        </div>
       ))}
     </div>
   );

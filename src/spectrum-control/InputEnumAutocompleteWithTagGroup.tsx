@@ -28,11 +28,10 @@ import merge from 'lodash/merge';
 import { SpectrumInputProps } from './index';
 import { DimensionValue } from '@react-types/shared';
 import { Item, ComboBox, ContextualHelp, Heading, Content, Text } from '@adobe/react-spectrum';
-import { Badge } from '@adobe/react-spectrum';
-import Close from '@spectrum-icons/workflow/Close';
+import { TagGroup } from '@react-spectrum/tag';
 import SpectrumProvider from '../additional/SpectrumProvider';
 
-export const InputEnumAutocompleteWithBadge = React.memo(
+export const InputEnumAutocompleteWithTagGroup = React.memo(
   ({
     config,
     data,
@@ -53,7 +52,12 @@ export const InputEnumAutocompleteWithBadge = React.memo(
     let [value, setValue] = React.useState(data ?? '');
     const handleOnChange = (value: any) => {
       setValue(value);
-      handleChange(path, value);
+      if (data.indexOf(value) === -1) {
+        handleChange(path, [...data, value]);
+      }
+      setTimeout(() => {
+        setValue(null);
+      }, 100);
     };
 
     React.useEffect(() => {
@@ -65,6 +69,15 @@ export const InputEnumAutocompleteWithBadge = React.memo(
     label = label === '' || !label ? 'Enum' : label;
 
     const contextualHelp = appliedUiSchemaOptions?.contextualHelp ?? schema?.fieldDescription;
+
+    const [RefKey, setRefKey] = React.useState(0);
+
+    const deleteTag = (value: any[]) => {
+      const tags = data;
+      tags.splice(tags.indexOf(value), 1);
+      handleChange(path, tags);
+      setRefKey(RefKey + 1);
+    };
 
     return (
       <SpectrumProvider width={width}>
@@ -107,17 +120,16 @@ export const InputEnumAutocompleteWithBadge = React.memo(
             </Content>
           </ContextualHelp>
         ) : null}
-        <Badge variant='positive'>
-          <svg xmlns='http://www.w3.org/2000/svg' height='18' width='18'>
-            <path
-              d='M13.2425 3.343 9 7.586 4.7575 3.343a.5.5 0 0 0-.707 0l-.7075.707a.5.5 0 0 0 0 .707L7.586 9l-4.243 4.2425a.5.5 0 0 0 0 .707l.707.7075a.5.5 0 0 0 .707 0L9 10.414l4.2425 4.243a.5.5 0 0 0 .707 0l.7075-.707a.5.5 0 0 0 0-.707L10.414 9l4.243-4.2425a.5.5 0 0 0 0-.707l-.707-.7075a.5.5 0 0 0-.7071-.0004Z'
-              style={{
-                fill: 'var(--spectrum-label-colored-text-color,var(--spectrum-global-color-static-white))',
-              }}
-            />
-          </svg>
-          <Text>TEST</Text>
-        </Badge>
+        <TagGroup
+          items={data}
+          isRemovable
+          onRemove={deleteTag}
+          aria-label='Static TagGroup items example'
+        >
+          {data.map((item: string) => (
+            <Item key={`${item}`}>{item}</Item>
+          ))}
+        </TagGroup>
       </SpectrumProvider>
     );
   }

@@ -30,7 +30,7 @@ import { withJsonFormsEnumCellProps } from '@jsonforms/react';
 import { SpectrumInputProps } from '../spectrum-control';
 import { InputEnum } from '../spectrum-control/InputEnum';
 
-export const SpectrumEnumWithBadgeCell = (props: EnumCellProps & SpectrumInputProps) => (
+export const SpectrumEnumWithTagGroupCell = (props: EnumCellProps & SpectrumInputProps) => (
   <InputEnum {...props} />
 );
 /**
@@ -39,4 +39,4 @@ export const SpectrumEnumWithBadgeCell = (props: EnumCellProps & SpectrumInputPr
  */
 export const SpectrumEnumCellTester: RankedTester = rankWith(2, isEnumControl);
 
-export default withJsonFormsEnumCellProps(SpectrumEnumWithBadgeCell);
+export default withJsonFormsEnumCellProps(SpectrumEnumWithTagGroupCell);
