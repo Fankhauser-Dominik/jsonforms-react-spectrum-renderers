@@ -40,9 +40,9 @@ import SpectrumProvider from '../../../additional/SpectrumProvider';
 import { indexOfFittingSchemaObject } from '../utils';
 import ModalItemHeader from './ModalItemHeader';
 import { openItemWhenInQueryParam } from './ModalItemUtils';
-import areEqual from '../../../util/areEqual';
 import { findValue } from './ModalItemUtils';
 import './SpectrumArrayModalItem.css';
+// import areEqual from '../../../util/areEqual';
 
 interface NonEmptyRowProps {
   rowIndex?: number | undefined;
@@ -322,23 +322,23 @@ export const withJsonFormsSpectrumArrayModalItemProps = (
   withJsonFormsContext(
     withContextToSpectrumArrayModalItemProps(
       React.memo(
-        Component,
-        (
-          prevProps: OwnPropsOfSpectrumArrayModalItem,
-          nextProps: OwnPropsOfSpectrumArrayModalItem
-        ) => {
-          const {
-            // handleExpand: prevHandleExpand,
-            removeItem: prevRemoveItem,
-            ...restPrevProps
-          } = prevProps;
-          const {
-            // handleExpand: nextHandleExpand,
-            removeItem: nextRemoveItem,
-            ...restNextProps
-          } = nextProps;
-          return areEqual(restPrevProps, restNextProps);
-        }
+        Component
+        // (
+        //   prevProps: OwnPropsOfSpectrumArrayModalItem,
+        //   nextProps: OwnPropsOfSpectrumArrayModalItem
+        // ) => {
+        //   const {
+        //     // handleExpand: prevHandleExpand,
+        //     removeItem: prevRemoveItem,
+        //     ...restPrevProps
+        //   } = prevProps;
+        //   const {
+        //     // handleExpand: nextHandleExpand,
+        //     removeItem: nextRemoveItem,
+        //     ...restNextProps
+        //   } = nextProps;
+        //   return areEqual(restPrevProps, restNextProps);
+        // }
       )
     )
   );

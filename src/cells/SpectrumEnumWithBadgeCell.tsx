@@ -1,6 +1,9 @@
 /*
   The MIT License
 
+  Copyright (c) 2017-2019 EclipseSource Munich
+  https://github.com/eclipsesource/jsonforms
+
   Copyright (c) 2020 headwire.com, Inc
   https://github.com/headwirecom/jsonforms-react-spectrum-renderers
 
@@ -22,27 +25,18 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import { Provider, useProvider, defaultTheme } from '@adobe/react-spectrum';
-import { ProviderProps } from '@react-types/provider';
-import { useEffect } from 'react';
-import DetectKeyboardUser from '../util/detect-keyboard-user';
+import { EnumCellProps, isEnumControl, RankedTester, rankWith } from '@jsonforms/core';
+import { withJsonFormsEnumCellProps } from '@jsonforms/react';
+import { SpectrumInputProps } from '../spectrum-control';
+import { InputEnum } from '../spectrum-control/InputEnum';
 
-const SpectrumProvider = (props: ProviderProps) => {
-  let { children } = props;
-  const parentProvider = useProvider();
-  const theme = parentProvider ? parentProvider.theme : defaultTheme;
+export const SpectrumEnumWithTagGroupCell = (props: EnumCellProps & SpectrumInputProps) => (
+  <InputEnum {...props} />
+);
+/**
+ * Default tester for enum controls.
+ * @type {RankedTester}
+ */
+export const SpectrumEnumCellTester: RankedTester = rankWith(2, isEnumControl);
 
-  var dku = new DetectKeyboardUser();
-
-  useEffect(() => {
-    dku.init();
-  }, []);
-
-  return (
-    <Provider {...props} theme={theme} id='SpectrumInputControlProvider'>
-      {children}
-    </Provider>
-  );
-};
-
-export default SpectrumProvider;
+export default withJsonFormsEnumCellProps(SpectrumEnumWithTagGroupCell);

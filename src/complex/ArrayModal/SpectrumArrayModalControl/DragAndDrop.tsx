@@ -1,11 +1,13 @@
 import React from 'react';
-import { Flex } from '@adobe/react-spectrum';
+import { Button, Flex } from '@adobe/react-spectrum';
 import DragHandle from '@spectrum-icons/workflow/DragHandle';
+import ArrowUp from '@spectrum-icons/workflow/ArrowUp';
+import ArrowDown from '@spectrum-icons/workflow/ArrowDown';
 import SpectrumArrayModalItem from '../SpectrumArrayModalItem/ModalItemComponent';
 import { swap, clamp } from '../utils';
 import { useSprings, useSpringRef, animated } from '@react-spring/web';
 import { useDrag } from '@use-gesture/react';
-
+import Add from '@spectrum-icons/workflow/Add';
 interface ArrayModalControlDragAndDropProps {
   indexRefKey: number;
   callbackFunction: any;
@@ -22,6 +24,9 @@ interface ArrayModalControlDragAndDropProps {
   schema: any;
   uischema: any;
   uischemas: any;
+  onPressHandler: any;
+  moveUpIndex: number | null;
+  setMoveUpIndex: any;
 }
 
 const DragAndDrop = ({
@@ -34,114 +39,180 @@ const DragAndDrop = ({
   indexOfFittingSchemaArray,
   indexRefKey,
   openedIndex,
+  moveUpIndex,
+  setMoveUpIndex,
+  onPressHandler,
   path,
   renderers,
   schema,
   uischema,
   uischemas,
 }: ArrayModalControlDragAndDropProps) => {
-  const stringified = (arr: any) => {
-    return arr?.map((item: any, index: number) => {
-      try {
-        item._arrayIndex = index;
-      } finally {
-        return JSON.stringify(item);
-      }
-    });
-  };
-  const stringified2 = (arr: any) => {
-    return arr?.map((item: any) => {
-      delete item._arrayIndex;
-      return JSON.stringify(item);
-    });
-  };
   if (!data) {
     return null;
   }
-  const [RefKey, setRefKey] = React.useState(0);
-  const order = React.useRef(Array.from(Array(data))?.map((data: any, _: any) => data));
+  const [rerender, setRerender] = React.useState(0);
+  const order = React.useRef<number[]>(data?.map((_: any, index: any) => index));
   const HEIGHT_OF_COMPONENT = 70;
   const fn =
-    (order: any[], active: boolean = false) =>
+    (order: number[], active: boolean = false) =>
     (index: number) =>
       active
         ? {
-            y: stringified(order).indexOf(JSON.stringify(data[index])) * HEIGHT_OF_COMPONENT,
+            y: order.indexOf(index) * HEIGHT_OF_COMPONENT,
             immediate: false,
+            keys: false,
           }
         : {
-            y: stringified(order).indexOf(JSON.stringify(data[index])) * HEIGHT_OF_COMPONENT,
+            y: order.indexOf(index) * HEIGHT_OF_COMPONENT,
             immediate: true,
+            keys: false,
           };
-  const [springs, setSprings] = useSprings(data?.length ?? 0, fn(order.current[0]));
+  const [springs, setSprings] = useSprings(data?.length ?? 0, fn(order.current));
   const DragHandleRef: any = useSpringRef();
 
-  const [grabbedIndex, setGrabbedIndex]: any = React.useState(undefined);
-  const bind: any = useDrag(({ args: [originalIndex], active, movement: [, y] }) => {
-    if (!originalIndex) return;
-    if (grabbedIndex !== null) {
-      const curRow = clamp(
-        Math.round((grabbedIndex * HEIGHT_OF_COMPONENT + y) / HEIGHT_OF_COMPONENT),
-        0,
-        data?.length - 1
-      );
-      const newOrder = swap(
-        order.current[0],
-        stringified(order.current[0]).indexOf(JSON.stringify(order.current[0][grabbedIndex])),
-        stringified(order.current[0]).indexOf(JSON.stringify(order.current[0][curRow]))
-      );
-      setSprings.start(fn(newOrder, active)); // Feed springs new style data, they'll animate the view without causing a single render
+  const [grabbedIndex, setGrabbedIndex]: any = React.useState(null);
+  const [hoveredIndex, setHoveredIndex]: any = React.useState(null);
+  const [delayHandler, setDelayHandler]: any = React.useState(null);
+  const [touchMovement, setTouchMovement] = React.useState(false);
+  const dragConfig = {
+    pointer: { keys: false },
+  };
+  const bind: any = useDrag(
+    ({ args: [originalIndex], active, movement: [, y] }) => {
+      if (originalIndex !== null && grabbedIndex !== null) {
+        if (touchMovement) {
+          setTouchMovement(false);
+          setGrabbedIndex(null);
+        }
+        const curRow = clamp(
+          Math.round((originalIndex * HEIGHT_OF_COMPONENT + y) / HEIGHT_OF_COMPONENT),
+          0,
+          data?.length - 1
+        );
+        const newOrder = swap(
+          order.current,
+          order.current.indexOf(order.current[originalIndex]),
+          order.current.indexOf(order.current[curRow])
+        );
+        console.log(newOrder);
+        setSprings.start(fn(newOrder, active)); // Feed springs new style data, they'll animate the view without causing a single render
 
-      if (
-        stringified2(order.current[0]).indexOf(JSON.stringify(order.current[0][grabbedIndex])) ===
-          stringified2(order.current[0]).indexOf(JSON.stringify(order.current[0][curRow])) ||
-        data === newOrder
-      ) {
-        return;
-      }
+        if (
+          order.current.indexOf(order.current[originalIndex]) ===
+            order.current.indexOf(order.current[curRow]) ||
+          order.current === newOrder
+        ) {
+          return;
+        }
 
-      if (!active) {
-        order.current[0] = newOrder;
-        data.splice(0, data?.length);
-        data.push(...newOrder);
-        handleChange(path, newOrder);
-        setSprings.start(fn(newOrder, active));
-        callbackFunction(Math.random());
-        setRefKey(RefKey + 1);
-        setGrabbedIndex(null);
+        if (!active) {
+          finalChange(newOrder);
+        }
       }
+    },
+    { ...dragConfig }
+  );
+
+  const finalChange = (newOrder: any) => {
+    order.current = newOrder;
+    handleChange(
+      path,
+      data.map((_: any, index: number) => data[newOrder[index]])
+    );
+    setSprings.start(fn(newOrder, false));
+    setRerender((x: number) => x + 1);
+  };
+
+  let [keyboardClass, setKeyboardClass] = React.useState('');
+
+  const move = (pressedKey: string, index: number) => {
+    let newOrder: any = false;
+    if (pressedKey === 'ArrowUp' && index > 0) {
+      setKeyboardClass('keyboardUp');
+      newOrder = swap(
+        order.current,
+        order.current.indexOf(order.current[index]),
+        order.current.indexOf(order.current[index - 1])
+      );
+      setSprings.start(fn(newOrder, true));
+      setTimeout(() => {
+        setGrabbedIndex(index - 1);
+        finalChange(newOrder);
+        setKeyboardClass('');
+        setGrabbedIndex(index - 1);
+      }, 500);
+    } else if (pressedKey === 'ArrowDown' && index < data?.length - 1) {
+      setKeyboardClass('keyboardDown');
+      newOrder = swap(
+        order.current,
+        order.current.indexOf(order.current[index]),
+        order.current.indexOf(order.current[index + 1])
+      );
+      setSprings.start(fn(newOrder, true));
+      setTimeout(() => {
+        setGrabbedIndex(index + 1);
+        finalChange(newOrder);
+        setKeyboardClass('');
+        setGrabbedIndex(index + 1);
+      }, 500);
     }
-  });
+  };
 
   const duplicateContent = (index: number) => {
-    /* Implement a way to include a change of _path while cloning */
-    setRefKey(RefKey + 1);
-    data.push(data[index]);
-    order.current[0] = data;
-    handleChange(path, data);
-    setSprings.start(fn(data, false));
-    callbackFunction(Math.random());
-    setRefKey(RefKey + 1);
+    const newData = [...data, data[index]];
+    order.current = newData.map((_: any, index: any) => index);
+    handleChange(path, newData);
+    setSprings.start(fn(newData, false));
   };
 
   React.useEffect(() => {
     if (openedIndex === undefined) {
-      order.current[0] = data;
-      setSprings.start(fn(data, false));
-      setRefKey(RefKey + 1);
+      order.current = data?.map((_: any, index: any) => index);
+      setSprings.start(fn(order.current, false));
     }
   }, [openedIndex]);
 
   React.useEffect(() => {
-    order.current[0] = data;
-    setSprings.start(fn(data, false));
-  }, [data]);
+    order.current = data?.map((_: any, index: any) => index);
+    setSprings.start(fn(order.current, false));
+  }, [data, indexRefKey]);
+
+  const enableTouch = (index: number) => {
+    setGrabbedIndex(index);
+    setTouchMovement(true);
+  };
+
+  const showAddBetween = (index: number) => {
+    setDelayHandler(
+      setTimeout(() => {
+        setHoveredIndex(index);
+      }, 500)
+    );
+  };
+
+  const hideAddBetween = () => {
+    clearTimeout(delayHandler);
+    setHoveredIndex(null);
+  };
+
+  const addBetween = (index: number, event: any) => {
+    setMoveUpIndex(index);
+    onPressHandler();
+    event?.target?.blur();
+  };
 
   React.useEffect(() => {
-    order.current[0] = data;
-    setSprings.start(fn(data, false));
-    setRefKey(Math.random());
-  }, [indexRefKey]);
+    if (moveUpIndex !== null) {
+      const newOrder = swap(
+        order.current,
+        order.current.indexOf(order.current[data.length - 1]),
+        order.current.indexOf(order.current[moveUpIndex])
+      );
+      finalChange(newOrder);
+      setMoveUpIndex(null);
+    }
+  }, [data.length]);
 
   return (
     <div
@@ -153,14 +224,12 @@ const DragAndDrop = ({
         transformOrigin: '50% 50% 0px',
         position: 'relative',
       }}
-      key={RefKey}
     >
       {springs?.map(({ y }, index: number) => (
         <animated.div
-          {...bind(`${path}_${index}_${RefKey}`)}
-          key={`${path}_${index}_${RefKey}`}
+          {...bind(index)}
+          key={`${path}_${index}_${rerender}`}
           style={{
-            zIndex: grabbedIndex === index ? 30 : 20,
             y,
             width: '100%',
             touchAction: 'none',
@@ -169,7 +238,33 @@ const DragAndDrop = ({
           }}
           height={HEIGHT_OF_COMPONENT + 'px'}
         >
-          <Flex direction='row' alignItems='stretch' flex='auto inherit'>
+          <div
+            style={{
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              zIndex: 80,
+              position: 'absolute',
+              top: '-20px',
+              opacity: hoveredIndex === index ? 1 : 0,
+            }}
+            key={`${path}_${index}_addBetween`}
+            onMouseEnter={() => showAddBetween(index)}
+            onMouseLeave={() => hideAddBetween()}
+            onFocus={() => setHoveredIndex(index)}
+            onBlur={() => hideAddBetween()}
+            className='add-container'
+          >
+            <Button variant='cta' onPress={(event: any) => addBetween(index, event)}>
+              <Add />
+            </Button>
+          </div>
+          <Flex
+            direction='row'
+            alignItems='stretch'
+            flex='auto inherit'
+            UNSAFE_style={{ zIndex: grabbedIndex === index ? 30 : 20 }}
+          >
             <SpectrumArrayModalItem
               index={index}
               callbackFunction={callbackFunction}
@@ -184,24 +279,53 @@ const DragAndDrop = ({
               uischemas={uischemas}
               callbackOpenedIndex={callbackOpenedIndex}
               DNDHandle={
-                <div
+                <button
                   ref={DragHandleRef}
+                  autoFocus={grabbedIndex === index}
                   className='grabbable'
-                  onMouseDown={() => setGrabbedIndex(index)}
-                  style={{
-                    display: 'flex',
-                    width: '50px',
-                    marginRight: '-12px',
+                  onFocus={() => setGrabbedIndex(index)}
+                  onBlur={() => setGrabbedIndex(null)}
+                  onMouseEnter={() => setGrabbedIndex(index)}
+                  onMouseLeave={() => setGrabbedIndex(null)}
+                  onTouchMove={() => enableTouch(index)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+                      move(e.key, index);
+                    }
                   }}
                 >
+                  <ArrowUp
+                    aria-label='Arrow Up'
+                    size='S'
+                    alignSelf='center'
+                    width={'100%'}
+                    UNSAFE_className={
+                      keyboardClass === 'keyboardUp' && index === grabbedIndex
+                        ? 'keyboardMovement'
+                        : 'keyboardUser'
+                    }
+                  />
+                  <ArrowDown
+                    aria-label='Arrow Down'
+                    size='S'
+                    alignSelf='center'
+                    width={'100%'}
+                    UNSAFE_className={
+                      keyboardClass === 'keyboardDown' && index === grabbedIndex
+                        ? 'keyboardMovement'
+                        : 'keyboardUser'
+                    }
+                  />
                   <DragHandle
                     aria-label='Drag and Drop Handle'
                     size='L'
                     alignSelf='center'
                     width={'100%'}
-                    UNSAFE_style={{ margin: '-2px 0' }}
+                    UNSAFE_className={
+                      index === grabbedIndex ? 'keyboardMovement mouseUser' : 'mouseUser'
+                    }
                   />
-                </div>
+                </button>
               }
             />
           </Flex>

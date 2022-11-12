@@ -22,27 +22,25 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import { Provider, useProvider, defaultTheme } from '@adobe/react-spectrum';
-import { ProviderProps } from '@react-types/provider';
-import { useEffect } from 'react';
-import DetectKeyboardUser from '../util/detect-keyboard-user';
 
-const SpectrumProvider = (props: ProviderProps) => {
-  let { children } = props;
-  const parentProvider = useProvider();
-  const theme = parentProvider ? parentProvider.theme : defaultTheme;
+import {
+  and,
+  ControlProps,
+  isEnumControl,
+  schemaTypeIs,
+  RankedTester,
+  rankWith,
+} from '@jsonforms/core';
+import { withJsonFormsEnumProps } from '@jsonforms/react';
+import { SpectrumInputControl } from './SpectrumInputControl';
+import { InputEnumAutocompleteWithTagGroup } from '../spectrum-control/InputEnumAutocompleteWithTagGroup';
 
-  var dku = new DetectKeyboardUser();
-
-  useEffect(() => {
-    dku.init();
-  }, []);
-
-  return (
-    <Provider {...props} theme={theme} id='SpectrumInputControlProvider'>
-      {children}
-    </Provider>
-  );
+export const SpectrumEnumWithTagGroupControl = (props: ControlProps) => {
+  return <SpectrumInputControl {...props} input={InputEnumAutocompleteWithTagGroup} />;
 };
+export const SpectrumEnumWithTagGroupControlTester: RankedTester = rankWith(
+  15,
+  and(isEnumControl, schemaTypeIs('array'))
+);
 
-export default SpectrumProvider;
+export default withJsonFormsEnumProps(SpectrumEnumWithTagGroupControl);

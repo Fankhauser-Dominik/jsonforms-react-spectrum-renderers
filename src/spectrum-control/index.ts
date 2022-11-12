@@ -27,6 +27,8 @@ export * from './InputCheckbox';
 export * from './InputDate';
 export * from './InputDateTime';
 export * from './InputEnum';
+export * from './InputEnumAutocomplete';
+export * from './InputEnumAutocompleteWithTagGroup';
 export * from './InputInteger';
 export * from './InputNumber';
 export * from './InputRating';

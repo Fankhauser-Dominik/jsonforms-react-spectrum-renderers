@@ -27,7 +27,15 @@
 */
 import React from 'react';
 import { ArrayControlProps, OwnPropsOfControl, createDefaultValue } from '@jsonforms/core';
-import { Button, Flex, Heading, Text, View } from '@adobe/react-spectrum';
+import {
+  TooltipTrigger,
+  Tooltip,
+  Flex,
+  Heading,
+  Text,
+  View,
+  ActionButton,
+} from '@adobe/react-spectrum';
 import SpectrumArrayModalItem from '../SpectrumArrayModalItem/ModalItemComponent';
 import Add from '@spectrum-icons/workflow/Add';
 import { indexOfFittingSchemaObject } from '../utils';
@@ -35,6 +43,7 @@ import DragAndDrop from './DragAndDrop';
 import AddDialog from './AddDialog';
 import SortButtons from './SortButtons';
 import { withHandleChange, HandleChangeProps } from '../../../util';
+import settings from '../../../util/settings';
 
 export interface OverrideProps extends OwnPropsOfControl {
   indexOfFittingSchema?: number;
@@ -56,6 +65,7 @@ const SpectrumArrayModalControl = React.memo(
   }: ArrayControlProps & OverrideProps & HandleChangeProps) => {
     const [selectedIndex, setSelectedIndex] = React.useState(0);
     const [open, setOpen] = React.useState(false);
+    const [moveUpIndex, setMoveUpIndex]: any = React.useState(null);
     const [openedIndex, setOpenedIndex] = React.useState<number | undefined>(undefined);
     const handleClose = () => setOpen(false);
 
@@ -81,10 +91,13 @@ const SpectrumArrayModalControl = React.memo(
       [removeItems]
     );
 
-    const handleOnConfirm = (handleClose: any, index: number) => {
-      setIndexOfFittingSchemaArray([...indexOfFittingSchemaArray, Math.floor(index)]);
+    const handleOnConfirm = (handleClose: any, indexOfFittingSchema: number) => {
+      setIndexOfFittingSchemaArray([
+        ...indexOfFittingSchemaArray,
+        Math.floor(indexOfFittingSchema),
+      ]);
       if (schema.oneOf) {
-        addItem(path, createDefaultValue(schema.oneOf[index]))();
+        addItem(path, createDefaultValue(schema.oneOf[indexOfFittingSchema]))();
       }
       indexOfFittingSchemaObject[path + `.${data?.length}`] = selectedIndex;
       setSelectedIndex(0);
@@ -99,14 +112,8 @@ const SpectrumArrayModalControl = React.memo(
 
     const [RefKey, setRefKey] = React.useState<number>(0);
     const callbackFunction = (editorJSON: any) => {
-      console.log('BEFORE', RefKey);
       setRefKey(editorJSON);
-      console.log('AFTER', editorJSON);
     };
-
-    React.useEffect(() => {
-      console.log('REFKEY', RefKey);
-    }, [RefKey]);
 
     const callbackOpenedIndex = (index: number | undefined) => {
       setOpenedIndex(index);
@@ -145,8 +152,6 @@ const SpectrumArrayModalControl = React.memo(
           console.log('handleCustomPickerMessage addItem', e.data.data, data);
           newData.push(e.data.data);
         }
-        //data.splice(0, data.length);
-        //data.push(...newData);
         handleChange(path, newData);
         setRefKey(Math.random());
       }
@@ -169,9 +174,6 @@ const SpectrumArrayModalControl = React.memo(
       <View id='json-form-array-wrapper'>
         <Flex direction='row' justifyContent='space-between'>
           <Heading level={4}>{label}</Heading>
-          <Button alignSelf='center' onPress={onPressHandler} variant='primary'>
-            <Add aria-label='Add' size='S' />
-          </Button>
           <AddDialog
             uischema={uischema}
             handleClose={handleClose}
@@ -182,11 +184,7 @@ const SpectrumArrayModalControl = React.memo(
             open={open}
           />
         </Flex>
-        <Flex
-          id={`spectrum-renderer-arrayContentWrapper_${path}`}
-          direction='column'
-          gap='size-100'
-        >
+        <Flex id={`spectrum-renderer-arrayContentWrapper_${path}`} direction='column'>
           {sortMode === 'DragAndDrop' && data && data?.length ? (
             <div>
               <DragAndDrop
@@ -205,9 +203,12 @@ const SpectrumArrayModalControl = React.memo(
                 callbackOpenedIndex={callbackOpenedIndex}
                 enabled={enabled}
                 indexRefKey={RefKey}
+                onPressHandler={onPressHandler}
+                moveUpIndex={moveUpIndex}
+                setMoveUpIndex={setMoveUpIndex}
               />
             </div>
-          ) : /* (sortMode === 'disabled' || sortMode === 'arrows') &&  */ data && data?.length ? (
+          ) : data && data?.length ? (
             Array.from(Array(data?.length)).map((_, index) => {
               indexOfFittingSchemaObject[`${path}itemQuantity`] = data?.length;
               return (
@@ -247,6 +248,17 @@ const SpectrumArrayModalControl = React.memo(
           ) : (
             <Text>No data</Text>
           )}
+          <TooltipTrigger delay={settings.toolTipDelay}>
+            <ActionButton
+              onPress={() => onPressHandler()}
+              isQuiet={true}
+              aria-label='add a new item'
+              UNSAFE_className='add-item'
+            >
+              <Add aria-label='Change Reference' size='L' />
+            </ActionButton>
+            <Tooltip>Add a new Item</Tooltip>
+          </TooltipTrigger>
         </Flex>
       </View>
     );
