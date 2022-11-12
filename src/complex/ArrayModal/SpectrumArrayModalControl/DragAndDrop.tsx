@@ -196,9 +196,10 @@ const DragAndDrop = ({
     setHoveredIndex(null);
   };
 
-  const addBetween = (index: number) => {
+  const addBetween = (index: number, event: any) => {
     setMoveUpIndex(index);
     onPressHandler();
+    event?.target?.blur();
   };
 
   React.useEffect(() => {
@@ -208,8 +209,8 @@ const DragAndDrop = ({
         order.current.indexOf(order.current[data.length - 1]),
         order.current.indexOf(order.current[moveUpIndex])
       );
-      setMoveUpIndex(null);
       finalChange(newOrder);
+      setMoveUpIndex(null);
     }
   }, [data.length]);
 
@@ -237,6 +238,27 @@ const DragAndDrop = ({
           }}
           height={HEIGHT_OF_COMPONENT + 'px'}
         >
+          <div
+            style={{
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              zIndex: 80,
+              position: 'absolute',
+              top: '-20px',
+              opacity: hoveredIndex === index ? 1 : 0,
+            }}
+            key={`${path}_${index}_addBetween`}
+            onMouseEnter={() => showAddBetween(index)}
+            onMouseLeave={() => hideAddBetween()}
+            onFocus={() => setHoveredIndex(index)}
+            onBlur={() => hideAddBetween()}
+            className='add-container'
+          >
+            <Button variant='cta' onPress={(event: any) => addBetween(index, event)}>
+              <Add />
+            </Button>
+          </div>
           <Flex
             direction='row'
             alignItems='stretch'
@@ -308,27 +330,6 @@ const DragAndDrop = ({
             />
           </Flex>
         </animated.div>
-      ))}
-      {data.map((_: any, index: number) => (
-        <div
-          style={{
-            width: '100%',
-            display: 'flex',
-            justifyContent: 'center',
-            zIndex: 80,
-            position: 'absolute',
-            top: `${index * HEIGHT_OF_COMPONENT - 20}px`,
-            opacity: hoveredIndex === index ? 1 : 0,
-          }}
-          key={`${path}_${index}_addBetween`}
-          onMouseEnter={() => showAddBetween(index)}
-          onMouseLeave={() => hideAddBetween()}
-          className='add-container'
-        >
-          <Button variant='cta' onPress={() => addBetween(index)}>
-            <Add />
-          </Button>
-        </div>
       ))}
     </div>
   );
