@@ -32,7 +32,7 @@ import {
   Test,
   createDefaultValue,
 } from '@jsonforms/core';
-import { DispatchCell, withJsonFormsArrayControlProps } from '@jsonforms/react';
+import { DispatchCell } from '@jsonforms/react';
 import {
   ActionButton,
   Button,
@@ -54,6 +54,7 @@ import Delete from '@spectrum-icons/workflow/Delete';
 import { ArrayFooter, ArrayHeader, getChildError, getUIOptions } from './Array/utils';
 import SpectrumProvider from '../additional/SpectrumProvider';
 import settings from '../util/settings';
+import { withJsonFormsArrayControlProps } from '../util';
 
 const { createLabelDescriptionFrom } = Helpers;
 

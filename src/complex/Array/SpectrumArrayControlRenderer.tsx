@@ -26,7 +26,7 @@
   THE SOFTWARE.
 */
 import { ArrayControlProps, ControlElement, Helpers } from '@jsonforms/core';
-import { withJsonFormsArrayControlProps } from '@jsonforms/react';
+import { withJsonFormsArrayControlProps } from '../../util';
 import { SpectrumArrayControl } from './SpectrumArrayControl';
 
 const SpectrumArrayControlRenderer = ({
