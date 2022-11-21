@@ -44,7 +44,6 @@ import AddDialog from './AddDialog';
 import SortButtons from './SortButtons';
 import { withHandleChange, HandleChangeProps } from '../../../util';
 import settings from '../../../util/settings';
-import { cloneDeep } from 'lodash';
 
 export interface OverrideProps extends OwnPropsOfControl {
   indexOfFittingSchema?: number;
@@ -139,7 +138,7 @@ const SpectrumArrayModalControl = React.memo(
 
     const handleCustomPickerMessage = (e: MessageEvent) => {
       if (e?.data?.type === 'customPicker:return' && e?.data?.path === path && e?.data?.data) {
-        let newData = cloneDeep(data) || [];
+        let newData = data ? [...data] : [];
         if (e?.data?.index && typeof e.data.index === 'number') {
           newData[e.data.index] = e.data.data;
         } else {
