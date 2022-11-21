@@ -152,13 +152,10 @@ const SpectrumArrayModalControl = React.memo(
     React.useEffect(() => {
       if (uischema?.options?.picker) {
         window.addEventListener('message', handleCustomPickerMessage);
-      }
-
-      return () => {
-        if (uischema?.options?.picker) {
+        return () => {
           window.removeEventListener('message', handleCustomPickerMessage);
-        }
-      };
+        };
+      }
     }, [data]);
 
     const sortMode: string | boolean = uischema?.options?.sortMode ?? 'DragAndDrop';
