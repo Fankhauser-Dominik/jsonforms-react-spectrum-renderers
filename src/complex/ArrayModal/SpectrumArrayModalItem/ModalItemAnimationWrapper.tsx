@@ -27,7 +27,8 @@ export default function ModalItemAnimationWrapper({
   const jsonFormWrapper =
     document.getElementById('json-form-wrapper') || document.getElementsByClassName('App-Form')[0];
 
-  const addToZIndex = path?.split('.').length;
+  // addToZIndex should always be an even number, so array items, and single items have the same amount of offset
+  const addToZIndex = 2 * Math.round(path?.split('.').length / 2);
   const leftOffset = (addToZIndex - 2) * 2.5;
 
   const onRestFunction = () => {
@@ -52,6 +53,12 @@ export default function ModalItemAnimationWrapper({
     opacity: expanded ? 0.5 : 0,
     display: expanded ? 1 : 0,
   });
+
+  React.useEffect(() => {
+    if (expanded) {
+      console.log("\x1b[31m ~ ANIMATED PATH 1", path)
+    }
+  }, [expanded])
 
   return ReactDom.createPortal(
     <div

@@ -26,7 +26,8 @@ export default function ModalItemAnimationWrapper({
   const jsonFormWrapper =
     document.getElementById('json-form-wrapper') || document.getElementsByClassName('App-Form')[0];
 
-  const addToZIndex = path?.split('.').length ?? 1;
+  // addToZIndex should always be an even number, so array items, and single items have the same amount of offset
+  const addToZIndex = 2 * Math.round((path?.split('.').length ?? 1) / 2);
   const leftOffset = (addToZIndex - 2) * 2.5;
 
   const slideAnim = useSpring({
@@ -45,6 +46,13 @@ export default function ModalItemAnimationWrapper({
     display: expanded ? 1 : 0,
   });
 
+  React.useEffect(() => {
+    if (expanded) {
+      console.log("\x1b[31m ~ ANIMATED PATH 2", path)
+    }
+  }, [expanded])
+  
+
   return ReactDom.createPortal(
     <div
       className={`animatedModalItem animatedModalWrapper ${expanded ? 'expanded' : ''}`}
@@ -60,10 +68,10 @@ export default function ModalItemAnimationWrapper({
           width: `${95 - leftOffset}%`,
         }}
       >
-        <View UNSAFE_className='json-form-dispatch-wrapper'>
+        {expanded ? (<View UNSAFE_className='json-form-dispatch-wrapper'>
           {Header}
           <Content marginX='size-250'>{elements}</Content>
-        </View>
+        </View>) : null}
       </animated.div>
       <animated.div
         onClick={() => expanded && handleExpand()}

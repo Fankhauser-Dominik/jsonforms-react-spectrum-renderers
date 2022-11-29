@@ -26,7 +26,8 @@ export default function ModalItemAnimationWrapper({
   const jsonFormWrapper =
     document.getElementById('json-form-wrapper') || document.getElementsByClassName('App-Form')[0];
 
-  const addToZIndex = path?.split('.').length ?? 1;
+  // addToZIndex should always be an even number, so array items, and single items have the same amount of offset
+  const addToZIndex = 2 * Math.round((path?.split('.').length ?? 1) / 2);
   const leftOffset = (addToZIndex - 2) * 2.5;
 
   const slideAnim = useSpring({
@@ -44,6 +45,13 @@ export default function ModalItemAnimationWrapper({
     opacity: expanded ? 0.5 : 0,
     display: expanded ? 1 : 0,
   });
+
+  
+  React.useEffect(() => {
+    if (expanded) {
+      console.log("\x1b[31m ~ ANIMATED PATH 3", path)
+    }
+  }, [expanded])
 
   return ReactDom.createPortal(
     <div
