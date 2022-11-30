@@ -22,7 +22,8 @@
 */
 import React from 'react';
 import { View } from '@adobe/react-spectrum';
-import ModalItemAnimatedWrapper from './AnimationWrapper';
+// import ModalItemAnimatedWrapper from './AnimationWrapper';
+import AnimatedModalWrapper from '../../../util/AnimatedModalWrapper'
 import SpectrumProvider from '../../../additional/SpectrumProvider';
 import ModalItemHeader from './Header';
 import { openItemWhenInQueryParam } from '../utils';
@@ -183,7 +184,7 @@ const Item = React.memo(
           padding='size-150'
         >
           {Header}
-          <ModalItemAnimatedWrapper
+          <AnimatedModalWrapper
             expanded={expanded}
             handleExpand={handleExpand}
             isAnimating={isAnimating}
@@ -191,7 +192,7 @@ const Item = React.memo(
             path={path}
             elements={elements[index]}
             Header={Header}
-          ></ModalItemAnimatedWrapper>
+          />
         </View>
       </SpectrumProvider>
     );

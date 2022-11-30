@@ -35,7 +35,8 @@ import {
   findUISchema,
   getData,
 } from '@jsonforms/core';
-import ModalItemAnimatedWrapper from './ModalItemAnimationWrapper';
+// import ModalItemAnimatedWrapper from './ModalItemAnimationWrapper';
+import AnimatedModalWrapper from '../../../util/AnimatedModalWrapper';
 import SpectrumProvider from '../../../additional/SpectrumProvider';
 import { indexOfFittingSchemaObject } from '../utils';
 import ModalItemHeader from './ModalItemHeader';
@@ -219,7 +220,7 @@ const SpectrumArrayModalItem = React.memo(
           padding='size-150'
         >
           {Header}
-          <ModalItemAnimatedWrapper
+          <AnimatedModalWrapper
             expanded={expanded}
             handleExpand={handleExpand}
             enableDetailedView={enableDetailedView}
@@ -234,7 +235,7 @@ const SpectrumArrayModalItem = React.memo(
                 {JsonFormsDispatchComponent}
               </View>
             ) : null}
-          </ModalItemAnimatedWrapper>
+          </AnimatedModalWrapper>
         </View>
       </SpectrumProvider>
     );

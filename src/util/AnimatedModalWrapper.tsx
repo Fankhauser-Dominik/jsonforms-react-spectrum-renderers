@@ -1,34 +1,39 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import { useSpring, animated, easings } from 'react-spring';
+import { Content, View } from '@adobe/react-spectrum';
 
 interface AnimationWrapperProps {
   expanded: boolean;
   handleExpand: () => void;
-  enableDetailedView: boolean;
+  enableDetailedView?: boolean;
   isAnimating: boolean;
   setIsAnimating: (isAnimating: boolean) => void;
   path: string;
-  children: React.ReactNode;
-  callbackFunction: any;
+  Header?: any;
+  elements?: any;
+  callbackFunction?: any;
+  children?: React.ReactNode;
 }
 
 export default function ModalItemAnimationWrapper({
-  callbackFunction,
-  children,
-  enableDetailedView,
+  enableDetailedView=true,
   expanded,
   handleExpand,
   isAnimating,
-  path,
   setIsAnimating,
+  path,
+  elements,
+  Header,
+  callbackFunction,
+  children,
 }: AnimationWrapperProps) {
   const [isBlackoutHovered, setIsBlackoutHovered] = React.useState(false);
   const jsonFormWrapper =
     document.getElementById('json-form-wrapper') || document.getElementsByClassName('App-Form')[0];
 
-  // addToZIndex should always be an even number, so array items, and single items have the same amount of offset
-  const addToZIndex = 2 * Math.round(path?.split('.').length / 2);
+  // addToZIndex should always be rounded up to an even number so array items, and single items have the same amount of offset
+  const addToZIndex = 2 * Math.round((path?.split('.').length ?? 1) / 2);
   const leftOffset = (addToZIndex - 2) * 2.5;
 
   const onRestFunction = () => {
@@ -54,12 +59,6 @@ export default function ModalItemAnimationWrapper({
     display: expanded ? 1 : 0,
   });
 
-  React.useEffect(() => {
-    if (expanded) {
-      console.log("\x1b[31m ~ ANIMATED PATH 1", path)
-    }
-  }, [expanded])
-
   return ReactDom.createPortal(
     <div
       className={`animatedModalItem animatedModalWrapper ${expanded ? 'expanded' : ''}`}
@@ -81,23 +80,28 @@ export default function ModalItemAnimationWrapper({
             : {}
         }
       >
-        {children}
+        {elements ? (
+          expanded || isAnimating ? (
+            <View UNSAFE_className='json-form-dispatch-wrapper'>
+              {Header}
+              <Content marginX='size-250'>{elements}</Content>
+            </View>
+          ) : null
+        ) : expanded || isAnimating ? (
+          children
+        ) : null}
       </animated.div>
       <animated.div
         onClick={() => expanded && handleExpand()}
         onMouseEnter={() => setIsBlackoutHovered(true)}
         onMouseLeave={() => setIsBlackoutHovered(false)}
         className={'animatedModalItem darkenBackground'}
-        style={
-          enableDetailedView
-            ? {
-                opacity: darkenAnim.opacity,
-                display: darkenAnim.display.to((e) => (e > 0 ? 'block' : 'none')),
-                zIndex: 8000 + addToZIndex,
-                cursor: expanded ? 'pointer' : 'default',
-              }
-            : { display: 'none' }
-        }
+        style={{
+          opacity: darkenAnim.opacity,
+          display: darkenAnim.display.to((e) => (e > 0 ? 'block' : 'none')),
+          zIndex: 8000 + addToZIndex,
+          cursor: expanded ? 'pointer' : 'default',
+        }}
       />
     </div>,
     jsonFormWrapper ||
