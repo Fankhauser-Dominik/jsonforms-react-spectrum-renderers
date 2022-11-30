@@ -48,7 +48,7 @@ import Delete from '@spectrum-icons/workflow/Delete';
 import SpectrumProvider from './SpectrumProvider';
 
 import './ListDetailMasterItem.css';
-import settings from '../util/settings';
+import { settings } from '../util';
 
 const ListWithDetailMasterItem = React.memo(
   ({ childLabel, handleSelect, index, path, removeItem, selected }: StatePropsOfMasterItem) => {

@@ -42,8 +42,7 @@ import { indexOfFittingSchemaObject } from '../utils';
 import DragAndDrop from './DragAndDrop';
 import AddDialog from './AddDialog';
 import SortButtons from './SortButtons';
-import { withHandleChange, HandleChangeProps } from '../../../util';
-import settings from '../../../util/settings';
+import { withHandleChange, HandleChangeProps, settings } from '../../../util';
 
 export interface OverrideProps extends OwnPropsOfControl {
   indexOfFittingSchema?: number;

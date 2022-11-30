@@ -42,7 +42,6 @@ import ModalItemHeader from './ModalItemHeader';
 import { openItemWhenInQueryParam } from './ModalItemUtils';
 import { findValue } from './ModalItemUtils';
 import './SpectrumArrayModalItem.css';
-// import areEqual from '../../../util/areEqual';
 
 interface NonEmptyRowProps {
   rowIndex?: number | undefined;

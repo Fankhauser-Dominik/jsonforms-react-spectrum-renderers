@@ -8,6 +8,7 @@ import { swap, clamp } from '../utils';
 import { useSprings, useSpringRef, animated } from '@react-spring/web';
 import { useDrag } from '@use-gesture/react';
 import Add from '@spectrum-icons/workflow/Add';
+import { checkIfUserIsOnMobileDevice } from '../../../util';
 interface ArrayModalControlDragAndDropProps {
   indexRefKey: number;
   callbackFunction: any;
@@ -214,6 +215,10 @@ const DragAndDrop = ({
     }
   }, [data.length]);
 
+  const userIsOnMobileDevice: boolean = checkIfUserIsOnMobileDevice(
+    navigator.userAgent.toLowerCase()
+  );
+
   return (
     <div
       style={{
@@ -241,7 +246,7 @@ const DragAndDrop = ({
           <div
             style={{
               width: '100%',
-              display: 'flex',
+              display: userIsOnMobileDevice ? 'none' : 'flex',
               justifyContent: 'center',
               zIndex: 80,
               position: 'absolute',

@@ -26,13 +26,12 @@
   THE SOFTWARE.
   */
 import React from 'react';
-import { isEmpty } from '../util/isEmpty';
+import { isEmpty } from '../util';
 import {
   RankedTester,
   createCombinatorRenderInfos,
   createDefaultValue,
   isOneOfControl,
-  // rankWith,
   CombinatorRendererProps,
   UISchemaElement,
   JsonSchema,

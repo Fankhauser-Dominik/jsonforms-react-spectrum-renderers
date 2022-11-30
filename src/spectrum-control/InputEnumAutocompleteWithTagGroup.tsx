@@ -122,8 +122,8 @@ export const InputEnumAutocompleteWithTagGroup = React.memo(
         ) : null}
         <TagGroup
           items={data}
-          isRemovable
-          onRemove={deleteTag}
+          allowsRemoving
+          onRemove={(key: React.Key) => deleteTag([key])}
           aria-label='Static TagGroup items example'
         >
           {data.map((item: string) => (

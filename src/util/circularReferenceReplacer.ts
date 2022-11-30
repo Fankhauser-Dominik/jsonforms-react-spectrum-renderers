@@ -1,4 +1,4 @@
-const circularReferenceReplacer = () => {
+export const circularReferenceReplacer = () => {
   const paths = new Map();
   const finalPaths = new Map();
   let root: any = null;
@@ -24,5 +24,3 @@ const circularReferenceReplacer = () => {
     return val;
   };
 };
-
-export default circularReferenceReplacer;

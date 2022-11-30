@@ -53,7 +53,7 @@ import {
 import Delete from '@spectrum-icons/workflow/Delete';
 import { ArrayFooter, ArrayHeader, getChildError, getUIOptions } from './Array/utils';
 import SpectrumProvider from '../additional/SpectrumProvider';
-import settings from '../util/settings';
+import { settings } from '../util';
 
 const { createLabelDescriptionFrom } = Helpers;
 

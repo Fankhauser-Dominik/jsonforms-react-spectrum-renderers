@@ -29,7 +29,7 @@ import { TextArea, Text, ContextualHelp, Heading, Content } from '@adobe/react-s
 import { DimensionValue } from '@react-types/shared';
 import { SpectrumInputProps } from './index';
 import SpectrumProvider from '../additional/SpectrumProvider';
-import { useDebouncedChange } from '../util/debounce';
+import { useDebouncedChange } from '../util';
 
 export const InputTextArea = React.memo(
   ({

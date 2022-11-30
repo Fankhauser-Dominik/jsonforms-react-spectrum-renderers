@@ -29,7 +29,7 @@ import { DimensionValue } from '@react-types/shared';
 import { SpectrumInputProps } from '../../spectrum-control/index';
 import SpectrumProvider from '../../additional/SpectrumProvider';
 import { Button, View, useProvider } from '@adobe/react-spectrum';
-import circularReferenceReplacer from '../../util/circularReferenceReplacer';
+import { circularReferenceReplacer } from '../../util';
 import CodeMirror from '@uiw/react-codemirror';
 import { json, jsonParseLinter } from '@codemirror/lang-json';
 import { linter, lintGutter } from '@codemirror/lint';

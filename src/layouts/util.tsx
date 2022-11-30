@@ -25,7 +25,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import { isEmpty } from '../util/isEmpty';
+import { isEmpty } from '../util';
 import { JsonSchema, Layout } from '@jsonforms/core';
 import { JsonFormsDispatch, useJsonForms } from '@jsonforms/react';
 import { StyleProps } from '@react-types/shared';
