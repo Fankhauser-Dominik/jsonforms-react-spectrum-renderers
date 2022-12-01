@@ -17,7 +17,7 @@ import Close from '@spectrum-icons/workflow/Close';
 import ChevronUp from '@spectrum-icons/workflow/ChevronUp';
 import ChevronDown from '@spectrum-icons/workflow/ChevronDown';
 import Duplicate from '@spectrum-icons/workflow/Duplicate';
-import settings from '../../../util/settings';
+import { settings } from '../../../util';
 
 import ModalItemDelete from './ModalItemDelete';
 import FolderSearch from '@spectrum-icons/workflow/FolderSearch';

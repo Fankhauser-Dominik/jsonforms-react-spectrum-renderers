@@ -36,9 +36,8 @@ import {
   Flex,
   Heading,
 } from '@adobe/react-spectrum';
-import { ErrorIndicator } from '../../components/ErrorIndicator';
 import SpectrumProvider from '../../additional/SpectrumProvider';
-import settings from '../../util/settings';
+import { settings, ErrorIndicator } from '../../util';
 
 export function getUIOptions(uischema: UISchemaElement, defaultLabel: string): UIOptions {
   return {

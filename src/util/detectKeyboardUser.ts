@@ -16,7 +16,7 @@ function dkuHandleKeyboard(e: KeyboardEvent | TouchEvent) {
   }
 }
 
-export default class DetectKeyboardUser {
+export class DetectKeyboardUser {
   constructor() {
     this.init();
   }

@@ -25,7 +25,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import { isEmpty } from '../util/isEmpty';
+import { isEmpty } from '../util';
 import React from 'react';
 import { GroupLayout, RankedTester, rankWith, RendererProps, uiTypeIs } from '@jsonforms/core';
 import { withJsonFormsLayoutProps } from '@jsonforms/react';

@@ -27,7 +27,7 @@
 */
 import { createRoot } from 'react-dom/client';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
-import * as React from 'react';
+import React, { createContext } from 'react';
 import './index.css';
 import { ConnectedApp } from './App';
 import { combineReducers, legacy_createStore as createStore } from 'redux';
@@ -44,7 +44,6 @@ import {
 import { getExamples, registerExamples } from '@jsonforms/examples';
 import { exampleReducer } from './reduxUtil';
 import { enhanceExample, ReactExampleDescription } from './util';
-import { ColorSchemeContext } from '../src/util/ColorSchemeContext';
 
 declare global {
   interface Window {
@@ -62,6 +61,7 @@ const getExampleSchemas = () => {
   const examples = getExamples();
   return examples;
 };
+const ColorSchemeContext = createContext<'light' | 'dark'>('light');
 
 const setupStore = (
   exampleData: ReactExampleDescription[],

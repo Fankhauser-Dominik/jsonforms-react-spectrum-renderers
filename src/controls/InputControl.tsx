@@ -34,7 +34,7 @@ import {
   rankWith,
 } from '@jsonforms/core';
 import { DispatchCell, withJsonFormsControlProps } from '@jsonforms/react';
-import { useFocus } from '../util/focus';
+import { useFocus } from '../util';
 import merge from 'lodash/merge';
 import maxBy from 'lodash/maxBy';
 import { Flex, Text } from '@adobe/react-spectrum';

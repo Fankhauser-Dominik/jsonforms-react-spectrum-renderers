@@ -28,7 +28,7 @@
 import { ControlProps, isDescriptionHidden } from '@jsonforms/core';
 import merge from 'lodash/merge';
 import { Flex, Text, View } from '@adobe/react-spectrum';
-import { useFocus } from '../util/focus';
+import { useFocus } from '../util';
 import SpectrumProvider from '../additional/SpectrumProvider';
 interface WithInput {
   input: any;
