@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDom from 'react-dom';
 import { useSpring, animated, easings } from 'react-spring';
 import { Content, View } from '@adobe/react-spectrum';
+import ReactFocusLock from 'react-focus-lock';
 
 interface AnimationWrapperProps {
   expanded: boolean;
@@ -17,7 +18,7 @@ interface AnimationWrapperProps {
 }
 
 export default function ModalItemAnimationWrapper({
-  enableDetailedView=true,
+  enableDetailedView = true,
   expanded,
   handleExpand,
   isAnimating,
@@ -60,50 +61,57 @@ export default function ModalItemAnimationWrapper({
   });
 
   return ReactDom.createPortal(
-    <div
-      className={`animatedModalItem animatedModalWrapper ${expanded ? 'expanded' : ''}`}
-      style={{
-        display: expanded || isAnimating ? 'block' : 'none',
-      }}
+    <ReactFocusLock
+      className='spectrum-detailed-view-dialog-wrapper'
+      disabled={!expanded || isAnimating}
+      returnFocus={true}
+      as={'div'}
     >
-      <animated.div
-        className={`animatedModalItem animatedModalItemDiv ${
-          enableDetailedView ? 'detailedView' : ''
-        }`}
-        style={
-          enableDetailedView
-            ? {
-                left: slideAnim.left,
-                zIndex: 8001 + addToZIndex,
-                width: `${95 - leftOffset}%`,
-              }
-            : {}
-        }
-      >
-        {elements ? (
-          expanded || isAnimating ? (
-            <View UNSAFE_className='json-form-dispatch-wrapper'>
-              {Header}
-              <Content marginX='size-250'>{elements}</Content>
-            </View>
-          ) : null
-        ) : expanded || isAnimating ? (
-          children
-        ) : null}
-      </animated.div>
-      <animated.div
-        onClick={() => expanded && handleExpand()}
-        onMouseEnter={() => setIsBlackoutHovered(true)}
-        onMouseLeave={() => setIsBlackoutHovered(false)}
-        className={'animatedModalItem darkenBackground'}
+      <div
+        className={`animatedModalItem animatedModalWrapper ${expanded ? 'expanded' : ''}`}
         style={{
-          opacity: darkenAnim.opacity,
-          display: darkenAnim.display.to((e) => (e > 0 ? 'block' : 'none')),
-          zIndex: 8000 + addToZIndex,
-          cursor: expanded ? 'pointer' : 'default',
+          visibility: expanded || isAnimating ? 'visible' : 'collapse',
         }}
-      />
-    </div>,
+      >
+        <animated.div
+          className={`animatedModalItem animatedModalItemDiv ${
+            enableDetailedView ? 'detailedView' : ''
+          }`}
+          style={
+            enableDetailedView
+              ? {
+                  left: slideAnim.left,
+                  zIndex: 8001 + addToZIndex,
+                  width: `${95 - leftOffset}%`,
+                }
+              : {}
+          }
+        >
+          {elements ? (
+            expanded || isAnimating ? (
+              <View UNSAFE_className='json-form-dispatch-wrapper'>
+                {Header}
+                <Content marginX='size-250'>{elements}</Content>
+              </View>
+            ) : null
+          ) : expanded || isAnimating ? (
+            children
+          ) : null}
+        </animated.div>
+        <animated.div
+          onClick={() => expanded && handleExpand()}
+          onMouseEnter={() => setIsBlackoutHovered(true)}
+          onMouseLeave={() => setIsBlackoutHovered(false)}
+          className={'animatedModalItem darkenBackground'}
+          style={{
+            opacity: darkenAnim.opacity,
+            display: darkenAnim.display.to((e) => (e > 0 ? 'block' : 'none')),
+            zIndex: 8000 + addToZIndex,
+            cursor: expanded ? 'pointer' : 'default',
+          }}
+        />
+      </div>
+    </ReactFocusLock>,
     jsonFormWrapper ||
       document.getElementById('root') ||
       document.getElementById('__next') ||

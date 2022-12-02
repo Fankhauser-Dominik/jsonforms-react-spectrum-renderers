@@ -22,7 +22,6 @@
 */
 import React from 'react';
 import { View } from '@adobe/react-spectrum';
-// import ModalItemAnimatedWrapper from './AnimationWrapper';
 import AnimatedModalWrapper from '../../../util/AnimatedModalWrapper'
 import SpectrumProvider from '../../../additional/SpectrumProvider';
 import ModalItemHeader from './Header';

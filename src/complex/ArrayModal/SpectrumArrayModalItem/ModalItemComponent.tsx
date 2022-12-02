@@ -35,7 +35,6 @@ import {
   findUISchema,
   getData,
 } from '@jsonforms/core';
-// import ModalItemAnimatedWrapper from './ModalItemAnimationWrapper';
 import AnimatedModalWrapper from '../../../util/AnimatedModalWrapper';
 import SpectrumProvider from '../../../additional/SpectrumProvider';
 import { indexOfFittingSchemaObject } from '../utils';
