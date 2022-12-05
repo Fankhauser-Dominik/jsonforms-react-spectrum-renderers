@@ -17,7 +17,7 @@ interface AnimationWrapperProps {
   children?: React.ReactNode;
 }
 
-export default function ModalItemAnimationWrapper({
+export function ModalItemAnimationWrapper({
   enableDetailedView = true,
   expanded,
   handleExpand,
