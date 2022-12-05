@@ -35,13 +35,13 @@ import {
   findUISchema,
   getData,
 } from '@jsonforms/core';
-import ModalItemAnimatedWrapper from './ModalItemAnimationWrapper';
 import SpectrumProvider from '../../../additional/SpectrumProvider';
 import { indexOfFittingSchemaObject } from '../utils';
 import ModalItemHeader from './ModalItemHeader';
 import { openItemWhenInQueryParam } from './ModalItemUtils';
 import { findValue } from './ModalItemUtils';
 import './SpectrumArrayModalItem.css';
+import { ModalItemAnimationWrapper } from '../../../util';
 
 interface NonEmptyRowProps {
   rowIndex?: number | undefined;
@@ -218,7 +218,7 @@ const SpectrumArrayModalItem = React.memo(
           padding='size-150'
         >
           {Header}
-          <ModalItemAnimatedWrapper
+          <ModalItemAnimationWrapper
             expanded={expanded}
             handleExpand={handleExpand}
             enableDetailedView={enableDetailedView}
@@ -233,7 +233,7 @@ const SpectrumArrayModalItem = React.memo(
                 {JsonFormsDispatchComponent}
               </View>
             ) : null}
-          </ModalItemAnimatedWrapper>
+          </ModalItemAnimationWrapper>
         </View>
       </SpectrumProvider>
     );

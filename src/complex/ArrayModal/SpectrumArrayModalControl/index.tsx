@@ -230,7 +230,7 @@ const SpectrumArrayModalControl = React.memo(
                     callbackFunction={callbackFunction}
                     callbackOpenedIndex={callbackOpenedIndex}
                     enabled={enabled}
-                  ></SpectrumArrayModalItem>
+                  />
                   {sortMode === 'arrows' && (
                     <SortButtons
                       data={data}

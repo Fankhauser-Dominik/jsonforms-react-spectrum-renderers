@@ -38,3 +38,4 @@ export * from './isISODate';
 export * from './resolveSubSchemas';
 export * from './settings';
 export * from './withHandleChange';
+export * from './animatedModalWrapper';

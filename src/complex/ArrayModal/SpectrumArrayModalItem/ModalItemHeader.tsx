@@ -97,7 +97,11 @@ export default function ModalItemHeader({
         )}
         <View>
           <Flex gap={'size-0'}>
-            <ActionMenu align='end' onAction={actionMenuTriggered} isQuiet={true}>
+            <ActionMenu
+              align='end'
+              onAction={actionMenuTriggered}
+              isQuiet={true}
+            >
               <Item key='delete' textValue={`delete-item-${childLabel}`}>
                 <Text>Delete</Text>
                 <Delete size='S' />
