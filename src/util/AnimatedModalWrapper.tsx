@@ -66,6 +66,7 @@ export default function ModalItemAnimationWrapper({
       disabled={!expanded || isAnimating}
       returnFocus={true}
       as={'div'}
+      shards={[document.getElementById('debug-menu-button') as HTMLElement]}
     >
       <div
         className={`animatedModalItem animatedModalWrapper ${expanded ? 'expanded' : ''}`}
