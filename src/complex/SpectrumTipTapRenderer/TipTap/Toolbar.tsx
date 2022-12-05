@@ -16,7 +16,7 @@ import Redo from '@spectrum-icons/workflow/Redo';
 
 import { Flex, ToggleButton, Tooltip, TooltipTrigger, View } from '@adobe/react-spectrum';
 
-import settings from '../../../util/settings';
+import { settings } from '../../../util';
 import HeadingToolbarButtons from './toolbars/HeadingToolbarButtons';
 import './styles.css';
 

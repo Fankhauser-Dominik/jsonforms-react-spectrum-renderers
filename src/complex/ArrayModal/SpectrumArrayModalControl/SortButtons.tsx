@@ -3,7 +3,7 @@ import { Flex, TooltipTrigger, Tooltip, ActionButton } from '@adobe/react-spectr
 import ArrowUp from '@spectrum-icons/workflow/ArrowUp';
 import ArrowDown from '@spectrum-icons/workflow/ArrowDown';
 import { indexOfFittingSchemaObject, moveFromTo } from '../utils';
-import settings from '../../../util/settings';
+import { settings } from '../../../util';
 
 interface ArrayModalControlSortButtonsProps {
   data: any;

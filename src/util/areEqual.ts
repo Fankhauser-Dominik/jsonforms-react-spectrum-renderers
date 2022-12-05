@@ -1,7 +1,7 @@
 import { get, isEqual } from 'lodash';
 import { JsonSchema } from '@jsonforms/core';
 
-const areEqual = (
+export const areEqual = (
   prevProps: object | JsonSchema | undefined,
   nextProps: object | JsonSchema | undefined
 ) => {
@@ -14,5 +14,3 @@ const areEqual = (
     get(prevProps, 'path') === get(nextProps, 'path')
   );
 };
-
-export default areEqual;

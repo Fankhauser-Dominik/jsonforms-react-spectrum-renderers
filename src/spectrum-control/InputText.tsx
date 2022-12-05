@@ -37,7 +37,7 @@ import {
 import { DimensionValue } from '@react-types/shared';
 import { SpectrumInputProps } from './index';
 import SpectrumProvider from '../additional/SpectrumProvider';
-import { useDebouncedChange } from '../util/debounce';
+import { useDebouncedChange } from '../util';
 import FolderOpen from '@spectrum-icons/workflow/FolderOpen';
 import Link from '@spectrum-icons/workflow/Link';
 import Asset from '@spectrum-icons/workflow/Asset';

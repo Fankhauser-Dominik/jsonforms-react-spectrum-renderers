@@ -34,11 +34,11 @@ export default defineConfig({
     },
   },
   plugins: [
-    react(),
     cssInjectedByJsPlugin(),
     dts({
       insertTypesEntry: true,
     }),
+    react(),
   ],
   define: {
     'process.platform': null,

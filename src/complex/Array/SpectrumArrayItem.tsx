@@ -55,7 +55,6 @@ import {
   getData,
 } from '@jsonforms/core';
 import { JsonFormsStateContext, JsonFormsDispatch, withJsonFormsContext } from '@jsonforms/react';
-import areEqual from '../../util/areEqual';
 import Delete from '@spectrum-icons/workflow/Delete';
 import ChevronDown from '@spectrum-icons/workflow/ChevronDown';
 import ChevronUp from '@spectrum-icons/workflow/ChevronUp';
@@ -63,7 +62,7 @@ import ChevronUp from '@spectrum-icons/workflow/ChevronUp';
 import './SpectrumArrayItem.css';
 
 import SpectrumProvider from '../../additional/SpectrumProvider';
-import settings from '../../util/settings';
+import { areEqual, settings } from '../../util';
 
 export interface OwnPropsOfSpectrumArrayItem {
   childLabel?: string;

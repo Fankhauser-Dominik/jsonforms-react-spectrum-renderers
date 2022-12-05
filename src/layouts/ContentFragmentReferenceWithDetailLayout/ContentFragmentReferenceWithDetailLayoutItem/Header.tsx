@@ -13,7 +13,7 @@ import {
 import Delete from '@spectrum-icons/workflow/Delete';
 import Edit from '@spectrum-icons/workflow/Edit';
 import Close from '@spectrum-icons/workflow/Close';
-import settings from '../../../util/settings';
+import { settings } from '../../../util';
 import ModalItemDelete from './DeleteDialog';
 import FolderSearch from '@spectrum-icons/workflow/FolderSearch';
 

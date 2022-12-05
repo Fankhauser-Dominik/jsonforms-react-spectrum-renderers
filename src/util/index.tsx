@@ -25,40 +25,16 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React from 'react';
-import Ajv from 'ajv';
-import { getAjv, Actions } from '@jsonforms/core';
-import { useJsonForms } from '@jsonforms/react';
-
-export interface AjvProps {
-  ajv: Ajv;
-}
-
-export const withAjvProps =
-  <P extends {}>(Component: React.ComponentType<AjvProps & P>) =>
-  (props: P) => {
-    const ctx = useJsonForms();
-    const ajv = getAjv({ jsonforms: { ...ctx } });
-
-    return <Component {...props} ajv={ajv} />;
-  };
-
-export interface HandleChangeProps {
-  handleChange: (path: string, data: any) => void;
-}
-
-export const withHandleChange =
-  <P extends {}>(Component: React.ComponentType<P & HandleChangeProps>) =>
-  (props: P) => {
-    const ctx = useJsonForms();
-    const dispatch = ctx.dispatch;
-    const handleChange = React.useCallback(
-      (path: string, data: any) => {
-        if (dispatch) {
-          dispatch(Actions.update(path, () => data));
-        }
-      },
-      [dispatch]
-    );
-    return <Component {...props} handleChange={handleChange} />;
-  };
+export * from './ajv';
+export * from './areEqual';
+export * from './circularReferenceReplacer';
+export * from './debounce';
+export * from './detectKeyboardUser';
+export * from './detectMobileDevice';
+export * from './errorIndicator';
+export * from './focus';
+export * from './isEmpty';
+export * from './isISODate';
+export * from './resolveSubSchemas';
+export * from './settings';
+export * from './withHandleChange';

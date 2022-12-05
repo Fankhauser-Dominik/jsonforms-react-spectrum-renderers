@@ -46,7 +46,6 @@ import {
   Tabs,
 } from '@adobe/react-spectrum';
 import merge from 'lodash/merge';
-// import { AjvProps } from '../util';
 import { AjvProps, withAjvProps } from '../util';
 import { SpectrumVerticalLayout } from '../layouts';
 import SpectrumProvider from '../additional/SpectrumProvider';

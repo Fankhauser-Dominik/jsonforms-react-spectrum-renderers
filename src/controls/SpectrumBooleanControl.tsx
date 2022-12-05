@@ -34,7 +34,7 @@ import {
   optionIs,
 } from '@jsonforms/core';
 import { withJsonFormsControlProps } from '@jsonforms/react';
-import { isEmpty } from '../util/isEmpty';
+import { isEmpty } from '../util';
 import { SpectrumBooleanCell } from '../cells/CustomizableCells';
 
 export const SpectrumBooleanControl = ({

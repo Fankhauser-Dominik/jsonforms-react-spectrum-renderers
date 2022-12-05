@@ -29,7 +29,7 @@ import { DimensionValue } from '@react-types/shared';
 import { SpectrumInputProps } from './index';
 import { Content, ContextualHelp, Heading, Slider, Text } from '@adobe/react-spectrum';
 import SpectrumProvider from '../additional/SpectrumProvider';
-import { useDebouncedChange } from '../util/debounce';
+import { useDebouncedChange } from '../util';
 
 export const InputSlider = React.memo(
   ({

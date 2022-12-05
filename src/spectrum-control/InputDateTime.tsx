@@ -37,7 +37,7 @@ import {
 } from '@internationalized/date';
 import SpectrumProvider from '../additional/SpectrumProvider';
 import moment from 'moment';
-import isISODate from '../util/isISODate';
+import { isISODate } from '../util';
 
 export const InputDateTime = React.memo(
   ({

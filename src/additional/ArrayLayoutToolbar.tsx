@@ -31,8 +31,7 @@ import React from 'react';
 import { Button, Flex, Heading, Tooltip, TooltipTrigger, View } from '@adobe/react-spectrum';
 import Add from '@spectrum-icons/workflow/Add';
 import SpectrumProvider from './SpectrumProvider';
-import { ErrorIndicator } from '../components/ErrorIndicator';
-import settings from '../util/settings';
+import { settings, ErrorIndicator } from '../util';
 export interface ArrayLayoutToolbarProps {
   label: string;
   errors: string;

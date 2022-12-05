@@ -25,7 +25,7 @@
 import { Provider, useProvider, defaultTheme } from '@adobe/react-spectrum';
 import { ProviderProps } from '@react-types/provider';
 import { useEffect } from 'react';
-import DetectKeyboardUser from '../util/detect-keyboard-user';
+import { DetectKeyboardUser } from '../util';
 
 const SpectrumProvider = (props: ProviderProps) => {
   let { children } = props;
