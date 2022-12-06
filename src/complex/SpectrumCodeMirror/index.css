@@ -147,8 +147,7 @@
   background-color: transparent !important;
 }
 
-/* .cm-selectionBackground,
-span::selection {
-  background-color: #348fff !important;
-  color: white !important;
-} */
+.keyboard-user .SpectrumCodeMirror:focus-within {
+  border-width: 2px;
+  border-color: var(--spectrum-textfield-border-color, var(--spectrum-alias-border-color));
+}
