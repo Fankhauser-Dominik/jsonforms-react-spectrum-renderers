@@ -44,6 +44,10 @@
   );
 }
 
+.keyboard-user .ProseMirror-focused {
+  border-width: 2px;
+}
+
 .TipTapToolbar {
   border-radius: var(
       --spectrum-textfield-border-radius,
