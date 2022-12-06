@@ -11,7 +11,6 @@ interface ArrayModalControlSortButtonsProps {
   path: any;
   removeItems: any;
   uischema: any;
-  callbackFunction: any;
 }
 
 export default function SortButtons({
@@ -20,7 +19,6 @@ export default function SortButtons({
   path,
   removeItems,
   uischema,
-  callbackFunction,
 }: ArrayModalControlSortButtonsProps) {
   const moveItUp = (index: number) => {
     const indexOfFittingSchemaOriginal = indexOfFittingSchemaObject[`${path}.${index}`];
@@ -83,7 +81,6 @@ export default function SortButtons({
     if (!changeRefKey) {
       return;
     }
-    callbackFunction(Math.random());
     setChangeRefKey(false);
   }, [moveDnD]);
 

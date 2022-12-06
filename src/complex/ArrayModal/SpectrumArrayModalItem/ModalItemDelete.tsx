@@ -10,7 +10,6 @@ import {
 } from '@adobe/react-spectrum';
 
 interface ModalItemDeleteProps {
-  callbackFunction: any;
   deleteModalOpen: boolean;
   expanded: boolean;
   handleExpand: () => void;
@@ -21,7 +20,6 @@ interface ModalItemDeleteProps {
 }
 
 export default function ModalItemDelete({
-  callbackFunction,
   deleteModalOpen,
   expanded,
   handleExpand,
@@ -41,18 +39,9 @@ export default function ModalItemDelete({
   const onPressEndHandler = () => {
     setDeleteModalOpen(false);
     setTimeout(() => {
-      // console.log('removeItem', removeItem);
       removeItem(path, index)();
-      if (callbackFunction) {
-        callbackFunction(Math.random());
-      }
-      // callbackFunction(() => Math.random());
     }, durationBeforeDelete);
   };
-
-  React.useEffect(() => {
-    // callbackFunction(Math.random());
-  }, [deleteModalOpen]);
 
   return (
     <DialogContainer onDismiss={() => setDeleteModalOpen(false)}>

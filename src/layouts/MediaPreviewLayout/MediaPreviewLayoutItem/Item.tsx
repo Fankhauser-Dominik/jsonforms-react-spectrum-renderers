@@ -36,7 +36,6 @@ const Item = React.memo(
     data,
     elements,
     index,
-    keyNumber,
     layout,
     path,
     removeItem,
@@ -155,13 +154,8 @@ const Item = React.memo(
         }}
         layout={layout}
         uischema={uischema}
-        key={`header-${keyNumber}`}
       />
     );
-
-    React.useEffect(() => {
-      console.log('3', 'Item');
-    }, [data]);
 
     return (
       <SpectrumProvider

@@ -25,7 +25,6 @@ import FolderSearch from '@spectrum-icons/workflow/FolderSearch';
 interface ArrayModalItemHeaderProps {
   DNDHandle?: any;
   JsonFormsDispatch: any;
-  callbackFunction: any;
   childData: any;
   childLabel: string;
   customPicker: { enabled: boolean; handler: (current?: object) => void };
@@ -42,7 +41,6 @@ interface ArrayModalItemHeaderProps {
 export default function ModalItemHeader({
   DNDHandle = false,
   JsonFormsDispatch,
-  callbackFunction,
   childData,
   childLabel,
   customPicker,
@@ -170,7 +168,6 @@ export default function ModalItemHeader({
               index={index}
               expanded={expanded}
               handleExpand={handleExpand}
-              callbackFunction={callbackFunction}
             />
           </Flex>
         </View>

@@ -10,14 +10,11 @@ import { useDrag } from '@use-gesture/react';
 import Add from '@spectrum-icons/workflow/Add';
 import { checkIfUserIsOnMobileDevice } from '../../../util';
 interface ArrayModalControlDragAndDropProps {
-  indexRefKey: number;
-  callbackFunction: any;
   callbackOpenedIndex: any;
   data: any;
   enabled: boolean;
   handleChange: any;
   handleRemoveItem: any;
-  indexOfFittingSchemaArray: any[];
   openedIndex: number | undefined;
   path: string;
   removeItems: any;
@@ -31,14 +28,11 @@ interface ArrayModalControlDragAndDropProps {
 }
 
 const DragAndDrop = ({
-  callbackFunction,
   callbackOpenedIndex,
   data,
   enabled,
   handleChange,
   handleRemoveItem,
-  indexOfFittingSchemaArray,
-  indexRefKey,
   openedIndex,
   moveUpIndex,
   setMoveUpIndex,
@@ -177,7 +171,7 @@ const DragAndDrop = ({
   React.useEffect(() => {
     order.current = data?.map((_: any, index: any) => index);
     setSprings.start(fn(order.current, false));
-  }, [data, indexRefKey]);
+  }, [data]);
 
   const enableTouch = (index: number) => {
     setGrabbedIndex(index);
@@ -272,9 +266,7 @@ const DragAndDrop = ({
           >
             <SpectrumArrayModalItem
               index={index}
-              callbackFunction={callbackFunction}
               enabled={enabled}
-              indexOfFittingSchema={indexOfFittingSchemaArray[index]}
               path={path}
               removeItem={handleRemoveItem}
               duplicateItem={duplicateContent}

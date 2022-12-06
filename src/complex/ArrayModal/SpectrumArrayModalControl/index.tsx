@@ -68,50 +68,48 @@ const SpectrumArrayModalControl = React.memo(
     const [openedIndex, setOpenedIndex] = React.useState<number | undefined>(undefined);
     const handleClose = () => setOpen(false);
 
-    const [indexOfFittingSchemaArray, setIndexOfFittingSchemaArray] = React.useState(
-      data?.map((boundData: any) => (boundData ? undefined : 999)) ?? []
-    );
+    // const [indexOfFittingSchemaArray, setIndexOfFittingSchemaArray] = React.useState(
+    //   data?.map((boundData: any) => (boundData ? undefined : 999)) ?? []
+    // );
 
-    React.useEffect(() => {
-      setIndexOfFittingSchemaArray(
-        data?.map((boundData: any) => (boundData ? undefined : 999)) ?? []
-      );
-    }, []);
+    // React.useEffect(() => {
+    //   setIndexOfFittingSchemaArray(
+    //     data?.map((boundData: any) => (boundData ? undefined : 999)) ?? []
+    //   );
+    // }, []);
 
     const handleRemoveItem = React.useCallback(
       (path: string, value: any) => () => {
         if (removeItems) {
-          console.log('removeItems', removeItems);
           removeItems(path, [value])();
-          setRefKey(Math.random());
+          //setRefKey(Math.random());
         }
-        indexOfFittingSchemaArray.splice(value, 1);
+        //indexOfFittingSchemaArray.splice(value, 1);
       },
       [removeItems]
     );
 
     const handleOnConfirm = (handleClose: any, indexOfFittingSchema: number) => {
-      setIndexOfFittingSchemaArray([
-        ...indexOfFittingSchemaArray,
-        Math.floor(indexOfFittingSchema),
-      ]);
+      // setIndexOfFittingSchemaArray([
+      //   ...indexOfFittingSchemaArray,
+      //   Math.floor(indexOfFittingSchema),
+      // ]);
       if (schema.oneOf) {
         addItem(path, createDefaultValue(schema.oneOf[indexOfFittingSchema]))();
       }
-      indexOfFittingSchemaObject[path + `.${data?.length}`] = selectedIndex;
+      //indexOfFittingSchemaObject[path + `.${data?.length}`] = selectedIndex;
       setSelectedIndex(0);
       handleClose();
-      console.log('TEST', indexOfFittingSchemaObject[path + `.${data?.length}`]);
+      //console.log('TEST', indexOfFittingSchemaObject[path + `.${data?.length}`]);
     };
 
-    const duplicateContent = (index: number) => {
-      data.push(data[index]);
-      setRefKey(Math.random());
-    };
-
-    const [RefKey, setRefKey] = React.useState<number>(0);
-    const callbackFunction = (editorJSON: any) => {
-      setRefKey(editorJSON);
+    const duplicateContent = (indexToDuplicate: number) => {
+      handleChange(path, [
+        ...(data as any[]).filter((_, index) => index < indexToDuplicate),
+        data[indexToDuplicate],
+        data[indexToDuplicate],
+        ...(data as any[]).filter((_, index) => index > indexToDuplicate),
+      ]);
     };
 
     const callbackOpenedIndex = (index: number | undefined) => {
@@ -144,7 +142,7 @@ const SpectrumArrayModalControl = React.memo(
           newData.push(e.data.data);
         }
         handleChange(path, newData);
-        setRefKey(Math.random());
+        // setRefKey(Math.random());
       }
     };
 
@@ -178,19 +176,17 @@ const SpectrumArrayModalControl = React.memo(
               <DragAndDrop
                 data={data}
                 handleRemoveItem={handleRemoveItem}
-                indexOfFittingSchemaArray={indexOfFittingSchemaArray}
+                //indexOfFittingSchemaArray={indexOfFittingSchemaArray}
                 path={path}
                 removeItems={removeItems}
                 renderers={renderers}
                 schema={schema}
                 uischema={uischema}
                 uischemas={uischemas}
-                callbackFunction={callbackFunction}
                 handleChange={handleChange}
                 openedIndex={openedIndex}
                 callbackOpenedIndex={callbackOpenedIndex}
                 enabled={enabled}
-                indexRefKey={RefKey}
                 onPressHandler={onPressHandler}
                 moveUpIndex={moveUpIndex}
                 setMoveUpIndex={setMoveUpIndex}
@@ -200,15 +196,10 @@ const SpectrumArrayModalControl = React.memo(
             Array.from(Array(data?.length)).map((_, index) => {
               indexOfFittingSchemaObject[`${path}itemQuantity`] = data?.length;
               return (
-                <Flex
-                  key={`${index}_${RefKey}`}
-                  direction='row'
-                  alignItems='stretch'
-                  flex='auto inherit'
-                >
+                <Flex key={index} direction='row' alignItems='stretch' flex='auto inherit'>
                   <SpectrumArrayModalItem
                     index={index}
-                    indexOfFittingSchema={indexOfFittingSchemaArray[index]}
+                    //indexOfFittingSchema={indexOfFittingSchemaArray[index]}
                     path={path}
                     removeItem={handleRemoveItem}
                     duplicateItem={duplicateContent}
@@ -216,7 +207,6 @@ const SpectrumArrayModalControl = React.memo(
                     schema={schema}
                     uischema={uischema}
                     uischemas={uischemas}
-                    callbackFunction={callbackFunction}
                     callbackOpenedIndex={callbackOpenedIndex}
                     enabled={enabled}
                   />
@@ -227,7 +217,6 @@ const SpectrumArrayModalControl = React.memo(
                       path={path}
                       removeItems={removeItems}
                       uischema={uischema}
-                      callbackFunction={callbackFunction}
                     />
                   )}
                 </Flex>

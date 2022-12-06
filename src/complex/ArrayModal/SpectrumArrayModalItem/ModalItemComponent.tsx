@@ -53,7 +53,6 @@ interface NonEmptyRowProps {
 const SpectrumArrayModalItem = React.memo(
   ({
     DNDHandle = false,
-    callbackFunction,
     callbackOpenedIndex,
     childData,
     childLabel,
@@ -74,8 +73,6 @@ const SpectrumArrayModalItem = React.memo(
       JSON.stringify(childData) === '{}' ? true : false
     );
     const [isAnimating, setIsAnimating] = React.useState(false);
-
-    const ref = React.useRef(null);
 
     const handleExpand = () => {
       setIsAnimating(true);
@@ -185,7 +182,6 @@ const SpectrumArrayModalItem = React.memo(
       <ModalItemHeader
         DNDHandle={DNDHandle}
         JsonFormsDispatch={JsonFormsDispatchComponent}
-        callbackFunction={callbackFunction}
         childData={childData}
         childLabel={childLabel}
         customPicker={{ enabled: uischema?.options?.picker, handler: customPickerHandler }}
@@ -206,7 +202,6 @@ const SpectrumArrayModalItem = React.memo(
         width={uischema.options?.sortMode === 'arrows' ? 'calc(100% - 66px)' : '100%'}
       >
         <View
-          ref={ref}
           UNSAFE_className={`list-array-item ${
             enableDetailedView ? 'enableDetailedView' : 'accordionView'
           } ${expanded ? 'expanded' : 'collapsed'} ${
@@ -225,7 +220,6 @@ const SpectrumArrayModalItem = React.memo(
             isAnimating={isAnimating}
             setIsAnimating={setIsAnimating}
             path={path}
-            callbackFunction={callbackFunction}
           >
             {expanded || isAnimating ? (
               <View UNSAFE_className='json-form-dispatch-wrapper'>
@@ -247,7 +241,7 @@ export interface OwnPropsOfSpectrumArrayModalItem {
   enabled: boolean;
   path: string;
   schema: JsonSchema;
-  indexOfFittingSchema?: number;
+  //indexOfFittingSchema?: number;
   // handleExpand(index: number, path?: any, isDetailedView?: boolean): () => void;
   removeItem(path: string, value: number): () => void;
   duplicateItem(index: number): () => void;
@@ -262,7 +256,6 @@ export interface OwnPropsOfSpectrumArrayModalItem {
   rowIndex?: number;
   moveUpCreator?: ((path: string, position: number) => () => void) | undefined;
   moveDownCreator?: ((path: string, position: number) => () => void) | undefined;
-  callbackFunction: any;
   callbackOpenedIndex: any;
 }
 

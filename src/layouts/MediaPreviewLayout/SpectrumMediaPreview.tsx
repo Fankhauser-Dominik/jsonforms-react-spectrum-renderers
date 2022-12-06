@@ -63,17 +63,6 @@ export const SpectrumMediaPreview = React.memo(
     uischema,
     visible,
   }: extendedLayoutRendererProps) => {
-    const [keyNumber, setKeyNumber] = React.useState(0);
-
-    React.useEffect(() => {
-      setKeyNumber(keyNumber + Math.random());
-    }, [data]);
-
-    React.useEffect(() => {
-      console.log('2', 'SpectrumMediaPreview');
-      console.log('removeItem', removeItem);
-    }, [data]);
-
     return (
       <View>
         <Flex direction='row' justifyContent='space-between'>
@@ -89,7 +78,6 @@ export const SpectrumMediaPreview = React.memo(
                     elements={elements}
                     enabled={enabled}
                     index={index}
-                    keyNumber={keyNumber}
                     layout={layout?.elements[index]}
                     path={path}
                     removeItem={removeItem}
