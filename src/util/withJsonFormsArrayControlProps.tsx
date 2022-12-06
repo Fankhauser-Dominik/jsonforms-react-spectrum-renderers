@@ -43,14 +43,14 @@ const mapDispatchToArrayControlProps = (
         (array: any[]) => (
           toMove > 0 && toMove < array.length
             ? array.map((_, index) =>
-                array[
-                  index > toMove || index < toMove - 1
-                    ? index
-                    : index === toMove
-                      ? toMove - 1
-                      : toMove
-                ]
-              )
+              array[
+              index > toMove || index < toMove - 1
+                ? index
+                : index === toMove
+                  ? toMove - 1
+                  : toMove
+              ]
+            )
             : array
         )
       )
@@ -63,15 +63,15 @@ const mapDispatchToArrayControlProps = (
         (array: any[]) => (
           toMove < array.length - 1
             ? array.map(
-                (_, index) =>
-                  array[
-                    index < toMove || index > toMove + 1
-                      ? index
-                      : index === toMove
-                      ? toMove + 1
-                      : toMove
-                  ]
-              )
+              (_, index) =>
+                array[
+                index < toMove || index > toMove + 1
+                  ? index
+                  : index === toMove
+                    ? toMove + 1
+                    : toMove
+                ]
+            )
             : array
         )
       )
