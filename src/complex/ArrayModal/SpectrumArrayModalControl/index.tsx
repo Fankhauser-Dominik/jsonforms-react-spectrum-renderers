@@ -69,39 +69,21 @@ const SpectrumArrayModalControl = React.memo(
     const [openedIndex, setOpenedIndex] = React.useState<number | undefined>(undefined);
     const handleClose = () => setOpen(false);
 
-    // const [indexOfFittingSchemaArray, setIndexOfFittingSchemaArray] = React.useState(
-    //   data?.map((boundData: any) => (boundData ? undefined : 999)) ?? []
-    // );
-
-    // React.useEffect(() => {
-    //   setIndexOfFittingSchemaArray(
-    //     data?.map((boundData: any) => (boundData ? undefined : 999)) ?? []
-    //   );
-    // }, []);
-
     const handleRemoveItem = React.useCallback(
       (path: string, value: any) => () => {
         if (removeItems) {
           removeItems(path, [value])();
-          //setRefKey(Math.random());
         }
-        //indexOfFittingSchemaArray.splice(value, 1);
       },
       [removeItems]
     );
 
     const handleOnConfirm = (handleClose: any, indexOfFittingSchema: number) => {
-      // setIndexOfFittingSchemaArray([
-      //   ...indexOfFittingSchemaArray,
-      //   Math.floor(indexOfFittingSchema),
-      // ]);
       if (schema.oneOf) {
         addItem(path, createDefaultValue(schema.oneOf[indexOfFittingSchema]))();
       }
-      //indexOfFittingSchemaObject[path + `.${data?.length}`] = selectedIndex;
       setSelectedIndex(0);
       handleClose();
-      //console.log('TEST', indexOfFittingSchemaObject[path + `.${data?.length}`]);
     };
 
     const duplicateContent = (indexToDuplicate: number) => {
@@ -143,7 +125,6 @@ const SpectrumArrayModalControl = React.memo(
           newData.push(e.data.data);
         }
         handleChange(path, newData);
-        // setRefKey(Math.random());
       }
     };
 
@@ -178,7 +159,6 @@ const SpectrumArrayModalControl = React.memo(
                 <DragAndDrop
                   data={data}
                   handleRemoveItem={handleRemoveItem}
-                  //indexOfFittingSchemaArray={indexOfFittingSchemaArray}
                   path={path}
                   removeItems={removeItems}
                   renderers={renderers}
@@ -198,7 +178,6 @@ const SpectrumArrayModalControl = React.memo(
                   <Flex key={index} direction='row' alignItems='stretch' flex='auto inherit'>
                     <SpectrumArrayModalItem
                       index={index}
-                      //indexOfFittingSchema={indexOfFittingSchemaArray[index]}
                       path={path}
                       removeItem={handleRemoveItem}
                       duplicateItem={duplicateContent}
