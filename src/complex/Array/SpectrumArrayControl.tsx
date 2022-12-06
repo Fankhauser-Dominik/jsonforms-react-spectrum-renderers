@@ -53,9 +53,12 @@ export const SpectrumArrayControl = ({
 
   const [expanded, setExpanded] = React.useState<number>(-1);
 
-  const onExpand = (index: number) => () => {
-    setExpanded((current) => (current === index ? -1 : index));
-  };
+  const onExpand = React.useCallback(
+    (index: number) => () => {
+      setExpanded((current) => (current === index ? -1 : index));
+    },
+    [setExpanded]
+  );
 
   return (
     <View>
