@@ -53,6 +53,7 @@ const Item = React.memo(
             type: 'expanded-item',
             index,
             path,
+            crxPath: childData?._path,
             breadCrumbLabel: childLabel,
             addToQuery: true,
           },
