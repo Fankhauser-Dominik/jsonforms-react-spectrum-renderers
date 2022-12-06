@@ -90,7 +90,6 @@ const DragAndDrop = ({
           order.current.indexOf(order.current[originalIndex]),
           order.current.indexOf(order.current[curRow])
         );
-        console.log(newOrder);
         setSprings.start(fn(newOrder, active)); // Feed springs new style data, they'll animate the view without causing a single render
 
         if (

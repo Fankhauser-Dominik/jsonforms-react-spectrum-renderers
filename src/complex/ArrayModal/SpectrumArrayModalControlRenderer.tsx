@@ -45,6 +45,8 @@ const SpectrumArrayModalControlRenderer = React.memo(
     uischema,
     uischemas = [],
     visible,
+    moveUp,
+    moveDown,
   }: ArrayControlProps) => {
     const controlElement = uischema as ControlElement;
     const labelDescription = Helpers.createLabelDescriptionFrom(controlElement, schema);
@@ -65,6 +67,8 @@ const SpectrumArrayModalControlRenderer = React.memo(
         uischema={uischema}
         uischemas={uischemas}
         visible={visible}
+        moveDown={moveDown}
+        moveUp={moveUp}
       />
     ) : null;
   }

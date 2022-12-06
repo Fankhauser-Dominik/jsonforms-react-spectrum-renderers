@@ -38,7 +38,6 @@ import {
 } from '@adobe/react-spectrum';
 import SpectrumArrayModalItem from '../SpectrumArrayModalItem/ModalItemComponent';
 import Add from '@spectrum-icons/workflow/Add';
-import { indexOfFittingSchemaObject } from '../utils';
 import DragAndDrop from './DragAndDrop';
 import AddDialog from './AddDialog';
 import SortButtons from './SortButtons';
@@ -61,6 +60,8 @@ const SpectrumArrayModalControl = React.memo(
     schema,
     uischema,
     uischemas,
+    moveDown,
+    moveUp,
   }: ArrayControlProps & OverrideProps & HandleChangeProps) => {
     const [selectedIndex, setSelectedIndex] = React.useState(0);
     const [open, setOpen] = React.useState(false);
@@ -171,57 +172,58 @@ const SpectrumArrayModalControl = React.memo(
           />
         </Flex>
         <Flex id={`spectrum-renderer-arrayContentWrapper_${path}`} direction='column'>
-          {sortMode === 'DragAndDrop' && data && data?.length ? (
-            <div>
-              <DragAndDrop
-                data={data}
-                handleRemoveItem={handleRemoveItem}
-                //indexOfFittingSchemaArray={indexOfFittingSchemaArray}
-                path={path}
-                removeItems={removeItems}
-                renderers={renderers}
-                schema={schema}
-                uischema={uischema}
-                uischemas={uischemas}
-                handleChange={handleChange}
-                openedIndex={openedIndex}
-                callbackOpenedIndex={callbackOpenedIndex}
-                enabled={enabled}
-                onPressHandler={onPressHandler}
-                moveUpIndex={moveUpIndex}
-                setMoveUpIndex={setMoveUpIndex}
-              />
-            </div>
-          ) : data && data?.length ? (
-            Array.from(Array(data?.length)).map((_, index) => {
-              indexOfFittingSchemaObject[`${path}itemQuantity`] = data?.length;
-              return (
-                <Flex key={index} direction='row' alignItems='stretch' flex='auto inherit'>
-                  <SpectrumArrayModalItem
-                    index={index}
-                    //indexOfFittingSchema={indexOfFittingSchemaArray[index]}
-                    path={path}
-                    removeItem={handleRemoveItem}
-                    duplicateItem={duplicateContent}
-                    renderers={renderers}
-                    schema={schema}
-                    uischema={uischema}
-                    uischemas={uischemas}
-                    callbackOpenedIndex={callbackOpenedIndex}
-                    enabled={enabled}
-                  />
-                  {sortMode === 'arrows' && (
-                    <SortButtons
-                      data={data}
+          {data?.length ? (
+            <>
+              {sortMode === 'DragAndDrop' ? (
+                <DragAndDrop
+                  data={data}
+                  handleRemoveItem={handleRemoveItem}
+                  //indexOfFittingSchemaArray={indexOfFittingSchemaArray}
+                  path={path}
+                  removeItems={removeItems}
+                  renderers={renderers}
+                  schema={schema}
+                  uischema={uischema}
+                  uischemas={uischemas}
+                  handleChange={handleChange}
+                  openedIndex={openedIndex}
+                  callbackOpenedIndex={callbackOpenedIndex}
+                  enabled={enabled}
+                  onPressHandler={onPressHandler}
+                  moveUpIndex={moveUpIndex}
+                  setMoveUpIndex={setMoveUpIndex}
+                />
+              ) : (
+                (data as any[]).map((_, index) => (
+                  <Flex key={index} direction='row' alignItems='stretch' flex='auto inherit'>
+                    <SpectrumArrayModalItem
                       index={index}
+                      //indexOfFittingSchema={indexOfFittingSchemaArray[index]}
                       path={path}
-                      removeItems={removeItems}
+                      removeItem={handleRemoveItem}
+                      duplicateItem={duplicateContent}
+                      renderers={renderers}
+                      schema={schema}
                       uischema={uischema}
-                    />
-                  )}
-                </Flex>
-              );
-            })
+                      uischemas={uischemas}
+                      callbackOpenedIndex={callbackOpenedIndex}
+                      enabled={enabled}
+                    ></SpectrumArrayModalItem>
+                    {sortMode === 'arrows' && (
+                      <SortButtons
+                        data={data}
+                        index={index}
+                        path={path}
+                        removeItems={removeItems}
+                        uischema={uischema}
+                        moveUp={moveUp}
+                        moveDown={moveDown}
+                      />
+                    )}
+                  </Flex>
+                ))
+              )}
+            </>
           ) : (
             <Text>No data</Text>
           )}
