@@ -123,11 +123,7 @@ const Item = React.memo(
     };
 
     const handleCustomPickerMessage = (e: MessageEvent) => {
-      if (e?.data?.type === 'customPicker:return') {
-        console.log('handleCustomPickerMessage', e?.data);
-      }
       if (e?.data?.type === 'customPicker:return' && e?.data?.path === path && e?.data?.data) {
-        console.log('handleCustomPickerMessage handling', e.data.data);
         handleChange(path, e.data.data);
       }
     };
