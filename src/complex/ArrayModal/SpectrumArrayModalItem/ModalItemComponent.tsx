@@ -74,10 +74,9 @@ const SpectrumArrayModalItem = React.memo(
       JSON.stringify(childData) === '{}' ? true : false
     );
     const [isAnimating, setIsAnimating] = React.useState(false);
+    const enableDetailedView = uischema?.options?.enableDetailedView;
 
-    const ref = React.useRef(null);
-
-    const handleExpand = () => {
+    const handleExpand = React.useCallback(() => {
       setIsAnimating(true);
       if (expanded === false) {
         if (enableDetailedView === true) {
@@ -86,6 +85,7 @@ const SpectrumArrayModalItem = React.memo(
               type: 'expanded-item',
               index,
               path,
+              crxPath: childData?._path,
               breadCrumbLabel: childLabel,
               addToQuery: true,
             },
@@ -123,9 +123,7 @@ const SpectrumArrayModalItem = React.memo(
       window.history.pushState('', '', newUrl);
 
       return;
-    };
-
-    const enableDetailedView = uischema?.options?.enableDetailedView;
+    }, [setIsAnimating, expanded, enableDetailedView, childLabel]);
 
     if (uischema.options?.oneOfModal) {
       indexOfFittingSchemaObject['oneOfModal'] = true;
