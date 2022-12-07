@@ -14,9 +14,13 @@ export interface BreadcrumbsContextType {
   resetBreadcrumbs: (data: NamedBreadcrumb[]) => void;
 }
 
-export const BreadcrumbsContext = React.createContext<BreadcrumbsContextType | undefined>(
-  undefined
-);
+export const BreadcrumbsContext = React.createContext<BreadcrumbsContextType>({
+  breadcrumbs: new Breadcrumbs(),
+  addBreadcrumb: () => {},
+  deleteBreadcrumb: () => {},
+  truncateBreadcrumbs: () => {},
+  resetBreadcrumbs: () => {},
+});
 
 export const useBreadcrumbs = () => {
   const breadcrumbsContext = React.useContext(BreadcrumbsContext);
