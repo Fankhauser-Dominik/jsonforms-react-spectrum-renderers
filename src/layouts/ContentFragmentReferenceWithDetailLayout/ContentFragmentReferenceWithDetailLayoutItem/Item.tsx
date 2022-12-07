@@ -24,11 +24,10 @@ import React from 'react';
 import { View } from '@adobe/react-spectrum';
 import SpectrumProvider from '../../../additional/SpectrumProvider';
 import ModalItemHeader from './Header';
-//import { openItemWhenInQueryParam } from '../utils';
 import { OwnPropsOfSpectrumArrayModalItem } from '../SpectrumContentFragmentReference';
 import { HandleChangeProps, ModalItemAnimationWrapper, withHandleChange } from '../../../util';
 import './Item.css';
-import { BreadcrumbsContext } from '../../../context';
+import { Breadcrumbs, useBreadcrumbs } from '../../../context';
 
 const Item = React.memo(
   ({
@@ -46,8 +45,7 @@ const Item = React.memo(
   }: OwnPropsOfSpectrumArrayModalItem & HandleChangeProps) => {
     const [expanded, setExpanded] = React.useState(false);
     const [isAnimating, setIsAnimating] = React.useState(false);
-    const { namedBreadcrumbs, addBreadcrumb, deleteBreadcrumb } =
-      React.useContext(BreadcrumbsContext);
+    const { breadcrumbs, addBreadcrumb, deleteBreadcrumb } = useBreadcrumbs();
 
     const toggleExpand = React.useCallback(
       (desiredState?: boolean) => {
@@ -88,51 +86,23 @@ const Item = React.memo(
           deleteBreadcrumb(path);
         }
       },
-      [expanded, setExpanded, path, childLabel, addBreadcrumb, deleteBreadcrumb, namedBreadcrumbs]
+      [expanded, setExpanded, path, childLabel, addBreadcrumb, deleteBreadcrumb, breadcrumbs]
     );
 
-    const breadcrumbsRef = React.useRef<Map<string, string> | null>(null);
+    const breadcrumbsRef = React.useRef<Breadcrumbs | null>(null);
 
     React.useEffect(() => {
-      if (
-        !expanded &&
-        Array.from(namedBreadcrumbs.keys()).find((breadcrumbPath) =>
-          breadcrumbPath.startsWith(path)
-        )
-      ) {
+      if (breadcrumbs.hasPrefix(path)) {
         toggleExpand(true);
       } else if (
         breadcrumbsRef.current &&
-        breadcrumbsRef.current.has(path) &&
-        !namedBreadcrumbs.has(path)
+        breadcrumbsRef.current.hasPrefix(path) &&
+        !breadcrumbs.hasPrefix(path)
       ) {
         toggleExpand(false);
-      } else if (
-        breadcrumbsRef.current &&
-        !breadcrumbsRef.current.has(path) &&
-        namedBreadcrumbs.has(path)
-      ) {
-        toggleExpand(true);
       }
-      breadcrumbsRef.current = namedBreadcrumbs;
-    }, [namedBreadcrumbs]);
-
-    function breadCrumbClose(message: MessageEvent) {
-      if (message.data.type !== 'close-item-breadcrumb') {
-        return;
-      }
-      if (message.data.path.includes(`${path}-${index}-${childLabel.replaceAll(/(-|_)/g, '+')}`)) {
-        setIsAnimating(true);
-        setExpanded(false);
-      }
-    }
-
-    React.useEffect(() => {
-      if (expanded) {
-        window.addEventListener('message', breadCrumbClose);
-      }
-      return () => window.removeEventListener('message', breadCrumbClose);
-    }, [expanded]);
+      breadcrumbsRef.current = breadcrumbs;
+    }, [breadcrumbs]);
 
     const customPickerHandler = () => {
       window.postMessage({

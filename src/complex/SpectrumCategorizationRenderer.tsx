@@ -21,7 +21,6 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
   */
-import React from 'react';
 import {
   and,
   Categorization,
@@ -39,7 +38,7 @@ import { Content, Item, TabList, TabPanels, Tabs, View } from '@adobe/react-spec
 import { AjvProps, withAjvProps } from '../util';
 import { SpectrumVerticalLayout } from '../layouts';
 import SpectrumProvider from '../additional/SpectrumProvider';
-import { BreadcrumbsContext } from '../context';
+import { useBreadcrumbs } from '../context/BreadcrumbContext';
 
 export const isSingleLevelCategorization: Tester = and(
   uiTypeIs('Categorization'),
@@ -124,7 +123,7 @@ export const SpectrumCategorizationRenderer = (props: SpectrumCategorizationRend
     (category: Categorization | Category, _index: number) => isVisible(category, data, '', ajv)
   );
 
-  const { namedBreadcrumbs } = React.useContext(BreadcrumbsContext);
+  const { breadcrumbs } = useBreadcrumbs();
 
   // Given a path of this component "data.components.1.planItems.1"
   // and breadcrumbs
@@ -132,15 +131,14 @@ export const SpectrumCategorizationRenderer = (props: SpectrumCategorizationRend
   // * data.components.1.planItems.1
   // * data.components.1.planItems.1.button
   // this should return .button
-  const shortestOutstandingBreadcrumb = Array.from(namedBreadcrumbs.keys())
-    .filter(
-      (breadcrumbPath) =>
-        breadcrumbPath.startsWith(path) &&
-        breadcrumbPath.length > path.length &&
-        breadcrumbPath[path.length] == '.'
-    )
-    .map((breadcrumbPath) => breadcrumbPath.slice(path.length))
-    .sort((x, y) => x.length - y.length)?.[0];
+  const shortestOutstandingBreadcrumb = breadcrumbs.hasPrefix(path)
+    ? breadcrumbs
+        .keys()
+        .filter((breadcrumbPath) => breadcrumbPath.startsWith(path))
+        .map((breadcrumbPath) => breadcrumbPath.slice(path.length))
+        .filter((breadcrumbPath) => breadcrumbPath[0] === '.')
+        .sort((x, y) => x.length - y.length)?.[0]
+    : undefined;
 
   //We check if any category contains an outstanding breadcrumb
   const defaultOpenTab = (

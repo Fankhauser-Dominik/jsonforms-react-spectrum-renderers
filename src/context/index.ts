@@ -1,3 +1,2 @@
-import { BreadcrumbsContext } from "./BreadcrumbContext";
-
-export { BreadcrumbsContext }
+export * from "./BreadcrumbContext";
+export * from "./Breadcrumbs"

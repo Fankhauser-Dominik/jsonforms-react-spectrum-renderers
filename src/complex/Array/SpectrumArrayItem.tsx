@@ -59,7 +59,7 @@ import Delete from '@spectrum-icons/workflow/Delete';
 import ChevronDown from '@spectrum-icons/workflow/ChevronDown';
 import ChevronUp from '@spectrum-icons/workflow/ChevronUp';
 import SpectrumProvider from '../../additional/SpectrumProvider';
-import { areEqual, settings } from '../../util';
+import { settings } from '../../util';
 
 export interface OwnPropsOfSpectrumArrayItem {
   childLabel?: string;

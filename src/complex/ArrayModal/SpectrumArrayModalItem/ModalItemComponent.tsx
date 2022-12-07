@@ -38,10 +38,9 @@ import {
 import SpectrumProvider from '../../../additional/SpectrumProvider';
 import { indexOfFittingSchemaObject } from '../utils';
 import ModalItemHeader from './ModalItemHeader';
-//import { openItemWhenInQueryParam } from './ModalItemUtils';
 import { findValue } from './ModalItemUtils';
 import { ModalItemAnimationWrapper } from '../../../util';
-import { BreadcrumbsContext } from '../../../context';
+import { Breadcrumbs, useBreadcrumbs } from '../../../context';
 
 interface NonEmptyRowProps {
   rowIndex?: number | undefined;
@@ -75,8 +74,7 @@ const SpectrumArrayModalItem = React.memo(
     const [isAnimating, setIsAnimating] = React.useState(false);
     const enableDetailedView = uischema?.options?.enableDetailedView ?? true;
 
-    const { namedBreadcrumbs, addBreadcrumb, deleteBreadcrumb } =
-      React.useContext(BreadcrumbsContext);
+    const { breadcrumbs, addBreadcrumb, deleteBreadcrumb } = useBreadcrumbs();
 
     const toggleExpanded = React.useCallback(
       (desiredState?: boolean) => {
@@ -129,37 +127,30 @@ const SpectrumArrayModalItem = React.memo(
         setExpanded,
         childLabel,
         enableDetailedView,
-        namedBreadcrumbs,
+        breadcrumbs,
         deleteBreadcrumb,
         addBreadcrumb,
       ]
     );
 
-    const breadcrumbsRef = React.useRef<Map<string, string> | null>(null);
+    const breadcrumbsRef = React.useRef<Breadcrumbs | null>(null);
 
     React.useEffect(() => {
-      if (
-        expanded === false &&
-        Array.from(namedBreadcrumbs.keys()).find((breadcrumbPath) =>
-          breadcrumbPath.startsWith(childPath)
-        )
-      ) {
+      if (breadcrumbs.hasPrefix(childPath)) {
         toggleExpanded(true);
       } else if (
         breadcrumbsRef.current &&
-        breadcrumbsRef.current.has(childPath) &&
-        !namedBreadcrumbs.has(childPath)
+        breadcrumbsRef.current.hasPrefix(childPath) &&
+        !breadcrumbs.hasPrefix(childPath)
       ) {
         toggleExpanded(false);
-      } else if (
-        breadcrumbsRef.current &&
-        !breadcrumbsRef.current.has(childPath) &&
-        namedBreadcrumbs.has(childPath)
-      ) {
-        toggleExpanded(true);
       }
-      breadcrumbsRef.current = namedBreadcrumbs;
-    }, [namedBreadcrumbs]);
+      breadcrumbsRef.current = breadcrumbs;
+    }, [breadcrumbs]);
+
+    // React.useEffect(() => {
+    //   breadcrumbs && toggleExpanded(breadcrumbs.hasPrefix(childPath));
+    // }, [breadcrumbs]);
 
     if (uischema.options?.oneOfModal) {
       indexOfFittingSchemaObject['oneOfModal'] = true;
@@ -167,24 +158,6 @@ const SpectrumArrayModalItem = React.memo(
     if (uischema.options?.OneOfPicker) {
       indexOfFittingSchemaObject['OneOfPicker'] = true;
     }
-
-    function breadCrumbClose(message: MessageEvent) {
-      if (message.data.type !== 'close-item-breadcrumb') {
-        return;
-      }
-      if (message.data.path.includes(`${path}-${index}-${childLabel.replaceAll(/(-|_)/g, '+')}`)) {
-        setIsAnimating(true);
-        setExpanded(false);
-        callbackOpenedIndex(undefined);
-      }
-    }
-
-    React.useEffect(() => {
-      if (expanded) {
-        window.addEventListener('message', breadCrumbClose);
-      }
-      return () => window.removeEventListener('message', breadCrumbClose);
-    }, [expanded]);
 
     const customPickerHandler = () => {
       window.postMessage({
