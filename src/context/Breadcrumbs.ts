@@ -76,7 +76,7 @@ export class Breadcrumbs {
   }
 
   hasPrefix(path: string): boolean {
-    return this.#breadcrumbs.hasPrefix(path.split('.'));
+    return Boolean(path) && this.#breadcrumbs.hasPrefix(path.split('.'));
   }
 
   has(path: string): boolean {
