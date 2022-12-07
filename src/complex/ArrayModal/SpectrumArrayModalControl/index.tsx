@@ -28,25 +28,21 @@
 import React from 'react';
 import { ArrayControlProps, OwnPropsOfControl, createDefaultValue } from '@jsonforms/core';
 import {
-  TooltipTrigger,
-  Tooltip,
+  ActionButton,
   Flex,
   Heading,
   Text,
+  Tooltip,
+  TooltipTrigger,
   View,
-  ActionButton,
 } from '@adobe/react-spectrum';
 import SpectrumArrayModalItem from '../SpectrumArrayModalItem/ModalItemComponent';
 import Add from '@spectrum-icons/workflow/Add';
-import { indexOfFittingSchemaObject } from '../utils';
 import DragAndDrop from './DragAndDrop';
 import AddDialog from './AddDialog';
 import SortButtons from './SortButtons';
+import { indexOfFittingSchemaObject } from '../utils';
 import { withHandleChange, HandleChangeProps, settings } from '../../../util';
-
-export interface OverrideProps extends OwnPropsOfControl {
-  indexOfFittingSchema?: number;
-}
 
 const SpectrumArrayModalControl = React.memo(
   ({
@@ -55,13 +51,15 @@ const SpectrumArrayModalControl = React.memo(
     enabled,
     handleChange,
     label,
+    moveDown,
+    moveUp,
     path,
     removeItems,
     renderers,
     schema,
     uischema,
     uischemas,
-  }: ArrayControlProps & OverrideProps & HandleChangeProps) => {
+  }: ArrayControlProps & OwnPropsOfControl & HandleChangeProps) => {
     const [selectedIndex, setSelectedIndex] = React.useState(0);
     const [open, setOpen] = React.useState(false);
     const [moveUpIndex, setMoveUpIndex]: any = React.useState(null);
@@ -81,9 +79,7 @@ const SpectrumArrayModalControl = React.memo(
     const handleRemoveItem = React.useCallback(
       (path: string, value: any) => () => {
         if (removeItems) {
-          console.log('removeItems', removeItems);
           removeItems(path, [value])();
-          setRefKey(Math.random());
         }
         indexOfFittingSchemaArray.splice(value, 1);
       },
@@ -101,17 +97,15 @@ const SpectrumArrayModalControl = React.memo(
       indexOfFittingSchemaObject[path + `.${data?.length}`] = selectedIndex;
       setSelectedIndex(0);
       handleClose();
-      console.log('TEST', indexOfFittingSchemaObject[path + `.${data?.length}`]);
     };
 
-    const duplicateContent = (index: number) => {
-      data.push(data[index]);
-      setRefKey(Math.random());
-    };
-
-    const [RefKey, setRefKey] = React.useState<number>(0);
-    const callbackFunction = (editorJSON: any) => {
-      setRefKey(editorJSON);
+    const duplicateContent = (indexToDuplicate: number) => {
+      handleChange(path, [
+        ...(data as any[]).filter((_, index) => index < indexToDuplicate),
+        data[indexToDuplicate],
+        data[indexToDuplicate],
+        ...(data as any[]).filter((_, index) => index > indexToDuplicate),
+      ]);
     };
 
     const callbackOpenedIndex = (index: number | undefined) => {
@@ -136,36 +130,24 @@ const SpectrumArrayModalControl = React.memo(
     }, [open]);
 
     const handleCustomPickerMessage = (e: MessageEvent) => {
-      if (e?.data?.type === 'customPicker:return') {
-        console.log('handleCustomPickerMessage', e?.data);
-      }
       if (e?.data?.type === 'customPicker:return' && e?.data?.path === path && e?.data?.data) {
-        console.log('handleCustomPickerMessage handling', e?.data?.data);
-        let newData = data || [];
+        let newData = data ? [...data] : [];
         if (e?.data?.index && typeof e.data.index === 'number') {
-          console.log('handleCustomPickerMessage replace existing data');
           newData[e.data.index] = e.data.data;
-          console.log('handleCustomPickerMessage old data', data);
-          console.log('handleCustomPickerMessage newData', newData);
         } else {
-          console.log('handleCustomPickerMessage addItem', e.data.data, data);
           newData.push(e.data.data);
         }
         handleChange(path, newData);
-        setRefKey(Math.random());
       }
     };
 
     React.useEffect(() => {
       if (uischema?.options?.picker) {
         window.addEventListener('message', handleCustomPickerMessage);
-      }
-
-      return () => {
-        if (uischema?.options?.picker) {
+        return () => {
           window.removeEventListener('message', handleCustomPickerMessage);
-        }
-      };
+        };
+      }
     }, [data]);
 
     const sortMode: string | boolean = uischema?.options?.sortMode ?? 'DragAndDrop';
@@ -184,80 +166,83 @@ const SpectrumArrayModalControl = React.memo(
           />
         </Flex>
         <Flex id={`spectrum-renderer-arrayContentWrapper_${path}`} direction='column'>
-          {sortMode === 'DragAndDrop' && data && data?.length ? (
-            <div>
-              <DragAndDrop
-                data={data}
-                handleRemoveItem={handleRemoveItem}
-                indexOfFittingSchemaArray={indexOfFittingSchemaArray}
-                path={path}
-                removeItems={removeItems}
-                renderers={renderers}
-                schema={schema}
-                uischema={uischema}
-                uischemas={uischemas}
-                callbackFunction={callbackFunction}
-                handleChange={handleChange}
-                openedIndex={openedIndex}
-                callbackOpenedIndex={callbackOpenedIndex}
-                enabled={enabled}
-                indexRefKey={RefKey}
-                onPressHandler={onPressHandler}
-                moveUpIndex={moveUpIndex}
-                setMoveUpIndex={setMoveUpIndex}
-              />
-            </div>
-          ) : data && data?.length ? (
-            Array.from(Array(data?.length)).map((_, index) => {
-              indexOfFittingSchemaObject[`${path}itemQuantity`] = data?.length;
-              return (
-                <Flex
-                  key={`${index}_${RefKey}`}
-                  direction='row'
-                  alignItems='stretch'
-                  flex='auto inherit'
-                >
-                  <SpectrumArrayModalItem
-                    index={index}
-                    indexOfFittingSchema={indexOfFittingSchemaArray[index]}
-                    path={path}
-                    removeItem={handleRemoveItem}
-                    duplicateItem={duplicateContent}
-                    renderers={renderers}
-                    schema={schema}
-                    uischema={uischema}
-                    uischemas={uischemas}
-                    callbackFunction={callbackFunction}
-                    callbackOpenedIndex={callbackOpenedIndex}
-                    enabled={enabled}
-                  />
-                  {sortMode === 'arrows' && (
-                    <SortButtons
-                      data={data}
-                      index={index}
-                      path={path}
-                      removeItems={removeItems}
-                      uischema={uischema}
-                      callbackFunction={callbackFunction}
-                    />
-                  )}
-                </Flex>
-              );
-            })
+          {data?.length ? (
+            <>
+              {sortMode === 'DragAndDrop' ? (
+                <DragAndDrop
+                  callbackOpenedIndex={callbackOpenedIndex}
+                  data={data}
+                  enabled={enabled}
+                  handleChange={handleChange}
+                  handleRemoveItem={handleRemoveItem}
+                  indexOfFittingSchemaArray={indexOfFittingSchemaArray}
+                  moveUpIndex={moveUpIndex}
+                  onPressHandler={onPressHandler}
+                  openedIndex={openedIndex}
+                  path={path}
+                  removeItems={removeItems}
+                  renderers={renderers}
+                  schema={schema}
+                  setMoveUpIndex={setMoveUpIndex}
+                  uischema={uischema}
+                  uischemas={uischemas}
+                />
+              ) : (
+                (data as any[]).map((_, index) => {
+                  indexOfFittingSchemaObject[`${path}itemQuantity`] = data?.length;
+                  return (
+                    <Flex
+                      key={index}
+                      direction='row'
+                      alignItems='stretch'
+                      flex='auto inherit'
+                      marginBottom={'size-100'}
+                    >
+                      <SpectrumArrayModalItem
+                        index={index}
+                        path={path}
+                        removeItem={handleRemoveItem}
+                        duplicateItem={duplicateContent}
+                        renderers={renderers}
+                        schema={schema}
+                        uischema={uischema}
+                        uischemas={uischemas}
+                        callbackOpenedIndex={callbackOpenedIndex}
+                        enabled={enabled}
+                      ></SpectrumArrayModalItem>
+                      {sortMode === 'arrows' && (
+                        <SortButtons
+                          data={data}
+                          index={index}
+                          path={path}
+                          removeItems={removeItems}
+                          uischema={uischema}
+                          moveUp={moveUp}
+                          moveDown={moveDown}
+                        />
+                      )}
+                    </Flex>
+                  );
+                })
+              )}
+            </>
           ) : (
             <Text>No data</Text>
           )}
-          <TooltipTrigger delay={settings.toolTipDelay}>
-            <ActionButton
-              onPress={() => onPressHandler()}
-              isQuiet={true}
-              aria-label='add a new item'
-              UNSAFE_className='add-item'
-            >
-              <Add aria-label='Change Reference' size='L' />
-            </ActionButton>
-            <Tooltip>Add a new Item</Tooltip>
-          </TooltipTrigger>
+          <Flex>
+            <TooltipTrigger delay={settings.toolTipDelay}>
+              <ActionButton
+                onPress={() => onPressHandler()}
+                isQuiet={true}
+                aria-label='add a new item'
+                UNSAFE_className='add-item'
+                marginEnd={sortMode === 'arrows' ? 'size-450' : 'size-0'}
+              >
+                <Add aria-label='Change Reference' size='L' />
+              </ActionButton>
+              <Tooltip>Add a new Item</Tooltip>
+            </TooltipTrigger>
+          </Flex>
         </Flex>
       </View>
     );

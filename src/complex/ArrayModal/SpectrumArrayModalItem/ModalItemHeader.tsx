@@ -25,7 +25,6 @@ import FolderSearch from '@spectrum-icons/workflow/FolderSearch';
 interface ArrayModalItemHeaderProps {
   DNDHandle?: any;
   JsonFormsDispatch: any;
-  callbackFunction: any;
   childData: any;
   childLabel: string;
   customPicker: { enabled: boolean; handler: (current?: object) => void };
@@ -42,7 +41,6 @@ interface ArrayModalItemHeaderProps {
 export default function ModalItemHeader({
   DNDHandle = false,
   JsonFormsDispatch,
-  callbackFunction,
   childData,
   childLabel,
   customPicker,
@@ -69,12 +67,16 @@ export default function ModalItemHeader({
     lookupObj[actionName]();
   };
 
+  const showItemNumber = uischema?.options?.showItemNumber ?? false;
+
   return (
     <View aria-selected={expanded} UNSAFE_className='array-item-header'>
       <Flex direction='row' margin='size-50' justifyContent='space-between' alignItems='center'>
-        <View UNSAFE_className='spectrum-array-item-number'>
-          <Text>{index + 1}</Text>
-        </View>
+        {showItemNumber && (
+          <View UNSAFE_className='spectrum-array-item-number'>
+            <Text>{index + 1}</Text>
+          </View>
+        )}
         {uischema?.options?.noAccordion ? (
           <View UNSAFE_className='JsonFormsDispatchContainer'>{JsonFormsDispatch}</View>
         ) : (
@@ -97,11 +99,7 @@ export default function ModalItemHeader({
         )}
         <View>
           <Flex gap={'size-0'}>
-            <ActionMenu
-              align='end'
-              onAction={actionMenuTriggered}
-              isQuiet={true}
-            >
+            <ActionMenu align='end' onAction={actionMenuTriggered} isQuiet={true}>
               <Item key='delete' textValue={`delete-item-${childLabel}`}>
                 <Text>Delete</Text>
                 <Delete size='S' />
@@ -170,7 +168,6 @@ export default function ModalItemHeader({
               index={index}
               expanded={expanded}
               handleExpand={handleExpand}
-              callbackFunction={callbackFunction}
             />
           </Flex>
         </View>

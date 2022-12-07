@@ -10,42 +10,38 @@ import { useDrag } from '@use-gesture/react';
 import Add from '@spectrum-icons/workflow/Add';
 import { checkIfUserIsOnMobileDevice } from '../../../util';
 interface ArrayModalControlDragAndDropProps {
-  indexRefKey: number;
-  callbackFunction: any;
   callbackOpenedIndex: any;
   data: any;
   enabled: boolean;
   handleChange: any;
   handleRemoveItem: any;
   indexOfFittingSchemaArray: any[];
+  moveUpIndex: number | null;
+  onPressHandler: any;
   openedIndex: number | undefined;
   path: string;
   removeItems: any;
   renderers: any;
   schema: any;
+  setMoveUpIndex: any;
   uischema: any;
   uischemas: any;
-  onPressHandler: any;
-  moveUpIndex: number | null;
-  setMoveUpIndex: any;
 }
 
 const DragAndDrop = ({
-  callbackFunction,
   callbackOpenedIndex,
   data,
   enabled,
   handleChange,
   handleRemoveItem,
   indexOfFittingSchemaArray,
-  indexRefKey,
-  openedIndex,
   moveUpIndex,
-  setMoveUpIndex,
   onPressHandler,
+  openedIndex,
   path,
   renderers,
   schema,
+  setMoveUpIndex,
   uischema,
   uischemas,
 }: ArrayModalControlDragAndDropProps) => {
@@ -96,7 +92,6 @@ const DragAndDrop = ({
           order.current.indexOf(order.current[originalIndex]),
           order.current.indexOf(order.current[curRow])
         );
-        console.log(newOrder);
         setSprings.start(fn(newOrder, active)); // Feed springs new style data, they'll animate the view without causing a single render
 
         if (
@@ -177,7 +172,7 @@ const DragAndDrop = ({
   React.useEffect(() => {
     order.current = data?.map((_: any, index: any) => index);
     setSprings.start(fn(order.current, false));
-  }, [data, indexRefKey]);
+  }, [data]);
 
   const enableTouch = (index: number) => {
     setGrabbedIndex(index);
@@ -225,9 +220,9 @@ const DragAndDrop = ({
         display: 'flex',
         flexDirection: 'column',
         height: data?.length ? HEIGHT_OF_COMPONENT * data?.length : 0,
+        position: 'relative',
         touchAction: 'none',
         transformOrigin: '50% 50% 0px',
-        position: 'relative',
       }}
     >
       {springs?.map(({ y }, index: number) => (
@@ -235,23 +230,24 @@ const DragAndDrop = ({
           {...bind(index)}
           key={`${path}_${index}_${rerender}`}
           style={{
-            y,
-            width: '100%',
+            position: 'absolute',
             touchAction: 'none',
             transformOrigin: '50% 50% 0px',
-            position: 'absolute',
+            width: '100%',
+            y,
+            zIndex: grabbedIndex === index ? 30 : 20,
           }}
           height={HEIGHT_OF_COMPONENT + 'px'}
         >
           <div
             style={{
-              width: '100%',
               display: userIsOnMobileDevice ? 'none' : 'flex',
               justifyContent: 'center',
-              zIndex: 80,
+              opacity: hoveredIndex === index ? 1 : 0,
               position: 'absolute',
               top: '-20px',
-              opacity: hoveredIndex === index ? 1 : 0,
+              width: '100%',
+              zIndex: 80,
             }}
             key={`${path}_${index}_addBetween`}
             onMouseEnter={() => showAddBetween(index)}
@@ -268,13 +264,12 @@ const DragAndDrop = ({
             direction='row'
             alignItems='stretch'
             flex='auto inherit'
-            UNSAFE_style={{ zIndex: grabbedIndex === index ? 30 : 20 }}
+            UNSAFE_style={{ zIndex: grabbedIndex === index ? 40 : 20 }}
           >
             <SpectrumArrayModalItem
               index={index}
-              callbackFunction={callbackFunction}
               enabled={enabled}
-              indexOfFittingSchema={indexOfFittingSchemaArray[index]}
+              indexOfFittingSchema={indexOfFittingSchemaArray}
               path={path}
               removeItem={handleRemoveItem}
               duplicateItem={duplicateContent}

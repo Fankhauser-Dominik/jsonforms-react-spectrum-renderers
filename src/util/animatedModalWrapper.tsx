@@ -13,7 +13,6 @@ interface AnimationWrapperProps {
   path: string;
   Header?: any;
   elements?: any;
-  callbackFunction?: any;
   children?: React.ReactNode;
 }
 
@@ -26,7 +25,6 @@ export function ModalItemAnimationWrapper({
   path,
   elements,
   Header,
-  callbackFunction,
   children,
 }: AnimationWrapperProps) {
   const [isBlackoutHovered, setIsBlackoutHovered] = React.useState(false);
@@ -39,9 +37,6 @@ export function ModalItemAnimationWrapper({
 
   const onRestFunction = () => {
     setIsAnimating(false);
-    if (!expanded && callbackFunction) {
-      callbackFunction(Math.random());
-    }
   };
 
   const slideAnim = useSpring({

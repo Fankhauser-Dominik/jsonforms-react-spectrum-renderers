@@ -46,8 +46,6 @@ import { StatePropsOfMasterItem } from '@jsonforms/core';
 import { withJsonFormsMasterListItemProps } from '@jsonforms/react';
 import Delete from '@spectrum-icons/workflow/Delete';
 import SpectrumProvider from './SpectrumProvider';
-
-import './ListDetailMasterItem.css';
 import { settings } from '../util';
 
 const ListWithDetailMasterItem = React.memo(
@@ -66,6 +64,7 @@ const ListWithDetailMasterItem = React.memo(
       handleClose();
       removeItem(path, deleteIndex)();
     };
+
     return (
       <SpectrumProvider>
         <div className='list-with-detail-master-item-row' aria-selected={selected}>

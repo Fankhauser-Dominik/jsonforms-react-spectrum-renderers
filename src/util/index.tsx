@@ -39,3 +39,4 @@ export * from './resolveSubSchemas';
 export * from './settings';
 export * from './withHandleChange';
 export * from './animatedModalWrapper';
+export * from './withJsonFormsArrayControlProps';

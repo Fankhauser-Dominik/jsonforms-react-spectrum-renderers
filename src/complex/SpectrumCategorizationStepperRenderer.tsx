@@ -50,8 +50,6 @@ import { AjvProps, withAjvProps } from '../util';
 import { SpectrumVerticalLayout } from '../layouts';
 import SpectrumProvider from '../additional/SpectrumProvider';
 
-import './SpectrumCategorizationStepper.css';
-
 export const SpectrumCategorizationStepperRendererTester: RankedTester = rankWith(
   2,
   and(uiTypeIs('Categorization'), categorizationHasCategory, optionIs('variant', 'stepper'))
