@@ -20,33 +20,30 @@ import FolderSearch from '@spectrum-icons/workflow/FolderSearch';
 import { findValue } from '../utils';
 
 interface ArrayModalItemHeaderProps {
+  childData: any;
+  childLabel: string;
+  customPicker: { enabled: boolean; handler: (current?: object) => void };
   data: any;
   expanded: boolean;
-  index: number;
-  path: string;
   handleExpand: () => void;
-  removeItem?: (path: string, value: number) => () => void;
-  childLabel: string;
-  childData: any;
-  customPicker: {
-    enabled: boolean;
-    handler: (current?: object) => void;
-  };
-  layout: any;
-  uischema?: any;
+  index: number;
   keyNumber?: number;
+  layout: any;
+  path: string;
+  removeItem?: (path: string, value: number) => () => void;
+  uischema?: any;
 }
 
 export default function ModalItemHeader({
-  data,
-  expanded,
-  index,
-  path,
-  handleExpand,
-  removeItem,
   childLabel,
   customPicker,
+  data,
+  expanded,
+  handleExpand,
+  index,
   layout,
+  path,
+  removeItem,
   uischema,
 }: ArrayModalItemHeaderProps) {
   const noData = data === undefined || Object.keys(data).length === 0 || !data?.['_path'];
@@ -80,9 +77,6 @@ export default function ModalItemHeader({
       ? Object.values(data)[uischema.options?.dataAsImage]
       : findValue(data, uischema.options?.dataAsImage) ?? undefined;
 
-  React.useEffect(() => {
-    console.log('4', 'Header');
-  }, [data]);
   return (
     <View aria-selected={expanded} UNSAFE_className='array-item-header'>
       <Flex direction='row' margin='size-50' justifyContent='space-between' alignItems='center'>
@@ -154,12 +148,12 @@ export default function ModalItemHeader({
             )}
             <ModalItemDelete
               deleteModalOpen={deleteModalOpen}
-              setDeleteModalOpen={setDeleteModalOpen}
-              removeItem={removeItem}
-              path={path}
-              index={index}
               expanded={expanded}
               handleExpand={handleExpand}
+              index={index}
+              path={path}
+              removeItem={removeItem}
+              setDeleteModalOpen={setDeleteModalOpen}
             />
           </Flex>
         </View>

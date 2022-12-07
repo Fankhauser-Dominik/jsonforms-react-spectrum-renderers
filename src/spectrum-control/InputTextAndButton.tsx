@@ -45,8 +45,6 @@ import Edit from '@spectrum-icons/workflow/Edit';
 import Add from '@spectrum-icons/workflow/Add';
 import Asset from '@spectrum-icons/workflow/Asset';
 
-import './InputText.css';
-
 export const InputTextAndButton = React.memo(
   ({
     config,
@@ -106,8 +104,6 @@ export const InputTextAndButton = React.memo(
       const message: object = {
         type: 'assetPickerOpen',
         jsonFormsPath: path,
-        /* rootPath: 'x_rootPath',
-        selectedPath: '_path', */
       };
       const targetOrigin: string = '*';
       window.postMessage(message, targetOrigin);

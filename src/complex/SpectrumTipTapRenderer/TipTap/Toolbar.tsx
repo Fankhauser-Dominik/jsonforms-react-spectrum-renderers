@@ -13,12 +13,9 @@ import TextBulleted from '@spectrum-icons/workflow/TextBulleted';
 import TextNumbered from '@spectrum-icons/workflow/TextNumbered';
 import Undo from '@spectrum-icons/workflow/Undo';
 import Redo from '@spectrum-icons/workflow/Redo';
-
 import { Flex, ToggleButton, Tooltip, TooltipTrigger, View } from '@adobe/react-spectrum';
-
 import { settings } from '../../../util';
 import HeadingToolbarButtons from './toolbars/HeadingToolbarButtons';
-import './styles.css';
 
 const ProjectCreateContentToolbar = ({
   editor,

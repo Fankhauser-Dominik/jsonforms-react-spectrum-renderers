@@ -40,7 +40,6 @@ import { indexOfFittingSchemaObject } from '../utils';
 import ModalItemHeader from './ModalItemHeader';
 import { openItemWhenInQueryParam } from './ModalItemUtils';
 import { findValue } from './ModalItemUtils';
-import './SpectrumArrayModalItem.css';
 import { ModalItemAnimationWrapper } from '../../../util';
 
 interface NonEmptyRowProps {
@@ -53,7 +52,6 @@ interface NonEmptyRowProps {
 const SpectrumArrayModalItem = React.memo(
   ({
     DNDHandle = false,
-    callbackFunction,
     callbackOpenedIndex,
     childData,
     childLabel,
@@ -74,7 +72,7 @@ const SpectrumArrayModalItem = React.memo(
       JSON.stringify(childData) === '{}' ? true : false
     );
     const [isAnimating, setIsAnimating] = React.useState(false);
-    const enableDetailedView = uischema?.options?.enableDetailedView;
+    const enableDetailedView = uischema?.options?.enableDetailedView ?? true;
 
     const handleExpand = React.useCallback(() => {
       setIsAnimating(true);
@@ -183,7 +181,6 @@ const SpectrumArrayModalItem = React.memo(
       <ModalItemHeader
         DNDHandle={DNDHandle}
         JsonFormsDispatch={JsonFormsDispatchComponent}
-        callbackFunction={callbackFunction}
         childData={childData}
         childLabel={childLabel}
         customPicker={{ enabled: uischema?.options?.picker, handler: customPickerHandler }}
@@ -204,7 +201,6 @@ const SpectrumArrayModalItem = React.memo(
         width={uischema.options?.sortMode === 'arrows' ? 'calc(100% - 66px)' : '100%'}
       >
         <View
-          ref={ref}
           UNSAFE_className={`list-array-item ${
             enableDetailedView ? 'enableDetailedView' : 'accordionView'
           } ${expanded ? 'expanded' : 'collapsed'} ${
@@ -223,7 +219,6 @@ const SpectrumArrayModalItem = React.memo(
             isAnimating={isAnimating}
             setIsAnimating={setIsAnimating}
             path={path}
-            callbackFunction={callbackFunction}
           >
             {expanded || isAnimating ? (
               <View UNSAFE_className='json-form-dispatch-wrapper'>
@@ -241,12 +236,9 @@ const SpectrumArrayModalItem = React.memo(
 export interface OwnPropsOfSpectrumArrayModalItem {
   index: number;
   DNDHandle: any;
-  // expanded: boolean;
   enabled: boolean;
   path: string;
   schema: JsonSchema;
-  indexOfFittingSchema?: number;
-  // handleExpand(index: number, path?: any, isDetailedView?: boolean): () => void;
   removeItem(path: string, value: number): () => void;
   duplicateItem(index: number): () => void;
   uischema: ControlElement;
@@ -260,7 +252,6 @@ export interface OwnPropsOfSpectrumArrayModalItem {
   rowIndex?: number;
   moveUpCreator?: ((path: string, position: number) => () => void) | undefined;
   moveDownCreator?: ((path: string, position: number) => () => void) | undefined;
-  callbackFunction: any;
   callbackOpenedIndex: any;
 }
 
@@ -316,28 +307,6 @@ const withContextToSpectrumArrayModalItemProps =
 export const withJsonFormsSpectrumArrayModalItemProps = (
   Component: React.ComponentType<OwnPropsOfSpectrumArrayModalItem>
 ): React.ComponentType<any> =>
-  withJsonFormsContext(
-    withContextToSpectrumArrayModalItemProps(
-      React.memo(
-        Component
-        // (
-        //   prevProps: OwnPropsOfSpectrumArrayModalItem,
-        //   nextProps: OwnPropsOfSpectrumArrayModalItem
-        // ) => {
-        //   const {
-        //     // handleExpand: prevHandleExpand,
-        //     removeItem: prevRemoveItem,
-        //     ...restPrevProps
-        //   } = prevProps;
-        //   const {
-        //     // handleExpand: nextHandleExpand,
-        //     removeItem: nextRemoveItem,
-        //     ...restNextProps
-        //   } = nextProps;
-        //   return areEqual(restPrevProps, restNextProps);
-        // }
-      )
-    )
-  );
+  withJsonFormsContext(withContextToSpectrumArrayModalItemProps(React.memo(Component)));
 
 export default withJsonFormsSpectrumArrayModalItemProps(SpectrumArrayModalItem);

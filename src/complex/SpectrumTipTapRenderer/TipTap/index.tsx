@@ -9,10 +9,7 @@ import TextAlign from '@tiptap/extension-text-align';
 import Focus from '@tiptap/extension-focus';
 import Superscript from '@tiptap/extension-superscript';
 import Subscript from '@tiptap/extension-subscript';
-
 import ProjectCreateContentToolbar from './Toolbar';
-import './styles.css';
-
 import { Flex } from '@adobe/react-spectrum';
 
 interface TipTapProps {
@@ -23,14 +20,12 @@ interface TipTapProps {
 }
 
 export default function EditorComponent({
-  // setContent,
   content,
   EditorJSONCallback,
   noToolbar = false,
   returnMode = false,
   readOnly = false,
 }: TipTapProps & {
-  // setContent: (value: string) => void;
   content: string;
 }) {
   const editor = useEditor({

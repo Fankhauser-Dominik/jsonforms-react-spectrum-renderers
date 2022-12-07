@@ -28,8 +28,8 @@
 import React from 'react';
 
 import { ArrayControlProps, ControlElement, Helpers } from '@jsonforms/core';
-import { withJsonFormsArrayControlProps } from '@jsonforms/react';
 import SpectrumArrayModalControl from './SpectrumArrayModalControl';
+import { withJsonFormsArrayControlProps } from '../../util';
 
 const SpectrumArrayModalControlRenderer = React.memo(
   ({
@@ -45,6 +45,8 @@ const SpectrumArrayModalControlRenderer = React.memo(
     uischema,
     uischemas = [],
     visible,
+    moveUp,
+    moveDown,
   }: ArrayControlProps) => {
     const controlElement = uischema as ControlElement;
     const labelDescription = Helpers.createLabelDescriptionFrom(controlElement, schema);
@@ -65,6 +67,8 @@ const SpectrumArrayModalControlRenderer = React.memo(
         uischema={uischema}
         uischemas={uischemas}
         visible={visible}
+        moveDown={moveDown}
+        moveUp={moveUp}
       />
     ) : null;
   }

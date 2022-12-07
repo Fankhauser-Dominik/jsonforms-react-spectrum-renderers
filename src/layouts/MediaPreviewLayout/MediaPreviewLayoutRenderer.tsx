@@ -40,10 +40,6 @@ const MediaPreviewLayoutRenderer = React.memo(
     const layout = uischema as Layout;
     const elements = renderChildren(layout, schema, {}, path, enabled);
 
-    React.useEffect(() => {
-      console.log('1', 'MediaPreviewLayoutRenderer');
-    }, [data]);
-
     return visible ? (
       <SpectrumMediaPreview
         data={data}
