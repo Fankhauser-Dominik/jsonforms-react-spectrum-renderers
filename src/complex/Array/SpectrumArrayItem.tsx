@@ -249,25 +249,6 @@ const withContextToSpectrumArrayItemProps =
 export const withJsonFormsSpectrumArrayItemProps = (
   Component: React.ComponentType<OwnPropsOfSpectrumArrayItem>
 ): React.ComponentType<any> =>
-  withJsonFormsContext(
-    withContextToSpectrumArrayItemProps(
-      React.memo(
-        Component,
-        (prevProps: OwnPropsOfSpectrumArrayItem, nextProps: OwnPropsOfSpectrumArrayItem) => {
-          const {
-            handleExpand: prevHandleExpand,
-            removeItem: prevRemoveItem,
-            ...restPrevProps
-          } = prevProps;
-          const {
-            handleExpand: nextHandleExpand,
-            removeItem: nextRemoveItem,
-            ...restNextProps
-          } = nextProps;
-          return areEqual(restPrevProps, restNextProps);
-        }
-      )
-    )
-  );
+  withJsonFormsContext(withContextToSpectrumArrayItemProps(React.memo(Component)));
 
 export default withJsonFormsSpectrumArrayItemProps(SpectrumArrayItem);
