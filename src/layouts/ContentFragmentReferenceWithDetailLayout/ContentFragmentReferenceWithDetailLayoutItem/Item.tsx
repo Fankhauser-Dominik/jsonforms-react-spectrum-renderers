@@ -26,7 +26,6 @@ import SpectrumProvider from '../../../additional/SpectrumProvider';
 import ModalItemHeader from './Header';
 import { OwnPropsOfSpectrumArrayModalItem } from '../SpectrumContentFragmentReference';
 import { HandleChangeProps, ModalItemAnimationWrapper, withHandleChange } from '../../../util';
-import './Item.css';
 import { Breadcrumbs, useBreadcrumbs } from '../../../context';
 
 const Item = React.memo(
