@@ -149,6 +149,7 @@ export * from './cells';
 export * from './layouts';
 export * from './util';
 export * from './additional';
+export * from './context';
 
 export const SpectrumRenderers: { tester: RankedTester; renderer: any }[] = [
   { tester: inputControlTester, renderer: InputControl },

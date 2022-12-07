@@ -38,9 +38,10 @@ import {
 import SpectrumProvider from '../../../additional/SpectrumProvider';
 import { indexOfFittingSchemaObject } from '../utils';
 import ModalItemHeader from './ModalItemHeader';
-import { openItemWhenInQueryParam } from './ModalItemUtils';
+//import { openItemWhenInQueryParam } from './ModalItemUtils';
 import { findValue } from './ModalItemUtils';
 import { ModalItemAnimationWrapper } from '../../../util';
+import { BreadcrumbsContext } from '../../../context';
 
 interface NonEmptyRowProps {
   rowIndex?: number | undefined;
@@ -74,54 +75,91 @@ const SpectrumArrayModalItem = React.memo(
     const [isAnimating, setIsAnimating] = React.useState(false);
     const enableDetailedView = uischema?.options?.enableDetailedView ?? true;
 
-    const handleExpand = React.useCallback(() => {
-      setIsAnimating(true);
-      if (expanded === false) {
-        if (enableDetailedView === true) {
-          window.postMessage(
-            {
-              type: 'expanded-item',
-              index,
-              path,
-              crxPath: childData?._path,
-              breadCrumbLabel: childLabel,
-              addToQuery: true,
-            },
-            '*'
-          );
+    const { namedBreadcrumbs, addBreadcrumb, deleteBreadcrumb } =
+      React.useContext(BreadcrumbsContext);
+
+    const toggleExpanded = React.useCallback(
+      (desiredState?: boolean) => {
+        if (desiredState === undefined) {
+          desiredState = !expanded;
         }
-        callbackOpenedIndex(index);
-        setExpanded(true);
+        setIsAnimating(true);
+        if (desiredState) {
+          if (enableDetailedView === true) {
+            window.postMessage(
+              {
+                type: 'expanded-item',
+                index,
+                path,
+                crxPath: childData?._path,
+                breadCrumbLabel: childLabel,
+                addToQuery: true,
+              },
+              '*'
+            );
+          }
+          callbackOpenedIndex(index);
+          setExpanded(true);
+          addBreadcrumb({
+            path: childPath,
+            name: childLabel,
+          });
+        } else {
+          if (enableDetailedView === true) {
+            window.postMessage(
+              {
+                type: 'expanded-item',
+                index,
+                path,
+                breadCrumbLabel: childLabel,
+                addToQuery: false,
+              },
+              '*'
+            );
+          }
+          callbackOpenedIndex(undefined);
+          setExpanded(false);
+          deleteBreadcrumb(childPath);
+        }
+
         return;
-      }
-      if (enableDetailedView === true) {
-        window.postMessage(
-          {
-            type: 'expanded-item',
-            index,
-            path,
-            breadCrumbLabel: childLabel,
-            addToQuery: false,
-          },
-          '*'
-        );
-      }
-      callbackOpenedIndex(undefined);
-      setExpanded(false);
+      },
+      [
+        expanded,
+        setExpanded,
+        childLabel,
+        enableDetailedView,
+        namedBreadcrumbs,
+        deleteBreadcrumb,
+        addBreadcrumb,
+      ]
+    );
 
-      const url = window.location.href;
-      let newUrl: any = new URL(url);
-      if (window.location.href.endsWith(`${path}.${index}`)) {
-        newUrl = url.replace(`${path}.${index}`, '');
-      } else {
-        if (window.location.href.includes('formLocation=')) {
-          newUrl = url.substring(0, url.lastIndexOf('-'));
-        }
-      }
-      window.history.pushState('', '', newUrl);
+    const breadcrumbsRef = React.useRef<Map<string, string> | null>(null);
 
-      return;
-    }, [setIsAnimating, expanded, enableDetailedView, childLabel]);
+    React.useEffect(() => {
+      if (
+        expanded === false &&
+        Array.from(namedBreadcrumbs.keys()).find((breadcrumbPath) =>
+          breadcrumbPath.startsWith(childPath)
+        )
+      ) {
+        toggleExpanded(true);
+      } else if (
+        breadcrumbsRef.current &&
+        breadcrumbsRef.current.has(childPath) &&
+        !namedBreadcrumbs.has(childPath)
+      ) {
+        toggleExpanded(false);
+      } else if (
+        breadcrumbsRef.current &&
+        !breadcrumbsRef.current.has(childPath) &&
+        namedBreadcrumbs.has(childPath)
+      ) {
+        toggleExpanded(true);
+      }
+      breadcrumbsRef.current = namedBreadcrumbs;
+    }, [namedBreadcrumbs]);
 
     if (uischema.options?.oneOfModal) {
       indexOfFittingSchemaObject['oneOfModal'] = true;
@@ -129,10 +167,6 @@ const SpectrumArrayModalItem = React.memo(
     if (uischema.options?.OneOfPicker) {
       indexOfFittingSchemaObject['OneOfPicker'] = true;
     }
-
-    React.useEffect(() => {
-      openItemWhenInQueryParam(path, index, setExpanded);
-    }, []);
 
     function breadCrumbClose(message: MessageEvent) {
       if (message.data.type !== 'close-item-breadcrumb') {
@@ -187,7 +221,7 @@ const SpectrumArrayModalItem = React.memo(
         duplicateItem={duplicateItem}
         enableDetailedView={enableDetailedView}
         expanded={expanded}
-        handleExpand={handleExpand}
+        handleExpand={toggleExpanded}
         index={index}
         path={path}
         removeItem={removeItem}
@@ -214,7 +248,7 @@ const SpectrumArrayModalItem = React.memo(
           {Header}
           <ModalItemAnimationWrapper
             expanded={expanded}
-            handleExpand={handleExpand}
+            handleExpand={toggleExpanded}
             enableDetailedView={enableDetailedView}
             isAnimating={isAnimating}
             setIsAnimating={setIsAnimating}

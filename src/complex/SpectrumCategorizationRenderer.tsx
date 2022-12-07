@@ -21,6 +21,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
   */
+import React from 'react';
 import {
   and,
   Categorization,
@@ -38,6 +39,7 @@ import { Content, Item, TabList, TabPanels, Tabs, View } from '@adobe/react-spec
 import { AjvProps, withAjvProps } from '../util';
 import { SpectrumVerticalLayout } from '../layouts';
 import SpectrumProvider from '../additional/SpectrumProvider';
+import { BreadcrumbsContext } from '../context';
 
 export const isSingleLevelCategorization: Tester = and(
   uiTypeIs('Categorization'),
@@ -59,6 +61,61 @@ export const SpectrumCategorizationRendererTester: RankedTester = rankWith(
 
 export interface SpectrumCategorizationRendererProps extends StatePropsOfLayout, AjvProps {}
 
+// This recursive function tries to translate all encountered scopes in the uischema to paths
+// For example this UISchema:
+// {
+//     "type": "Category",
+//     "elements": [
+//         {
+//             "type": "Control",
+//             "scope": "#/properties/planType"
+//         },
+//         {
+//             "type": "HorizontalLayout",
+//             "elements": [
+//                 {
+//                     "type": "Control",
+//                     "scope": "#/properties/monthlyPrice",
+//                 },
+//                 {
+//                     "type": "Control",
+//                     "scope": "#/properties/monthlyPriceInfo"
+//                 }
+//             ]
+//         },
+//         {
+//             "type": "HorizontalLayout",
+//             "elements": [
+//                 {
+//                     "type": "Control",
+//                     "scope": "#/properties/annualPrice",
+//                 },
+//                 {
+//                     "type": "Control",
+//                     "scope": "#/properties/annualPriceInfo"
+//                 }
+//             ]
+//         },
+//         {
+//             "type": "Control",
+//             "scope": "#/properties/planOptions",
+//         },
+//         {
+//             "type": "Control",
+//             "scope": "#/properties/button",
+//         }
+//     ]
+// }
+// Should be transformed into:
+// [".planType", ".monthlyPrice", ".monthlyPriceInfo", ".annualPrice", ".annualPriceInfo", ".planOptions", ".button"]
+const extractScopesAsPaths = (node: any) => {
+  if (node?.elements) {
+    return node.elements.flatMap(extractScopesAsPaths);
+  } else if (node?.scope) {
+    return [node.scope.replaceAll(/#?\/properties\//g, '.').replaceAll(/\//g, '.')];
+  }
+};
+
 export const SpectrumCategorizationRenderer = (props: SpectrumCategorizationRendererProps) => {
   const { data, path, schema, uischema, visible, enabled, ajv } = props;
 
@@ -67,27 +124,34 @@ export const SpectrumCategorizationRenderer = (props: SpectrumCategorizationRend
     (category: Categorization | Category, _index: number) => isVisible(category, data, '', ajv)
   );
 
-  // checking formLocation to see if it should have a different default tab
-  const params = new URL(window.location.href).searchParams;
-  let formLocation: any = params.get('formLocation');
-  formLocation = formLocation
-    ?.split('_')
-    .map((item: string) => {
-      const cutIndex = item.lastIndexOf('-');
-      return item.substring(0, cutIndex).replace('-', '.');
-    })
-    .join('.');
-  let defaultOpenTab = '0';
-  if (formLocation && formLocation.includes(path)) {
-    for (let i = 0; i < categories.length; i++) {
-      const searchLabel =
-        categories[i].label.charAt(0).toLowerCase() + categories[i].label.slice(1);
-      if (formLocation.includes(`${path}.${searchLabel}`)) {
-        defaultOpenTab = i.toString();
-        break;
-      }
-    }
-  }
+  const { namedBreadcrumbs } = React.useContext(BreadcrumbsContext);
+
+  // Given a path of this component "data.components.1.planItems.1"
+  // and breadcrumbs
+  // * data.components.1
+  // * data.components.1.planItems.1
+  // * data.components.1.planItems.1.button
+  // this should return .button
+  const shortestOutstandingBreadcrumb = Array.from(namedBreadcrumbs.keys())
+    .filter(
+      (breadcrumbPath) =>
+        breadcrumbPath.startsWith(path) &&
+        breadcrumbPath.length > path.length &&
+        breadcrumbPath[path.length] == '.'
+    )
+    .map((breadcrumbPath) => breadcrumbPath.slice(path.length))
+    .sort((x, y) => x.length - y.length)?.[0];
+
+  //We check if any category contains an outstanding breadcrumb
+  const defaultOpenTab = (
+    shortestOutstandingBreadcrumb
+      ? categories.findIndex((category) =>
+          extractScopesAsPaths(category).find(
+            (scopeAsPath: any) => scopeAsPath === shortestOutstandingBreadcrumb
+          )
+        ) || 0
+      : 0
+  ).toString();
 
   return (
     <View isHidden={!visible}>
