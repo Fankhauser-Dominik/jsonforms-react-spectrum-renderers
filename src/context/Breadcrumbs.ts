@@ -32,7 +32,7 @@ export class Breadcrumbs {
     return this.#breadcrumbs.get(path.split("."));
   }
 
-  addBreadcrumb({ path, name }: { path: string; name: string | undefined }): Breadcrumbs {
+  addBreadcrumb({ path, name }: { path: string; name?: string }): Breadcrumbs {
     const explodedPath = path.split('.')
     const existingName = this.#breadcrumbs.get(explodedPath);
     if (name !== existingName) {

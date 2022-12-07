@@ -3,7 +3,7 @@ import { Breadcrumbs } from './Breadcrumbs';
 
 export interface NamedBreadcrumb {
   path: string;
-  name: string | undefined;
+  name?: string;
 }
 
 export interface BreadcrumbsContextType {
