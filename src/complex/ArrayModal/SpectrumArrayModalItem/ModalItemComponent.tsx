@@ -40,7 +40,6 @@ import { indexOfFittingSchemaObject } from '../utils';
 import ModalItemHeader from './ModalItemHeader';
 import { openItemWhenInQueryParam } from './ModalItemUtils';
 import { findValue } from './ModalItemUtils';
-import './SpectrumArrayModalItem.css';
 import { ModalItemAnimationWrapper } from '../../../util';
 
 interface NonEmptyRowProps {
@@ -73,7 +72,7 @@ const SpectrumArrayModalItem = React.memo(
       JSON.stringify(childData) === '{}' ? true : false
     );
     const [isAnimating, setIsAnimating] = React.useState(false);
-    const enableDetailedView = uischema?.options?.enableDetailedView;
+    const enableDetailedView = uischema?.options?.enableDetailedView ?? true;
 
     const handleExpand = React.useCallback(() => {
       setIsAnimating(true);
@@ -237,12 +236,9 @@ const SpectrumArrayModalItem = React.memo(
 export interface OwnPropsOfSpectrumArrayModalItem {
   index: number;
   DNDHandle: any;
-  // expanded: boolean;
   enabled: boolean;
   path: string;
   schema: JsonSchema;
-  //indexOfFittingSchema?: number;
-  // handleExpand(index: number, path?: any, isDetailedView?: boolean): () => void;
   removeItem(path: string, value: number): () => void;
   duplicateItem(index: number): () => void;
   uischema: ControlElement;
@@ -311,28 +307,6 @@ const withContextToSpectrumArrayModalItemProps =
 export const withJsonFormsSpectrumArrayModalItemProps = (
   Component: React.ComponentType<OwnPropsOfSpectrumArrayModalItem>
 ): React.ComponentType<any> =>
-  withJsonFormsContext(
-    withContextToSpectrumArrayModalItemProps(
-      React.memo(
-        Component
-        // (
-        //   prevProps: OwnPropsOfSpectrumArrayModalItem,
-        //   nextProps: OwnPropsOfSpectrumArrayModalItem
-        // ) => {
-        //   const {
-        //     // handleExpand: prevHandleExpand,
-        //     removeItem: prevRemoveItem,
-        //     ...restPrevProps
-        //   } = prevProps;
-        //   const {
-        //     // handleExpand: nextHandleExpand,
-        //     removeItem: nextRemoveItem,
-        //     ...restNextProps
-        //   } = nextProps;
-        //   return areEqual(restPrevProps, restNextProps);
-        // }
-      )
-    )
-  );
+  withJsonFormsContext(withContextToSpectrumArrayModalItemProps(React.memo(Component)));
 
 export default withJsonFormsSpectrumArrayModalItemProps(SpectrumArrayModalItem);

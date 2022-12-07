@@ -67,12 +67,16 @@ export default function ModalItemHeader({
     lookupObj[actionName]();
   };
 
+  const showItemNumber = uischema?.options?.showItemNumber ?? false;
+
   return (
     <View aria-selected={expanded} UNSAFE_className='array-item-header'>
       <Flex direction='row' margin='size-50' justifyContent='space-between' alignItems='center'>
-        <View UNSAFE_className='spectrum-array-item-number'>
-          <Text>{index + 1}</Text>
-        </View>
+        {showItemNumber && (
+          <View UNSAFE_className='spectrum-array-item-number'>
+            <Text>{index + 1}</Text>
+          </View>
+        )}
         {uischema?.options?.noAccordion ? (
           <View UNSAFE_className='JsonFormsDispatchContainer'>{JsonFormsDispatch}</View>
         ) : (
@@ -95,11 +99,7 @@ export default function ModalItemHeader({
         )}
         <View>
           <Flex gap={'size-0'}>
-            <ActionMenu
-              align='end'
-              onAction={actionMenuTriggered}
-              isQuiet={true}
-            >
+            <ActionMenu align='end' onAction={actionMenuTriggered} isQuiet={true}>
               <Item key='delete' textValue={`delete-item-${childLabel}`}>
                 <Text>Delete</Text>
                 <Delete size='S' />

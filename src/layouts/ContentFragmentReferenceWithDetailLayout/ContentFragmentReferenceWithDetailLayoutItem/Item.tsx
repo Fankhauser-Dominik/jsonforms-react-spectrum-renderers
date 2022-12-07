@@ -27,7 +27,6 @@ import ModalItemHeader from './Header';
 import { openItemWhenInQueryParam } from '../utils';
 import { OwnPropsOfSpectrumArrayModalItem } from '../SpectrumContentFragmentReference';
 import { HandleChangeProps, ModalItemAnimationWrapper, withHandleChange } from '../../../util';
-import './Item.css';
 
 const Item = React.memo(
   ({

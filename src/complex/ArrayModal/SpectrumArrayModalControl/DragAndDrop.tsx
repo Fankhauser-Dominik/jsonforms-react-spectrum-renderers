@@ -15,16 +15,17 @@ interface ArrayModalControlDragAndDropProps {
   enabled: boolean;
   handleChange: any;
   handleRemoveItem: any;
+  indexOfFittingSchemaArray: any[];
+  moveUpIndex: number | null;
+  onPressHandler: any;
   openedIndex: number | undefined;
   path: string;
   removeItems: any;
   renderers: any;
   schema: any;
+  setMoveUpIndex: any;
   uischema: any;
   uischemas: any;
-  onPressHandler: any;
-  moveUpIndex: number | null;
-  setMoveUpIndex: any;
 }
 
 const DragAndDrop = ({
@@ -33,13 +34,14 @@ const DragAndDrop = ({
   enabled,
   handleChange,
   handleRemoveItem,
-  openedIndex,
+  indexOfFittingSchemaArray,
   moveUpIndex,
-  setMoveUpIndex,
   onPressHandler,
+  openedIndex,
   path,
   renderers,
   schema,
+  setMoveUpIndex,
   uischema,
   uischemas,
 }: ArrayModalControlDragAndDropProps) => {
@@ -218,9 +220,9 @@ const DragAndDrop = ({
         display: 'flex',
         flexDirection: 'column',
         height: data?.length ? HEIGHT_OF_COMPONENT * data?.length : 0,
+        position: 'relative',
         touchAction: 'none',
         transformOrigin: '50% 50% 0px',
-        position: 'relative',
       }}
     >
       {springs?.map(({ y }, index: number) => (
@@ -228,23 +230,24 @@ const DragAndDrop = ({
           {...bind(index)}
           key={`${path}_${index}_${rerender}`}
           style={{
-            y,
-            width: '100%',
+            position: 'absolute',
             touchAction: 'none',
             transformOrigin: '50% 50% 0px',
-            position: 'absolute',
+            width: '100%',
+            y,
+            zIndex: grabbedIndex === index ? 30 : 20,
           }}
           height={HEIGHT_OF_COMPONENT + 'px'}
         >
           <div
             style={{
-              width: '100%',
               display: userIsOnMobileDevice ? 'none' : 'flex',
               justifyContent: 'center',
-              zIndex: 80,
+              opacity: hoveredIndex === index ? 1 : 0,
               position: 'absolute',
               top: '-20px',
-              opacity: hoveredIndex === index ? 1 : 0,
+              width: '100%',
+              zIndex: 80,
             }}
             key={`${path}_${index}_addBetween`}
             onMouseEnter={() => showAddBetween(index)}
@@ -261,11 +264,12 @@ const DragAndDrop = ({
             direction='row'
             alignItems='stretch'
             flex='auto inherit'
-            UNSAFE_style={{ zIndex: grabbedIndex === index ? 30 : 20 }}
+            UNSAFE_style={{ zIndex: grabbedIndex === index ? 40 : 20 }}
           >
             <SpectrumArrayModalItem
               index={index}
               enabled={enabled}
+              indexOfFittingSchema={indexOfFittingSchemaArray}
               path={path}
               removeItem={handleRemoveItem}
               duplicateItem={duplicateContent}

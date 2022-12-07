@@ -33,7 +33,6 @@ import { circularReferenceReplacer } from '../../util';
 import CodeMirror from '@uiw/react-codemirror';
 import { json, jsonParseLinter } from '@codemirror/lang-json';
 import { linter, lintGutter } from '@codemirror/lint';
-import './index.css';
 
 export const InputCodeMirror = React.memo(
   ({
@@ -82,7 +81,6 @@ export const InputCodeMirror = React.memo(
       (newValue: any, _viewUpdate: any) => {
         setCachedValue(newValue);
         setValue(newValue);
-        console.log(cachedValue, newValue);
         if (!getErr(newValue) && !cachedErr && !showSaveButton) {
           handleChange(path, JSON.parse(newValue));
         }

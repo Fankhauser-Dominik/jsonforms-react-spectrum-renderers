@@ -42,8 +42,6 @@ import FolderOpen from '@spectrum-icons/workflow/FolderOpen';
 import Link from '@spectrum-icons/workflow/Link';
 import Asset from '@spectrum-icons/workflow/Asset';
 
-import './InputText.css';
-
 export const InputText = React.memo(
   ({
     config,
@@ -133,7 +131,6 @@ export const InputText = React.memo(
     }
 
     React.useEffect(() => {
-      // console.log('InputText: ', schema);
       onChange(data);
     }, [data]);
 

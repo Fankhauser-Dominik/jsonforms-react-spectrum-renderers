@@ -7,25 +7,25 @@ import { settings } from '../../../util';
 interface ArrayModalControlSortButtonsProps {
   data: any;
   index: number;
+  moveDown: any;
+  moveUp: any;
   path: any;
   removeItems: any;
   uischema: any;
-  moveUp: any;
-  moveDown: any;
 }
 
 function SortButtons({
   data,
   index,
+  moveDown,
+  moveUp,
   path,
   uischema,
-  moveUp,
-  moveDown,
 }: ArrayModalControlSortButtonsProps) {
   return (
     <Flex
       direction={uischema.options?.sortButtonDirection === 'Horizontal' ? 'row' : 'column'}
-      marginTop={uischema.options?.sortButtonDirection === 'Horizontal' ? 'size-225' : 'size-0'}
+      marginTop={uischema.options?.sortButtonDirection === 'Horizontal' ? 'size-225' : 'size-65'}
     >
       <TooltipTrigger delay={settings.toolTipDelay}>
         <ActionButton
@@ -34,6 +34,7 @@ function SortButtons({
           aria-label={`move-item-${path}.${index}-up`}
           marginX='size-10'
           isDisabled={index <= 0}
+          height='size-325'
         >
           <ArrowUp aria-label='ArrowUp' size='S' />
         </ActionButton>
@@ -46,6 +47,7 @@ function SortButtons({
           aria-label={`move-item-${path}.${index}-down`}
           marginX='size-10'
           isDisabled={index >= data.length - 1}
+          height='size-325'
         >
           <ArrowDown aria-label='ArrowDown' size='S' />
         </ActionButton>

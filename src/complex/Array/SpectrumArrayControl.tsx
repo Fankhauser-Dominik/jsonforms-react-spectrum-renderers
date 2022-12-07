@@ -27,20 +27,29 @@
 */
 import React from 'react';
 import { ArrayControlProps, createDefaultValue } from '@jsonforms/core';
-import { Button, Flex, Heading, Text, View } from '@adobe/react-spectrum';
+import {
+  ActionButton,
+  Flex,
+  Heading,
+  Text,
+  Tooltip,
+  TooltipTrigger,
+  View,
+} from '@adobe/react-spectrum';
 import SpectrumArrayItem from './SpectrumArrayItem';
 import Add from '@spectrum-icons/workflow/Add';
+import { settings } from '../../util';
 
 export const SpectrumArrayControl = ({
+  addItem,
   data,
   label,
   path,
-  schema,
-  addItem,
   removeItems,
+  renderers,
+  schema,
   uischema,
   uischemas,
-  renderers,
 }: ArrayControlProps) => {
   const handleRemoveItem = React.useCallback(
     (p: string, value: any) => () => {
@@ -64,13 +73,6 @@ export const SpectrumArrayControl = ({
     <View>
       <Flex direction='row' justifyContent='space-between'>
         <Heading level={4}>{label}</Heading>
-        <Button
-          variant='primary'
-          alignSelf='center'
-          onPress={addItem(path, createDefaultValue(schema ?? {}))}
-        >
-          <Add aria-label='Add' size='S' />
-        </Button>
       </Flex>
       <Flex direction='column' gap='size-100'>
         {data && data.length ? (
@@ -93,6 +95,17 @@ export const SpectrumArrayControl = ({
         ) : (
           <Text>No data</Text>
         )}
+        <TooltipTrigger delay={settings.toolTipDelay}>
+          <ActionButton
+            onPress={addItem(path, createDefaultValue(schema ?? {}))}
+            isQuiet={true}
+            aria-label='add a new item'
+            UNSAFE_className='add-item'
+          >
+            <Add aria-label='Change Reference' size='L' />
+          </ActionButton>
+          <Tooltip>Add a new Item</Tooltip>
+        </TooltipTrigger>
       </Flex>
     </View>
   );

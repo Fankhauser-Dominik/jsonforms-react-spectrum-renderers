@@ -58,9 +58,6 @@ import { JsonFormsStateContext, JsonFormsDispatch, withJsonFormsContext } from '
 import Delete from '@spectrum-icons/workflow/Delete';
 import ChevronDown from '@spectrum-icons/workflow/ChevronDown';
 import ChevronUp from '@spectrum-icons/workflow/ChevronUp';
-
-import './SpectrumArrayItem.css';
-
 import SpectrumProvider from '../../additional/SpectrumProvider';
 import { areEqual, settings } from '../../util';
 
@@ -102,28 +99,32 @@ const SpectrumArrayItem = ({
   const isExpanded = newExpanded === index;
 
   childLabel = childLabel ?? `Item ${index + 1}`;
+
+  const enableDetailedView = uischema?.options?.enableDetailedView ?? true;
+  const showItemNumber = uischema?.options?.showItemNumber ?? false;
   return (
     <SpectrumProvider>
       <View
         UNSAFE_className={`list-array-item ${
-          uischema?.options?.enableDetailedView ? 'enableDetailedView' : 'accordionView'
+          enableDetailedView ? 'enableDetailedView' : 'accordionView'
         } ${uischema?.options?.noAccordion ? 'noAccordion' : null}`}
         borderWidth='thin'
         borderColor='dark'
         borderRadius='medium'
         padding='size-150'
       >
-        <View aria-selected={isExpanded}>
+        <View aria-selected={isExpanded} width={'100%'}>
           <Flex
             direction='row'
-            // margin='size-50'
             justifyContent='space-between'
             alignItems='center'
             UNSAFE_className='spectrum-array-item-container'
           >
-            <View UNSAFE_className='spectrum-array-item-number'>
-              <Text>{index + 1}</Text>
-            </View>
+            {showItemNumber && (
+              <View UNSAFE_className='spectrum-array-item-number'>
+                <Text>{index + 1}</Text>
+              </View>
+            )}
             <ActionButton
               flex='auto'
               isQuiet
@@ -248,6 +249,25 @@ const withContextToSpectrumArrayItemProps =
 export const withJsonFormsSpectrumArrayItemProps = (
   Component: React.ComponentType<OwnPropsOfSpectrumArrayItem>
 ): React.ComponentType<any> =>
-  withJsonFormsContext(withContextToSpectrumArrayItemProps(React.memo(Component)));
+  withJsonFormsContext(
+    withContextToSpectrumArrayItemProps(
+      React.memo(
+        Component,
+        (prevProps: OwnPropsOfSpectrumArrayItem, nextProps: OwnPropsOfSpectrumArrayItem) => {
+          const {
+            handleExpand: prevHandleExpand,
+            removeItem: prevRemoveItem,
+            ...restPrevProps
+          } = prevProps;
+          const {
+            handleExpand: nextHandleExpand,
+            removeItem: nextRemoveItem,
+            ...restNextProps
+          } = nextProps;
+          return areEqual(restPrevProps, restNextProps);
+        }
+      )
+    )
+  );
 
 export default withJsonFormsSpectrumArrayItemProps(SpectrumArrayItem);
