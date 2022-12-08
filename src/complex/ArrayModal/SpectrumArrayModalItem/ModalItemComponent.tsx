@@ -148,10 +148,6 @@ const SpectrumArrayModalItem = React.memo(
       breadcrumbsRef.current = breadcrumbs;
     }, [breadcrumbs]);
 
-    // React.useEffect(() => {
-    //   breadcrumbs && toggleExpanded(breadcrumbs.hasPrefix(childPath));
-    // }, [breadcrumbs]);
-
     if (uischema.options?.oneOfModal) {
       indexOfFittingSchemaObject['oneOfModal'] = true;
     }
