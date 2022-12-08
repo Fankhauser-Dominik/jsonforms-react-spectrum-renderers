@@ -24,9 +24,9 @@ import React from 'react';
 import { View } from '@adobe/react-spectrum';
 import SpectrumProvider from '../../../additional/SpectrumProvider';
 import ModalItemHeader from './Header';
-import { openItemWhenInQueryParam } from '../utils';
 import { OwnPropsOfSpectrumArrayModalItem } from '../SpectrumContentFragmentReference';
 import { HandleChangeProps, ModalItemAnimationWrapper, withHandleChange } from '../../../util';
+import { Breadcrumbs, useBreadcrumbs } from '../../../context';
 
 const Item = React.memo(
   ({
@@ -44,70 +44,64 @@ const Item = React.memo(
   }: OwnPropsOfSpectrumArrayModalItem & HandleChangeProps) => {
     const [expanded, setExpanded] = React.useState(false);
     const [isAnimating, setIsAnimating] = React.useState(false);
+    const { breadcrumbs, addBreadcrumb, deleteBreadcrumb } = useBreadcrumbs();
 
-    const handleExpand = () => {
-      setIsAnimating(true);
-      if (expanded === false) {
-        window.postMessage(
-          {
-            type: 'expanded-item',
-            index,
-            path,
-            crxPath: childData?._path,
-            breadCrumbLabel: childLabel,
-            addToQuery: true,
-          },
-          '*'
-        );
-        setExpanded(true);
-        return;
-      }
-      window.postMessage(
-        {
-          type: 'expanded-item',
-          index,
-          path,
-          breadCrumbLabel: childLabel,
-          addToQuery: false,
-        },
-        '*'
-      );
-      setExpanded(false);
-
-      const url = window.location.href;
-      let newUrl: any = new URL(url);
-      if (window.location.href.endsWith(`${path}.${index}`)) {
-        newUrl = url.replace(`${path}.${index}`, '');
-      } else {
-        if (window.location.href.includes('formLocation=')) {
-          newUrl = url.substring(0, url.lastIndexOf('-'));
+    const toggleExpand = React.useCallback(
+      (desiredState?: boolean) => {
+        if (desiredState === undefined) {
+          desiredState = !expanded;
         }
-      }
-      window.history.pushState('', '', newUrl);
-
-      return;
-    };
-
-    function breadCrumbClose(message: MessageEvent) {
-      if (message.data.type !== 'close-item-breadcrumb') {
-        return;
-      }
-      if (message.data.path.includes(`${path}-${index}-${childLabel.replaceAll(/(-|_)/g, '+')}`)) {
         setIsAnimating(true);
-        setExpanded(false);
-      }
-    }
+        if (desiredState) {
+          window.postMessage(
+            {
+              type: 'expanded-item',
+              index,
+              path,
+              crxPath: childData?._path,
+              breadCrumbLabel: childLabel,
+              addToQuery: true,
+            },
+            '*'
+          );
+          setExpanded(desiredState);
+          addBreadcrumb({
+            path: path,
+            name: childLabel || layout?.label,
+          });
+          return;
+        } else {
+          window.postMessage(
+            {
+              type: 'expanded-item',
+              index,
+              path,
+              breadCrumbLabel: childLabel,
+              addToQuery: false,
+            },
+            '*'
+          );
+          setExpanded(desiredState);
+          deleteBreadcrumb(path);
+        }
+      },
+      [expanded, setExpanded, path, childLabel, addBreadcrumb, deleteBreadcrumb, breadcrumbs]
+    );
+
+    const breadcrumbsRef = React.useRef<Breadcrumbs | null>(null);
 
     React.useEffect(() => {
-      openItemWhenInQueryParam(path, index, setExpanded);
-    }, []);
-
-    React.useEffect(() => {
-      if (expanded) {
-        window.addEventListener('message', breadCrumbClose);
+      if (breadcrumbs.hasPrefix(path)) {
+        toggleExpand(true);
+      } else if (
+        breadcrumbsRef.current &&
+        breadcrumbsRef.current.hasPrefix(path) &&
+        !breadcrumbs.hasPrefix(path)
+      ) {
+        toggleExpand(false);
       }
-      return () => window.removeEventListener('message', breadCrumbClose);
-    }, [expanded]);
+      breadcrumbsRef.current = breadcrumbs;
+    }, [breadcrumbs]);
 
     const customPickerHandler = () => {
       window.postMessage({
@@ -146,7 +140,7 @@ const Item = React.memo(
         expanded={expanded}
         index={index}
         path={path}
-        handleExpand={handleExpand}
+        handleExpand={toggleExpand}
         removeItem={removeItem}
         childLabel={childLabel}
         childData={childData}
@@ -175,7 +169,7 @@ const Item = React.memo(
           {Header}
           <ModalItemAnimationWrapper
             expanded={expanded}
-            handleExpand={handleExpand}
+            handleExpand={toggleExpand}
             isAnimating={isAnimating}
             setIsAnimating={setIsAnimating}
             path={path}

@@ -58,7 +58,7 @@ export default function ModalItemHeader({
     lookupObj[actionName]();
   };
 
-  childLabel = layout?.label || childLabel;
+  childLabel = childLabel || layout?.label;
 
   return (
     <View aria-selected={expanded} UNSAFE_className='array-item-header'>
