@@ -40,7 +40,7 @@ export const SpectrumEnumWithTagGroupControl = (props: ControlProps) => {
 };
 export const SpectrumEnumWithTagGroupControlTester: RankedTester = rankWith(
   15,
-  and(isEnumControl, schemaTypeIs('array'))
+  and(isEnumControl, schemaTypeIs('arrays'))
 );
 
 export default withJsonFormsEnumProps(SpectrumEnumWithTagGroupControl);

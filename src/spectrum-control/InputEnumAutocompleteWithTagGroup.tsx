@@ -52,8 +52,12 @@ export const InputEnumAutocompleteWithTagGroup = React.memo(
     let [value, setValue] = React.useState(data ?? '');
     const handleOnChange = (value: any) => {
       setValue(value);
-      if (data.indexOf(value) === -1) {
-        handleChange(path, [...data, value]);
+      if (data?.indexOf(value) === undefined || data?.indexOf(value) === -1) {
+        if (data) {
+          handleChange(path, [...data, value]);
+        } else {
+          handleChange(path, [value]);
+        }
       }
       setTimeout(() => {
         setValue(null);
@@ -74,7 +78,7 @@ export const InputEnumAutocompleteWithTagGroup = React.memo(
 
     const deleteTag = (value: any[]) => {
       const tags = data;
-      tags.splice(tags.indexOf(value), 1);
+      tags.splice(tags?.indexOf(value), 1);
       handleChange(path, tags);
       setRefKey(RefKey + 1);
     };
@@ -124,9 +128,9 @@ export const InputEnumAutocompleteWithTagGroup = React.memo(
           items={data}
           allowsRemoving
           onRemove={(key: React.Key) => deleteTag([key])}
-          aria-label='Static TagGroup items example'
+          aria-label='TagGroup'
         >
-          {data.map((item: string) => (
+          {data?.map((item: string) => (
             <Item key={`${item}`}>{item}</Item>
           ))}
         </TagGroup>
