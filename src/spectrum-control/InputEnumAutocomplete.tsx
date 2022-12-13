@@ -29,6 +29,7 @@ import { SpectrumInputProps } from './index';
 import { DimensionValue } from '@react-types/shared';
 import { Item, ComboBox, ContextualHelp, Heading, Content, Text } from '@adobe/react-spectrum';
 import SpectrumProvider from '../additional/SpectrumProvider';
+import { TagGroup } from '@react-spectrum/tag';
 
 export const InputEnumAutocomplete = React.memo(
   ({
@@ -49,9 +50,23 @@ export const InputEnumAutocomplete = React.memo(
     const width: DimensionValue | undefined = appliedUiSchemaOptions.trim ? undefined : '100%';
 
     let [value, setValue] = React.useState(data ?? '');
+    const isArray = schema?.type === 'array';
     const handleOnChange = (value: any) => {
       setValue(value);
-      handleChange(path, value);
+      if (isArray) {
+        if (data?.indexOf(value) === undefined || data?.indexOf(value) === -1) {
+          if (data) {
+            handleChange(path, [...data, value]);
+          } else {
+            handleChange(path, [value]);
+          }
+        }
+        setTimeout(() => {
+          setValue(null);
+        }, 100);
+      } else {
+        handleChange(path, value);
+      }
     };
 
     React.useEffect(() => {
@@ -63,6 +78,15 @@ export const InputEnumAutocomplete = React.memo(
     label = label === '' || !label ? 'Enum' : label;
 
     const contextualHelp = appliedUiSchemaOptions?.contextualHelp ?? schema?.fieldDescription;
+
+    const [RefKey, setRefKey] = React.useState(0);
+
+    const deleteTag = (value: any) => {
+      const tags: any[] = data;
+      tags.splice(tags?.indexOf(value), 1);
+      handleChange(path, tags);
+      setRefKey(RefKey + 1);
+    };
 
     return (
       <SpectrumProvider width={width}>
@@ -105,6 +129,19 @@ export const InputEnumAutocomplete = React.memo(
             </Content>
           </ContextualHelp>
         ) : null}
+        {isArray && (
+          <TagGroup
+            items={data}
+            allowsRemoving
+            onRemove={(key: React.Key) => deleteTag(key)}
+            aria-label='TagGroup'
+          >
+            {data?.map((item: string) => {
+              const option = options?.find((option) => option.value === item);
+              return <Item key={option?.value}>{option?.label}</Item>;
+            })}
+          </TagGroup>
+        )}
       </SpectrumProvider>
     );
   }

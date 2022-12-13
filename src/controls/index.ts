@@ -38,9 +38,6 @@ import SpectrumBooleanButtonControl, {
 import SpectrumCheckboxControl, { SpectrumCheckboxControlTester } from './SpectrumCheckboxControl';
 import SpectrumSwitchControl, { SpectrumSwitchControlTester } from './SpectrumSwitchControl';
 import SpectrumEnumControl, { SpectrumEnumControlTester } from './SpectrumEnumControl';
-import SpectrumEnumWithTagGroupControl, {
-  SpectrumEnumWithTagGroupControlTester,
-} from './SpectrumEnumWithTagGroupControl';
 import SpectrumIntegerControl, { SpectrumIntegerControlTester } from './SpectrumIntegerControl';
 import SpectrumRadioGroupControl, {
   SpectrumRadioGroupControlTester,
@@ -81,8 +78,6 @@ export {
   SpectrumDateTimeControlTester,
   SpectrumEnumControl,
   SpectrumEnumControlTester,
-  SpectrumEnumWithTagGroupControl,
-  SpectrumEnumWithTagGroupControlTester,
   SpectrumIntegerControl,
   SpectrumIntegerControlTester,
   SpectrumRadioGroupControl,

@@ -41,6 +41,6 @@ export const SpectrumEnumControl = (props: ControlProps) => {
     />
   );
 };
-export const SpectrumEnumControlTester: RankedTester = rankWith(3, isEnumControl);
+export const SpectrumEnumControlTester: RankedTester = rankWith(5, isEnumControl);
 
 export default withJsonFormsEnumProps(SpectrumEnumControl);

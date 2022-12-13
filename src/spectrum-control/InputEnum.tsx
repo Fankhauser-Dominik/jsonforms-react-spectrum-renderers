@@ -29,6 +29,7 @@ import { SpectrumInputProps } from './index';
 import { DimensionValue } from '@react-types/shared';
 import { Content, ContextualHelp, Heading, Item, Picker, Text } from '@adobe/react-spectrum';
 import SpectrumProvider from '../additional/SpectrumProvider';
+import { TagGroup } from '@react-spectrum/tag';
 
 export const InputEnum = React.memo(
   ({
@@ -58,9 +59,23 @@ export const InputEnum = React.memo(
     };
 
     let [value, setValue] = React.useState(data ?? '');
+    const isArray = schema?.type === 'array';
     const handleOnChange = (value: any) => {
       setValue(value);
-      handleChange(path, value);
+      if (isArray) {
+        if (data?.indexOf(value) === undefined || data?.indexOf(value) === -1) {
+          if (data) {
+            handleChange(path, [...data, value]);
+          } else {
+            handleChange(path, [value]);
+          }
+        }
+        setTimeout(() => {
+          setValue(null);
+        }, 100);
+      } else {
+        handleChange(path, value);
+      }
     };
 
     React.useEffect(() => {
@@ -74,6 +89,15 @@ export const InputEnum = React.memo(
     const fallbackJsonSchema: JsonSchema4[] = [];
 
     const contextualHelp = appliedUiSchemaOptions?.contextualHelp ?? schema?.fieldDescription;
+
+    const [RefKey, setRefKey] = React.useState(0);
+
+    const deleteTag = (value: any) => {
+      const tags = data;
+      tags.splice(tags?.indexOf(value), 1);
+      handleChange(path, tags);
+      setRefKey(RefKey + 1);
+    };
 
     return (
       <SpectrumProvider width={width}>
@@ -113,6 +137,19 @@ export const InputEnum = React.memo(
             </Content>
           </ContextualHelp>
         ) : null}
+        {isArray && (
+          <TagGroup
+            items={data}
+            allowsRemoving
+            onRemove={(key: React.Key) => deleteTag(key)}
+            aria-label='TagGroup'
+          >
+            {data?.map((item: string) => {
+              const option = options?.find((option) => option.value === item);
+              return <Item key={option?.value}>{option?.label}</Item>;
+            })}
+          </TagGroup>
+        )}
       </SpectrumProvider>
     );
   }

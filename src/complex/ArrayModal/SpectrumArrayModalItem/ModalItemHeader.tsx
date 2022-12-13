@@ -70,7 +70,11 @@ export default function ModalItemHeader({
   const showItemNumber = uischema?.options?.showItemNumber ?? false;
 
   return (
-    <View aria-selected={expanded} UNSAFE_className='array-item-header'>
+    <View
+      aria-selected={expanded}
+      UNSAFE_className='array-item-header'
+      UNSAFE_style={expanded ? { zIndex: 50 } : {}}
+    >
       <Flex direction='row' margin='size-50' justifyContent='space-between' alignItems='center'>
         {showItemNumber && (
           <View UNSAFE_className='spectrum-array-item-number'>

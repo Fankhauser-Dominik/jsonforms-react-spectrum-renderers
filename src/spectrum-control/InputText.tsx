@@ -95,7 +95,7 @@ export const InputText = React.memo(
 
     const assetPicker = uischema.options?.assetPicker;
     const idlePostMessage = uischema.options?.idlePostMessage;
-    const assetPickerOptions = uischema.options?.assetPickerOptions;
+    const assetPickerOptions = uischema.options?.assetPicker;
 
     const sendMessage = () => {
       const message: object = {

@@ -41,7 +41,6 @@ import {
   SpectrumEnumCell,
   SpectrumEnumCellTester,
   SpectrumEnumControlTester,
-  SpectrumEnumWithTagGroupControlTester,
   SpectrumIntegerCell,
   SpectrumIntegerCellTester,
   SpectrumNumberCell,
@@ -50,8 +49,6 @@ import {
   SpectrumTextAreaCellTester,
   SpectrumTextCell,
   SpectrumTextCellTester,
-  // SpectrumLabelCell,
-  // SpectrumLabelCellTester,
 } from './cells';
 
 import {
@@ -70,7 +67,6 @@ import {
   SpectrumDateTimeControl,
   SpectrumDateTimeControlTester,
   SpectrumEnumControl,
-  SpectrumEnumWithTagGroupControl,
   SpectrumIntegerControl,
   SpectrumIntegerControlTester,
   SpectrumRadioGroupControl,
@@ -172,7 +168,6 @@ export const SpectrumRenderers: { tester: RankedTester; renderer: any }[] = [
   { tester: SpectrumDateControlTester, renderer: SpectrumDateControl },
   { tester: SpectrumDateTimeControlTester, renderer: SpectrumDateTimeControl },
   { tester: SpectrumEnumControlTester, renderer: SpectrumEnumControl },
-  { tester: SpectrumEnumWithTagGroupControlTester, renderer: SpectrumEnumWithTagGroupControl },
   {
     tester: SpectrumOneOfEnumControlTester,
     renderer: SpectrumOneOfEnumControl,
