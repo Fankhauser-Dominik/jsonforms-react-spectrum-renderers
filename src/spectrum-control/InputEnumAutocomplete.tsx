@@ -49,14 +49,12 @@ export const InputEnumAutocomplete = React.memo(
 
     const width: DimensionValue | undefined = appliedUiSchemaOptions.trim ? undefined : '100%';
 
+    let [value, setValue] = React.useState(data ?? '');
     const isArray = schema?.type === 'array';
-    let [value, setValue] = React.useState(isArray ? [] : data ?? '');
     const handleOnChange = (value: any) => {
       setValue(value);
       if (isArray) {
-        console.log('LALALA');
         if (data?.indexOf(value) === undefined || data?.indexOf(value) === -1) {
-          console.log('LULULU');
           if (data) {
             handleChange(path, [...data, value]);
           } else {
@@ -83,14 +81,12 @@ export const InputEnumAutocomplete = React.memo(
 
     const [RefKey, setRefKey] = React.useState(0);
 
-    const deleteTag = (value: any[]) => {
-      const tags = data;
+    const deleteTag = (value: any) => {
+      const tags: any[] = data;
       tags.splice(tags?.indexOf(value), 1);
       handleChange(path, tags);
       setRefKey(RefKey + 1);
     };
-
-    console.log(value);
 
     return (
       <SpectrumProvider width={width}>
@@ -133,11 +129,11 @@ export const InputEnumAutocomplete = React.memo(
             </Content>
           </ContextualHelp>
         ) : null}
-        {schema?.type === 'array' && (
+        {isArray && (
           <TagGroup
             items={data}
             allowsRemoving
-            onRemove={(key: React.Key) => deleteTag([key])}
+            onRemove={(key: React.Key) => deleteTag(key)}
             aria-label='TagGroup'
           >
             {data?.map((item: string) => {
