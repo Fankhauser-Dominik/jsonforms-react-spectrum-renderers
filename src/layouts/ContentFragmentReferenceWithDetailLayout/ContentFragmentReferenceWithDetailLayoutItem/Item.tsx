@@ -92,13 +92,13 @@ const Item = React.memo(
 
     React.useEffect(() => {
       if (breadcrumbs.hasPrefix(path)) {
-        toggleExpand(true);
+        !expanded && toggleExpand(true);
       } else if (
         breadcrumbsRef.current &&
         breadcrumbsRef.current.hasPrefix(path) &&
         !breadcrumbs.hasPrefix(path)
       ) {
-        toggleExpand(false);
+        expanded && toggleExpand(false);
       }
       breadcrumbsRef.current = breadcrumbs;
     }, [breadcrumbs]);

@@ -137,13 +137,13 @@ const SpectrumArrayModalItem = React.memo(
 
     React.useEffect(() => {
       if (breadcrumbs.hasPrefix(childPath)) {
-        toggleExpanded(true);
+        !expanded && toggleExpanded(true);
       } else if (
         breadcrumbsRef.current &&
         breadcrumbsRef.current.hasPrefix(childPath) &&
         !breadcrumbs.hasPrefix(childPath)
       ) {
-        toggleExpanded(false);
+        expanded && toggleExpanded(false);
       }
       breadcrumbsRef.current = breadcrumbs;
     }, [breadcrumbs]);
