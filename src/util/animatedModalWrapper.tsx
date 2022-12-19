@@ -28,6 +28,7 @@ export function ModalItemAnimationWrapper({
   children,
 }: AnimationWrapperProps) {
   const [isBlackoutHovered, setIsBlackoutHovered] = React.useState(false);
+  const [lockOverride, setLockOverride] = React.useState(false)
   const jsonFormWrapper =
     document.getElementById('json-form-wrapper') || document.getElementsByClassName('App-Form')[0];
 
@@ -38,6 +39,28 @@ export function ModalItemAnimationWrapper({
   const onRestFunction = () => {
     setIsAnimating(false);
   };
+
+  const modalHandler = (event: MessageEvent) => {
+    if (event.data.type === 'assetPickerClose') {
+      setLockOverride(false)
+    }
+    if (event.data.type === 'assetPickerOpen') {
+      setLockOverride(true)
+    }
+    if (event?.data?.type?.includes('customPicker')) {
+      typeof(event.data.open) === 'boolean' && setLockOverride(event.data.open)
+    }
+    return
+  }
+
+  React.useEffect(() => {
+    if (expanded) {
+      window.addEventListener('message', modalHandler)
+    } else {
+      window.removeEventListener('message', modalHandler)
+    }
+    return () => window.removeEventListener('message', modalHandler)
+  }, [expanded])
 
   const slideAnim = useSpring({
     config: { duration: 700, easing: easings.easeOutQuart },
@@ -58,7 +81,7 @@ export function ModalItemAnimationWrapper({
   return ReactDom.createPortal(
     <ReactFocusLock
       className='spectrum-detailed-view-dialog-wrapper'
-      disabled={!expanded || isAnimating}
+      disabled={!expanded || isAnimating || lockOverride}
       returnFocus={true}
       as={'div'}
       shards={[document.getElementById('debug-menu-button') as HTMLElement]}
