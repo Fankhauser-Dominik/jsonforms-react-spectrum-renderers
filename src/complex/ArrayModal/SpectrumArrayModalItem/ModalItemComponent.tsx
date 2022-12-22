@@ -81,7 +81,19 @@ const SpectrumArrayModalItem = React.memo(
         if (desiredState === undefined) {
           desiredState = !expanded;
         }
+        if (desiredState) {
+          addBreadcrumb({
+            path: childPath,
+            name: childLabel,
+          });
+        } else {
+          deleteBreadcrumb(childPath);
+        }
+        if (desiredState === expanded) {
+          return;
+        }
         setIsAnimating(true);
+        setExpanded(desiredState);
         if (desiredState) {
           if (enableDetailedView === true) {
             window.postMessage(
@@ -97,11 +109,6 @@ const SpectrumArrayModalItem = React.memo(
             );
           }
           callbackOpenedIndex(index);
-          setExpanded(true);
-          addBreadcrumb({
-            path: childPath,
-            name: childLabel,
-          });
         } else {
           if (enableDetailedView === true) {
             window.postMessage(
@@ -116,11 +123,7 @@ const SpectrumArrayModalItem = React.memo(
             );
           }
           callbackOpenedIndex(undefined);
-          setExpanded(false);
-          deleteBreadcrumb(childPath);
         }
-
-        return;
       },
       [
         expanded,
@@ -137,13 +140,13 @@ const SpectrumArrayModalItem = React.memo(
 
     React.useEffect(() => {
       if (breadcrumbs.hasPrefix(childPath)) {
-        !expanded && toggleExpanded(true);
+        toggleExpanded(true);
       } else if (
         breadcrumbsRef.current &&
         breadcrumbsRef.current.hasPrefix(childPath) &&
         !breadcrumbs.hasPrefix(childPath)
       ) {
-        expanded && toggleExpanded(false);
+        toggleExpanded(false);
       }
       breadcrumbsRef.current = breadcrumbs;
     }, [breadcrumbs]);
