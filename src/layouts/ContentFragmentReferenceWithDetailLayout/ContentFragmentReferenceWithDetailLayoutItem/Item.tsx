@@ -51,7 +51,19 @@ const Item = React.memo(
         if (desiredState === undefined) {
           desiredState = !expanded;
         }
+        if (desiredState) {
+          addBreadcrumb({
+            path: path,
+            name: childLabel || layout?.label,
+          });
+        } else {
+          deleteBreadcrumb(path);
+        }
+        if (desiredState === expanded) {
+          return;
+        }
         setIsAnimating(true);
+        setExpanded(desiredState);
         if (desiredState) {
           window.postMessage(
             {
@@ -64,12 +76,6 @@ const Item = React.memo(
             },
             '*'
           );
-          setExpanded(desiredState);
-          addBreadcrumb({
-            path: path,
-            name: childLabel || layout?.label,
-          });
-          return;
         } else {
           window.postMessage(
             {
@@ -81,8 +87,6 @@ const Item = React.memo(
             },
             '*'
           );
-          setExpanded(desiredState);
-          deleteBreadcrumb(path);
         }
       },
       [expanded, setExpanded, path, childLabel, addBreadcrumb, deleteBreadcrumb, breadcrumbs]
@@ -92,13 +96,13 @@ const Item = React.memo(
 
     React.useEffect(() => {
       if (breadcrumbs.hasPrefix(path)) {
-        !expanded && toggleExpand(true);
+        toggleExpand(true);
       } else if (
         breadcrumbsRef.current &&
         breadcrumbsRef.current.hasPrefix(path) &&
         !breadcrumbs.hasPrefix(path)
       ) {
-        expanded && toggleExpand(false);
+        toggleExpand(false);
       }
       breadcrumbsRef.current = breadcrumbs;
     }, [breadcrumbs]);
