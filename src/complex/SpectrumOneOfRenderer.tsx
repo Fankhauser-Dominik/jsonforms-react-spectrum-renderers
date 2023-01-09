@@ -105,6 +105,15 @@ const SpectrumOneOfRenderer = ({
       uischemas
     );
   }
+  oneOfRenderInfos = oneOfRenderInfos?.map((oneOfRenderInfo) => {
+    if (oneOfRenderInfo.uischema.type === 'ContentFragmentReferenceWithDetail') {
+      return Object.assign({}, oneOfRenderInfo, {
+        uischema: (oneOfRenderInfo.uischema as any).elements[0],
+      });
+    } else {
+      return oneOfRenderInfo;
+    }
+  });
 
   const openNewTab = (newIndex: number) => {
     if (schema?.oneOf) {
