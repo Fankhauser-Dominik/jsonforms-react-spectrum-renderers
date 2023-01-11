@@ -27,7 +27,7 @@ import { EnumCellProps } from '@jsonforms/core';
 import merge from 'lodash/merge';
 import { SpectrumInputProps } from './index';
 import { DimensionValue } from '@react-types/shared';
-import { Item, ComboBox, ContextualHelp, Heading, Content, Text } from '@adobe/react-spectrum';
+import { Content, Item, ContextualHelp, Heading, Text, ComboBox } from '@adobe/react-spectrum';
 import SpectrumProvider from '../additional/SpectrumProvider';
 import { TagGroup } from '@react-spectrum/tag';
 
@@ -46,7 +46,6 @@ export const InputEnumAutocomplete = React.memo(
     uischema,
   }: EnumCellProps & SpectrumInputProps) => {
     const appliedUiSchemaOptions = merge({}, config, uischema.options);
-
     const width: DimensionValue | undefined = appliedUiSchemaOptions.trim ? undefined : '100%';
 
     let [value, setValue] = React.useState(data ?? '');
@@ -54,7 +53,7 @@ export const InputEnumAutocomplete = React.memo(
     const handleOnChange = (value: any) => {
       setValue(value);
       if (isArray) {
-        if (data?.indexOf(value) === undefined || data?.indexOf(value) === -1) {
+        if (!(data?.indexOf(value) >= 0)) {
           if (data) {
             handleChange(path, [...data, value]);
           } else {
@@ -75,17 +74,15 @@ export const InputEnumAutocomplete = React.memo(
       }
     }, [schema?.default]);
 
-    label = label === '' || !label ? 'Enum' : label;
+    label = label || 'Enum';
 
     const contextualHelp = appliedUiSchemaOptions?.contextualHelp ?? schema?.fieldDescription;
 
-    const [RefKey, setRefKey] = React.useState(0);
-
-    const deleteTag = (value: any) => {
-      const tags: any[] = data;
-      tags.splice(tags?.indexOf(value), 1);
-      handleChange(path, tags);
-      setRefKey(RefKey + 1);
+    const deleteTag = (value: React.Key) => {
+      handleChange(
+        path,
+        (data as string[]).filter((item) => item !== value)
+      );
     };
 
     return (
