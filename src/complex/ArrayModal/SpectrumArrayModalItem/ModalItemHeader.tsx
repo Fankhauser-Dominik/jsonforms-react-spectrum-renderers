@@ -68,6 +68,18 @@ export default function ModalItemHeader({
   };
 
   const showItemNumber = uischema?.options?.showItemNumber ?? false;
+  const pathFilter = uischema?.options?.pathFilter;
+
+  let displayPath = '';
+  if (typeof pathFilter === 'string') {
+    displayPath = childData?._path?.replace(pathFilter, '') || '';
+    if (displayPath.startsWith('/')) {displayPath = displayPath.substring(1)}
+  } else {
+    displayPath = childData?._path?.split('/').slice(3).join('/') || '';
+    if (displayPath) {
+      displayPath = `/${displayPath}/`;
+    }
+  }
 
   return (
     <View
@@ -84,22 +96,44 @@ export default function ModalItemHeader({
         {uischema?.options?.noAccordion ? (
           <View UNSAFE_className='JsonFormsDispatchContainer'>{JsonFormsDispatch}</View>
         ) : (
-          <TooltipTrigger delay={settings.toolTipDelay} placement={'top'}>
-            <ActionButton
-              flex={'1 1 auto'}
-              isQuiet
-              onPress={() => handleExpand()}
-              aria-label={`expand-item-${childLabel}`}
+          <ActionButton
+            flex={'1 1 auto'}
+            isQuiet
+            onPress={() => handleExpand()}
+            aria-label={`expand-item-${childLabel}`}
+          >
+            <Text
+              UNSAFE_style={{
+                position: 'absolute',
+                direction: 'rtl',
+                opacity: 0.7,
+                bottom: -5,
+                left: 0,
+                fontSize: '12px',
+                height: 18,
+                maxWidth: 'calc(100% - 12px)',
+                textOverflow: 'ellipsis',
+                overflow: 'hidden',
+                whiteSpace: 'nowrap',
+                textAlign: 'left',
+                alignSelf: 'start',
+                justifyContent: 'start',
+              }}
             >
-              <Text
-                UNSAFE_className='spectrum-array-item-name'
-                UNSAFE_style={{ textAlign: 'left', width: '100%' }}
-              >
-                {childLabel}
-              </Text>
-            </ActionButton>
-            <Tooltip>{childData?._path || childLabel}</Tooltip>
-          </TooltipTrigger>
+              {displayPath}
+            </Text>
+            <Text
+              UNSAFE_className='spectrum-array-item-name'
+              UNSAFE_style={{
+                textAlign: 'left',
+                width: '100%',
+                transform: 'translateY(-20%)',
+                fontWeight: 600,
+              }}
+            >
+              {childLabel}
+            </Text>
+          </ActionButton>
         )}
         <View>
           <Flex gap={'size-0'}>
