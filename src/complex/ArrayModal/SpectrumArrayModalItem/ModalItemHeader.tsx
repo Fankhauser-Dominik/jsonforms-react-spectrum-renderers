@@ -102,7 +102,7 @@ export default function ModalItemHeader({
             onPress={() => handleExpand()}
             aria-label={`expand-item-${childLabel}`}
           >
-            <Text
+            {childData?._path ? <Text
               UNSAFE_style={{
                 position: 'absolute',
                 direction: 'rtl',
@@ -121,13 +121,13 @@ export default function ModalItemHeader({
               }}
             >
               {displayPath}
-            </Text>
+            </Text> : null}
             <Text
               UNSAFE_className='spectrum-array-item-name'
               UNSAFE_style={{
                 textAlign: 'left',
                 width: '100%',
-                transform: 'translateY(-20%)',
+                transform: childData?._path ? 'translateY(-20%)' : '',
                 fontWeight: 600,
               }}
             >
