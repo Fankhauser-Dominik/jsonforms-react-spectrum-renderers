@@ -169,11 +169,17 @@ div[class^='spectrum-Textfield'] {
 .list-array-item {
   background-color: var(--spectrum-global-color-gray-100);
   padding: 10px !important;
-  min-height: 62px !important;
+  height: 62px !important;
+  display: flex;
+  align-items: center;
 }
 
 .list-array-item.noAccordion {
   padding: 8px 12px !important;
+}
+
+.disabledMovement {
+  cursor: not-allowed !important;
 }
 
 .keyboardMovement {
@@ -189,7 +195,7 @@ div[class^='spectrum-Textfield'] {
 }
 
 .keyboardUser,
-.keyboard-user .mouseUser {
+.keyboard-user .mouseDragHandle {
   display: none;
 }
 

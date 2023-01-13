@@ -20,12 +20,13 @@ function SortButtons({
   moveDown,
   moveUp,
   path,
-  uischema,
-}: ArrayModalControlSortButtonsProps) {
+}: // uischema,
+ArrayModalControlSortButtonsProps) {
   return (
     <Flex
-      direction={uischema.options?.sortButtonDirection === 'Horizontal' ? 'row' : 'column'}
-      marginTop={uischema.options?.sortButtonDirection === 'Horizontal' ? 'size-225' : 'size-65'}
+      direction={'column'}
+      // direction={uischema.options?.sortButtonDirection === 'Horizontal' ? 'row' : 'column'}
+      // marginTop={uischema.options?.sortButtonDirection === 'Horizontal' ? 'size-225' : 'size-0'}
     >
       <TooltipTrigger delay={settings.toolTipDelay}>
         <ActionButton
@@ -33,6 +34,8 @@ function SortButtons({
           onPress={moveUp(path, index)}
           aria-label={`move-item-${path}.${index}-up`}
           marginX='size-10'
+          UNSAFE_style={{ position: 'absolute', marginTop: '-5px' }}
+          UNSAFE_className={index <= 0 ? 'disabledMovement' : ''}
           isDisabled={index <= 0}
           height='size-325'
         >
@@ -46,6 +49,8 @@ function SortButtons({
           onPress={moveDown(path, index)}
           aria-label={`move-item-${path}.${index}-down`}
           marginX='size-10'
+          UNSAFE_style={{ position: 'absolute', marginTop: '15px' }}
+          UNSAFE_className={index >= data.length - 1 ? 'disabledMovement' : ''}
           isDisabled={index >= data.length - 1}
           height='size-325'
         >

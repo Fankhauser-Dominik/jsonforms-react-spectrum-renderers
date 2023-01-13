@@ -523,7 +523,7 @@ UI Schema
 {
   "type": "object",
   "properties": {
-    "enum": {
+    "enumComponent": {
       "default": "foo",
       "enum": ["foo", "bar"],
       "type": "string"
@@ -539,7 +539,7 @@ UI Schema
 | --------- | -------- | ------------------------- | ---------------------- | ---------------------------------------------------- |
 | "default" | no       | null                      | One of the Enum Values | Default Value (will be inserted only at rendertime). |
 | "enum"    | yes      | null                      | "enum"                 | Must be enum.                                        |
-| "type"    | no       | null                      | "string"               | Optional.                                            |
+| "type"    | no       | "string"                  | "string" or "array"    | For multiple selection, choose array.                |
 
 ### UI Schema and Custom options
 
@@ -549,7 +549,7 @@ UI Schema
   "elements": [
     {
       "type": "Control",
-      "scope": "#/properties/enum",
+      "scope": "#/properties/enumComponent",
       "label": "Enum Component", //Optional Label, default label is the property name, in this example it would be Enum
       "options": {
         "align": "start",
@@ -596,6 +596,45 @@ UI Schema
 </details>
 <br/>
 
+## Different Name and Value for Enum and Enum Autocomplete
+
+<details>
+<summary>Show me how to use it</summary>
+
+For the Enum Component you can use different names and values for the enum. This is useful if you want to display a different name than the value in the UI. For example if you want to display "Foo" instead of "foo" in the UI.
+For that you have to change enum to oneOf and the array is an array of objects with title and value.
+
+### Schema
+
+```jsonc
+{
+  "type": "object",
+  "properties": {
+    "enumWithDifferentTitleValue": {
+      "type": "string",
+      "oneOf": [
+        {
+          "const": "foo",
+          "title": "Foo"
+        },
+        {
+          "const": "bar",
+          "title": "Bar"
+        },
+        {
+          "const": "foobar",
+          "title": "FooBar"
+        }
+      ]
+    }
+  },
+  "required": ["enumComponent"] //If it should be required
+}
+```
+
+</details>
+<br/>
+
 # Enum Autocomplete Component
 
 [React Spectrum ComboBox](https://react-spectrum.adobe.com/react-spectrum/ComboBox.html)
@@ -625,7 +664,7 @@ UI Schema
 | --------- | -------- | ------------------------- | ---------------------- | ---------------------------------------------------- |
 | "default" | no       | null                      | One of the Enum Values | Default Value (will be inserted only at rendertime). |
 | "enum"    | yes      | null                      | "enum"                 | Must be enum.                                        |
-| "type"    | no       | null                      | "string"               | Optional.                                            |
+| "type"    | no       | "string"                  | "string" or "array"    | For multiple selection, choose array.                |
 
 ### UI Schema and Custom options
 

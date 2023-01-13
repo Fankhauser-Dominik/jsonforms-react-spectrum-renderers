@@ -39,7 +39,7 @@ import SpectrumProvider from '../../../additional/SpectrumProvider';
 import { indexOfFittingSchemaObject } from '../utils';
 import ModalItemHeader from './ModalItemHeader';
 import { findValue } from './ModalItemUtils';
-import { ModalItemAnimationWrapper } from '../../../util';
+import { checkIfUserIsOnMobileDevice, ModalItemAnimationWrapper } from '../../../util';
 import { Breadcrumbs, useBreadcrumbs } from '../../../context';
 
 interface NonEmptyRowProps {
@@ -58,6 +58,7 @@ const SpectrumArrayModalItem = React.memo(
     duplicateItem,
     enabled,
     index,
+    openIndex,
     path,
     removeItem,
     renderers,
@@ -69,15 +70,20 @@ const SpectrumArrayModalItem = React.memo(
     const childPath = composePaths(path, `${index}`);
     /* If The Component has an empty Object, open it (true for a newly added Component) */
     const [expanded, setExpanded] = React.useState(
-      JSON.stringify(childData) === '{}' ? true : false
+      JSON.stringify(childData) === '{}' ? true : openIndex === index ? true : false
     );
     const [isAnimating, setIsAnimating] = React.useState(false);
     const enableDetailedView = uischema?.options?.enableDetailedView ?? true;
+
+    const userIsOnMobileDevice: boolean = checkIfUserIsOnMobileDevice(
+      navigator.userAgent.toLowerCase()
+    );
 
     const { breadcrumbs, addBreadcrumb, deleteBreadcrumb } = useBreadcrumbs();
 
     const toggleExpanded = React.useCallback(
       (desiredState?: boolean) => {
+        console.log('toggleExpanded', desiredState, expanded);
         if (desiredState === undefined) {
           desiredState = !expanded;
         }
@@ -92,7 +98,9 @@ const SpectrumArrayModalItem = React.memo(
         if (desiredState === expanded) {
           return;
         }
-        setIsAnimating(true);
+        if (!userIsOnMobileDevice) {
+          setIsAnimating(true);
+        }
         setExpanded(desiredState);
         if (desiredState) {
           if (enableDetailedView === true) {
@@ -183,7 +191,7 @@ const SpectrumArrayModalItem = React.memo(
       />
     );
 
-    const Header = (
+    const header = (
       <ModalItemHeader
         DNDHandle={DNDHandle}
         JsonFormsDispatch={JsonFormsDispatchComponent}
@@ -217,22 +225,30 @@ const SpectrumArrayModalItem = React.memo(
           borderRadius='medium'
           padding='size-150'
         >
-          {Header}
-          <ModalItemAnimationWrapper
-            expanded={expanded}
-            handleExpand={toggleExpanded}
-            enableDetailedView={enableDetailedView}
-            isAnimating={isAnimating}
-            setIsAnimating={setIsAnimating}
-            path={path}
-          >
-            {expanded || isAnimating ? (
-              <View UNSAFE_className='json-form-dispatch-wrapper'>
-                {enableDetailedView && Header}
-                {JsonFormsDispatchComponent}
-              </View>
-            ) : null}
-          </ModalItemAnimationWrapper>
+          {header}
+          {expanded && !enableDetailedView && (
+            <View UNSAFE_className='json-form-dispatch-wrapper'>
+              {enableDetailedView && header}
+              {JsonFormsDispatchComponent}
+            </View>
+          )}
+          {enableDetailedView && (
+            <ModalItemAnimationWrapper
+              enableDetailedView={enableDetailedView}
+              expanded={expanded}
+              handleExpand={toggleExpanded}
+              isAnimating={isAnimating}
+              path={path}
+              setIsAnimating={setIsAnimating}
+            >
+              {expanded || isAnimating ? (
+                <View UNSAFE_className='json-form-dispatch-wrapper'>
+                  {enableDetailedView && header}
+                  {JsonFormsDispatchComponent}
+                </View>
+              ) : null}
+            </ModalItemAnimationWrapper>
+          )}
         </View>
       </SpectrumProvider>
     );
@@ -241,6 +257,7 @@ const SpectrumArrayModalItem = React.memo(
 
 export interface OwnPropsOfSpectrumArrayModalItem {
   index: number;
+  openIndex: number;
   DNDHandle: any;
   enabled: boolean;
   path: string;

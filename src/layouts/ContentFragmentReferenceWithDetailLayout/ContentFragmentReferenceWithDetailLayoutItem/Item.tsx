@@ -138,7 +138,7 @@ const Item = React.memo(
       };
     }, [data]);
 
-    const Header = (
+    const header = (
       <ModalItemHeader
         data={data}
         expanded={expanded}
@@ -171,15 +171,15 @@ const Item = React.memo(
           borderRadius='medium'
           padding='size-150'
         >
-          {Header}
+          {header}
           <ModalItemAnimationWrapper
+            elements={elements[index]}
             expanded={expanded}
             handleExpand={toggleExpand}
+            header={header}
             isAnimating={isAnimating}
-            setIsAnimating={setIsAnimating}
             path={path}
-            elements={elements[index]}
-            Header={Header}
+            setIsAnimating={setIsAnimating}
           />
         </View>
       </SpectrumProvider>

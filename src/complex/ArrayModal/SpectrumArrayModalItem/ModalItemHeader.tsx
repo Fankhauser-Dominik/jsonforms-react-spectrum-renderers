@@ -73,7 +73,9 @@ export default function ModalItemHeader({
   let displayPath = '';
   if (typeof pathFilter === 'string') {
     displayPath = childData?._path?.replace(pathFilter, '') || '';
-    if (displayPath.startsWith('/')) {displayPath = displayPath.substring(1)}
+    if (displayPath.startsWith('/')) {
+      displayPath = displayPath.substring(1);
+    }
   } else {
     displayPath = childData?._path?.split('/').slice(3).join('/') || '';
     if (displayPath) {
@@ -102,26 +104,28 @@ export default function ModalItemHeader({
             onPress={() => handleExpand()}
             aria-label={`expand-item-${childLabel}`}
           >
-            {childData?._path ? <Text
-              UNSAFE_style={{
-                position: 'absolute',
-                direction: 'rtl',
-                opacity: 0.7,
-                bottom: -5,
-                left: 0,
-                fontSize: '12px',
-                height: 18,
-                maxWidth: 'calc(100% - 12px)',
-                textOverflow: 'ellipsis',
-                overflow: 'hidden',
-                whiteSpace: 'nowrap',
-                textAlign: 'left',
-                alignSelf: 'start',
-                justifyContent: 'start',
-              }}
-            >
-              {displayPath}
-            </Text> : null}
+            {childData?._path ? (
+              <Text
+                UNSAFE_style={{
+                  position: 'absolute',
+                  direction: 'rtl',
+                  opacity: 0.7,
+                  bottom: -5,
+                  left: 0,
+                  fontSize: '12px',
+                  height: 18,
+                  maxWidth: 'calc(100% - 12px)',
+                  textOverflow: 'ellipsis',
+                  overflow: 'hidden',
+                  whiteSpace: 'nowrap',
+                  textAlign: 'left',
+                  alignSelf: 'start',
+                  justifyContent: 'start',
+                }}
+              >
+                {displayPath}
+              </Text>
+            ) : null}
             <Text
               UNSAFE_className='spectrum-array-item-name'
               UNSAFE_style={{
@@ -192,7 +196,7 @@ export default function ModalItemHeader({
                 </Tooltip>
               </TooltipTrigger>
             )}
-            {DNDHandle && !expanded && (
+            {DNDHandle && (!enableDetailedView || (enableDetailedView && !expanded)) && (
               <>
                 <Divider orientation='vertical' size='M' marginStart={'size-100'} />
                 {DNDHandle}
