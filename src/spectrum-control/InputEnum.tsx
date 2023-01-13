@@ -23,11 +23,11 @@
   THE SOFTWARE.
 */
 import React from 'react';
-import { EnumCellProps, JsonSchema, JsonSchema4 } from '@jsonforms/core';
+import { EnumCellProps } from '@jsonforms/core';
 import merge from 'lodash/merge';
 import { SpectrumInputProps } from './index';
 import { DimensionValue } from '@react-types/shared';
-import { Content, ContextualHelp, Heading, Item, Picker, Text } from '@adobe/react-spectrum';
+import { Content, Item, ContextualHelp, Heading, Text, Picker } from '@adobe/react-spectrum';
 import SpectrumProvider from '../additional/SpectrumProvider';
 import { TagGroup } from '@react-spectrum/tag';
 
@@ -48,22 +48,12 @@ export const InputEnum = React.memo(
     const appliedUiSchemaOptions = merge({}, config, uischema.options);
     const width: DimensionValue | undefined = appliedUiSchemaOptions.trim ? undefined : '100%';
 
-    const findEnumSchema = (schemas: JsonSchema[]) =>
-      schemas.find((s) => s.enum !== undefined && (s.type === 'string' || s.type === undefined));
-
-    const tryEnumSchema = (anyOf: JsonSchema[]) => {
-      const enumSchema = findEnumSchema(anyOf);
-      return enumSchema?.enum?.map((v) => {
-        return { value: v, label: v };
-      });
-    };
-
     let [value, setValue] = React.useState(data ?? '');
     const isArray = schema?.type === 'array';
     const handleOnChange = (value: any) => {
       setValue(value);
       if (isArray) {
-        if (data?.indexOf(value) === undefined || data?.indexOf(value) === -1) {
+        if (!(data?.indexOf(value) >= 0)) {
           if (data) {
             handleChange(path, [...data, value]);
           } else {
@@ -84,19 +74,15 @@ export const InputEnum = React.memo(
       }
     }, [schema?.default]);
 
-    label = label === '' || !label ? 'Enum' : label;
-
-    const fallbackJsonSchema: JsonSchema4[] = [];
+    label = label || 'Enum';
 
     const contextualHelp = appliedUiSchemaOptions?.contextualHelp ?? schema?.fieldDescription;
 
-    const [RefKey, setRefKey] = React.useState(0);
-
-    const deleteTag = (value: any) => {
-      const tags = data;
-      tags.splice(tags?.indexOf(value), 1);
-      handleChange(path, tags);
-      setRefKey(RefKey + 1);
+    const deleteTag = (value: React.Key) => {
+      handleChange(
+        path,
+        (data as string[]).filter((item) => item !== value)
+      );
     };
 
     return (
@@ -113,7 +99,7 @@ export const InputEnum = React.memo(
           isDisabled={enabled === undefined ? false : !enabled}
           isQuiet={appliedUiSchemaOptions.isQuiet ?? false}
           isRequired={required}
-          items={options ?? tryEnumSchema(!schema?.anyOf ? fallbackJsonSchema : schema?.anyOf)}
+          items={options}
           key={id}
           label={label}
           labelAlign={appliedUiSchemaOptions.labelAlign ?? 'start'}
