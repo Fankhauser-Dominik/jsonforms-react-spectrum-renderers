@@ -31,6 +31,7 @@ interface ArrayModalItemHeaderProps {
     handler: (current?: object) => void;
   };
   layout: any;
+  uischema: any;
 }
 
 export default function ModalItemHeader({
@@ -43,6 +44,7 @@ export default function ModalItemHeader({
   childLabel,
   customPicker,
   layout,
+  uischema,
 }: ArrayModalItemHeaderProps) {
   const noData = !data?.['_path'];
   const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
@@ -58,25 +60,67 @@ export default function ModalItemHeader({
     lookupObj[actionName]();
   };
 
+  const pathFilter = uischema?.options?.pathFilter;
+
+  let displayPath = '';
+  if (typeof pathFilter === 'string') {
+    displayPath = data?._path?.replace(pathFilter, '') || '';
+    if (displayPath.startsWith('/')) {
+      displayPath = displayPath.substring(1);
+    }
+  } else {
+    displayPath = data?._path?.split('/').slice(3).join('/') || '';
+    if (displayPath) {
+      displayPath = `/${displayPath}/`;
+    }
+  }
+
   childLabel = childLabel || layout?.label;
 
   return (
     <View aria-selected={expanded} UNSAFE_className='array-item-header'>
       <Flex direction='row' margin='size-50' justifyContent='space-between' alignItems='center'>
-        <TooltipTrigger delay={settings.toolTipDelay} placement={'top'}>
-          <ActionButton
-            flex={'1 1 auto'}
-            isQuiet
-            onPress={() => handleExpand()}
-            aria-label={`expand-item-${childLabel}`}
-            isDisabled={noData}
-          >
-            <Text UNSAFE_className='spectrum-array-item-name' UNSAFE_style={{ textAlign: 'left' }}>
-              {childLabel}
+        <ActionButton
+          flex={'1 1 auto'}
+          isQuiet
+          onPress={() => handleExpand()}
+          aria-label={`expand-item-${childLabel}`}
+          isDisabled={noData}
+        >
+          {data?._path ? (
+            <Text
+              UNSAFE_style={{
+                position: 'absolute',
+                direction: 'rtl',
+                opacity: 0.7,
+                bottom: -5,
+                left: 0,
+                fontSize: '12px',
+                height: 18,
+                maxWidth: 'calc(100% - 12px)',
+                textOverflow: 'ellipsis',
+                overflow: 'hidden',
+                whiteSpace: 'nowrap',
+                textAlign: 'left',
+                alignSelf: 'start',
+                justifyContent: 'start',
+              }}
+            >
+              {displayPath}
             </Text>
-          </ActionButton>
-          <Tooltip>{data?._path || childLabel}</Tooltip>
-        </TooltipTrigger>
+          ) : null}
+          <Text
+            UNSAFE_className='spectrum-array-item-name'
+            UNSAFE_style={{
+              textAlign: 'left',
+              width: '100%',
+              transform: data?._path ? 'translateY(-20%)' : '',
+              fontWeight: 600,
+            }}
+          >
+            {childLabel}
+          </Text>
+        </ActionButton>
         <View>
           {noData ? (
             <Flex gap={'size-0'}>

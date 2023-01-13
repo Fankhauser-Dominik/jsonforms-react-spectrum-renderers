@@ -79,6 +79,7 @@ export const SpectrumArrayControl = ({
           Array.from(Array(data.length)).map((_, index) => {
             return (
               <SpectrumArrayItem
+                data={data[index]}
                 index={index}
                 path={path}
                 schema={schema}

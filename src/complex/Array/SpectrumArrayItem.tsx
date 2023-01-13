@@ -62,6 +62,7 @@ import SpectrumProvider from '../../additional/SpectrumProvider';
 import { settings } from '../../util';
 
 export interface OwnPropsOfSpectrumArrayItem {
+  data: any;
   childLabel?: string;
   enabled?: boolean;
   expanded: number | undefined;
@@ -79,6 +80,7 @@ export interface OwnPropsOfSpectrumArrayItem {
 }
 
 const SpectrumArrayItem = ({
+  data,
   childLabel,
   enabled,
   expanded,
@@ -102,6 +104,22 @@ const SpectrumArrayItem = ({
 
   const enableDetailedView = uischema?.options?.enableDetailedView ?? true;
   const showItemNumber = uischema?.options?.showItemNumber ?? false;
+
+  const pathFilter = uischema?.options?.pathFilter;
+
+  let displayPath = '';
+  if (typeof pathFilter === 'string') {
+    displayPath = data?._path?.replace(pathFilter, '') || '';
+    if (displayPath.startsWith('/')) {
+      displayPath = displayPath.substring(1);
+    }
+  } else {
+    displayPath = data?._path?.split('/').slice(3).join('/') || '';
+    if (displayPath) {
+      displayPath = `/${displayPath}/`;
+    }
+  }
+
   return (
     <SpectrumProvider>
       <View
@@ -131,7 +149,38 @@ const SpectrumArrayItem = ({
               onPress={handleExpand(index)}
               aria-label={`expand-item-${childLabel}`}
             >
-              <Text UNSAFE_style={{ textAlign: 'left' }}>{childLabel}</Text>
+              {data?._path ? (
+                <Text
+                  UNSAFE_style={{
+                    position: 'absolute',
+                    direction: 'rtl',
+                    opacity: 0.7,
+                    bottom: -5,
+                    left: 0,
+                    fontSize: '12px',
+                    height: 18,
+                    maxWidth: 'calc(100% - 12px)',
+                    textOverflow: 'ellipsis',
+                    overflow: 'hidden',
+                    whiteSpace: 'nowrap',
+                    textAlign: 'left',
+                    alignSelf: 'start',
+                    justifyContent: 'start',
+                  }}
+                >
+                  {displayPath}
+                </Text>
+              ) : null}
+              <Text
+                UNSAFE_style={{
+                  textAlign: 'left',
+                  width: '100%',
+                  transform: data?._path ? 'translateY(-20%)' : '',
+                  fontWeight: 600,
+                }}
+              >
+                {childLabel}
+              </Text>
             </ActionButton>
             <View>
               <TooltipTrigger delay={settings.toolTipDelay}>

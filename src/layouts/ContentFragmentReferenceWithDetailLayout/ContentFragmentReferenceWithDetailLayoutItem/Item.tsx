@@ -153,6 +153,7 @@ const Item = React.memo(
           handler: customPickerHandler,
         }}
         layout={layout}
+        uischema={uischema}
       />
     );
 
