@@ -165,7 +165,7 @@ const Item = React.memo(
         <View
           UNSAFE_className={`list-array-item enableDetailedView ${
             expanded ? 'expanded' : 'collapsed'
-          }`}
+          } ${uischema?.options?.noAccordion ? 'noAccordion' : null}`}
           borderWidth='thin'
           borderColor='dark'
           borderRadius='medium'

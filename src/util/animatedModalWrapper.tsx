@@ -110,11 +110,13 @@ export const ModalItemAnimationWrapper = ({
             expanded || isAnimating ? (
               <View UNSAFE_className='json-form-dispatch-wrapper'>
                 {header}
-                <Content marginX='size-250'>{elements}</Content>
+                <Content marginX='size-250' marginTop={'12px'}>
+                  {elements}
+                </Content>
               </View>
             ) : null
           ) : expanded || isAnimating ? (
-            children
+            <View UNSAFE_className='json-form-dispatch-wrapper'>{children}</View>
           ) : null}
         </animated.div>
         <animated.div

@@ -206,7 +206,6 @@ export const InputText = React.memo(
             <video
               controls
               src={previewMediaPrefix ? `${previewMediaPrefix}${data}` : data}
-              height={200}
               width={200}
               style={{ marginTop: 10 }}
             >
@@ -216,7 +215,6 @@ export const InputText = React.memo(
             <img
               src={previewMediaPrefix ? `${previewMediaPrefix}${data}` : data}
               alt={`Preview of ${data}`}
-              height={200}
               width={200}
               style={{ marginTop: 10 }}
               onError={(e) => {
