@@ -24,9 +24,9 @@ import React from 'react';
 import { View } from '@adobe/react-spectrum';
 import SpectrumProvider from '../../../additional/SpectrumProvider';
 import ModalItemHeader from './Header';
+import { openItemWhenInQueryParam } from '../utils';
 import { OwnPropsOfSpectrumArrayModalItem } from '../SpectrumMediaPreview';
 import { withHandleChange, HandleChangeProps, ModalItemAnimationWrapper } from '../../../util';
-import { Breadcrumbs, useBreadcrumbs } from '../../../context';
 
 const Item = React.memo(
   ({
@@ -43,26 +43,10 @@ const Item = React.memo(
   }: OwnPropsOfSpectrumArrayModalItem & HandleChangeProps) => {
     const [expanded, setExpanded] = React.useState(false);
     const [isAnimating, setIsAnimating] = React.useState(false);
-    const { breadcrumbs, addBreadcrumb, deleteBreadcrumb } = useBreadcrumbs();
 
-    const toggleExpand = React.useCallback((desiredState?: boolean) => {
-      if (desiredState === undefined) {
-        desiredState = !expanded;
-      }
-      if (desiredState) {
-        addBreadcrumb({
-          path: path,
-          name: childLabel || layout?.label,
-        });
-      } else {
-        deleteBreadcrumb(path);
-      }
-      if (desiredState === expanded) {
-        return;
-      }
+    const handleExpand = () => {
       setIsAnimating(true);
-      setExpanded(desiredState);
-      if (desiredState) {
+      if (expanded === false) {
         window.postMessage(
           {
             type: 'expanded-item',
@@ -74,6 +58,8 @@ const Item = React.memo(
           },
           '*'
         );
+        setExpanded(true);
+        return;
       }
       window.postMessage(
         {
@@ -85,22 +71,42 @@ const Item = React.memo(
         },
         '*'
       );
-    }, []);
+      setExpanded(false);
 
-    const breadcrumbsRef = React.useRef<Breadcrumbs | null>(null);
+      const url = window.location.href;
+      let newUrl: any = new URL(url);
+      if (window.location.href.endsWith(`${path}.${index}`)) {
+        newUrl = url.replace(`${path}.${index}`, '');
+      } else {
+        if (window.location.href.includes('formLocation=')) {
+          newUrl = url.substring(0, url.lastIndexOf('-'));
+        }
+      }
+      window.history.pushState('', '', newUrl);
+
+      return;
+    };
+
+    function breadCrumbClose(message: MessageEvent) {
+      if (message.data.type !== 'close-item-breadcrumb') {
+        return;
+      }
+      if (message.data.path.includes(`${path}-${index}-${childLabel?.replaceAll(/(-|_)/g, '+')}`)) {
+        setIsAnimating(true);
+        setExpanded(false);
+      }
+    }
 
     React.useEffect(() => {
-      if (breadcrumbs.hasPrefix(path)) {
-        toggleExpand(true);
-      } else if (
-        breadcrumbsRef.current &&
-        breadcrumbsRef.current.hasPrefix(path) &&
-        !breadcrumbs.hasPrefix(path)
-      ) {
-        toggleExpand(false);
+      openItemWhenInQueryParam(path, index, setExpanded);
+    }, []);
+
+    React.useEffect(() => {
+      if (expanded) {
+        window.addEventListener('message', breadCrumbClose);
       }
-      breadcrumbsRef.current = breadcrumbs;
-    }, [breadcrumbs]);
+      return () => window.removeEventListener('message', breadCrumbClose);
+    }, [expanded]);
 
     const customPickerHandler = () => {
       window.postMessage({
@@ -132,12 +138,12 @@ const Item = React.memo(
       };
     }, [data]);
 
-    const Header = (
+    const header = (
       <ModalItemHeader
         childLabel={childLabel}
         data={data}
         expanded={expanded}
-        handleExpand={toggleExpand}
+        handleExpand={handleExpand}
         index={index}
         path={path}
         removeItem={removeItem}
@@ -165,15 +171,15 @@ const Item = React.memo(
           borderRadius='medium'
           padding='size-150'
         >
-          {Header}
+          {header}
           <ModalItemAnimationWrapper
-            expanded={expanded}
-            handleExpand={toggleExpand}
-            isAnimating={isAnimating}
-            setIsAnimating={setIsAnimating}
-            path={path}
             elements={elements[index]}
-            Header={Header}
+            expanded={expanded}
+            handleExpand={handleExpand}
+            header={header}
+            isAnimating={isAnimating}
+            path={path}
+            setIsAnimating={setIsAnimating}
           />
         </View>
       </SpectrumProvider>

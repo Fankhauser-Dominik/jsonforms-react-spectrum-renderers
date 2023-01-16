@@ -135,6 +135,11 @@ export const InputText = React.memo(
     }, [data]);
 
     const contextualHelp = appliedUiSchemaOptions?.contextualHelp ?? schema?.fieldDescription;
+    const previewMedia: boolean = appliedUiSchemaOptions?.previewMedia ?? false;
+    const previewMediaPrefix: string | boolean =
+      appliedUiSchemaOptions?.previewMediaPrefix ?? false;
+    const previewMediaSuffix: string | boolean =
+      data?.substring(data?.lastIndexOf('.') + 1) ?? false;
 
     return (
       <SpectrumProvider width={width}>
@@ -194,6 +199,31 @@ export const InputText = React.memo(
             </ContextualHelp>
           ) : null}
         </Flex>
+        {previewMedia ? (
+          previewMediaSuffix === 'mp4' ||
+          previewMediaSuffix === 'ogg' ||
+          previewMediaSuffix === 'webm' ? (
+            <video
+              controls
+              src={previewMediaPrefix ? `${previewMediaPrefix}${data}` : data}
+              width={200}
+              style={{ marginTop: 10 }}
+            >
+              Sorry, but the Media "{data}" couldn't be displayed.
+            </video>
+          ) : (
+            <img
+              src={previewMediaPrefix ? `${previewMediaPrefix}${data}` : data}
+              alt={`Preview of ${data}`}
+              width={200}
+              style={{ marginTop: 10 }}
+              onError={(e) => {
+                e.currentTarget.src =
+                  'https://jenkinselite.com/wp-content/uploads/2018/11/no_media.png';
+              }}
+            />
+          )
+        ) : null}
       </SpectrumProvider>
     );
   }

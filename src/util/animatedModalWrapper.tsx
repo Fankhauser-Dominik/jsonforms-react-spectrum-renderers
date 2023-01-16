@@ -5,30 +5,30 @@ import { Content, View } from '@adobe/react-spectrum';
 import ReactFocusLock from 'react-focus-lock';
 
 interface AnimationWrapperProps {
+  children?: React.ReactNode;
+  elements?: any;
+  enableDetailedView?: boolean;
   expanded: boolean;
   handleExpand: () => void;
-  enableDetailedView?: boolean;
+  header?: any;
   isAnimating: boolean;
-  setIsAnimating: (isAnimating: boolean) => void;
   path: string;
-  Header?: any;
-  elements?: any;
-  children?: React.ReactNode;
+  setIsAnimating: (isAnimating: boolean) => void;
 }
 
-export function ModalItemAnimationWrapper({
+export const ModalItemAnimationWrapper = ({
+  children,
+  elements,
   enableDetailedView = true,
   expanded,
   handleExpand,
+  header,
   isAnimating,
-  setIsAnimating,
   path,
-  elements,
-  Header,
-  children,
-}: AnimationWrapperProps) {
+  setIsAnimating,
+}: AnimationWrapperProps) => {
   const [isBlackoutHovered, setIsBlackoutHovered] = React.useState(false);
-  const [lockOverride, setLockOverride] = React.useState(false)
+  const [lockOverride, setLockOverride] = React.useState(false);
   const jsonFormWrapper =
     document.getElementById('json-form-wrapper') || document.getElementsByClassName('App-Form')[0];
 
@@ -42,25 +42,25 @@ export function ModalItemAnimationWrapper({
 
   const modalHandler = (event: MessageEvent) => {
     if (event.data.type === 'assetPickerClose') {
-      setLockOverride(false)
+      setLockOverride(false);
     }
     if (event.data.type === 'assetPickerOpen') {
-      setLockOverride(true)
+      setLockOverride(true);
     }
     if (event?.data?.type?.includes('customPicker')) {
-      typeof(event.data.open) === 'boolean' && setLockOverride(event.data.open)
+      typeof event.data.open === 'boolean' && setLockOverride(event.data.open);
     }
-    return
-  }
+    return;
+  };
 
   React.useEffect(() => {
     if (expanded) {
-      window.addEventListener('message', modalHandler)
+      window.addEventListener('message', modalHandler);
     } else {
-      window.removeEventListener('message', modalHandler)
+      window.removeEventListener('message', modalHandler);
     }
-    return () => window.removeEventListener('message', modalHandler)
-  }, [expanded])
+    return () => window.removeEventListener('message', modalHandler);
+  }, [expanded]);
 
   const slideAnim = useSpring({
     config: { duration: 700, easing: easings.easeOutQuart },
@@ -109,12 +109,14 @@ export function ModalItemAnimationWrapper({
           {elements ? (
             expanded || isAnimating ? (
               <View UNSAFE_className='json-form-dispatch-wrapper'>
-                {Header}
-                <Content marginX='size-250'>{elements}</Content>
+                {header}
+                <Content marginX='size-250' marginTop={'12px'}>
+                  {elements}
+                </Content>
               </View>
             ) : null
           ) : expanded || isAnimating ? (
-            children
+            <View UNSAFE_className='json-form-dispatch-wrapper'>{children}</View>
           ) : null}
         </animated.div>
         <animated.div
@@ -136,4 +138,4 @@ export function ModalItemAnimationWrapper({
       document.getElementById('__next') ||
       document.body
   );
-}
+};
