@@ -594,3 +594,7 @@ div[class^='spectrum-Textfield'] {
   margin-top: 5px !important;
   margin-right: 3px !important;
 }
+
+div:has(> div[id^='#/'][hidden]) {
+  display: none !important;
+}
