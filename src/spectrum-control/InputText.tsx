@@ -139,7 +139,7 @@ export const InputText = React.memo(
     const previewMediaPrefix: string | boolean =
       appliedUiSchemaOptions?.previewMediaPrefix ?? false;
     const previewMediaSuffix: string | boolean =
-      data?.substring(data?.lastIndexOf('.') + 1) ?? false;
+      typeof data === 'string' ? data?.substring(data?.lastIndexOf('.') + 1) : false;
 
     return (
       <SpectrumProvider width={width}>

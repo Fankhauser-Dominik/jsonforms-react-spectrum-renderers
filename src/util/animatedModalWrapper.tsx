@@ -116,7 +116,7 @@ export const ModalItemAnimationWrapper = ({
               </View>
             ) : null
           ) : expanded || isAnimating ? (
-            <View UNSAFE_className='json-form-dispatch-wrapper'>{children}</View>
+            children
           ) : null}
         </animated.div>
         <animated.div
