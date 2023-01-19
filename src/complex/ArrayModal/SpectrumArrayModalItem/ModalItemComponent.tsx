@@ -289,22 +289,35 @@ export const mapStateToSpectrumArrayModalItemProps = (
   ownProps: OwnPropsOfSpectrumArrayModalItem
 ): OwnPropsOfSpectrumArrayModalItem => {
   const { schema, path, index, uischema } = ownProps;
-  const firstPrimitiveProp = schema?.properties
-    ? Object.keys(schema?.properties).find((propName) => {
-        if (schema?.properties) {
-          const prop = schema?.properties[propName];
-          return prop.type === 'string' || prop.type === 'number' || prop.type === 'integer';
-        }
-      })
-    : undefined;
   const childPath = composePaths(path, `${index}`);
   const childData = Resolve.data(getData(state), childPath);
+
+  // If not given explicitly in the UISchema,
+  // we try find the first property that has type like "string" or ["string, "null"]
+  // to get an automatic meaningful label for array items.
+  const labelProp =
+    uischema.options?.elementLabelProp ||
+    uischema.options?.childDataAsLabel ||
+    (schema.properties &&
+      Object.entries(schema.properties).find(([propName, prop]) => {
+        return (
+          !['_model', '_model_path', '_path', '_variations', '_metadata'].includes(propName) &&
+          ['string', 'number', 'integer'].some((type) => {
+            return (
+              prop.type === type ||
+              (Array.isArray(prop.type) &&
+                prop.type.includes(type) &&
+                prop.type.includes('null') &&
+                prop.type.length === 2)
+            );
+          })
+        );
+      })?.[0]);
   const childLabel =
-    uischema.options?.elementLabelProp ?? firstPrimitiveProp ?? uischema.options?.childDataAsLabel
-      ? childData
-      : undefined ?? typeof uischema.options?.dataAsLabel === 'number'
+    (labelProp && childData[labelProp]) ||
+    (typeof uischema.options?.dataAsLabel === 'number'
       ? Object.values(childData)[uischema.options?.dataAsLabel]
-      : findValue(childData, uischema.options?.dataAsLabel) ?? `Item ${index + 1}`;
+      : findValue(childData, uischema.options?.dataAsLabel) ?? `Item ${index + 1}`);
 
   return {
     ...ownProps,
