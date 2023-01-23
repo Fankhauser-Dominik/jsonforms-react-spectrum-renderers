@@ -298,7 +298,7 @@ export const mapStateToSpectrumArrayModalItemProps = (
   const labelProp =
     uischema.options?.elementLabelProp ||
     uischema.options?.childDataAsLabel ||
-    (schema.properties &&
+    (schema?.properties &&
       Object.entries(schema.properties).find(([propName, prop]) => {
         return (
           !['_model', '_model_path', '_path', '_variations', '_metadata'].includes(propName) &&
