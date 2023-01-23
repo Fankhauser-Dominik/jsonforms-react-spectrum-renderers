@@ -24,7 +24,7 @@
 */
 
 import * as React from 'react';
-import { Item, Picker, Section } from '@adobe/react-spectrum';
+import { ComboBox, Item, Section } from '@adobe/react-spectrum';
 import './App.css';
 import { localPrefix } from './persistedExamples';
 import { ReactExampleDescription } from './util';
@@ -67,10 +67,10 @@ export function ExamplesPicker(props: {
   ].filter((category) => category.children.length);
 
   return (
-    <Picker
+    <ComboBox
       key={keyRef.current}
       aria-label='JSONForms Examples'
-      items={options}
+      defaultItems={options}
       width='100%'
       defaultSelectedKey={props.selectedExample.name}
       onSelectionChange={props.onChange}
@@ -85,6 +85,6 @@ export function ExamplesPicker(props: {
           {(item) => <Item aria-label={`Example Picker ${item?.label}`}>{item?.label}</Item>}
         </Section>
       )}
-    </Picker>
+    </ComboBox>
   );
 }
