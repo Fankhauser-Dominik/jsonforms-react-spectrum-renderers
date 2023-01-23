@@ -66,7 +66,14 @@ const SpectrumArrayModalItem = React.memo(
     uischema,
     uischemas = [],
   }: OwnPropsOfSpectrumArrayModalItem & NonEmptyRowProps) => {
-    const foundUISchema = findUISchema(uischemas, schema, uischema.scope, path);
+    let foundUISchema = findUISchema(uischemas, schema, uischema.scope, path);
+
+    // ContentFragmentReferenceWithDetail needs to be stripped
+    // or we open a double panel (picker already provided by array).
+    if (foundUISchema.type === 'ContentFragmentReferenceWithDetail') {
+      foundUISchema = (foundUISchema as any).elements[0];
+    }
+
     const childPath = composePaths(path, `${index}`);
     /* If The Component has an empty Object, open it (true for a newly added Component) */
     const [expanded, setExpanded] = React.useState(

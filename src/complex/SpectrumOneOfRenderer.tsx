@@ -72,15 +72,43 @@ const SpectrumOneOfRenderer = ({
   uischemas,
   visible,
 }: CombinatorRendererProps) => {
+  let oneOfRenderInfos;
+  if (schema.oneOf) {
+    oneOfRenderInfos = createCombinatorRenderInfos(
+      schema.oneOf,
+      rootSchema,
+      oneOf,
+      uischema,
+      path,
+      uischemas
+    );
+  }
+  let indexFromDiscriminator: number | undefined = undefined;
+  const discriminatingProperty: string = (schema as any).discriminator?.propertyName;
+  if (discriminatingProperty) {
+    const discriminatorValues = oneOfRenderInfos?.map(
+      (info) => info.schema.properties?.[discriminatingProperty]?.const
+    );
+    indexFromDiscriminator = discriminatorValues?.indexOf(data?.[discriminatingProperty]);
+  }
+
   const [open, setOpen] = React.useState(false);
   /* --Start-- Only used for AEM, else it get skipped */
+  /* This corresponds to our older implementation that uses the last part of
+     of the model path as model identifier, i.e.:
+     /blah/blah/blah/model has schema at #/definitions/model 
+     and in this way figures out the correct fitting schema index.
+     We now use the discriminator from JsonSchema (code above),
+     but leave this part for now. */
   let oneOfList = schema?.oneOf?.map((item) => item['$ref']);
   let oneOfPathList = oneOfList?.map((item) => item?.split('/').pop());
   const aemTitle = data?._model?._path?.split('/').pop();
   const aemTitleShortener = oneOfPathList?.indexOf(aemTitle);
   /* --End-- Only used for AEM, else it get skipped */
   const selectedIndexFunction = () => {
-    if (aemTitle && aemTitleShortener !== -1) {
+    if (indexFromDiscriminator) {
+      return indexFromDiscriminator;
+    } else if (aemTitle && aemTitleShortener !== -1) {
       return aemTitleShortener;
     } else if (indexOfFittingSchema) {
       return indexOfFittingSchema;
@@ -94,26 +122,22 @@ const SpectrumOneOfRenderer = ({
 
   const [newSelectedIndex, setNewSelectedIndex] = React.useState(0);
   const handleClose = React.useCallback(() => setOpen(false), [setOpen]);
-  let oneOfRenderInfos;
-  if (schema?.oneOf) {
-    oneOfRenderInfos = createCombinatorRenderInfos(
-      schema?.oneOf,
-      rootSchema,
-      oneOf,
-      uischema,
-      path,
-      uischemas
-    );
+
+  // We try to figure out if this SpectrumOneOfRenderer renders an item inside
+  // and array (last path segment is a number).
+  // If yes, then we strip the ContentFragmentReferenceWithDetail
+  // (the picker is already rendered by the array renderer).
+  if (!Number.isNaN(Number(path.split('.')?.pop()!))) {
+    oneOfRenderInfos = oneOfRenderInfos?.map((oneOfRenderInfo) => {
+      if (oneOfRenderInfo.uischema.type === 'ContentFragmentReferenceWithDetail') {
+        return Object.assign({}, oneOfRenderInfo, {
+          uischema: (oneOfRenderInfo.uischema as any).elements[0],
+        });
+      } else {
+        return oneOfRenderInfo;
+      }
+    });
   }
-  oneOfRenderInfos = oneOfRenderInfos?.map((oneOfRenderInfo) => {
-    if (oneOfRenderInfo.uischema.type === 'ContentFragmentReferenceWithDetail') {
-      return Object.assign({}, oneOfRenderInfo, {
-        uischema: (oneOfRenderInfo.uischema as any).elements[0],
-      });
-    } else {
-      return oneOfRenderInfo;
-    }
-  });
 
   const openNewTab = (newIndex: number) => {
     if (schema?.oneOf) {
