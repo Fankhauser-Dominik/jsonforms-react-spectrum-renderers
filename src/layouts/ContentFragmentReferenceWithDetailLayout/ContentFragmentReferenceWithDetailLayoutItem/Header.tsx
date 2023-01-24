@@ -65,13 +65,10 @@ export default function ModalItemHeader({
   let displayPath = '';
   if (typeof pathFilter === 'string') {
     displayPath = data?._path?.replace(pathFilter, '') || '';
-    if (displayPath.startsWith('/')) {
-      displayPath = displayPath.substring(1);
-    }
   } else {
     displayPath = data?._path?.split('/').slice(3).join('/') || '';
     if (displayPath) {
-      displayPath = `/${displayPath}/`;
+      displayPath = `/${displayPath}`;
     }
   }
 
@@ -106,7 +103,8 @@ export default function ModalItemHeader({
                 justifyContent: 'start',
               }}
             >
-              {displayPath}
+              {/* The "&lrm;" fixes an issue caused by the direction: 'rtl' property */}
+              &lrm;{displayPath}
             </Text>
           ) : null}
           <Text
