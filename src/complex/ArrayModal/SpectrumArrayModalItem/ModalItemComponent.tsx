@@ -234,10 +234,7 @@ const SpectrumArrayModalItem = React.memo(
         >
           {header}
           {expanded && !enableDetailedView && (
-            <View UNSAFE_className='json-form-dispatch-wrapper'>
-              {enableDetailedView && header}
-              {JsonFormsDispatchComponent}
-            </View>
+            <View UNSAFE_className='json-form-dispatch-wrapper'>{JsonFormsDispatchComponent}</View>
           )}
           {enableDetailedView && (
             <ModalItemAnimationWrapper

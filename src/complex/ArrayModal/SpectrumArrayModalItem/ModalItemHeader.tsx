@@ -27,7 +27,7 @@ interface ArrayModalItemHeaderProps {
   JsonFormsDispatch: any;
   childData: any;
   childLabel: string;
-  customPicker: { enabled: boolean; handler: (current?: object) => void };
+  customPicker?: { enabled: boolean; handler: (current?: object) => void };
   duplicateItem: (index: number) => () => void;
   enableDetailedView: boolean;
   expanded: boolean;

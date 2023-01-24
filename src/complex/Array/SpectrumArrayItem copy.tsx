@@ -44,19 +44,15 @@ import { JsonFormsStateContext, JsonFormsDispatch, withJsonFormsContext } from '
 import SpectrumProvider from '../../additional/SpectrumProvider';
 import { ModalItemAnimationWrapper } from '../../util/animatedModalWrapper';
 import ModalItemHeader from '../ArrayModal/SpectrumArrayModalItem/ModalItemHeader';
-import { Breadcrumbs, useBreadcrumbs } from '../../context';
-import { checkIfUserIsOnMobileDevice } from '../../util';
 
 export interface OwnPropsOfSpectrumArrayItem {
-  DNDHandle?: any;
   data: any;
-  childData: any;
   childLabel?: string;
-  duplicateItem?: any;
+  duplicateItem: any;
   enabled?: boolean;
+  expanded: number | undefined;
   handleExpand(index: number): () => void;
   index: number;
-  openIndex: number;
   path: string;
   removeItem: (path: string, value: number) => () => void;
   renderers?: JsonFormsRendererRegistryEntry[];
@@ -69,14 +65,13 @@ export interface OwnPropsOfSpectrumArrayItem {
 }
 
 const SpectrumArrayItem = ({
-  DNDHandle = false,
   data,
-  childData,
   childLabel,
   duplicateItem,
   enabled,
+  expanded,
+  handleExpand,
   index,
-  openIndex,
   path,
   removeItem,
   renderers,
@@ -84,16 +79,17 @@ const SpectrumArrayItem = ({
   uischema,
   uischemas = [],
 }: OwnPropsOfSpectrumArrayItem) => {
-  const [isAnimating, setIsAnimating] = React.useState(false);
   const foundUISchema = findUISchema(uischemas, schema, uischema.scope, path);
   const childPath = composePaths(path, `${index}`);
-  const [expanded, setExpanded] = React.useState(
-    JSON.stringify(childData) === '{}' ? true : openIndex === index ? true : false
-  );
+  const [open, setOpen] = React.useState(false);
+  const handleClose = React.useCallback(() => setOpen(false), [setOpen]);
+  const newExpanded = expanded;
+  const isExpanded = newExpanded === index;
 
   childLabel = childLabel ?? `Item ${index + 1}`;
 
   const enableDetailedView = uischema?.options?.enableDetailedView ?? false;
+  const showItemNumber = uischema?.options?.showItemNumber ?? false;
 
   const pathFilter = uischema?.options?.pathFilter;
 
@@ -110,89 +106,9 @@ const SpectrumArrayItem = ({
     }
   }
 
-  const userIsOnMobileDevice: boolean = checkIfUserIsOnMobileDevice(
-    navigator.userAgent.toLowerCase()
-  );
-  const breadcrumbsRef = React.useRef<Breadcrumbs | null>(null);
-  const { breadcrumbs, addBreadcrumb, deleteBreadcrumb } = useBreadcrumbs();
-
-  React.useEffect(() => {
-    if (breadcrumbs.hasPrefix(childPath)) {
-      toggleExpanded(true);
-    } else if (
-      breadcrumbsRef.current &&
-      breadcrumbsRef.current.hasPrefix(childPath) &&
-      !breadcrumbs.hasPrefix(childPath)
-    ) {
-      toggleExpanded(false);
-    }
-    breadcrumbsRef.current = breadcrumbs;
-  }, [breadcrumbs]);
-
-  const toggleExpanded = React.useCallback(
-    (desiredState?: boolean) => {
-      if (desiredState === undefined) {
-        desiredState = !expanded;
-      }
-      if (desiredState) {
-        addBreadcrumb({
-          path: childPath,
-          name: childLabel,
-        });
-      } else {
-        deleteBreadcrumb(childPath);
-      }
-      if (desiredState === expanded) {
-        return;
-      }
-      if (!userIsOnMobileDevice) {
-        setIsAnimating(true);
-      }
-      setExpanded(desiredState);
-      if (desiredState) {
-        if (enableDetailedView === true) {
-          window.postMessage(
-            {
-              type: 'expanded-item',
-              index,
-              path,
-              crxPath: childData?._path,
-              breadCrumbLabel: childLabel,
-              addToQuery: true,
-            },
-            '*'
-          );
-        }
-      } else {
-        if (enableDetailedView === true) {
-          window.postMessage(
-            {
-              type: 'expanded-item',
-              index,
-              path,
-              breadCrumbLabel: childLabel,
-              addToQuery: false,
-            },
-            '*'
-          );
-        }
-      }
-    },
-    [
-      expanded,
-      setExpanded,
-      childLabel,
-      enableDetailedView,
-      breadcrumbs,
-      deleteBreadcrumb,
-      addBreadcrumb,
-    ]
-  );
-
   const JsonFormsDispatchComponent = (
     <JsonFormsDispatch
       enabled={enabled}
-      visible={false}
       key={childPath}
       path={childPath}
       renderers={renderers}
@@ -201,16 +117,39 @@ const SpectrumArrayItem = ({
     />
   );
 
+  /* const header = (
+    <SpectrumArrayHeader
+      childLabel={childLabel}
+      data={data}
+      displayPath={displayPath}
+      expanded={expanded}
+      handleClose={handleClose}
+      handleExpand={handleExpand}
+      index={index}
+      isExpanded={isExpanded}
+      open={open}
+      path={path}
+      removeItem={removeItem}
+      setOpen={setOpen}
+      showItemNumber={showItemNumber}
+    />
+  ); */
+
   const header = (
     <ModalItemHeader
-      DNDHandle={DNDHandle}
+      // DNDHandle={DNDHandle}
       JsonFormsDispatch={JsonFormsDispatchComponent}
-      childData={childData}
+      // childData={childData}
+      childData={data}
       childLabel={childLabel}
+      // customPicker={{ enabled: uischema?.options?.picker, handler: customPickerHandler }}
+      customPicker={{ enabled: uischema?.options?.picker, handler: () => {} }}
+      // duplicateItem={duplicateItem}
       duplicateItem={duplicateItem}
       enableDetailedView={enableDetailedView}
-      expanded={expanded}
-      handleExpand={toggleExpanded}
+      expanded={isExpanded}
+      // handleExpand={toggleExpanded}
+      handleExpand={() => !isExpanded}
       index={index}
       path={path}
       removeItem={removeItem}
@@ -236,18 +175,21 @@ const SpectrumArrayItem = ({
       >
         {header}
         {expanded && !enableDetailedView && (
-          <View UNSAFE_className='json-form-dispatch-wrapper'>{JsonFormsDispatchComponent}</View>
+          <View UNSAFE_className='json-form-dispatch-wrapper'>
+            {enableDetailedView && header}
+            {JsonFormsDispatchComponent}
+          </View>
         )}
         {enableDetailedView && (
           <ModalItemAnimationWrapper
             enableDetailedView={enableDetailedView}
-            expanded={expanded}
-            handleExpand={toggleExpanded}
-            isAnimating={isAnimating}
+            expanded={!!isExpanded}
+            handleExpand={() => handleExpand(index)}
+            isAnimating={false}
             path={path}
-            setIsAnimating={setIsAnimating}
+            setIsAnimating={() => false}
           >
-            {expanded || isAnimating ? (
+            {expanded ? (
               <View UNSAFE_className='json-form-dispatch-wrapper'>
                 {enableDetailedView && header}
                 {JsonFormsDispatchComponent}
@@ -310,4 +252,4 @@ export const withJsonFormsSpectrumArrayItemProps = (
 ): React.ComponentType<any> =>
   withJsonFormsContext(withContextToSpectrumArrayItemProps(React.memo(Component)));
 
-export default withJsonFormsSpectrumArrayItemProps(SpectrumArrayItem);
+//export default withJsonFormsSpectrumArrayItemProps(SpectrumArrayItem);

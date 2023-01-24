@@ -70,27 +70,35 @@ export const SpectrumArrayControl = ({
   );
 
   return (
-    <View>
+    <View id='json-form-array-wrapper'>
       <Flex direction='row' justifyContent='space-between'>
         <Heading level={4}>{label}</Heading>
       </Flex>
-      <Flex direction='column' gap='size-100'>
+      <Flex direction='column' id={`spectrum-renderer-arrayContentWrapper_${path}`} gap='size-100'>
         {data && data.length ? (
           Array.from(Array(data.length)).map((_, index) => {
             return (
-              <SpectrumArrayItem
-                data={data[index]}
-                index={index}
-                path={path}
-                schema={schema}
-                handleExpand={onExpand}
-                removeItem={handleRemoveItem}
-                expanded={expanded}
-                uischema={uischema}
-                uischemas={uischemas}
-                renderers={renderers}
-                key={index + (expanded === index ? 9999 : 0)}
-              ></SpectrumArrayItem>
+              <Flex
+                key={index}
+                direction='row'
+                alignItems='stretch'
+                flex='auto inherit'
+                marginBottom={'size-100'}
+              >
+                <SpectrumArrayItem
+                  data={data[index]}
+                  index={index}
+                  path={path}
+                  schema={schema}
+                  handleExpand={onExpand}
+                  removeItem={handleRemoveItem}
+                  expanded={expanded}
+                  uischema={uischema}
+                  uischemas={uischemas}
+                  renderers={renderers}
+                  key={index + (expanded === index ? 9999 : 0)}
+                ></SpectrumArrayItem>
+              </Flex>
             );
           })
         ) : (
