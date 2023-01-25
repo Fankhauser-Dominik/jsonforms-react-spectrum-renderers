@@ -17,63 +17,45 @@ import {
 const mapDispatchToArrayControlProps = (
   dispatch: Dispatch<CoreActions>
 ): DispatchPropsOfArrayControl => ({
-  // prettier-ignore
   addItem: (path: string, value: any) => () => {
-    dispatch(
-      update(
-        path,
-        (array: any[]) => (array ? [...array, value] : [value])
-      )
-    );
+    dispatch(update(path, (array: any[]) => (array ? [...array, value] : [value])));
   },
-  // prettier-ignore
   removeItems: (path: string, toDelete: number[]) => () => {
-    dispatch(
-      update(
-        path,
-        (array: any[]) => array.filter((_, index) => !toDelete.includes(index))
-      )
-    );
+    dispatch(update(path, (array: any[]) => array.filter((_, index) => !toDelete.includes(index))));
   },
-  // prettier-ignore
   moveUp: (path, toMove: number) => () => {
     dispatch(
-      update(
-        path,
-        (array: any[]) => (
-          toMove > 0 && toMove < array.length
-            ? array.map((_, index) =>
-              array[
-              index > toMove || index < toMove - 1
-                ? index
-                : index === toMove
-                  ? toMove - 1
-                  : toMove
-              ]
+      update(path, (array: any[]) =>
+        toMove > 0 && toMove < array.length
+          ? array.map(
+              (_, index) =>
+                array[
+                  index > toMove || index < toMove - 1
+                    ? index
+                    : index === toMove
+                    ? toMove - 1
+                    : toMove
+                ]
             )
-            : array
-        )
+          : array
       )
     );
   },
-  // prettier-ignore
   moveDown: (path, toMove: number) => () => {
     dispatch(
-      update(path,
-        (array: any[]) => (
-          toMove < array.length - 1
-            ? array.map(
+      update(path, (array: any[]) =>
+        toMove < array.length - 1
+          ? array.map(
               (_, index) =>
                 array[
-                index < toMove || index > toMove + 1
-                  ? index
-                  : index === toMove
+                  index < toMove || index > toMove + 1
+                    ? index
+                    : index === toMove
                     ? toMove + 1
                     : toMove
                 ]
             )
-            : array
-        )
+          : array
       )
     );
   },

@@ -27,7 +27,7 @@
 */
 import { RankedTester, rankWith, and, uiTypeIs, schemaMatches, hasType } from '@jsonforms/core';
 import ArrayControlRenderer from './SpectrumArrayControlRenderer';
-import { SpectrumArrayControl } from './SpectrumArrayControl';
+import SpectrumArrayControl from './SpectrumArrayControl';
 
 export { SpectrumArrayControl, ArrayControlRenderer };
 

@@ -38,19 +38,26 @@ import {
 } from '@adobe/react-spectrum';
 import SpectrumArrayItem from './SpectrumArrayItem';
 import Add from '@spectrum-icons/workflow/Add';
-import { settings } from '../../util';
+import { HandleChangeProps, settings, withHandleChange } from '../../util';
+import DragAndDrop from '../ArrayModal/SpectrumArrayModalControl/DragAndDrop';
 
-export const SpectrumArrayControl = ({
+const SpectrumArrayControl = ({
   addItem,
   data,
+  enabled,
+  handleChange,
   label,
+  moveDown,
+  moveUp,
   path,
   removeItems,
   renderers,
   schema,
   uischema,
   uischemas,
-}: ArrayControlProps) => {
+}: ArrayControlProps & HandleChangeProps) => {
+  const [moveUpIndex, setMoveUpIndex]: any = React.useState(null);
+  const [openedIndex, setOpenedIndex] = React.useState<number | undefined>(undefined);
   const handleRemoveItem = React.useCallback(
     (p: string, value: any) => () => {
       if (removeItems) {
@@ -59,6 +66,16 @@ export const SpectrumArrayControl = ({
     },
     [removeItems]
   );
+
+  const [indexOfFittingSchemaArray, setIndexOfFittingSchemaArray] = React.useState(
+    data?.map((boundData: any) => (boundData ? undefined : 999)) ?? []
+  );
+
+  React.useEffect(() => {
+    setIndexOfFittingSchemaArray(
+      data?.map((boundData: any) => (boundData ? undefined : 999)) ?? []
+    );
+  }, []);
 
   const [expanded, setExpanded] = React.useState<number>(-1);
 
@@ -69,6 +86,16 @@ export const SpectrumArrayControl = ({
     [setExpanded]
   );
 
+  const onPressHandler = () => {
+    addItem(path, createDefaultValue(schema ?? {}))();
+  };
+
+  const callbackOpenedIndex = (index: number | undefined) => {
+    setOpenedIndex(index);
+  };
+
+  const sortMode: string | boolean = uischema?.options?.sortMode ?? 'DragAndDrop';
+
   return (
     <View id='json-form-array-wrapper'>
       <Flex direction='row' justifyContent='space-between'>
@@ -76,31 +103,50 @@ export const SpectrumArrayControl = ({
       </Flex>
       <Flex direction='column' id={`spectrum-renderer-arrayContentWrapper_${path}`} gap='size-100'>
         {data && data.length ? (
-          Array.from(Array(data.length)).map((_, index) => {
-            return (
-              <Flex
-                key={index}
-                direction='row'
-                alignItems='stretch'
-                flex='auto inherit'
-                marginBottom={'size-100'}
-              >
-                <SpectrumArrayItem
-                  data={data[index]}
-                  index={index}
-                  path={path}
-                  schema={schema}
-                  handleExpand={onExpand}
-                  removeItem={handleRemoveItem}
-                  expanded={expanded}
-                  uischema={uischema}
-                  uischemas={uischemas}
-                  renderers={renderers}
-                  key={index + (expanded === index ? 9999 : 0)}
-                ></SpectrumArrayItem>
-              </Flex>
-            );
-          })
+          <>
+            {sortMode ? (
+              <DragAndDrop
+                callbackOpenedIndex={callbackOpenedIndex}
+                data={data}
+                enabled={enabled}
+                handleChange={handleChange}
+                handleRemoveItem={handleRemoveItem}
+                indexOfFittingSchemaArray={indexOfFittingSchemaArray}
+                moveDown={moveDown}
+                moveUp={moveUp}
+                moveUpIndex={moveUpIndex}
+                onPressHandler={onPressHandler}
+                openedIndex={openedIndex}
+                path={path}
+                removeItems={removeItems}
+                renderers={renderers}
+                schema={schema}
+                setMoveUpIndex={setMoveUpIndex}
+                uischema={uischema}
+                uischemas={uischemas}
+              />
+            ) : (
+              Array.from(Array(data.length)).map((_, index) => {
+                return (
+                  <Flex key={index} direction='column' alignItems='stretch' flex='auto inherit'>
+                    <SpectrumArrayItem
+                      data={data[index]}
+                      index={index}
+                      path={path}
+                      schema={schema}
+                      handleExpand={onExpand}
+                      removeItem={handleRemoveItem}
+                      expanded={expanded}
+                      uischema={uischema}
+                      uischemas={uischemas}
+                      renderers={renderers}
+                      key={index + (expanded === index ? 9999 : 0)}
+                    ></SpectrumArrayItem>
+                  </Flex>
+                );
+              })
+            )}
+          </>
         ) : (
           <Text>No data</Text>
         )}
@@ -119,3 +165,5 @@ export const SpectrumArrayControl = ({
     </View>
   );
 };
+
+export default withHandleChange(SpectrumArrayControl);

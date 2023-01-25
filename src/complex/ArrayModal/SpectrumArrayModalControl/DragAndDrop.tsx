@@ -35,8 +35,6 @@ const DragAndDrop = ({
   handleChange,
   handleRemoveItem,
   indexOfFittingSchemaArray,
-  moveDown,
-  moveUp,
   moveUpIndex,
   onPressHandler,
   openedIndex,
@@ -51,6 +49,7 @@ const DragAndDrop = ({
   if (!data) {
     return null;
   }
+  const [upOrDown, setUpOrDown] = React.useState('up');
   const [rerender, setRerender] = React.useState(0);
   const order = React.useRef<number[]>(data?.map((_: any, index: any) => index));
   const HEIGHT_OF_COMPONENT = 70;
@@ -141,6 +140,7 @@ const DragAndDrop = ({
         setKeyboardClass('');
         setGrabbedIndex(index - 1);
       }, 500);
+      setUpOrDown('up');
     } else if (pressedKey === 'ArrowDown' && index < data?.length - 1) {
       setKeyboardClass('keyboardDown');
       newOrder = swap(
@@ -155,6 +155,7 @@ const DragAndDrop = ({
         setKeyboardClass('');
         setGrabbedIndex(index + 1);
       }, 500);
+      setUpOrDown('down');
     }
   };
 
@@ -219,6 +220,10 @@ const DragAndDrop = ({
 
   const expanded = openedIndex !== undefined;
 
+  const moveFunction = (key: any, index: number) => {
+    console.log('moveFunction', key, index, Math.random());
+  };
+
   const modalItem = (index: number, disabled: boolean = false) => (
     <SpectrumArrayModalItem
       callbackOpenedIndex={callbackOpenedIndex}
@@ -234,34 +239,32 @@ const DragAndDrop = ({
       uischema={uischema}
       uischemas={uischemas}
       DNDHandle={
-        <button
+        <SortIcons
+          keyboardClass={keyboardClass}
+          index={index}
+          grabbedIndex={grabbedIndex}
+          data={data}
+          // moveDown={() => moveFunction('ArrowDown', index)}
+          // moveUp={() => moveFunction('ArrowUp', index)}
+          moveDown={() => move('ArrowDown', index)}
+          moveUp={() => move('ArrowUp', index)}
+          path={path}
+          removeItems={removeItems}
+          uischema={uischema}
           disabled={disabled}
-          ref={DragHandleRef}
-          autoFocus={grabbedIndex === index}
-          className={`grabbable ${disabled ? 'disabledMovement' : ''}`}
+          DragHandleRef={DragHandleRef}
+          upOrDown={upOrDown}
           onFocus={() => setGrabbedIndex(index)}
           onBlur={() => setGrabbedIndex(null)}
           onMouseEnter={() => setGrabbedIndex(index)}
           onMouseLeave={() => setGrabbedIndex(null)}
           onTouchMove={() => enableTouch(index)}
-          onKeyDown={(e) => {
+          onKeyDown={(e: any) => {
             if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
               move(e.key, index);
             }
           }}
-        >
-          <SortIcons
-            keyboardClass={keyboardClass}
-            index={index}
-            grabbedIndex={grabbedIndex}
-            data={data}
-            moveDown={moveDown}
-            moveUp={moveUp}
-            path={path}
-            removeItems={removeItems}
-            uischema={uischema}
-          />
-        </button>
+        />
       }
     />
   );
@@ -272,33 +275,25 @@ const DragAndDrop = ({
         style={{
           display: 'flex',
           flexDirection: 'column',
-          height: data?.length ? HEIGHT_OF_COMPONENT * data?.length : 0,
+          minHeight: data?.length ? HEIGHT_OF_COMPONENT * data?.length : 0,
           position: 'relative',
           touchAction: 'none',
           transformOrigin: '50% 50% 0px',
+          gap: '8px',
+          marginBottom: '8px',
         }}
       >
-        {springs?.map(({ y }, index: number) => (
-          <animated.div
-            {...bind(index)}
-            key={`${path}_${index}_${rerender}`}
-            style={{
-              position: 'absolute',
-              touchAction: 'none',
-              transformOrigin: '50% 50% 0px',
-              width: '100%',
-              y,
-              zIndex: grabbedIndex === index ? 30 : 20,
-            }}
-            height={HEIGHT_OF_COMPONENT + 'px'}
-          >
+        {springs?.map(({}, index: number) => (
+          <div key={`${path}+${index}`}>
             <div
               style={{
                 display: userIsOnMobileDevice ? 'none' : 'flex',
                 justifyContent: 'center',
                 opacity: hoveredIndex === index ? 1 : 0,
-                position: 'absolute',
-                top: '-20px',
+                position: 'relative',
+                marginTop: '-8px',
+                height: '8px',
+                alignItems: 'center',
                 width: '100%',
                 zIndex: 80,
               }}
@@ -313,15 +308,8 @@ const DragAndDrop = ({
                 <Add />
               </Button>
             </div>
-            <Flex
-              direction='row'
-              alignItems='stretch'
-              flex='auto inherit'
-              UNSAFE_style={{ zIndex: grabbedIndex === index ? 40 : 20 }}
-            >
-              {modalItem(index, true)}
-            </Flex>
-          </animated.div>
+            {modalItem(index, true)}
+          </div>
         ))}
       </div>
     );

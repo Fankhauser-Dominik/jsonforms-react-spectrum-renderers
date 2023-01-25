@@ -613,3 +613,7 @@ div[class^='spectrum-Textfield'] {
 div:has(> div[id^='#/'][hidden]) {
   display: none !important;
 }
+
+.arrowContainer {
+  padding: 3px 7px;
+}

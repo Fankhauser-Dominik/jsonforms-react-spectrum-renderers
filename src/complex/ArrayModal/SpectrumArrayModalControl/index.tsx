@@ -112,6 +112,7 @@ const SpectrumArrayModalControl = React.memo(
     };
 
     const onPressHandler = React.useCallback(() => {
+      console.log('onPressHandler');
       if (uischema?.options?.picker) {
         window.postMessage({
           type: 'customPicker:open',
@@ -150,6 +151,21 @@ const SpectrumArrayModalControl = React.memo(
     }, [data]);
 
     const sortMode: string | boolean = uischema?.options?.sortMode ?? 'DragAndDrop';
+
+    const ArrayItem = (index: number) => (
+      <SpectrumArrayModalItem
+        callbackOpenedIndex={callbackOpenedIndex}
+        duplicateItem={duplicateContent}
+        enabled={enabled}
+        index={index}
+        path={path}
+        removeItem={handleRemoveItem}
+        renderers={renderers}
+        schema={schema}
+        uischema={uischema}
+        uischemas={uischemas}
+      ></SpectrumArrayModalItem>
+    );
     return (
       <View id='json-form-array-wrapper'>
         <Flex direction='row' justifyContent='space-between'>
@@ -199,18 +215,7 @@ const SpectrumArrayModalControl = React.memo(
                       flex='auto inherit'
                       marginBottom={'size-100'}
                     >
-                      <SpectrumArrayModalItem
-                        callbackOpenedIndex={callbackOpenedIndex}
-                        duplicateItem={duplicateContent}
-                        enabled={enabled}
-                        index={index}
-                        path={path}
-                        removeItem={handleRemoveItem}
-                        renderers={renderers}
-                        schema={schema}
-                        uischema={uischema}
-                        uischemas={uischemas}
-                      ></SpectrumArrayModalItem>
+                      {ArrayItem(index)}
                     </Flex>
                   );
                 })
