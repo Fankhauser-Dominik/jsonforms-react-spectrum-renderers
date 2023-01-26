@@ -231,7 +231,6 @@ const SpectrumArrayModalControl = React.memo(
                 isQuiet={true}
                 aria-label='add a new item'
                 UNSAFE_className='add-item'
-                marginEnd={sortMode === 'arrows' ? 'size-450' : 'size-0'}
               >
                 <Add aria-label='Change Reference' size='L' />
               </ActionButton>

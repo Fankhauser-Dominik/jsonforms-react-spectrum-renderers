@@ -49,6 +49,7 @@ const DragAndDrop = ({
   if (!data) {
     return null;
   }
+  const sortModeDnD = uischema?.options?.sortMode !== 'arrows' ? true : false;
   const [upOrDown, setUpOrDown] = React.useState('up');
   const [rerender, setRerender] = React.useState(0);
   const order = React.useRef<number[]>(data?.map((_: any, index: any) => index));
@@ -179,6 +180,7 @@ const DragAndDrop = ({
   }, [data]);
 
   const enableTouch = (index: number) => {
+    if (!sortModeDnD) return;
     setGrabbedIndex(index);
     setTouchMovement(true);
   };
@@ -220,10 +222,6 @@ const DragAndDrop = ({
 
   const expanded = openedIndex !== undefined;
 
-  const moveFunction = (key: any, index: number) => {
-    console.log('moveFunction', key, index, Math.random());
-  };
-
   const modalItem = (index: number, disabled: boolean = false) => (
     <SpectrumArrayModalItem
       callbackOpenedIndex={callbackOpenedIndex}
@@ -241,11 +239,10 @@ const DragAndDrop = ({
       DNDHandle={
         <SortIcons
           keyboardClass={keyboardClass}
+          userIsOnMobileDevice={userIsOnMobileDevice}
           index={index}
           grabbedIndex={grabbedIndex}
           data={data}
-          // moveDown={() => moveFunction('ArrowDown', index)}
-          // moveUp={() => moveFunction('ArrowUp', index)}
           moveDown={() => move('ArrowDown', index)}
           moveUp={() => move('ArrowUp', index)}
           path={path}
@@ -254,9 +251,9 @@ const DragAndDrop = ({
           disabled={disabled}
           DragHandleRef={DragHandleRef}
           upOrDown={upOrDown}
-          onFocus={() => setGrabbedIndex(index)}
+          onFocus={() => setGrabbedIndex(sortModeDnD ? index : null)}
           onBlur={() => setGrabbedIndex(null)}
-          onMouseEnter={() => setGrabbedIndex(index)}
+          onMouseEnter={() => setGrabbedIndex(sortModeDnD ? index : null)}
           onMouseLeave={() => setGrabbedIndex(null)}
           onTouchMove={() => enableTouch(index)}
           onKeyDown={(e: any) => {

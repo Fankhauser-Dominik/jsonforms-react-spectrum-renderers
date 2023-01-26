@@ -47,12 +47,6 @@ div[class^='spectrum-Textfield'] {
   border-color: transparent;
   margin: -5px -12px -5px 0px;
   touch-action: none;
-  cursor: move !important; /* fallback if grab cursor is unsupported */
-  cursor: grab !important;
-  cursor: -webkit-grab !important;
-  cursor: -moz-grab !important;
-  cursor: -o-grab !important;
-  cursor: -ms-grab !important;
   min-width: 34px;
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Safari */
@@ -63,13 +57,26 @@ div[class^='spectrum-Textfield'] {
   outline: none;
 }
 
+.grabcursor {
+  cursor: move !important; /* fallback if grab cursor is unsupported */
+  cursor: grab !important;
+  cursor: -webkit-grab !important;
+  cursor: -moz-grab !important;
+  cursor: -o-grab !important;
+  cursor: -ms-grab !important;
+}
+
 /* Apply a "closed-hand" cursor during drag operation. */
-.grabbable:active {
+.grabcursor:active {
   cursor: grabbing !important;
   cursor: -webkit-grabbing !important;
   cursor: -moz-grabbing !important;
   cursor: -o-grabbing !important;
   cursor: -ms-grabbing !important;
+}
+
+.ArrowIcon {
+  padding: 6px 0px;
 }
 
 .grabbable:focus-visible {

@@ -22,6 +22,7 @@ interface SortIconsProps {
   onTouchMove: any;
   onKeyDown: any;
   upOrDown: string;
+  userIsOnMobileDevice: boolean;
 }
 
 const SortIcons = ({
@@ -43,11 +44,14 @@ const SortIcons = ({
   onTouchMove,
   onKeyDown,
   upOrDown,
+  userIsOnMobileDevice,
 }: SortIconsProps) => {
   const sortMode: string | boolean = uischema?.options?.sortMode ?? 'DragAndDrop';
   return sortMode === 'arrows' ? (
     <div
-      className={`arrowContainer grabbable ${disabled ? 'disabledMovement' : ''}`}
+      className={`arrowContainer grabbable ${sortMode === 'arrows' ? '' : 'grabcursor'} ${
+        disabled ? 'disabledMovement' : ''
+      }`}
       onBlur={onBlur}
       onFocus={onFocus}
       onKeyDown={onKeyDown}
@@ -66,6 +70,7 @@ const SortIcons = ({
         removeItems={removeItems}
         uischema={uischema}
         upOrDown={upOrDown}
+        userIsOnMobileDevice={userIsOnMobileDevice}
       />
     </div>
   ) : (
