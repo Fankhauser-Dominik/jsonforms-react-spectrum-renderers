@@ -35,18 +35,16 @@ import {
   findUISchema,
   getData,
 } from '@jsonforms/core';
-import SpectrumProvider from '../../../additional/SpectrumProvider';
-import { indexOfFittingSchemaObject } from '../utils';
-import ModalItemHeader from './ModalItemHeader';
-import { findValue } from './ModalItemUtils';
-import { checkIfUserIsOnMobileDevice, ModalItemAnimationWrapper } from '../../../util';
-import { Breadcrumbs, useBreadcrumbs } from '../../../context';
+import SpectrumProvider from '../../additional/SpectrumProvider';
+import { indexOfFittingSchemaObject, SpectrumItemHeader } from '../ArrayUtils';
+import { checkIfUserIsOnMobileDevice, ModalItemAnimationWrapper, findValue } from '../../util';
+import { Breadcrumbs, useBreadcrumbs } from '../../context';
 
 interface NonEmptyRowProps {
-  rowIndex?: number | undefined;
-  moveUpCreator?: (path: string, position: number) => () => void;
-  moveDownCreator?: (path: string, position: number) => () => void;
   DNDHandle?: any;
+  moveDownCreator?: (path: string, position: number) => () => void;
+  moveUpCreator?: (path: string, position: number) => () => void;
+  rowIndex?: number | undefined;
 }
 
 const SpectrumArrayModalItem = React.memo(
@@ -189,17 +187,17 @@ const SpectrumArrayModalItem = React.memo(
     const JsonFormsDispatchComponent = (
       <JsonFormsDispatch
         enabled={enabled}
-        visible={false}
         key={childPath}
         path={childPath}
         renderers={renderers}
         schema={schema}
         uischema={foundUISchema || uischema}
+        visible={false}
       />
     );
 
     const header = (
-      <ModalItemHeader
+      <SpectrumItemHeader
         DNDHandle={DNDHandle}
         JsonFormsDispatch={JsonFormsDispatchComponent}
         childData={childData}
@@ -224,9 +222,9 @@ const SpectrumArrayModalItem = React.memo(
           } ${expanded ? 'expanded' : 'collapsed'} ${
             uischema?.options?.noAccordion ? 'noAccordion' : null
           }`}
-          borderWidth='thin'
           borderColor='dark'
           borderRadius='medium'
+          borderWidth='thin'
           padding='size-150'
         >
           {header}
@@ -257,26 +255,23 @@ const SpectrumArrayModalItem = React.memo(
 );
 
 export interface OwnPropsOfSpectrumArrayModalItem {
-  index: number;
-  openIndex: number;
   DNDHandle: any;
-  enabled: boolean;
-  path: string;
-  schema: JsonSchema;
-  removeItem(path: string, value: number): () => void;
-  duplicateItem(index: number): () => void;
-  uischema: ControlElement;
-  renderers?: JsonFormsRendererRegistryEntry[];
-  uischemas?: {
-    tester: UISchemaTester;
-    uischema: UISchemaElement;
-  }[];
-  childLabel: string;
-  childData?: any;
-  rowIndex?: number;
-  moveUpCreator?: ((path: string, position: number) => () => void) | undefined;
-  moveDownCreator?: ((path: string, position: number) => () => void) | undefined;
   callbackOpenedIndex: any;
+  childData?: any;
+  childLabel: string;
+  duplicateItem(index: number): () => void;
+  enabled: boolean;
+  index: number;
+  moveDownCreator?: ((path: string, position: number) => () => void) | undefined;
+  moveUpCreator?: ((path: string, position: number) => () => void) | undefined;
+  openIndex: number;
+  path: string;
+  removeItem(path: string, value: number): () => void;
+  renderers?: JsonFormsRendererRegistryEntry[];
+  rowIndex?: number;
+  schema: JsonSchema;
+  uischema: ControlElement;
+  uischemas?: { tester: UISchemaTester; uischema: UISchemaElement }[];
 }
 
 /**

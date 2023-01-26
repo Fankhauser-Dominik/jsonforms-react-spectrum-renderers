@@ -17,7 +17,7 @@ import Close from '@spectrum-icons/workflow/Close';
 import { settings } from '../../../util';
 import ModalItemDelete from './DeleteDialog';
 import FolderSearch from '@spectrum-icons/workflow/FolderSearch';
-import { findValue } from '../utils';
+import { findValue } from '../../../util';
 
 interface ArrayModalItemHeaderProps {
   childData: any;

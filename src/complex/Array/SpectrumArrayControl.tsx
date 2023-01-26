@@ -27,19 +27,10 @@
 */
 import React from 'react';
 import { ArrayControlProps, createDefaultValue } from '@jsonforms/core';
-import {
-  ActionButton,
-  Flex,
-  Heading,
-  Text,
-  Tooltip,
-  TooltipTrigger,
-  View,
-} from '@adobe/react-spectrum';
+import { Flex, Heading, Text, View } from '@adobe/react-spectrum';
 import SpectrumArrayItem from './SpectrumArrayItem';
-import Add from '@spectrum-icons/workflow/Add';
-import { HandleChangeProps, settings, withHandleChange } from '../../util';
-import DragAndDrop from '../ArrayModal/SpectrumArrayModalControl/DragAndDrop';
+import { HandleChangeProps, withHandleChange } from '../../util';
+import { DragAndDrop, AddItemButton } from '../ArrayUtils';
 
 const SpectrumArrayControl = ({
   addItem,
@@ -150,17 +141,7 @@ const SpectrumArrayControl = ({
         ) : (
           <Text>No data</Text>
         )}
-        <TooltipTrigger delay={settings.toolTipDelay}>
-          <ActionButton
-            onPress={addItem(path, createDefaultValue(schema ?? {}))}
-            isQuiet={true}
-            aria-label='add a new item'
-            UNSAFE_className='add-item'
-          >
-            <Add aria-label='Change Reference' size='L' />
-          </ActionButton>
-          <Tooltip>Add a new Item</Tooltip>
-        </TooltipTrigger>
+        <AddItemButton onPressFunction={addItem(path, createDefaultValue(schema ?? {}))} />
       </Flex>
     </View>
   );

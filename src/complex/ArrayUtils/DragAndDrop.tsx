@@ -1,12 +1,12 @@
 import React from 'react';
 import { Button, Flex } from '@adobe/react-spectrum';
-import SpectrumArrayModalItem from '../SpectrumArrayModalItem/ModalItemComponent';
-import { swap, clamp } from '../utils';
+import SpectrumArrayModalItem from '../ArrayModal/ModalItemComponent';
+import { swap, clamp } from './utils';
 import { useSprings, useSpringRef, animated } from '@react-spring/web';
 import { useDrag } from '@use-gesture/react';
 import Add from '@spectrum-icons/workflow/Add';
-import { checkIfUserIsOnMobileDevice } from '../../../util';
-import SortIcons from './SortIcons';
+import { checkIfUserIsOnMobileDevice } from '../../util';
+import { SortIcons } from './index';
 interface ArrayModalControlDragAndDropProps {
   callbackOpenedIndex: any;
   data: any;
@@ -28,7 +28,7 @@ interface ArrayModalControlDragAndDropProps {
   uischemas: any;
 }
 
-const DragAndDrop = ({
+export const DragAndDrop = ({
   callbackOpenedIndex,
   data,
   enabled,
@@ -71,9 +71,9 @@ const DragAndDrop = ({
   const [springs, setSprings] = useSprings(data?.length ?? 0, fn(order.current));
   const DragHandleRef: any = useSpringRef();
 
+  const [delayHandler, setDelayHandler]: any = React.useState(null);
   const [grabbedIndex, setGrabbedIndex]: any = React.useState(null);
   const [hoveredIndex, setHoveredIndex]: any = React.useState(null);
-  const [delayHandler, setDelayHandler]: any = React.useState(null);
   const [touchMovement, setTouchMovement] = React.useState(false);
   const dragConfig = {
     pointer: { keys: false },
@@ -371,5 +371,3 @@ const DragAndDrop = ({
     </div>
   );
 };
-
-export default DragAndDrop;

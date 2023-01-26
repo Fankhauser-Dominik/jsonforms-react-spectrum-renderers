@@ -154,22 +154,3 @@ export const openItemWhenInQueryParam = (
     });
   } catch {}
 };
-
-export const findValue: any = (obj: any, key: string) => {
-  if (!obj || !key) {
-    return undefined;
-  }
-  if (obj[key]) {
-    return obj[key];
-  }
-  for (const prop in obj) {
-    if (obj.hasOwnProperty(prop)) {
-      if (typeof obj[prop] === 'object') {
-        const result: any = findValue(obj[prop], key);
-        if (result) {
-          return result;
-        }
-      }
-    }
-  }
-};

@@ -9,7 +9,7 @@ import {
   Heading,
 } from '@adobe/react-spectrum';
 
-interface ModalItemDeleteProps {
+interface DeleteArrayItemProps {
   deleteModalOpen: boolean;
   expanded: boolean;
   handleExpand: () => void;
@@ -19,7 +19,7 @@ interface ModalItemDeleteProps {
   setDeleteModalOpen: (value: boolean) => void;
 }
 
-export default function ModalItemDelete({
+export const DeleteArrayItem = ({
   deleteModalOpen,
   expanded,
   handleExpand,
@@ -27,7 +27,7 @@ export default function ModalItemDelete({
   path,
   removeItem,
   setDeleteModalOpen,
-}: ModalItemDeleteProps) {
+}: DeleteArrayItemProps) => {
   const [durationBeforeDelete, setDurationBeforeDelete] = React.useState(0);
   const onPressStartHandler = () => {
     if (expanded) {
@@ -67,4 +67,4 @@ export default function ModalItemDelete({
       )}
     </DialogContainer>
   );
-}
+};

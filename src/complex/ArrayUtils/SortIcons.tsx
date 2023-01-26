@@ -1,48 +1,48 @@
 import ArrowDown from '@spectrum-icons/workflow/ArrowDown';
 import ArrowUp from '@spectrum-icons/workflow/ArrowUp';
 import DragHandle from '@spectrum-icons/workflow/DragHandle';
-import SortButtons from './SortButtons';
+import { SortButtons } from './index';
 
 interface SortIconsProps {
-  keyboardClass: string;
-  index: number;
-  grabbedIndex: number | undefined;
+  DragHandleRef: any;
   data: any;
+  disabled: boolean;
+  grabbedIndex: number | undefined;
+  index: number;
+  keyboardClass: string;
   moveDown: any;
   moveUp: any;
-  path: any;
-  removeItems: any;
-  uischema: any;
-  disabled: boolean;
-  DragHandleRef: any;
-  onFocus: any;
   onBlur: any;
+  onFocus: any;
+  onKeyDown: any;
   onMouseEnter: any;
   onMouseLeave: any;
   onTouchMove: any;
-  onKeyDown: any;
+  path: any;
+  removeItems: any;
+  uischema: any;
   upOrDown: string;
   userIsOnMobileDevice: boolean;
 }
 
-const SortIcons = ({
-  keyboardClass,
-  index,
-  grabbedIndex,
+export const SortIcons = ({
+  DragHandleRef,
   data,
+  disabled,
+  grabbedIndex,
+  index,
+  keyboardClass,
   moveDown,
   moveUp,
-  path,
-  removeItems,
-  uischema,
-  disabled,
-  DragHandleRef,
-  onFocus,
   onBlur,
+  onFocus,
+  onKeyDown,
   onMouseEnter,
   onMouseLeave,
   onTouchMove,
-  onKeyDown,
+  path,
+  removeItems,
+  uischema,
   upOrDown,
   userIsOnMobileDevice,
 }: SortIconsProps) => {
@@ -118,5 +118,3 @@ const SortIcons = ({
     </button>
   );
 };
-
-export default SortIcons;

@@ -42,10 +42,9 @@ import {
 } from '@jsonforms/core';
 import { JsonFormsStateContext, JsonFormsDispatch, withJsonFormsContext } from '@jsonforms/react';
 import SpectrumProvider from '../../additional/SpectrumProvider';
-import { ModalItemAnimationWrapper } from '../../util/animatedModalWrapper';
-import ModalItemHeader from '../ArrayModal/SpectrumArrayModalItem/ModalItemHeader';
 import { Breadcrumbs, useBreadcrumbs } from '../../context';
-import { checkIfUserIsOnMobileDevice } from '../../util';
+import { SpectrumItemHeader } from '../ArrayUtils';
+import { ModalItemAnimationWrapper, checkIfUserIsOnMobileDevice } from '../../util';
 
 export interface OwnPropsOfSpectrumArrayItem {
   DNDHandle?: any;
@@ -202,7 +201,7 @@ const SpectrumArrayItem = ({
   );
 
   const header = (
-    <ModalItemHeader
+    <SpectrumItemHeader
       DNDHandle={DNDHandle}
       JsonFormsDispatch={JsonFormsDispatchComponent}
       childData={childData}
