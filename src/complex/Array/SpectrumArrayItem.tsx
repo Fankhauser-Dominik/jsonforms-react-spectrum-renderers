@@ -48,7 +48,6 @@ import { ModalItemAnimationWrapper, checkIfUserIsOnMobileDevice } from '../../ut
 
 export interface OwnPropsOfSpectrumArrayItem {
   DNDHandle?: any;
-  data: any;
   childData: any;
   childLabel?: string;
   duplicateItem?: any;
@@ -69,7 +68,6 @@ export interface OwnPropsOfSpectrumArrayItem {
 
 const SpectrumArrayItem = ({
   DNDHandle = false,
-  data,
   childData,
   childLabel,
   duplicateItem,
@@ -93,21 +91,6 @@ const SpectrumArrayItem = ({
   childLabel = childLabel ?? `Item ${index + 1}`;
 
   const enableDetailedView = uischema?.options?.enableDetailedView ?? false;
-
-  const pathFilter = uischema?.options?.pathFilter;
-
-  let displayPath = '';
-  if (typeof pathFilter === 'string') {
-    displayPath = data?._path?.replace(pathFilter, '') || '';
-    if (displayPath.startsWith('/')) {
-      displayPath = displayPath.substring(1);
-    }
-  } else {
-    displayPath = data?._path?.split('/').slice(3).join('/') || '';
-    if (displayPath) {
-      displayPath = `/${displayPath}/`;
-    }
-  }
 
   const userIsOnMobileDevice: boolean = checkIfUserIsOnMobileDevice(
     navigator.userAgent.toLowerCase()

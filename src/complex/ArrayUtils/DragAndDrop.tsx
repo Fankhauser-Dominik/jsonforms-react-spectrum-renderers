@@ -49,36 +49,33 @@ export const DragAndDrop = ({
   if (!data) {
     return null;
   }
-  const sortModeDnD = uischema?.options?.sortMode !== 'arrows' ? true : false;
-  const [upOrDown, setUpOrDown] = React.useState('up');
-  const [rerender, setRerender] = React.useState(0);
-  const [isMoving, setIsMoving] = React.useState(false);
-  const order = React.useRef<number[]>(data?.map((_: any, index: any) => index));
-  const HEIGHT_OF_COMPONENT = 70;
+  const sortModeDnD: boolean = uischema?.options?.sortMode !== 'arrows' ? true : false;
+  const [upOrDown, setUpOrDown] = React.useState<'up' | 'down'>('up');
+  const [rerender, setRerender] = React.useState<number>(0);
+  const [isMoving, setIsMoving] = React.useState<boolean>(false);
+  const [delayHandler, setDelayHandler] = React.useState<any>(null);
+  const [grabbedIndex, setGrabbedIndex] = React.useState<number | null>(null);
+  const [hoveredIndex, setHoveredIndex] = React.useState<number | null>(null);
+  const [touchMovement, setTouchMovement] = React.useState<boolean>(false);
+  const order: any = React.useRef<number[]>(data?.map((_: any, index: any) => index));
+  const COMPONENT_HEIGHT: number = 70;
   const fn =
     (order: number[], active: boolean = false) =>
     (index: number) =>
       active
         ? {
-            y: order.indexOf(index) * HEIGHT_OF_COMPONENT,
+            y: order.indexOf(index) * COMPONENT_HEIGHT,
             immediate: false,
             keys: false,
           }
         : {
-            y: order.indexOf(index) * HEIGHT_OF_COMPONENT,
+            y: order.indexOf(index) * COMPONENT_HEIGHT,
             immediate: true,
             keys: false,
           };
   const [springs, setSprings] = useSprings(data?.length ?? 0, fn(order.current));
   const DragHandleRef: any = useSpringRef();
 
-  const [delayHandler, setDelayHandler]: any = React.useState(null);
-  const [grabbedIndex, setGrabbedIndex]: any = React.useState(null);
-  const [hoveredIndex, setHoveredIndex]: any = React.useState(null);
-  const [touchMovement, setTouchMovement] = React.useState(false);
-  const dragConfig = {
-    pointer: { keys: false },
-  };
   const bind: any = useDrag(
     ({ args: [originalIndex], active, movement: [, y] }) => {
       if (originalIndex !== null && grabbedIndex !== null) {
@@ -87,7 +84,7 @@ export const DragAndDrop = ({
           setGrabbedIndex(null);
         }
         const curRow = clamp(
-          Math.round((originalIndex * HEIGHT_OF_COMPONENT + y) / HEIGHT_OF_COMPONENT),
+          Math.round((originalIndex * COMPONENT_HEIGHT + y) / COMPONENT_HEIGHT),
           0,
           data?.length - 1
         );
@@ -111,7 +108,9 @@ export const DragAndDrop = ({
         }
       }
     },
-    { ...dragConfig }
+    {
+      pointer: { keys: false },
+    }
   );
 
   const finalChange = (newOrder: any) => {
@@ -120,6 +119,7 @@ export const DragAndDrop = ({
       path,
       data.map((_: any, index: number) => data[newOrder[index]])
     );
+    setGrabbedIndex(null);
     setSprings.start(fn(newOrder, false));
     setIsMoving(false);
     setRerender((x: number) => x + 1);
@@ -179,6 +179,7 @@ export const DragAndDrop = ({
 
   React.useEffect(() => {
     order.current = data?.map((_: any, index: any) => index);
+    setGrabbedIndex(null);
     setSprings.start(fn(order.current, false));
   }, [data]);
 
@@ -254,9 +255,9 @@ export const DragAndDrop = ({
           disabled={disabled}
           DragHandleRef={DragHandleRef}
           upOrDown={upOrDown}
-          onFocus={() => setGrabbedIndex(sortModeDnD ? index : null)}
+          onFocus={() => setGrabbedIndex(index)}
           onBlur={() => setGrabbedIndex(null)}
-          onMouseEnter={() => setGrabbedIndex(sortModeDnD ? index : null)}
+          onMouseEnter={() => setGrabbedIndex(index)}
           onMouseLeave={() => setGrabbedIndex(null)}
           onTouchMove={() => enableTouch(index)}
           onKeyDown={(e: any) => {
@@ -275,7 +276,7 @@ export const DragAndDrop = ({
         style={{
           display: 'flex',
           flexDirection: 'column',
-          minHeight: data?.length ? HEIGHT_OF_COMPONENT * data?.length : 0,
+          minHeight: data?.length ? COMPONENT_HEIGHT * data?.length : 0,
           position: 'relative',
           touchAction: 'none',
           transformOrigin: '50% 50% 0px',
@@ -320,7 +321,7 @@ export const DragAndDrop = ({
       style={{
         display: 'flex',
         flexDirection: 'column',
-        height: data?.length ? HEIGHT_OF_COMPONENT * data?.length : 0,
+        height: data?.length ? COMPONENT_HEIGHT * data?.length : 0,
         position: 'relative',
         touchAction: 'none',
         transformOrigin: '50% 50% 0px',
@@ -338,7 +339,7 @@ export const DragAndDrop = ({
             y,
             zIndex: grabbedIndex === index ? 30 : 20,
           }}
-          height={HEIGHT_OF_COMPONENT + 'px'}
+          height={COMPONENT_HEIGHT + 'px'}
         >
           <div
             style={{
@@ -357,7 +358,11 @@ export const DragAndDrop = ({
             onBlur={() => hideAddBetween()}
             className='add-container'
           >
-            <Button variant='cta' onPress={(event: any) => addBetween(index, event)}>
+            <Button
+              variant='cta'
+              onPress={(event: any) => addBetween(index, event)}
+              UNSAFE_style={{ zIndex: 81 }}
+            >
               <Add />
             </Button>
           </div>
@@ -365,7 +370,7 @@ export const DragAndDrop = ({
             direction='row'
             alignItems='stretch'
             flex='auto inherit'
-            UNSAFE_style={{ zIndex: grabbedIndex === index ? 40 : 20 }}
+            UNSAFE_style={{ zIndex: grabbedIndex === index ? 30 : 20 }}
           >
             {modalItem(index, isMoving)}
           </Flex>
