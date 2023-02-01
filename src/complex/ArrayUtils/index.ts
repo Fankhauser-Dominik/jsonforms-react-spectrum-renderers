@@ -4,7 +4,7 @@
   Copyright (c) 2017-2019 EclipseSource Munich
   https://github.com/eclipsesource/jsonforms
 
-  Copyright (c) 2020 headwire.com, Inc
+  Copyright (c) 2022 headwire.com, Inc
   https://github.com/headwirecom/jsonforms-react-spectrum-renderers
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,18 +25,10 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-export * from './ajv';
-export * from './areEqual';
-export * from './circularReferenceReplacer';
-export * from './debounce';
-export * from './detectKeyboardUser';
-export * from './detectMobileDevice';
-export * from './errorIndicator';
-export * from './focus';
-export * from './isEmpty';
-export * from './isISODate';
-export * from './resolveSubSchemas';
-export * from './settings';
-export * from './withHandleChange';
-export * from './animatedModalWrapper';
-export * from './withJsonFormsArrayControlProps';
+export * from './AddItemButton';
+export * from './DeleteArrayItem';
+export * from './DragAndDrop';
+export * from './SortButtons';
+export * from './SortIcons';
+export * from './SpectrumItemHeader';
+export * from './utils';

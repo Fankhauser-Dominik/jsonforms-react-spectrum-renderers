@@ -38,7 +38,7 @@ import {
   getData,
 } from '@jsonforms/core';
 import { JsonFormsStateContext, withJsonFormsContext } from '@jsonforms/react';
-import { findValue } from './utils';
+import { findValue } from '../../util';
 import Item from './ContentFragmentReferenceWithDetailLayoutItem/Item';
 export interface extendedLayoutRendererProps extends RendererProps {
   data?: any;

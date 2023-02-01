@@ -158,10 +158,7 @@ const Item = React.memo(
     );
 
     return (
-      <SpectrumProvider
-        flex='auto'
-        width={uischema.options?.sortMode === 'arrows' ? 'calc(100% - 66px)' : '100%'}
-      >
+      <SpectrumProvider flex='auto' width='100%'>
         <View
           UNSAFE_className={`list-array-item enableDetailedView ${
             expanded ? 'expanded' : 'collapsed'

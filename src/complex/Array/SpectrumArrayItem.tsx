@@ -27,21 +27,7 @@
   THE SOFTWARE.
 */
 import React from 'react';
-import {
-  ActionButton,
-  Button,
-  ButtonGroup,
-  Content,
-  Dialog,
-  DialogContainer,
-  Divider,
-  Flex,
-  Heading,
-  Text,
-  Tooltip,
-  TooltipTrigger,
-  View,
-} from '@adobe/react-spectrum';
+import { View } from '@adobe/react-spectrum';
 import {
   ControlElement,
   JsonFormsRendererRegistryEntry,
@@ -55,19 +41,21 @@ import {
   getData,
 } from '@jsonforms/core';
 import { JsonFormsStateContext, JsonFormsDispatch, withJsonFormsContext } from '@jsonforms/react';
-import Delete from '@spectrum-icons/workflow/Delete';
-import ChevronDown from '@spectrum-icons/workflow/ChevronDown';
-import ChevronUp from '@spectrum-icons/workflow/ChevronUp';
 import SpectrumProvider from '../../additional/SpectrumProvider';
-import { settings } from '../../util';
+import { Breadcrumbs, useBreadcrumbs } from '../../context';
+import { SpectrumItemHeader } from '../ArrayUtils';
+import { ModalItemAnimationWrapper, checkIfUserIsOnMobileDevice } from '../../util';
 
 export interface OwnPropsOfSpectrumArrayItem {
+  DNDHandle?: any;
   data: any;
+  childData: any;
   childLabel?: string;
+  duplicateItem?: any;
   enabled?: boolean;
-  expanded: number | undefined;
   handleExpand(index: number): () => void;
   index: number;
+  openIndex: number;
   path: string;
   removeItem: (path: string, value: number) => () => void;
   renderers?: JsonFormsRendererRegistryEntry[];
@@ -80,12 +68,14 @@ export interface OwnPropsOfSpectrumArrayItem {
 }
 
 const SpectrumArrayItem = ({
+  DNDHandle = false,
   data,
+  childData,
   childLabel,
+  duplicateItem,
   enabled,
-  expanded,
-  handleExpand,
   index,
+  openIndex,
   path,
   removeItem,
   renderers,
@@ -93,17 +83,16 @@ const SpectrumArrayItem = ({
   uischema,
   uischemas = [],
 }: OwnPropsOfSpectrumArrayItem) => {
+  const [isAnimating, setIsAnimating] = React.useState(false);
   const foundUISchema = findUISchema(uischemas, schema, uischema.scope, path);
   const childPath = composePaths(path, `${index}`);
-  const [open, setOpen] = React.useState(false);
-  const handleClose = React.useCallback(() => setOpen(false), [setOpen]);
-  const newExpanded = expanded;
-  const isExpanded = newExpanded === index;
+  const [expanded, setExpanded] = React.useState(
+    JSON.stringify(childData) === '{}' ? true : openIndex === index ? true : false
+  );
 
   childLabel = childLabel ?? `Item ${index + 1}`;
 
-  const enableDetailedView = uischema?.options?.enableDetailedView ?? true;
-  const showItemNumber = uischema?.options?.showItemNumber ?? false;
+  const enableDetailedView = uischema?.options?.enableDetailedView ?? false;
 
   const pathFilter = uischema?.options?.pathFilter;
 
@@ -120,130 +109,147 @@ const SpectrumArrayItem = ({
     }
   }
 
+  const userIsOnMobileDevice: boolean = checkIfUserIsOnMobileDevice(
+    navigator.userAgent.toLowerCase()
+  );
+  const breadcrumbsRef = React.useRef<Breadcrumbs | null>(null);
+  const { breadcrumbs, addBreadcrumb, deleteBreadcrumb } = useBreadcrumbs();
+
+  React.useEffect(() => {
+    if (breadcrumbs.hasPrefix(childPath)) {
+      toggleExpanded(true);
+    } else if (
+      breadcrumbsRef.current &&
+      breadcrumbsRef.current.hasPrefix(childPath) &&
+      !breadcrumbs.hasPrefix(childPath)
+    ) {
+      toggleExpanded(false);
+    }
+    breadcrumbsRef.current = breadcrumbs;
+  }, [breadcrumbs]);
+
+  const toggleExpanded = React.useCallback(
+    (desiredState?: boolean) => {
+      if (desiredState === undefined) {
+        desiredState = !expanded;
+      }
+      if (desiredState) {
+        addBreadcrumb({
+          path: childPath,
+          name: childLabel,
+        });
+      } else {
+        deleteBreadcrumb(childPath);
+      }
+      if (desiredState === expanded) {
+        return;
+      }
+      if (!userIsOnMobileDevice) {
+        setIsAnimating(true);
+      }
+      setExpanded(desiredState);
+      if (desiredState) {
+        if (enableDetailedView === true) {
+          window.postMessage(
+            {
+              type: 'expanded-item',
+              index,
+              path,
+              crxPath: childData?._path,
+              breadCrumbLabel: childLabel,
+              addToQuery: true,
+            },
+            '*'
+          );
+        }
+      } else {
+        if (enableDetailedView === true) {
+          window.postMessage(
+            {
+              type: 'expanded-item',
+              index,
+              path,
+              breadCrumbLabel: childLabel,
+              addToQuery: false,
+            },
+            '*'
+          );
+        }
+      }
+    },
+    [
+      expanded,
+      setExpanded,
+      childLabel,
+      enableDetailedView,
+      breadcrumbs,
+      deleteBreadcrumb,
+      addBreadcrumb,
+    ]
+  );
+
+  const JsonFormsDispatchComponent = (
+    <JsonFormsDispatch
+      enabled={enabled}
+      visible={false}
+      key={childPath}
+      path={childPath}
+      renderers={renderers}
+      schema={schema}
+      uischema={foundUISchema || uischema}
+    />
+  );
+
+  const header = (
+    <SpectrumItemHeader
+      DNDHandle={DNDHandle}
+      JsonFormsDispatch={JsonFormsDispatchComponent}
+      childData={childData}
+      childLabel={childLabel}
+      duplicateItem={duplicateItem}
+      enableDetailedView={enableDetailedView}
+      expanded={expanded}
+      handleExpand={toggleExpanded}
+      index={index}
+      path={path}
+      removeItem={removeItem}
+      uischema={uischema}
+    />
+  );
+
   return (
-    <SpectrumProvider>
+    <SpectrumProvider flex='auto' width='100%'>
       <View
         UNSAFE_className={`list-array-item ${
           enableDetailedView ? 'enableDetailedView' : 'accordionView'
-        } ${uischema?.options?.noAccordion ? 'noAccordion' : null}`}
+        } ${expanded ? 'expanded' : 'collapsed'} ${
+          uischema?.options?.noAccordion ? 'noAccordion' : null
+        }`}
         borderWidth='thin'
         borderColor='dark'
         borderRadius='medium'
         padding='size-150'
       >
-        <View aria-selected={isExpanded} width={'100%'}>
-          <Flex
-            direction='row'
-            justifyContent='space-between'
-            alignItems='center'
-            UNSAFE_className='spectrum-array-item-container'
+        {header}
+        {expanded && !enableDetailedView && (
+          <View UNSAFE_className='json-form-dispatch-wrapper'>{JsonFormsDispatchComponent}</View>
+        )}
+        {enableDetailedView && (
+          <ModalItemAnimationWrapper
+            enableDetailedView={enableDetailedView}
+            expanded={expanded}
+            handleExpand={toggleExpanded}
+            isAnimating={isAnimating}
+            path={path}
+            setIsAnimating={setIsAnimating}
           >
-            {showItemNumber && (
-              <View UNSAFE_className='spectrum-array-item-number'>
-                <Text>{index + 1}</Text>
+            {expanded || isAnimating ? (
+              <View UNSAFE_className='json-form-dispatch-wrapper'>
+                {enableDetailedView && header}
+                {JsonFormsDispatchComponent}
               </View>
-            )}
-            <ActionButton
-              flex='auto'
-              isQuiet
-              onPress={handleExpand(index)}
-              aria-label={`expand-item-${childLabel}`}
-            >
-              {data?._path ? (
-                <Text
-                  UNSAFE_style={{
-                    position: 'absolute',
-                    direction: 'rtl',
-                    opacity: 0.7,
-                    bottom: -5,
-                    left: 0,
-                    fontSize: '12px',
-                    height: 18,
-                    maxWidth: 'calc(100% - 12px)',
-                    textOverflow: 'ellipsis',
-                    overflow: 'hidden',
-                    whiteSpace: 'nowrap',
-                    textAlign: 'left',
-                    alignSelf: 'start',
-                    justifyContent: 'start',
-                  }}
-                >
-                  {displayPath}
-                </Text>
-              ) : null}
-              <Text
-                UNSAFE_style={{
-                  textAlign: 'left',
-                  width: '100%',
-                  transform: data?._path ? 'translateY(-20%)' : '',
-                  fontWeight: 600,
-                }}
-              >
-                {childLabel}
-              </Text>
-            </ActionButton>
-            <View>
-              <TooltipTrigger delay={settings.toolTipDelay}>
-                <ActionButton
-                  onPress={handleExpand(index)}
-                  isQuiet={true}
-                  aria-label={`expand-item-${childLabel}`}
-                >
-                  {isExpanded ? (
-                    <ChevronUp aria-label='Collapse' size='S' />
-                  ) : (
-                    <ChevronDown aria-label='Expand' size='S' />
-                  )}
-                </ActionButton>
-                <Tooltip>{isExpanded ? 'Collapse' : 'Expand'}</Tooltip>
-              </TooltipTrigger>
-              <TooltipTrigger delay={settings.toolTipDelay}>
-                <ActionButton
-                  onPress={() => setOpen(true)}
-                  aria-label={`delete-item-${childLabel}`}
-                >
-                  <Delete aria-label='Delete' size='S' />
-                </ActionButton>
-                <Tooltip>Delete</Tooltip>
-              </TooltipTrigger>
-              <DialogContainer onDismiss={handleClose}>
-                {open && (
-                  <Dialog>
-                    <Heading>Delete Item?</Heading>
-                    <Divider />
-                    <Content>Are you sure you wish to delete this item?</Content>
-                    <ButtonGroup>
-                      <Button variant='secondary' onPress={handleClose}>
-                        Cancel
-                      </Button>
-                      <Button
-                        autoFocus
-                        variant='cta'
-                        onPressStart={removeItem(path, index)}
-                        onPressEnd={handleClose}
-                      >
-                        Delete
-                      </Button>
-                    </ButtonGroup>
-                  </Dialog>
-                )}
-              </DialogContainer>
-            </View>
-          </Flex>
-        </View>
-        {isExpanded ? (
-          <View>
-            <JsonFormsDispatch
-              enabled={enabled}
-              key={childPath}
-              path={childPath}
-              renderers={renderers}
-              schema={schema}
-              uischema={foundUISchema || uischema}
-            />
-          </View>
-        ) : (
-          ''
+            ) : null}
+          </ModalItemAnimationWrapper>
         )}
       </View>
     </SpectrumProvider>

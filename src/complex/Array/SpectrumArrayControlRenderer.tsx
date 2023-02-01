@@ -27,7 +27,7 @@
 */
 import { ArrayControlProps, ControlElement, Helpers } from '@jsonforms/core';
 import { withJsonFormsArrayControlProps } from '../../util';
-import { SpectrumArrayControl } from './SpectrumArrayControl';
+import SpectrumArrayControl from './SpectrumArrayControl';
 
 const SpectrumArrayControlRenderer = ({
   schema,

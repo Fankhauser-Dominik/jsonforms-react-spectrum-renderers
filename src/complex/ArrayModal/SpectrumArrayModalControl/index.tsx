@@ -27,21 +27,12 @@
 */
 import React from 'react';
 import { ArrayControlProps, OwnPropsOfControl, createDefaultValue } from '@jsonforms/core';
-import {
-  ActionButton,
-  Flex,
-  Heading,
-  Text,
-  Tooltip,
-  TooltipTrigger,
-  View,
-} from '@adobe/react-spectrum';
-import SpectrumArrayModalItem from '../SpectrumArrayModalItem/ModalItemComponent';
-import Add from '@spectrum-icons/workflow/Add';
-import DragAndDrop from './DragAndDrop';
+import { Flex, Heading, Text, View } from '@adobe/react-spectrum';
+import SpectrumArrayModalItem from '../ModalItemComponent';
+import { DragAndDrop } from '../../ArrayUtils';
 import AddDialog from './AddDialog';
-import { indexOfFittingSchemaObject } from '../utils';
-import { withHandleChange, HandleChangeProps, settings } from '../../../util';
+import { withHandleChange, HandleChangeProps } from '../../../util';
+import { indexOfFittingSchemaObject, AddItemButton } from '../../ArrayUtils';
 
 const SpectrumArrayModalControl = React.memo(
   ({
@@ -150,6 +141,21 @@ const SpectrumArrayModalControl = React.memo(
     }, [data]);
 
     const sortMode: string | boolean = uischema?.options?.sortMode ?? 'DragAndDrop';
+
+    const ArrayItem = (index: number) => (
+      <SpectrumArrayModalItem
+        callbackOpenedIndex={callbackOpenedIndex}
+        duplicateItem={duplicateContent}
+        enabled={enabled}
+        index={index}
+        path={path}
+        removeItem={handleRemoveItem}
+        renderers={renderers}
+        schema={schema}
+        uischema={uischema}
+        uischemas={uischemas}
+      ></SpectrumArrayModalItem>
+    );
     return (
       <View id='json-form-array-wrapper'>
         <Flex direction='row' justifyContent='space-between'>
@@ -199,18 +205,7 @@ const SpectrumArrayModalControl = React.memo(
                       flex='auto inherit'
                       marginBottom={'size-100'}
                     >
-                      <SpectrumArrayModalItem
-                        callbackOpenedIndex={callbackOpenedIndex}
-                        duplicateItem={duplicateContent}
-                        enabled={enabled}
-                        index={index}
-                        path={path}
-                        removeItem={handleRemoveItem}
-                        renderers={renderers}
-                        schema={schema}
-                        uischema={uischema}
-                        uischemas={uischemas}
-                      ></SpectrumArrayModalItem>
+                      {ArrayItem(index)}
                     </Flex>
                   );
                 })
@@ -219,20 +214,7 @@ const SpectrumArrayModalControl = React.memo(
           ) : (
             <Text>No data</Text>
           )}
-          <Flex>
-            <TooltipTrigger delay={settings.toolTipDelay}>
-              <ActionButton
-                onPress={() => onPressHandler()}
-                isQuiet={true}
-                aria-label='add a new item'
-                UNSAFE_className='add-item'
-                marginEnd={sortMode === 'arrows' ? 'size-450' : 'size-0'}
-              >
-                <Add aria-label='Change Reference' size='L' />
-              </ActionButton>
-              <Tooltip>Add a new Item</Tooltip>
-            </TooltipTrigger>
-          </Flex>
+          <AddItemButton onPressFunction={() => onPressHandler()} />
         </Flex>
       </View>
     );

@@ -47,12 +47,6 @@ div[class^='spectrum-Textfield'] {
   border-color: transparent;
   margin: -5px -12px -5px 0px;
   touch-action: none;
-  cursor: move !important; /* fallback if grab cursor is unsupported */
-  cursor: grab !important;
-  cursor: -webkit-grab !important;
-  cursor: -moz-grab !important;
-  cursor: -o-grab !important;
-  cursor: -ms-grab !important;
   min-width: 34px;
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Safari */
@@ -63,13 +57,26 @@ div[class^='spectrum-Textfield'] {
   outline: none;
 }
 
+.grabcursor {
+  cursor: move !important; /* fallback if grab cursor is unsupported */
+  cursor: grab !important;
+  cursor: -webkit-grab !important;
+  cursor: -moz-grab !important;
+  cursor: -o-grab !important;
+  cursor: -ms-grab !important;
+}
+
 /* Apply a "closed-hand" cursor during drag operation. */
-.grabbable:active {
+.grabcursor:active {
   cursor: grabbing !important;
   cursor: -webkit-grabbing !important;
   cursor: -moz-grabbing !important;
   cursor: -o-grabbing !important;
   cursor: -ms-grabbing !important;
+}
+
+.ArrowIcon {
+  padding: 6px 0px;
 }
 
 .grabbable:focus-visible {
@@ -125,6 +132,17 @@ div[class^='spectrum-Textfield'] {
   border-bottom-style: solid;
 }
 
+.list-array-item:has(.json-form-dispatch-wrapper) {
+  display: flex;
+  flex-direction: column;
+}
+
+.json-form-dispatch-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
 .animatedModalItem.darkenBackground {
   background-color: rgba(0, 0, 0, 1);
   opacity: 0.2;
@@ -169,9 +187,13 @@ div[class^='spectrum-Textfield'] {
 .list-array-item {
   background-color: var(--spectrum-global-color-gray-100);
   padding: 10px !important;
-  height: 62px !important;
+  min-height: 62px !important;
   display: flex;
   align-items: center;
+}
+
+.list-array-item:not(:has(.json-form-dispatch-wrapper)) {
+  height: 62px !important;
 }
 
 .list-array-item.noAccordion {
@@ -597,4 +619,8 @@ div[class^='spectrum-Textfield'] {
 
 div:has(> div[id^='#/'][hidden]) {
   display: none !important;
+}
+
+.arrowContainer {
+  padding: 3px 7px;
 }

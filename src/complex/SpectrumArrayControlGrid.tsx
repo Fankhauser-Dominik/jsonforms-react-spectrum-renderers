@@ -51,7 +51,7 @@ import {
 } from '@adobe/react-spectrum';
 
 import Delete from '@spectrum-icons/workflow/Delete';
-import { ArrayFooter, ArrayHeader, getChildError, getUIOptions } from './Array/utils';
+import { ArrayFooter, ArrayHeader, getChildError, getUIOptions } from './ArrayUtils';
 import SpectrumProvider from '../additional/SpectrumProvider';
 import { settings } from '../util';
 import { withJsonFormsArrayControlProps } from '../util';

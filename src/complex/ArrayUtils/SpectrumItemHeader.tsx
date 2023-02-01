@@ -17,17 +17,16 @@ import Close from '@spectrum-icons/workflow/Close';
 import ChevronUp from '@spectrum-icons/workflow/ChevronUp';
 import ChevronDown from '@spectrum-icons/workflow/ChevronDown';
 import Duplicate from '@spectrum-icons/workflow/Duplicate';
-import { settings } from '../../../util';
-
-import ModalItemDelete from './ModalItemDelete';
+import { settings } from '../../util';
+import { DeleteArrayItem } from '.';
 import FolderSearch from '@spectrum-icons/workflow/FolderSearch';
 
-interface ArrayModalItemHeaderProps {
+interface SpectrumItemHeaderProps {
   DNDHandle?: any;
   JsonFormsDispatch: any;
   childData: any;
   childLabel: string;
-  customPicker: { enabled: boolean; handler: (current?: object) => void };
+  customPicker?: { enabled: boolean; handler: (current?: object) => void };
   duplicateItem: (index: number) => () => void;
   enableDetailedView: boolean;
   expanded: boolean;
@@ -38,7 +37,7 @@ interface ArrayModalItemHeaderProps {
   uischema: any;
 }
 
-export default function ModalItemHeader({
+export const SpectrumItemHeader = ({
   DNDHandle = false,
   JsonFormsDispatch,
   childData,
@@ -52,7 +51,7 @@ export default function ModalItemHeader({
   path,
   removeItem,
   uischema,
-}: ArrayModalItemHeaderProps) {
+}: SpectrumItemHeaderProps) => {
   const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
   const actionMenuTriggered = (action: any) => {
     const testArr = action.split('-');
@@ -202,7 +201,7 @@ export default function ModalItemHeader({
                 {DNDHandle}
               </>
             )}
-            <ModalItemDelete
+            <DeleteArrayItem
               deleteModalOpen={deleteModalOpen}
               setDeleteModalOpen={setDeleteModalOpen}
               removeItem={removeItem}
@@ -216,4 +215,4 @@ export default function ModalItemHeader({
       </Flex>
     </View>
   );
-}
+};

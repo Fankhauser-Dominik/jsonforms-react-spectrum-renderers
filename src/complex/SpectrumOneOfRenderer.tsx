@@ -55,7 +55,7 @@ import {
   View,
 } from '@adobe/react-spectrum';
 import SpectrumProvider from '../additional/SpectrumProvider';
-import { indexOfFittingSchemaObject } from './ArrayModal/utils';
+import { indexOfFittingSchemaObject } from './ArrayUtils/utils';
 const oneOf = 'oneOf';
 const SpectrumOneOfRenderer = ({
   cells,

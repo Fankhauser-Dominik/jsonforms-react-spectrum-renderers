@@ -26,7 +26,6 @@
   THE SOFTWARE.
 */
 import React from 'react';
-
 import { ArrayControlProps, ControlElement, Helpers } from '@jsonforms/core';
 import SpectrumArrayModalControl from './SpectrumArrayModalControl';
 import { withJsonFormsArrayControlProps } from '../../util';
@@ -38,6 +37,8 @@ const SpectrumArrayModalControlRenderer = React.memo(
     enabled,
     errors,
     id,
+    moveDown,
+    moveUp,
     path,
     removeItems,
     rootSchema,
@@ -45,8 +46,6 @@ const SpectrumArrayModalControlRenderer = React.memo(
     uischema,
     uischemas = [],
     visible,
-    moveUp,
-    moveDown,
   }: ArrayControlProps) => {
     const controlElement = uischema as ControlElement;
     const labelDescription = Helpers.createLabelDescriptionFrom(controlElement, schema);
@@ -60,6 +59,8 @@ const SpectrumArrayModalControlRenderer = React.memo(
         errors={errors}
         id={id}
         label={label ?? ''}
+        moveDown={moveDown}
+        moveUp={moveUp}
         path={path}
         removeItems={removeItems}
         rootSchema={rootSchema}
@@ -67,8 +68,6 @@ const SpectrumArrayModalControlRenderer = React.memo(
         uischema={uischema}
         uischemas={uischemas}
         visible={visible}
-        moveDown={moveDown}
-        moveUp={moveUp}
       />
     ) : null;
   }
