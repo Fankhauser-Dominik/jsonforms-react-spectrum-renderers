@@ -7,6 +7,7 @@ import { settings } from '../../util';
 interface ArrayModalControlSortButtonsProps {
   autoFocus: boolean;
   data: any;
+  disabled: boolean;
   index: number;
   moveDown: any;
   moveUp: any;
@@ -21,6 +22,7 @@ export const SortButtons = React.memo(
   ({
     autoFocus,
     data,
+    disabled,
     index,
     moveDown,
     moveUp,
@@ -39,9 +41,9 @@ export const SortButtons = React.memo(
             marginX='size-10'
             UNSAFE_style={{ position: 'absolute', marginTop: '-5px' }}
             UNSAFE_className={`${userIsOnMobileDevice ? 'ArrowIcon' : null} ${
-              index <= 0 ? 'disabledMovement' : null
+              index <= 0 || disabled ? 'disabledMovement' : null
             }`}
-            isDisabled={index <= 0}
+            isDisabled={index <= 0 || disabled}
             height='size-325'
           >
             <ArrowUp aria-label='ArrowUp' size='S' />
@@ -57,9 +59,9 @@ export const SortButtons = React.memo(
             marginX='size-10'
             UNSAFE_style={{ position: 'absolute', marginTop: '15px' }}
             UNSAFE_className={`${userIsOnMobileDevice ? 'ArrowIcon' : null} ${
-              index >= data.length - 1 ? 'disabledMovement' : ''
+              index >= data.length - 1 || disabled ? 'disabledMovement' : ''
             }`}
-            isDisabled={index >= data.length - 1}
+            isDisabled={index >= data.length - 1 || disabled}
             height='size-325'
           >
             <ArrowDown aria-label='ArrowDown' size='S' />

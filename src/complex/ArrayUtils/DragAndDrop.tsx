@@ -52,6 +52,7 @@ export const DragAndDrop = ({
   const sortModeDnD = uischema?.options?.sortMode !== 'arrows' ? true : false;
   const [upOrDown, setUpOrDown] = React.useState('up');
   const [rerender, setRerender] = React.useState(0);
+  const [isMoving, setIsMoving] = React.useState(false);
   const order = React.useRef<number[]>(data?.map((_: any, index: any) => index));
   const HEIGHT_OF_COMPONENT = 70;
   const fn =
@@ -120,12 +121,14 @@ export const DragAndDrop = ({
       data.map((_: any, index: number) => data[newOrder[index]])
     );
     setSprings.start(fn(newOrder, false));
+    setIsMoving(false);
     setRerender((x: number) => x + 1);
   };
 
   let [keyboardClass, setKeyboardClass] = React.useState('');
 
   const move = (pressedKey: string, index: number) => {
+    setIsMoving(true);
     let newOrder: any = false;
     if (pressedKey === 'ArrowUp' && index > 0) {
       setKeyboardClass('keyboardUp');
@@ -364,7 +367,7 @@ export const DragAndDrop = ({
             flex='auto inherit'
             UNSAFE_style={{ zIndex: grabbedIndex === index ? 40 : 20 }}
           >
-            {modalItem(index)}
+            {modalItem(index, isMoving)}
           </Flex>
         </animated.div>
       ))}

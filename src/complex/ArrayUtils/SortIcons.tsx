@@ -47,6 +47,7 @@ export const SortIcons = ({
   userIsOnMobileDevice,
 }: SortIconsProps) => {
   const sortMode: string | boolean = uischema?.options?.sortMode ?? 'DragAndDrop';
+  const isKeyboardUser = !!Array.from(document.getElementsByClassName('keyboard-user')).length;
   return sortMode === 'arrows' ? (
     <div
       className={`arrowContainer grabbable ${sortMode === 'arrows' ? '' : 'grabcursor'} ${
@@ -61,8 +62,9 @@ export const SortIcons = ({
       ref={DragHandleRef}
     >
       <SortButtons
-        autoFocus={grabbedIndex === index}
+        autoFocus={isKeyboardUser && grabbedIndex === index}
         data={data}
+        disabled={disabled}
         index={index}
         moveDown={moveDown}
         moveUp={moveUp}
@@ -77,7 +79,7 @@ export const SortIcons = ({
     <button
       disabled={disabled}
       ref={DragHandleRef}
-      autoFocus={grabbedIndex === index}
+      autoFocus={isKeyboardUser && grabbedIndex === index}
       className={`grabbable ${disabled ? 'disabledMovement' : ''}`}
       onFocus={onFocus}
       onBlur={onBlur}
