@@ -7,7 +7,7 @@ interface SortIconsProps {
   DragHandleRef: any;
   data: any;
   disabled: boolean;
-  grabbedIndex: number | undefined;
+  grabbedIndex: number | null;
   index: number;
   keyboardClass: string;
   moveDown: any;

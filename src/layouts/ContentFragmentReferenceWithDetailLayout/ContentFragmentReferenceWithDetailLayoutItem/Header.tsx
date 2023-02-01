@@ -65,13 +65,10 @@ export default function ModalItemHeader({
   let displayPath = '';
   if (typeof pathFilter === 'string') {
     displayPath = data?._path?.replace(pathFilter, '') || '';
-    if (displayPath.startsWith('/')) {
-      displayPath = displayPath.substring(1);
-    }
   } else {
     displayPath = data?._path?.split('/').slice(3).join('/') || '';
     if (displayPath) {
-      displayPath = `/${displayPath}/`;
+      displayPath = `/${displayPath}`;
     }
   }
 
@@ -86,15 +83,21 @@ export default function ModalItemHeader({
           onPress={() => handleExpand()}
           aria-label={`expand-item-${childLabel}`}
           isDisabled={noData}
+          UNSAFE_style={
+            data?._path && displayPath
+              ? {
+                  paddingLeft: '12px',
+                }
+              : {}
+          }
         >
-          {data?._path ? (
+          {data?._path && displayPath ? (
             <Text
               UNSAFE_style={{
                 position: 'absolute',
                 direction: 'rtl',
                 opacity: 0.7,
                 bottom: -5,
-                left: 0,
                 fontSize: '12px',
                 height: 18,
                 maxWidth: 'calc(100% - 12px)',
@@ -106,7 +109,8 @@ export default function ModalItemHeader({
                 justifyContent: 'start',
               }}
             >
-              {displayPath}
+              {/* The "&lrm;" fixes an issue caused by the direction: 'rtl' property */}
+              &lrm;{displayPath}
             </Text>
           ) : null}
           <Text
@@ -114,7 +118,7 @@ export default function ModalItemHeader({
             UNSAFE_style={{
               textAlign: 'left',
               width: '100%',
-              transform: data?._path ? 'translateY(-20%)' : '',
+              transform: data?._path && displayPath ? 'translateY(-20%)' : '',
               fontWeight: 600,
             }}
           >

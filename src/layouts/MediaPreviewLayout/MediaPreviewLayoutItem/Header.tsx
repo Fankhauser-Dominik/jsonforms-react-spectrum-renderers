@@ -68,9 +68,7 @@ export default function ModalItemHeader({
     `Media ${index + 1}`;
 
   const mediaType =
-    uischema.options?.mediaType ||
-    findValue(data, uischema.options?.dataAsMediaType) ||
-    'undefined';
+    uischema.options?.mediaType || findValue(data, uischema.options?.dataAsMediaType) || undefined;
 
   const imageSrc =
     typeof uischema.options?.dataAsImage === 'number'

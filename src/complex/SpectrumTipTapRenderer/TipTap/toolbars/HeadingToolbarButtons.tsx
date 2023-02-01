@@ -24,8 +24,8 @@ export default function HeadingToolbarButtons({
 
   let options = [
     { name: 'Paragraph' },
-    // { name: 'H2' },
-    // { name: 'H3' },
+    { name: 'H2' },
+    { name: 'H3' },
     { name: 'H4' },
     { name: 'H5' },
     { name: 'H6' },

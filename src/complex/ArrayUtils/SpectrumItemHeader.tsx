@@ -72,13 +72,10 @@ export const SpectrumItemHeader = ({
   let displayPath = '';
   if (typeof pathFilter === 'string') {
     displayPath = childData?._path?.replace(pathFilter, '') || '';
-    if (displayPath.startsWith('/')) {
-      displayPath = displayPath.substring(1);
-    }
   } else {
     displayPath = childData?._path?.split('/').slice(3).join('/') || '';
     if (displayPath) {
-      displayPath = `/${displayPath}/`;
+      displayPath = `/${displayPath}`;
     }
   }
 
@@ -102,15 +99,21 @@ export const SpectrumItemHeader = ({
             isQuiet
             onPress={() => handleExpand()}
             aria-label={`expand-item-${childLabel}`}
+            UNSAFE_style={
+              childData?._path && displayPath
+                ? {
+                    paddingLeft: '12px',
+                  }
+                : {}
+            }
           >
-            {childData?._path ? (
+            {childData?._path && displayPath ? (
               <Text
                 UNSAFE_style={{
                   position: 'absolute',
                   direction: 'rtl',
                   opacity: 0.7,
                   bottom: -5,
-                  left: 0,
                   fontSize: '12px',
                   height: 18,
                   maxWidth: 'calc(100% - 12px)',
@@ -122,7 +125,8 @@ export const SpectrumItemHeader = ({
                   justifyContent: 'start',
                 }}
               >
-                {displayPath}
+                {/* The "&lrm;" fixes an issue caused by the direction: 'rtl' property */}
+                &lrm;{displayPath}
               </Text>
             ) : null}
             <Text
@@ -130,7 +134,7 @@ export const SpectrumItemHeader = ({
               UNSAFE_style={{
                 textAlign: 'left',
                 width: '100%',
-                transform: childData?._path ? 'translateY(-20%)' : '',
+                transform: childData?._path && displayPath ? 'translateY(-20%)' : '',
                 fontWeight: 600,
               }}
             >
