@@ -17,6 +17,7 @@ import { Flex, ToggleButton, Tooltip, TooltipTrigger, View } from '@adobe/react-
 import { settings } from '../../../util';
 import HeadingToolbarButtons from './toolbars/HeadingToolbarButtons';
 
+declare type Level = 1 | 2 | 3 | 4 | 5 | 6;
 const ProjectCreateContentToolbar = ({
   editor,
   readOnly,
@@ -24,6 +25,25 @@ const ProjectCreateContentToolbar = ({
   editor: Editor;
   readOnly: boolean;
 }) => {
+  const extractNumber = (str: string) => parseInt(str.replace(/\D/g, '')) as Level;
+  const nodeName = (tag: boolean = false) => {
+    if (editor.isActive('heading')) {
+      if (tag) {
+        return 'h' + editor.getAttributes('heading').level;
+      } else {
+        return 'heading';
+      }
+    } else if (editor.isActive('blockquote')) {
+      return 'blockquote';
+    } else {
+      if (tag) {
+        return 'p';
+      } else {
+        return 'paragraph';
+      }
+    }
+  };
+
   return (
     <View
       borderWidth='thin'
@@ -33,6 +53,65 @@ const ProjectCreateContentToolbar = ({
     >
       <Flex gap='size-25' margin='size-100' wrap>
         <HeadingToolbarButtons editor={editor} readOnly={readOnly} />
+        <TooltipTrigger delay={settings.toolTipDelay}>
+          <ToggleButton
+            onPress={() =>
+              editor.chain().focus().toggleMarker({ class: 'test', tag: 'span' }).run()
+            }
+            aria-label='bold'
+            isSelected={editor.isActive('marker')}
+            isDisabled={readOnly}
+          >
+            Marker1
+          </ToggleButton>
+          <Tooltip>Test</Tooltip>
+        </TooltipTrigger>
+        <TooltipTrigger delay={settings.toolTipDelay}>
+          <ToggleButton
+            onPress={() =>
+              editor.chain().focus().toggleMarker({ class: 'markerino', tag: 'span' }).run()
+            }
+            aria-label='bold'
+            isSelected={editor.isActive('marker')}
+            isDisabled={readOnly}
+          >
+            Marker2
+          </ToggleButton>
+          <Tooltip>Test</Tooltip>
+        </TooltipTrigger>
+        <TooltipTrigger delay={settings.toolTipDelay}>
+          <ToggleButton
+            onPress={() => editor.chain().focus().removeEmptyTextStyle().run()}
+            aria-label='bold'
+            // isSelected={editor.isActive('marker')}
+            isDisabled={readOnly}
+          >
+            TextStyle
+          </ToggleButton>
+          <Tooltip>Test</Tooltip>
+        </TooltipTrigger>
+        <TooltipTrigger delay={settings.toolTipDelay}>
+          <ToggleButton
+            onPress={() =>
+              editor
+                .chain()
+                .focus()
+                .toggleNodeWithClass({
+                  class: `123 Test`,
+                  tag: nodeName(true),
+                  nodeName: nodeName(),
+                  level: extractNumber(nodeName(true)),
+                })
+                .run()
+            }
+            aria-label='bold'
+            isSelected={editor.isActive('nodeWithClass')}
+            isDisabled={readOnly}
+          >
+            Node
+          </ToggleButton>
+          <Tooltip>Test</Tooltip>
+        </TooltipTrigger>
         <TooltipTrigger delay={settings.toolTipDelay}>
           <ToggleButton
             onPress={() => editor.chain().focus().toggleBold().run()}
