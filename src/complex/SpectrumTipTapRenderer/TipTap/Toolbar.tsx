@@ -1,3 +1,4 @@
+import React, { Key } from 'react';
 import { Editor } from '@tiptap/react';
 import TextAlignLeft from '@spectrum-icons/workflow/TextAlignLeft';
 import TextAlignCenter from '@spectrum-icons/workflow/TextAlignCenter';
@@ -13,37 +14,42 @@ import TextBulleted from '@spectrum-icons/workflow/TextBulleted';
 import TextNumbered from '@spectrum-icons/workflow/TextNumbered';
 import Undo from '@spectrum-icons/workflow/Undo';
 import Redo from '@spectrum-icons/workflow/Redo';
-import { Flex, ToggleButton, Tooltip, TooltipTrigger, View } from '@adobe/react-spectrum';
+import {
+  Flex,
+  Item,
+  Picker,
+  ToggleButton,
+  Tooltip,
+  TooltipTrigger,
+  View,
+} from '@adobe/react-spectrum';
 import { settings } from '../../../util';
 import HeadingToolbarButtons from './toolbars/HeadingToolbarButtons';
 
-declare type Level = 1 | 2 | 3 | 4 | 5 | 6;
 const ProjectCreateContentToolbar = ({
   editor,
   readOnly,
+  uischema,
 }: {
   editor: Editor;
   readOnly: boolean;
+  uischema: any;
 }) => {
-  const extractNumber = (str: string) => parseInt(str.replace(/\D/g, '')) as Level;
-  const nodeName = (tag: boolean = false) => {
-    if (editor.isActive('heading')) {
-      if (tag) {
-        return 'h' + editor.getAttributes('heading').level;
-      } else {
-        return 'heading';
-      }
-    } else if (editor.isActive('blockquote')) {
-      return 'blockquote';
-    } else {
-      if (tag) {
-        return 'p';
-      } else {
-        return 'paragraph';
-      }
-    }
-  };
+  const [selectedNodeOption, setSelectedNodeOption] = React.useState<Key | null>(null);
+  let nodeOptions = uischema.options.nodeClasses.map((nodeClass: any) => {
+    return { id: nodeClass.class, name: nodeClass.name ?? nodeClass.class };
+  });
 
+  const activeNodeOption = (selected: Key) => {
+    setSelectedNodeOption(selected);
+    editor
+      .chain()
+      .focus()
+      .toggleNodeWithClass({
+        class: selected.toString(),
+      })
+      .run();
+  };
   return (
     <View
       borderWidth='thin'
@@ -79,39 +85,19 @@ const ProjectCreateContentToolbar = ({
           </ToggleButton>
           <Tooltip>Test</Tooltip>
         </TooltipTrigger>
-        <TooltipTrigger delay={settings.toolTipDelay}>
-          <ToggleButton
-            onPress={() => editor.chain().focus().removeEmptyTextStyle().run()}
-            aria-label='bold'
-            // isSelected={editor.isActive('marker')}
-            isDisabled={readOnly}
-          >
-            TextStyle
-          </ToggleButton>
-          <Tooltip>Test</Tooltip>
-        </TooltipTrigger>
-        <TooltipTrigger delay={settings.toolTipDelay}>
-          <ToggleButton
-            onPress={() =>
-              editor
-                .chain()
-                .focus()
-                .toggleNodeWithClass({
-                  class: `123 Test`,
-                  tag: nodeName(true),
-                  nodeName: nodeName(),
-                  level: extractNumber(nodeName(true)),
-                })
-                .run()
-            }
-            aria-label='bold'
-            isSelected={editor.isActive('nodeWithClass')}
-            isDisabled={readOnly}
-          >
-            Node
-          </ToggleButton>
-          <Tooltip>Test</Tooltip>
-        </TooltipTrigger>
+        {nodeOptions && (
+          <TooltipTrigger delay={settings.toolTipDelay}>
+            <Picker
+              items={nodeOptions}
+              selectedKey={selectedNodeOption}
+              aria-label='Add a class'
+              onSelectionChange={(selected) => activeNodeOption(selected)}
+            >
+              {(item: any) => <Item>{item.name}</Item>}
+            </Picker>
+            <Tooltip>Test</Tooltip>
+          </TooltipTrigger>
+        )}
         <TooltipTrigger delay={settings.toolTipDelay}>
           <ToggleButton
             onPress={() => editor.chain().focus().toggleBold().run()}

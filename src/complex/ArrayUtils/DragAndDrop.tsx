@@ -217,6 +217,11 @@ export const DragAndDrop = ({
       );
       finalChange(newOrder);
       setMoveUpIndex(null);
+    } else {
+      order.current = data?.map((_: any, index: any) => index);
+      setSprings.start(fn(order.current, false));
+      finalChange(order.current);
+      setMoveUpIndex(null);
     }
   }, [data.length]);
 

@@ -143,6 +143,11 @@ div[class^='spectrum-Textfield'] {
   width: 100%;
 }
 
+.json-form-dispatch-wrapper:not(:has(section)) > .array-item-content {
+  margin: var(--spectrum-global-dimension-size-160, var(--spectrum-alias-size-160));
+  border: 2px solid transparent;
+}
+
 .animatedModalItem.darkenBackground {
   background-color: rgba(0, 0, 0, 1);
   opacity: 0.2;

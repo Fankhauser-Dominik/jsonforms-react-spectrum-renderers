@@ -1,45 +1,33 @@
 import { Node, mergeAttributes } from '@tiptap/core';
+import { getNodeName, getTag, removeWhiteSpace } from './utils';
 
 declare type Level = 1 | 2 | 3 | 4 | 5 | 6;
-export interface MarkerOptions {
-  level: Level;
+export interface NodeOptions {
   HTMLAttributes: Record<string, any>;
   classes: Array<string>;
-  tag: string;
-  nodeName: string;
   excludes: string;
-  shortcuts: Array<string>;
+  level?: Level;
+  nodeName?: string | undefined;
+  tag: string;
 }
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     nodeWithClass: {
       /**
-       * Set a nodeWithClass
-       */
-      setNodeWithClass: (attributes: {
-        class: string;
-        tag: string;
-        nodeName?: string;
-      }) => ReturnType;
-      /**
        * Toggle a nodeWithClass
        */
       toggleNodeWithClass: (attributes: {
         class: string;
-        tag: string;
-        nodeName?: string;
+        tag?: string;
+        nodeName?: string | undefined;
         level?: Level;
       }) => ReturnType;
-      /**
-       * Unset a nodeWithClass
-       */
-      unsetNodeWithClass: () => ReturnType;
     };
   }
 }
 
-export const nodeWithClass = Node.create<MarkerOptions>({
+export const nodeWithClass = Node.create<NodeOptions>({
   name: 'nodeWithClass',
 
   addOptions() {
@@ -75,7 +63,7 @@ export const nodeWithClass = Node.create<MarkerOptions>({
         },
       },
       tag: {
-        default: 'span',
+        default: 'p',
         parseHTML: (element) => element.getAttribute('tag'),
         renderHTML: (attributes) => {
           if (!attributes.tag) {
@@ -95,7 +83,6 @@ export const nodeWithClass = Node.create<MarkerOptions>({
         tag: this.options.tag,
         getAttrs: (element) => {
           const hasClass = (element as HTMLElement).hasAttribute('class');
-          console.log('parseHTML', hasClass);
 
           if (!hasClass) {
             return false;
@@ -107,52 +94,72 @@ export const nodeWithClass = Node.create<MarkerOptions>({
     ];
   },
 
-  renderHTML({ HTMLAttributes, node }) {
+  renderHTML({ HTMLAttributes }) {
     const tag = HTMLAttributes?.tag || this?.options?.tag;
     delete HTMLAttributes?.tag;
-    //delete HTMLAttributes?.level;
-    console.log(node);
     return [tag, mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0];
   },
 
   addCommands() {
     return {
-      setNodeWithClass:
-        (attributes) =>
-        ({ commands }) => {
-          return commands.setNode(this.name, attributes);
-        },
       toggleNodeWithClass:
         (attributes) =>
         ({ chain, editor }) => {
-          const nodeName: string = attributes?.nodeName || this.options?.nodeName || 'paragraph';
-          const currentClass: string = editor.getAttributes(nodeName).class ?? '';
-          const newClass: string = currentClass.replace(attributes.class, '');
+          const nodeName: string = getNodeName(editor, attributes?.tag ?? getTag(editor));
+          const currentClass: string | undefined = removeWhiteSpace(
+            editor.getAttributes(nodeName).class ?? ''
+          );
+          const currClass: string = ` ${currentClass} `;
+          const regex = new RegExp(`\\b${attributes.class}\\b`, 'g');
+          const newClass: string | undefined = currentClass
+            ? removeWhiteSpace(currClass.replace(regex, ''))
+            : undefined;
+
           let nodeClass: string | undefined = undefined;
-          if (newClass !== currentClass) {
-            if (newClass !== '') {
-              nodeClass = newClass;
-            } else {
-              nodeClass = undefined;
-            }
+          const isNewTag = attributes.tag && getTag(editor) !== attributes.tag;
+
+          if (newClass !== currentClass && !isNewTag) {
+            nodeClass = newClass ?? attributes.class;
           } else {
-            nodeClass = attributes.class;
+            if (isNewTag) {
+              nodeClass = attributes.class;
+            } else {
+              nodeClass = removeWhiteSpace(
+                `${currentClass ?? undefined} ${attributes.class ?? undefined}`
+              );
+            }
+          }
+          if (nodeClass === '') {
+            nodeClass = undefined;
           }
 
-          console.log('currentClasses', currentClass, newClass);
           if (nodeName === 'heading') {
-            const level: Level = attributes.level || this.options.level || 6;
+            const level: Level =
+              attributes.level || editor.getAttributes(nodeName).level || this.options.level;
             return chain()
               .setHeading({ level: level })
+              .updateAttributes(nodeName, {
+                class: nodeClass,
+                level: level,
+              })
+              .unsetBlockquote()
+              .run();
+          } else if (nodeName === 'blockquote') {
+            return chain()
+              .setParagraph()
+              .setBlockquote()
+              .updateAttributes(nodeName, {
+                class: nodeClass,
+              })
+              .run();
+          } else {
+            return chain()
+              .setParagraph()
               .updateAttributes(nodeName, {
                 class: nodeClass,
               })
               .unsetBlockquote()
               .run();
-          } else if (nodeName === 'blockquote') {
-            return chain().setNode(this.name, attributes).setParagraph().setBlockquote().run();
-          } else {
-            return chain().setNode(this.name, attributes).setParagraph().unsetBlockquote().run();
           }
         },
     };

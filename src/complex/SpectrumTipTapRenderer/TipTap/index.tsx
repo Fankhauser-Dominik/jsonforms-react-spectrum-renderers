@@ -10,7 +10,7 @@ import Focus from '@tiptap/extension-focus';
 import Superscript from '@tiptap/extension-superscript';
 import Subscript from '@tiptap/extension-subscript';
 import ProjectCreateContentToolbar from './Toolbar';
-import { Marker /* Nodes */ } from './addClass';
+import { Marker } from './addClass';
 import { classNode } from './addClass/classNode';
 import { nodeWithClass } from './addClass/nodeWithClass';
 import { TextStyle } from './addClass/text-class';
@@ -23,6 +23,7 @@ interface TipTapProps {
   returnMode: any;
   noToolbar: boolean;
   readOnly: boolean;
+  uischema: any;
 }
 
 export default function EditorComponent({
@@ -31,6 +32,7 @@ export default function EditorComponent({
   noToolbar = false,
   returnMode = false,
   readOnly = false,
+  uischema,
 }: TipTapProps & {
   content: string;
 }) {
@@ -119,7 +121,9 @@ export default function EditorComponent({
 
   return (
     <Flex direction='column'>
-      {!noToolbar && <ProjectCreateContentToolbar editor={editor} readOnly={readOnly} />}
+      {!noToolbar && (
+        <ProjectCreateContentToolbar editor={editor} readOnly={readOnly} uischema={uischema} />
+      )}
       <EditorContent
         editor={editor}
         className={`${noToolbar ? 'noToolbar' : ''} ${readOnly ? 'readOnly' : ''}`}
