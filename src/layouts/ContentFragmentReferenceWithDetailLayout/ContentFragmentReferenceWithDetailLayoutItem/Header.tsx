@@ -83,13 +83,6 @@ export default function ModalItemHeader({
           onPress={() => handleExpand()}
           aria-label={`expand-item-${childLabel}`}
           isDisabled={noData}
-          UNSAFE_style={
-            data?._path && displayPath
-              ? {
-                  paddingLeft: '12px',
-                }
-              : {}
-          }
         >
           {data?._path && displayPath ? (
             <Text
@@ -98,6 +91,7 @@ export default function ModalItemHeader({
                 direction: 'rtl',
                 opacity: 0.7,
                 bottom: -5,
+                left: 0,
                 fontSize: '12px',
                 height: 18,
                 maxWidth: 'calc(100% - 12px)',
