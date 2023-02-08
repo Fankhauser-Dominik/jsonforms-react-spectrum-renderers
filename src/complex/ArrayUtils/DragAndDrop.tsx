@@ -224,8 +224,6 @@ export const DragAndDrop = ({
     navigator.userAgent.toLowerCase()
   );
 
-  const expanded = openedIndex !== undefined;
-
   const modalItem = (index: number, disabled: boolean = false) => (
     <SpectrumArrayModalItem
       callbackOpenedIndex={callbackOpenedIndex}
@@ -270,51 +268,6 @@ export const DragAndDrop = ({
     />
   );
 
-  if (expanded) {
-    return (
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          minHeight: data?.length ? COMPONENT_HEIGHT * data?.length : 0,
-          position: 'relative',
-          touchAction: 'none',
-          transformOrigin: '50% 50% 0px',
-          gap: '8px',
-          marginBottom: '8px',
-        }}
-      >
-        {springs?.map(({}, index: number) => (
-          <div key={`${path}+${index}`}>
-            <div
-              style={{
-                display: userIsOnMobileDevice ? 'none' : 'flex',
-                justifyContent: 'center',
-                opacity: hoveredIndex === index ? 1 : 0,
-                position: 'relative',
-                marginTop: '-8px',
-                height: '8px',
-                alignItems: 'center',
-                width: '100%',
-                zIndex: 80,
-              }}
-              key={`${path}_${index}_addBetween`}
-              onMouseEnter={() => showAddBetween(index)}
-              onMouseLeave={() => hideAddBetween()}
-              onFocus={() => setHoveredIndex(index)}
-              onBlur={() => hideAddBetween()}
-              className='add-container'
-            >
-              <Button variant='cta' onPress={(event: any) => addBetween(index, event)}>
-                <Add />
-              </Button>
-            </div>
-            {modalItem(index, true)}
-          </div>
-        ))}
-      </div>
-    );
-  }
 
   return (
     <div
