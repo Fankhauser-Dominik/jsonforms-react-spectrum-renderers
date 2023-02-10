@@ -1,4 +1,4 @@
-import React, { Key } from 'react';
+import { Key } from 'react';
 import { Editor } from '@tiptap/react';
 import TextAlignLeft from '@spectrum-icons/workflow/TextAlignLeft';
 import TextAlignCenter from '@spectrum-icons/workflow/TextAlignCenter';
@@ -35,13 +35,11 @@ const ProjectCreateContentToolbar = ({
   readOnly: boolean;
   uischema: any;
 }) => {
-  const [selectedNodeOption, setSelectedNodeOption] = React.useState<Key | null>(null);
-  let nodeOptions = uischema.options.nodeClasses.map((nodeClass: any) => {
+  let nodeOptions = uischema?.options?.nodeClasses?.map((nodeClass: any) => {
     return { id: nodeClass.class, name: nodeClass.name ?? nodeClass.class };
   });
 
   const activeNodeOption = (selected: Key) => {
-    setSelectedNodeOption(selected);
     editor
       .chain()
       .focus()
@@ -50,6 +48,7 @@ const ProjectCreateContentToolbar = ({
       })
       .run();
   };
+
   return (
     <View
       borderWidth='thin'
@@ -59,7 +58,7 @@ const ProjectCreateContentToolbar = ({
     >
       <Flex gap='size-25' margin='size-100' wrap>
         <HeadingToolbarButtons editor={editor} readOnly={readOnly} />
-        <TooltipTrigger delay={settings.toolTipDelay}>
+        {/* <TooltipTrigger delay={settings.toolTipDelay}>
           <ToggleButton
             onPress={() =>
               editor.chain().focus().toggleMarker({ class: 'test', tag: 'span' }).run()
@@ -84,18 +83,18 @@ const ProjectCreateContentToolbar = ({
             Marker2
           </ToggleButton>
           <Tooltip>Test</Tooltip>
-        </TooltipTrigger>
+        </TooltipTrigger> */}
         {nodeOptions && (
           <TooltipTrigger delay={settings.toolTipDelay}>
             <Picker
+              aria-label='Toggle a class'
               items={nodeOptions}
-              selectedKey={selectedNodeOption}
-              aria-label='Add a class'
               onSelectionChange={(selected) => activeNodeOption(selected)}
+              selectedKey={null}
             >
               {(item: any) => <Item>{item.name}</Item>}
             </Picker>
-            <Tooltip>Test</Tooltip>
+            <Tooltip>Toggle a class</Tooltip>
           </TooltipTrigger>
         )}
         <TooltipTrigger delay={settings.toolTipDelay}>

@@ -18,7 +18,7 @@ declare module '@tiptap/core' {
        * Toggle a nodeWithClass
        */
       toggleNodeWithClass: (attributes: {
-        class: string;
+        class: string | unknown;
         tag?: string;
         nodeName?: string | undefined;
         level?: Level;
@@ -50,6 +50,18 @@ export const nodeWithClass = Node.create<NodeOptions>({
 
   addAttributes() {
     return {
+      level: {
+        default: this.options.level,
+        parseHTML: (element) => element.getAttribute('level'),
+        renderHTML: (attributes) => {
+          if (!attributes.level) {
+            return {};
+          }
+          return {
+            level: attributes.level,
+          };
+        },
+      },
       class: {
         default: this.options.classes[0],
         parseHTML: (element) => element.getAttribute('class'),
@@ -115,7 +127,7 @@ export const nodeWithClass = Node.create<NodeOptions>({
             ? removeWhiteSpace(currClass.replace(regex, ''))
             : undefined;
 
-          let nodeClass: string | undefined = undefined;
+          let nodeClass: string | undefined | unknown = undefined;
           const isNewTag = attributes.tag && getTag(editor) !== attributes.tag;
 
           if (newClass !== currentClass && !isNewTag) {

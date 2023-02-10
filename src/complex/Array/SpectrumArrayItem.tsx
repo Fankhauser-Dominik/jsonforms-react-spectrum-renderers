@@ -59,10 +59,6 @@ const SpectrumArrayItem = React.memo(
       JSON.stringify(childData) === '{}' ? true : openIndex === index ? true : false
     );
 
-    React.useEffect(() => {
-      console.log('childData', childData);
-    }, [JSON.stringify(childData) === '{}']);
-
     childLabel = childLabel ?? `Item ${index + 1}`;
 
     const enableDetailedView = uischema?.options?.enableDetailedView ?? false;

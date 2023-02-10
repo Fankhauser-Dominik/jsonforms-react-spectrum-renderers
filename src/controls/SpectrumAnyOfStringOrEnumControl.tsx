@@ -35,7 +35,6 @@ import {
 import { withJsonFormsEnumProps } from '@jsonforms/react';
 import { InputEnum } from '../spectrum-control';
 import { SpectrumInputControl } from './SpectrumInputControl';
-
 const findEnumSchema = (schemas: JsonSchema[]) =>
   schemas.find((s) => s.enum !== undefined && (s.type === 'string' || s.type === undefined));
 const findTextSchema = (schemas: JsonSchema[]) =>

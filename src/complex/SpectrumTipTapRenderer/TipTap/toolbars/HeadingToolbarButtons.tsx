@@ -32,7 +32,7 @@ export default function HeadingToolbarButtons({
     { name: 'H6' },
     { name: 'Blockquote' },
   ];
-  let [heading, setHeading]: any = React.useState(currentText());
+  let [heading, setHeading]: any = React.useState(null);
 
   const pickerChange = (selected: string) => {
     setHeading(selected);
@@ -145,6 +145,9 @@ export default function HeadingToolbarButtons({
         : 'Paragraph'
     );
   }, [editor, currentText]);
+  // React.useEffect(() => {
+  //   setHeading(currentText());
+  // }, [editor, currentText]);
 
   return (
     <Flex alignItems='center'>

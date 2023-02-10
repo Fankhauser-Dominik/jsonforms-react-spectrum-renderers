@@ -80,7 +80,6 @@ const SpectrumArrayModalItem = React.memo(
 
     const toggleExpanded = React.useCallback(
       (desiredState?: boolean) => {
-        console.log('toggleExpanded', desiredState, expanded);
         if (desiredState === undefined) {
           desiredState = !expanded;
         }
