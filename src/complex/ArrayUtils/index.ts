@@ -31,4 +31,5 @@ export * from './DragAndDrop';
 export * from './SortButtons';
 export * from './SortIcons';
 export * from './SpectrumItemHeader';
+export * from './types';
 export * from './utils';

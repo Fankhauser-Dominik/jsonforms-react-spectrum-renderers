@@ -1,3 +1,4 @@
+import { Key } from 'react';
 import { Editor } from '@tiptap/react';
 import TextAlignLeft from '@spectrum-icons/workflow/TextAlignLeft';
 import TextAlignCenter from '@spectrum-icons/workflow/TextAlignCenter';
@@ -13,17 +14,41 @@ import TextBulleted from '@spectrum-icons/workflow/TextBulleted';
 import TextNumbered from '@spectrum-icons/workflow/TextNumbered';
 import Undo from '@spectrum-icons/workflow/Undo';
 import Redo from '@spectrum-icons/workflow/Redo';
-import { Flex, ToggleButton, Tooltip, TooltipTrigger, View } from '@adobe/react-spectrum';
+import {
+  Flex,
+  Item,
+  Picker,
+  ToggleButton,
+  Tooltip,
+  TooltipTrigger,
+  View,
+} from '@adobe/react-spectrum';
 import { settings } from '../../../util';
 import HeadingToolbarButtons from './toolbars/HeadingToolbarButtons';
 
 const ProjectCreateContentToolbar = ({
   editor,
   readOnly,
+  uischema,
 }: {
   editor: Editor;
   readOnly: boolean;
+  uischema: any;
 }) => {
+  let nodeOptions = uischema?.options?.nodeClasses?.map((nodeClass: any) => {
+    return { id: nodeClass.class, name: nodeClass.name ?? nodeClass.class };
+  });
+
+  const activeNodeOption = (selected: Key) => {
+    editor
+      .chain()
+      .focus()
+      .toggleNodeWithClass({
+        class: selected.toString(),
+      })
+      .run();
+  };
+
   return (
     <View
       borderWidth='thin'
@@ -33,6 +58,45 @@ const ProjectCreateContentToolbar = ({
     >
       <Flex gap='size-25' margin='size-100' wrap>
         <HeadingToolbarButtons editor={editor} readOnly={readOnly} />
+        {/* <TooltipTrigger delay={settings.toolTipDelay}>
+          <ToggleButton
+            onPress={() =>
+              editor.chain().focus().toggleMarker({ class: 'test', tag: 'span' }).run()
+            }
+            aria-label='bold'
+            isSelected={editor.isActive('marker')}
+            isDisabled={readOnly}
+          >
+            Marker1
+          </ToggleButton>
+          <Tooltip>Test</Tooltip>
+        </TooltipTrigger>
+        <TooltipTrigger delay={settings.toolTipDelay}>
+          <ToggleButton
+            onPress={() =>
+              editor.chain().focus().toggleMarker({ class: 'markerino', tag: 'span' }).run()
+            }
+            aria-label='bold'
+            isSelected={editor.isActive('marker')}
+            isDisabled={readOnly}
+          >
+            Marker2
+          </ToggleButton>
+          <Tooltip>Test</Tooltip>
+        </TooltipTrigger> */}
+        {nodeOptions && (
+          <TooltipTrigger delay={settings.toolTipDelay}>
+            <Picker
+              aria-label='Toggle a class'
+              items={nodeOptions}
+              onSelectionChange={(selected) => activeNodeOption(selected)}
+              selectedKey={null}
+            >
+              {(item: any) => <Item>{item.name}</Item>}
+            </Picker>
+            <Tooltip>Toggle a class</Tooltip>
+          </TooltipTrigger>
+        )}
         <TooltipTrigger delay={settings.toolTipDelay}>
           <ToggleButton
             onPress={() => editor.chain().focus().toggleBold().run()}

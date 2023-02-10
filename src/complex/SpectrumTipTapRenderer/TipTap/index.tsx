@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
 import Highlight from '@tiptap/extension-highlight';
 import TypographyExtension from '@tiptap/extension-typography';
 import UnderlineExtension from '@tiptap/extension-underline';
@@ -10,6 +9,24 @@ import Focus from '@tiptap/extension-focus';
 import Superscript from '@tiptap/extension-superscript';
 import Subscript from '@tiptap/extension-subscript';
 import ProjectCreateContentToolbar from './Toolbar';
+import { nodeWithClass } from './addClass/nodeWithClass';
+import { Blockquote } from '@tiptap/extension-blockquote';
+import { Paragraph } from '@tiptap/extension-paragraph';
+import { Heading } from '@tiptap/extension-heading';
+import { Bold } from '@tiptap/extension-bold';
+import { BulletList } from '@tiptap/extension-bullet-list';
+import { Code } from '@tiptap/extension-code';
+import { CodeBlock } from '@tiptap/extension-code-block';
+import { Dropcursor } from '@tiptap/extension-dropcursor';
+import { HardBreak } from '@tiptap/extension-hard-break';
+import { History } from '@tiptap/extension-history';
+import { HorizontalRule } from '@tiptap/extension-horizontal-rule';
+import { Italic } from '@tiptap/extension-italic';
+import { ListItem } from '@tiptap/extension-list-item';
+import { OrderedList } from '@tiptap/extension-ordered-list';
+import { Strike } from '@tiptap/extension-strike';
+import Document from '@tiptap/extension-document';
+import Text from '@tiptap/extension-text';
 import { Flex } from '@adobe/react-spectrum';
 
 interface TipTapProps {
@@ -17,6 +34,7 @@ interface TipTapProps {
   returnMode: any;
   noToolbar: boolean;
   readOnly: boolean;
+  uischema: any;
 }
 
 export default function EditorComponent({
@@ -25,19 +43,83 @@ export default function EditorComponent({
   noToolbar = false,
   returnMode = false,
   readOnly = false,
+  uischema,
 }: TipTapProps & {
   content: string;
 }) {
+  const CustomParagraph = Paragraph.extend({
+    addAttributes() {
+      return {
+        class: {
+          default: null,
+          // Customize the HTML parsing (for example, to load the initial content)
+          parseHTML: (element) => element.getAttribute('class'),
+          // … and customize the HTML rendering.
+          renderHTML: (attributes) => {
+            return {
+              class: attributes.class,
+            };
+          },
+        },
+      };
+    },
+  });
+  const CustomHeading = Heading.extend({
+    addAttributes() {
+      return {
+        class: {
+          default: null,
+          // Customize the HTML parsing (for example, to load the initial content)
+          parseHTML: (element) => element.getAttribute('class'),
+          // … and customize the HTML rendering.
+          renderHTML: (attributes) => {
+            return {
+              class: attributes.class,
+            };
+          },
+        },
+        level: {
+          default: 6,
+          // Customize the HTML parsing (for example, to load the initial content)
+          parseHTML: (element) => element.getAttribute('level'),
+          // … and customize the HTML rendering.
+          renderHTML: (attributes) => {
+            return {
+              level: attributes.level,
+            };
+          },
+        },
+      };
+    },
+  });
   const editor = useEditor({
     editable: !readOnly,
     extensions: [
-      StarterKit,
+      // StarterKit,
+      Blockquote,
+      Bold,
+      BulletList,
+      Code,
+      CodeBlock,
+      CustomHeading,
+      CustomParagraph,
+      Document,
+      Dropcursor,
+      HardBreak,
+      Highlight,
+      History,
+      HorizontalRule,
+      Italic,
+      Link,
+      ListItem,
+      OrderedList,
+      Strike,
       Subscript,
       Superscript,
-      Highlight,
+      Text,
       TypographyExtension,
       UnderlineExtension,
-      Link,
+      nodeWithClass,
       TextAlign.configure({
         types: ['heading', 'paragraph'],
       }),
@@ -72,7 +154,9 @@ export default function EditorComponent({
 
   return (
     <Flex direction='column'>
-      {!noToolbar && <ProjectCreateContentToolbar editor={editor} readOnly={readOnly} />}
+      {!noToolbar && (
+        <ProjectCreateContentToolbar editor={editor} readOnly={readOnly} uischema={uischema} />
+      )}
       <EditorContent
         editor={editor}
         className={`${noToolbar ? 'noToolbar' : ''} ${readOnly ? 'readOnly' : ''}`}

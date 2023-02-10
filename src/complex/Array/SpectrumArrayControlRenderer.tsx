@@ -25,47 +25,50 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
+import React from 'react';
 import { ArrayControlProps, ControlElement, Helpers } from '@jsonforms/core';
-import { withJsonFormsArrayControlProps } from '../../util';
 import SpectrumArrayControl from './SpectrumArrayControl';
+import { withJsonFormsArrayControlProps } from '../../util';
 
-const SpectrumArrayControlRenderer = ({
-  schema,
-  uischema,
-  data,
-  path,
-  rootSchema,
-  uischemas,
-  addItem,
-  removeItems,
-  id,
-  visible,
-  enabled,
-  errors,
-}: ArrayControlProps) => {
-  const controlElement = uischema as ControlElement;
-  const labelDescription = Helpers.createLabelDescriptionFrom(controlElement, schema);
-  const label = labelDescription?.show
-    ? labelDescription?.text ?? ''
-    : uischema?.options?.label ?? '';
+const SpectrumArrayControlRenderer = React.memo(
+  ({
+    addItem,
+    data,
+    enabled,
+    errors,
+    id,
+    path,
+    removeItems,
+    rootSchema,
+    schema,
+    uischema,
+    uischemas,
+    visible,
+  }: ArrayControlProps) => {
+    const controlElement = uischema as ControlElement;
+    const labelDescription = Helpers.createLabelDescriptionFrom(controlElement, schema);
+    const label = labelDescription?.show
+      ? labelDescription?.text ?? ''
+      : uischema?.options?.label ?? '';
 
-  return (
-    <SpectrumArrayControl
-      errors={errors}
-      removeItems={removeItems}
-      data={data}
-      label={label}
-      path={path}
-      addItem={addItem}
-      uischemas={uischemas}
-      uischema={uischema}
-      schema={schema}
-      rootSchema={rootSchema}
-      id={id}
-      visible={visible}
-      enabled={enabled}
-    />
-  );
-};
+    return visible ? (
+      <SpectrumArrayControl
+        errors={errors}
+        removeItems={removeItems}
+        data={data}
+        label={label}
+        path={path}
+        addItem={addItem}
+        uischemas={uischemas}
+        uischema={uischema}
+        schema={schema}
+        rootSchema={rootSchema}
+        id={id}
+        visible={visible}
+        enabled={enabled}
+      />
+    ) : null;
+  }
+);
 
 export default withJsonFormsArrayControlProps(SpectrumArrayControlRenderer);
