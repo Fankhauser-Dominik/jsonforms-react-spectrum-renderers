@@ -85,6 +85,21 @@ export const InputEnum = React.memo(
       );
     };
 
+    const findEnumSchema = (schemas: any) => {
+      if (schemas !== undefined) {
+        return schemas?.find(
+          (s: any) => s.enum !== undefined && (s.type === 'string' || s.type === undefined)
+        );
+      }
+    };
+    const tryEnumSchema = (anyOf: any) => {
+      const enumSchema: any = findEnumSchema(anyOf);
+      return enumSchema?.enum?.map((v: any) => {
+        return { value: v, label: v };
+      });
+    };
+    const items = options ?? tryEnumSchema(schema?.anyOf);
+
     return (
       <SpectrumProvider width={width}>
         <Picker
@@ -99,7 +114,7 @@ export const InputEnum = React.memo(
           isDisabled={enabled === undefined ? false : !enabled}
           isQuiet={appliedUiSchemaOptions.isQuiet ?? false}
           isRequired={required}
-          items={options}
+          items={items}
           key={id}
           label={label}
           labelAlign={appliedUiSchemaOptions.labelAlign ?? 'start'}
@@ -113,7 +128,7 @@ export const InputEnum = React.memo(
           shouldFlip={appliedUiSchemaOptions.shouldFlip ?? true}
           width={width}
         >
-          {(item) => <Item key={item.value}>{item.label}</Item>}
+          {(item: any) => <Item key={item.value}>{item.label}</Item>}
         </Picker>
         {contextualHelp ? (
           <ContextualHelp variant={contextualHelp?.variant === 'help' ? 'help' : 'info'}>
@@ -131,7 +146,7 @@ export const InputEnum = React.memo(
             aria-label='TagGroup'
           >
             {data?.map((item: string) => {
-              const option = options?.find((option) => option.value === item);
+              const option = items?.find((option: any) => option.value === item);
               return <Item key={option?.value}>{option?.label}</Item>;
             })}
           </TagGroup>

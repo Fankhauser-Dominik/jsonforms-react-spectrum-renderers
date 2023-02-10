@@ -67,12 +67,15 @@ const SpectrumAnyOfRenderer = ({
       uischemas
     );
   }
-
   return (
     <View isHidden={!visible} UNSAFE_className={`anyof-renderer`}>
       <CombinatorProperties schema={schema} combinatorKeyword={'anyOf'} path={path} />
       {anyOfRenderInfos && (
-        <Tabs selectedKey={String(selectedAnyOf)} onSelectionChange={handleChange}>
+        <Tabs
+          selectedKey={String(selectedAnyOf)}
+          onSelectionChange={handleChange}
+          aria-label={path}
+        >
           <TabList>
             {anyOfRenderInfos?.map((anyOfRenderInfo, anyOfIndex) => (
               <Item key={anyOfIndex}>{anyOfRenderInfo.label}</Item>

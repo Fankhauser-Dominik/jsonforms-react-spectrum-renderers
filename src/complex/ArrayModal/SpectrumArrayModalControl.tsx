@@ -28,11 +28,11 @@
 import React from 'react';
 import { ArrayControlProps, OwnPropsOfControl, createDefaultValue } from '@jsonforms/core';
 import { Flex, Heading, Text, View } from '@adobe/react-spectrum';
-import SpectrumArrayModalItem from '../ModalItemComponent';
-import { DragAndDrop } from '../../ArrayUtils';
+import SpectrumArrayModalItem from './ModalItemComponent';
+import { DragAndDrop } from '../ArrayUtils';
 import AddDialog from './AddDialog';
-import { withHandleChange, HandleChangeProps } from '../../../util';
-import { indexOfFittingSchemaObject, AddItemButton } from '../../ArrayUtils';
+import { withHandleChange, HandleChangeProps } from '../../util';
+import { indexOfFittingSchemaObject, AddItemButton } from '../ArrayUtils';
 
 const SpectrumArrayModalControl = React.memo(
   ({
@@ -156,6 +156,7 @@ const SpectrumArrayModalControl = React.memo(
         uischemas={uischemas}
       ></SpectrumArrayModalItem>
     );
+
     return (
       <View id='json-form-array-wrapper'>
         <Flex direction='row' justifyContent='space-between'>

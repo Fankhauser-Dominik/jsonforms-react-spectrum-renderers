@@ -87,13 +87,29 @@ const SpectrumArrayControl = ({
 
   const sortMode: string | boolean = uischema?.options?.sortMode ?? 'DragAndDrop';
 
+  const ArrayItem = (index: number) => (
+    <SpectrumArrayItem
+      data={data[index]}
+      index={index}
+      path={path}
+      schema={schema}
+      handleExpand={onExpand}
+      removeItem={handleRemoveItem}
+      expanded={expanded}
+      uischema={uischema}
+      uischemas={uischemas}
+      renderers={renderers}
+      key={index + (expanded === index ? 9999 : 0)}
+    ></SpectrumArrayItem>
+  );
+
   return (
     <View id='json-form-array-wrapper'>
       <Flex direction='row' justifyContent='space-between'>
         <Heading level={4}>{label}</Heading>
       </Flex>
-      <Flex direction='column' id={`spectrum-renderer-arrayContentWrapper_${path}`} gap='size-100'>
-        {data && data.length ? (
+      <Flex id={`spectrum-renderer-arrayContentWrapper_${path}`} direction='column'>
+        {data?.length ? (
           <>
             {sortMode ? (
               <DragAndDrop
@@ -119,20 +135,14 @@ const SpectrumArrayControl = ({
             ) : (
               Array.from(Array(data.length)).map((_, index) => {
                 return (
-                  <Flex key={index} direction='column' alignItems='stretch' flex='auto inherit'>
-                    <SpectrumArrayItem
-                      data={data[index]}
-                      index={index}
-                      path={path}
-                      schema={schema}
-                      handleExpand={onExpand}
-                      removeItem={handleRemoveItem}
-                      expanded={expanded}
-                      uischema={uischema}
-                      uischemas={uischemas}
-                      renderers={renderers}
-                      key={index + (expanded === index ? 9999 : 0)}
-                    ></SpectrumArrayItem>
+                  <Flex
+                    key={index}
+                    direction='row'
+                    alignItems='stretch'
+                    flex='auto inherit'
+                    marginBottom={'size-100'}
+                  >
+                    {ArrayItem(index)}
                   </Flex>
                 );
               })
@@ -141,7 +151,7 @@ const SpectrumArrayControl = ({
         ) : (
           <Text>No data</Text>
         )}
-        <AddItemButton onPressFunction={addItem(path, createDefaultValue(schema ?? {}))} />
+        <AddItemButton onPressFunction={() => onPressHandler()} />
       </Flex>
     </View>
   );

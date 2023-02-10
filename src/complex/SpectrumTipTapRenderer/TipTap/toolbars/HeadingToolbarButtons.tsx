@@ -2,6 +2,7 @@ import React from 'react';
 import { Editor } from '@tiptap/react';
 
 import { Flex, ToggleButton, Picker, Item } from '@adobe/react-spectrum';
+import { getNodeName } from '../utils';
 
 export default function HeadingToolbarButtons({
   editor,
@@ -31,42 +32,104 @@ export default function HeadingToolbarButtons({
     { name: 'H6' },
     { name: 'Blockquote' },
   ];
-  let [heading, setHeading]: any = React.useState(currentText());
+  let [heading, setHeading]: any = React.useState(null);
 
   const pickerChange = (selected: string) => {
     setHeading(selected);
     switch (selected) {
       case 'Paragraph':
-        editor.chain().focus().setParagraph().run();
-        editor.chain().focus().unsetBlockquote().run();
+        editor
+          .chain()
+          .focus()
+          .toggleNodeWithClass({
+            class: editor.getAttributes(getNodeName(editor)).class,
+            tag: 'p',
+          })
+          .unsetBlockquote()
+          .run();
         break;
       case 'H1':
-        editor.chain().focus().toggleHeading({ level: 1 }).run();
-        editor.chain().focus().unsetBlockquote().run();
+        editor
+          .chain()
+          .focus()
+          .toggleNodeWithClass({
+            class: editor.getAttributes(getNodeName(editor)).class,
+            tag: 'h1',
+            level: 1,
+          })
+          .unsetBlockquote()
+          .run();
         break;
       case 'H2':
-        editor.chain().focus().toggleHeading({ level: 2 }).run();
-        editor.chain().focus().unsetBlockquote().run();
+        editor
+          .chain()
+          .focus()
+          .toggleNodeWithClass({
+            class: editor.getAttributes(getNodeName(editor)).class ?? undefined,
+            tag: 'h2',
+            level: 2,
+          })
+          .unsetBlockquote()
+          .run();
         break;
       case 'H3':
-        editor.chain().focus().toggleHeading({ level: 3 }).run();
-        editor.chain().focus().unsetBlockquote().run();
+        editor
+          .chain()
+          .focus()
+          .toggleNodeWithClass({
+            class: editor.getAttributes(getNodeName(editor)).class,
+            tag: 'h3',
+            level: 3,
+          })
+          .unsetBlockquote()
+          .run();
         break;
       case 'H4':
-        editor.chain().focus().toggleHeading({ level: 4 }).run();
-        editor.chain().focus().unsetBlockquote().run();
+        editor
+          .chain()
+          .focus()
+          .toggleNodeWithClass({
+            class: editor.getAttributes(getNodeName(editor)).class,
+            tag: 'h4',
+            level: 4,
+          })
+          .unsetBlockquote()
+          .run();
         break;
       case 'H5':
-        editor.chain().focus().toggleHeading({ level: 5 }).run();
-        editor.chain().focus().unsetBlockquote().run();
+        editor
+          .chain()
+          .focus()
+          .toggleNodeWithClass({
+            class: editor.getAttributes(getNodeName(editor)).class,
+            tag: 'h5',
+            level: 5,
+          })
+          .unsetBlockquote()
+          .run();
         break;
       case 'H6':
-        editor.chain().focus().toggleHeading({ level: 6 }).run();
-        editor.chain().focus().unsetBlockquote().run();
+        editor
+          .chain()
+          .focus()
+          .toggleNodeWithClass({
+            class: editor.getAttributes(getNodeName(editor)).class,
+            tag: 'h6',
+            level: 6,
+          })
+          .unsetBlockquote()
+          .run();
         break;
       case 'Blockquote':
-        editor.chain().focus().setParagraph().run();
-        editor.chain().focus().setBlockquote().run();
+        editor
+          .chain()
+          .focus()
+          .setParagraph()
+          .toggleNodeWithClass({
+            class: editor.getAttributes(getNodeName(editor)).class,
+            tag: 'blockquote',
+          })
+          .run();
         break;
       default:
         break;
@@ -82,6 +145,9 @@ export default function HeadingToolbarButtons({
         : 'Paragraph'
     );
   }, [editor, currentText]);
+  // React.useEffect(() => {
+  //   setHeading(currentText());
+  // }, [editor, currentText]);
 
   return (
     <Flex alignItems='center'>
