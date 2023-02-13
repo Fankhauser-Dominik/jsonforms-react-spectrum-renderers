@@ -126,6 +126,7 @@ export const SpectrumItemHeader = ({
             <Text
               UNSAFE_className='spectrum-array-item-name'
               UNSAFE_style={{
+                paddingLeft: 0,
                 textAlign: 'left',
                 width: '100%',
                 transform: childData?._path && displayPath ? 'translateY(-20%)' : '',
