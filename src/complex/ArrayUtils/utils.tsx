@@ -37,7 +37,7 @@ import {
   Heading,
 } from '@adobe/react-spectrum';
 import SpectrumProvider from '../../additional/SpectrumProvider';
-import { Dispatch } from '../ArrayModal/type';
+import { Dispatch } from './type';
 import { settings, ErrorIndicator } from '../../util';
 
 export function getUIOptions(uischema: UISchemaElement, defaultLabel: string): UIOptions {
