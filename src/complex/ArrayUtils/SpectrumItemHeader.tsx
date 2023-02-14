@@ -99,13 +99,6 @@ export const SpectrumItemHeader = ({
             isQuiet
             onPress={() => handleExpand()}
             aria-label={`expand-item-${childLabel}`}
-            UNSAFE_style={
-              childData?._path && displayPath
-                ? {
-                    paddingLeft: '12px',
-                  }
-                : {}
-            }
           >
             {childData?._path && displayPath ? (
               <Text
@@ -114,6 +107,7 @@ export const SpectrumItemHeader = ({
                   direction: 'rtl',
                   opacity: 0.7,
                   bottom: -5,
+                  left: 0,
                   fontSize: '12px',
                   height: 18,
                   maxWidth: 'calc(100% - 12px)',
@@ -132,6 +126,7 @@ export const SpectrumItemHeader = ({
             <Text
               UNSAFE_className='spectrum-array-item-name'
               UNSAFE_style={{
+                paddingLeft: 0,
                 textAlign: 'left',
                 width: '100%',
                 transform: childData?._path && displayPath ? 'translateY(-20%)' : '',
