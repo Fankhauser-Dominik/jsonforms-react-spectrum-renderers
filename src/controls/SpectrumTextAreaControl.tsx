@@ -29,10 +29,12 @@ import { withJsonFormsControlProps } from '@jsonforms/react';
 import { InputTextArea } from '../complex/SpectrumTipTapRenderer/InputTipTap';
 import { SpectrumInputControl } from './SpectrumInputControl';
 
-export const SpectrumTextAreaControl = (props: ControlProps) => (
+export const SpectrumTextAreaControl = (props: ControlProps) => {
+  // console.log("\x1b[31m ~ props", props)
   // <SpectrumInputControl {...props} input={InputTextArea} />
-  <SpectrumInputControl {...props} input={InputTextArea} noToolbar={true} returnMode={'text'} />
-);
+
+  return <SpectrumInputControl {...props} input={InputTextArea} noToolbar={true} returnMode={props?.uischema?.options?.returnMode === 'markdown' ? 'markdown' : 'text'} />
+};
 
 export const SpectrumTextAreaControlTester: RankedTester = rankWith(5, isMultiLineControl);
 

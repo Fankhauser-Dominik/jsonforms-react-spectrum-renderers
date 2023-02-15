@@ -33,7 +33,7 @@ import SpectrumProvider from '../additional/SpectrumProvider';
 interface WithInput {
   input: any;
   noToolbar?: boolean;
-  returnMode?: 'html' | 'json' | 'text';
+  returnMode?: 'html' | 'json' | 'text' | 'markdown';
 }
 
 export const SpectrumInputControl = (props: ControlProps & WithInput) => {
