@@ -43,6 +43,7 @@ import SpectrumOneOfRenderer, { SpectrumOneOfRendererTester } from './SpectrumOn
 import SpectrumArrayControlGrid, {
   SpectrumArrayControlGridTester,
 } from './SpectrumArrayControlGrid';
+import SpectrumFragmentReferenceControl, { SpectrumFragmentReferenceControlTester } from './SpectrumFragmentReference'
 
 export {
   ArrayControl,
@@ -69,4 +70,6 @@ export {
   SpectrumOneOfRendererTester,
   SpectrumArrayControlGrid,
   SpectrumArrayControlGridTester,
+  SpectrumFragmentReferenceControl,
+  SpectrumFragmentReferenceControlTester
 };
