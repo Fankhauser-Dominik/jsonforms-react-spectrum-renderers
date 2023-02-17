@@ -30,10 +30,11 @@ import { withJsonFormsControlProps } from '@jsonforms/react';
 import { InputTextArea } from './InputTipTap';
 import { SpectrumInputControl } from '../../controls/SpectrumInputControl';
 
-export const SpectrumTipTapRenderer = (props: ControlProps) => (
-  <SpectrumInputControl {...props} input={InputTextArea} />
-);
+export const SpectrumTipTapRenderer = (props: ControlProps) => {
+  return <SpectrumInputControl {...props} input={InputTextArea} />
+};
 
-export const SpectrumTipTapRendererTester: RankedTester = rankWith(8, optionIs('richText', true));
+// export const SpectrumTipTapRendererTester: RankedTester = rankWith(8, optionIs('richText', true));
+export const SpectrumTipTapRendererTester: RankedTester = rankWith(20, optionIs('richText', true));
 
 export default withJsonFormsControlProps(SpectrumTipTapRenderer);

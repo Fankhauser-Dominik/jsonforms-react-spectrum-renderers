@@ -159,7 +159,6 @@ export default function EditorComponent({
         EditorJSONCallback(editor?.getJSON());
       } else if (returnMode === 'text' || returnMode === 'markdown') {
         EditorJSONCallback(editor?.getHTML());
-        console.log("\x1b[31m ~ EditorJSONCallback(editor?.getText())", editor?.getHTML())
       } else {
         EditorJSONCallback(editor?.getHTML());
       }
@@ -169,9 +168,6 @@ export default function EditorComponent({
   }, [editor?.getHTML()]);
 
   if (!editor) return null;
-
-
-  console.log("\x1b[31m ~ returnMode", returnMode, content)
 
   return (
     <Flex direction='column'>

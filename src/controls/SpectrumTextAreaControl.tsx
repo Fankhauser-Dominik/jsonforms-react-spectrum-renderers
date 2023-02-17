@@ -30,10 +30,9 @@ import { InputTextArea } from '../complex/SpectrumTipTapRenderer/InputTipTap';
 import { SpectrumInputControl } from './SpectrumInputControl';
 
 export const SpectrumTextAreaControl = (props: ControlProps) => {
-  // console.log("\x1b[31m ~ props", props)
   // <SpectrumInputControl {...props} input={InputTextArea} />
 
-  return <SpectrumInputControl {...props} input={InputTextArea} noToolbar={true} returnMode={props?.uischema?.options?.returnMode === 'markdown' ? 'markdown' : 'text'} />
+  return <SpectrumInputControl {...props} input={InputTextArea} noToolbar={true} returnMode={props?.uischema?.options?.returnMode || 'text'} />
 };
 
 export const SpectrumTextAreaControlTester: RankedTester = rankWith(5, isMultiLineControl);

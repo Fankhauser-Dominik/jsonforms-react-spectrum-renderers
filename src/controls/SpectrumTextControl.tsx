@@ -27,9 +27,9 @@ import { withJsonFormsControlProps } from '@jsonforms/react';
 import { InputText } from '../spectrum-control';
 import { SpectrumInputControl } from './SpectrumInputControl';
 
-export const SpectrumTextControl = (props: ControlProps) => (
-  <SpectrumInputControl {...props} input={InputText} />
-);
+export const SpectrumTextControl = (props: ControlProps) => {
+  return <SpectrumInputControl {...props} input={InputText} />
+};
 
 export const SpectrumTextControlTester: RankedTester = rankWith(4, isStringControl);
 

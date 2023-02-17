@@ -150,7 +150,7 @@ const SpectrumArrayItem = React.memo(
           path={childPath}
           renderers={renderers}
           schema={schema}
-          uischema={foundUISchema || uischema}
+          uischema={uischema?.options?.detail || foundUISchema || uischema}
           visible={false}
         />
       </div>
