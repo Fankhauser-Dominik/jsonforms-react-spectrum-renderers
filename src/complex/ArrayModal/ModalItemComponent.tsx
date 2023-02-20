@@ -47,6 +47,7 @@ const SpectrumArrayModalItem = React.memo(
     callbackOpenedIndex,
     childData,
     childLabel,
+    customLabel,
     duplicateItem,
     enabled,
     index,
@@ -64,6 +65,13 @@ const SpectrumArrayModalItem = React.memo(
     // or we open a double panel (picker already provided by array).
     if (foundUISchema.type === 'ContentFragmentReferenceWithDetail') {
       foundUISchema = (foundUISchema as any).elements[0];
+    }
+    if (typeof uischema?.options?.detail === 'object') {
+      foundUISchema = uischema.options.detail;
+    }
+
+    if (!childLabel || childLabel === '<p></p>') {
+      childLabel = `Item ${index + 1}`;
     }
 
     const childPath = composePaths(path, `${index}`);
@@ -194,7 +202,7 @@ const SpectrumArrayModalItem = React.memo(
         DNDHandle={DNDHandle}
         JsonFormsDispatch={JsonFormsDispatchComponent}
         childData={childData}
-        childLabel={childLabel}
+        childLabel={customLabel || childLabel}
         customPicker={{ enabled: uischema?.options?.picker, handler: customPickerHandler }}
         duplicateItem={duplicateItem}
         enableDetailedView={enableDetailedView}

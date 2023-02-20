@@ -155,13 +155,7 @@ export default function EditorComponent({
       return;
     }
     const delayDebounceFn = setTimeout(() => {
-      if (returnMode === 'json') {
-        EditorJSONCallback(editor?.getJSON());
-      } else if (returnMode === 'text' || returnMode === 'markdown') {
         EditorJSONCallback(editor?.getHTML());
-      } else {
-        EditorJSONCallback(editor?.getHTML());
-      }
     }, 500);
 
     return () => clearTimeout(delayDebounceFn);

@@ -51,7 +51,6 @@ const SpectrumArrayControlRenderer = React.memo(
     ? labelDescription?.text ?? ''
     : uischema?.options?.label ?? '';
     
-    console.log("\x1b[31m ~ Label", uischema, label)
     return visible ? (
       <SpectrumArrayControl
         errors={errors}

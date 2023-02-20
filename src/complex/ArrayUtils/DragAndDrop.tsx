@@ -231,8 +231,26 @@ export const DragAndDrop = ({
 
   const expanded = openedIndex !== undefined;
 
+  const textAreaLabel = (textAreaObject: any) => {
+    if (typeof uischema?.options?.detail !== 'object') {
+      return null
+    }
+
+    // create a temporary element to hold the HTML string
+    const tempEl = document.createElement('div');
+    tempEl.innerHTML = textAreaObject?.html;
+
+    // get the first element and its first child text node
+    const firstElement = tempEl.firstChild;
+    const firstText = firstElement?.firstChild;
+
+    // extract the text content
+    return firstText?.textContent;
+  }
+
   const modalItem = (index: number, disabled: boolean = false) => (
     <SpectrumArrayModalItem
+      customLabel={textAreaLabel(data[index])}
       callbackOpenedIndex={callbackOpenedIndex}
       openIndex={openedIndex}
       duplicateItem={duplicateContent}
