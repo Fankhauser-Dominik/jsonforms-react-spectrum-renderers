@@ -130,8 +130,10 @@ export const DragAndDrop = ({
   const move = (pressedKey: string, index: number) => {
     setIsMoving(true);
     let newOrder: any = false;
+    let newGrabbedIndex: number | null = null;
     if (pressedKey === 'ArrowUp' && index > 0) {
       setKeyboardClass('keyboardUp');
+      newGrabbedIndex = index - 1;
       newOrder = swap(
         order.current,
         order.current.indexOf(order.current[index]),
@@ -147,6 +149,7 @@ export const DragAndDrop = ({
       setUpOrDown('up');
     } else if (pressedKey === 'ArrowDown' && index < data?.length - 1) {
       setKeyboardClass('keyboardDown');
+      newGrabbedIndex = index + 1;
       newOrder = swap(
         order.current,
         order.current.indexOf(order.current[index]),
@@ -157,10 +160,12 @@ export const DragAndDrop = ({
         setGrabbedIndex(index + 1);
         finalChange(newOrder);
         setKeyboardClass('');
-        setGrabbedIndex(index + 1);
       }, 500);
       setUpOrDown('down');
     }
+    setTimeout(() => {
+      setGrabbedIndex(newGrabbedIndex);
+    }, 500);
   };
 
   const duplicateContent = (index: number) => {
@@ -265,24 +270,24 @@ export const DragAndDrop = ({
       uischemas={uischemas}
       DNDHandle={
         <SortIcons
-          keyboardClass={keyboardClass}
-          userIsOnMobileDevice={userIsOnMobileDevice}
-          index={index}
-          grabbedIndex={grabbedIndex}
+          DragHandleRef={DragHandleRef}
           data={data}
+          disabled={disabled}
+          grabbedIndex={grabbedIndex}
+          index={index}
+          keyboardClass={keyboardClass}
           moveDown={() => move('ArrowDown', index)}
           moveUp={() => move('ArrowUp', index)}
-          path={path}
-          removeItems={removeItems}
-          uischema={uischema}
-          disabled={disabled}
-          DragHandleRef={DragHandleRef}
-          upOrDown={upOrDown}
-          onFocus={() => setGrabbedIndex(index)}
           onBlur={() => setGrabbedIndex(null)}
+          onFocus={() => setGrabbedIndex(index)}
           onMouseEnter={() => setGrabbedIndex(index)}
           onMouseLeave={() => setGrabbedIndex(null)}
           onTouchMove={() => enableTouch(index)}
+          path={path}
+          removeItems={removeItems}
+          uischema={uischema}
+          upOrDown={upOrDown}
+          userIsOnMobileDevice={userIsOnMobileDevice}
           onKeyDown={(e: any) => {
             if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
               move(e.key, index);
@@ -293,7 +298,7 @@ export const DragAndDrop = ({
     />
   );
 
-  if (expanded) {
+  if (expanded && uischema.options.enableDetailedView === false) {
     return (
       <div
         style={{
