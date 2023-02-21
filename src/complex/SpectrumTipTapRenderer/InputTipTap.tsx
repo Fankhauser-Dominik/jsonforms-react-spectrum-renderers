@@ -33,7 +33,7 @@ import Editor from './TipTap/index';
 
 interface TipTapCellProps {
   noToolbar?: boolean;
-  returnMode?: 'html' | 'json' | 'text';
+  returnMode?: 'html' | 'json' | 'text' | 'markdown';
 }
 
 export const InputTextArea = React.memo(

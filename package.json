@@ -1,7 +1,7 @@
 {
   "name": "jsonforms-react-spectrum-vite-test",
   "private": false,
-  "version": "0.0.159",
+  "version": "0.0.161",
   "type": "module",
   "files": [
     "dist"
@@ -69,6 +69,7 @@
     "@tiptap/extension-highlight": "^2.0.0-beta.218",
     "@tiptap/extension-history": "^2.0.0-beta.218",
     "@tiptap/extension-horizontal-rule": "^2.0.0-beta.218",
+    "@tiptap/extension-image": "^2.0.0-beta.218",
     "@tiptap/extension-italic": "^2.0.0-beta.218",
     "@tiptap/extension-link": "^2.0.0-beta.218",
     "@tiptap/extension-list-item": "^2.0.0-beta.218",
