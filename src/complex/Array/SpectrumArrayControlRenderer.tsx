@@ -48,9 +48,9 @@ const SpectrumArrayControlRenderer = React.memo(
     const controlElement = uischema as ControlElement;
     const labelDescription = Helpers.createLabelDescriptionFrom(controlElement, schema);
     const label = labelDescription?.show
-    ? labelDescription?.text ?? ''
-    : uischema?.options?.label ?? '';
-    
+      ? labelDescription?.text ?? ''
+      : uischema?.options?.label ?? '';
+
     return visible ? (
       <SpectrumArrayControl
         errors={errors}
