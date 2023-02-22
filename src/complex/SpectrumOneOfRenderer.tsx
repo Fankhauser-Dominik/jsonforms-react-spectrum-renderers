@@ -72,7 +72,11 @@ const SpectrumOneOfRenderer = ({
   uischemas,
   visible,
 }: CombinatorRendererProps) => {
+  console.log("\x1b[31m ~ SpectrumOneOfRenderer:", data, path, uischema)
   let oneOfRenderInfos;
+  if (path.includes('multiContentReference')) {
+    // debugger
+  }
   if (schema.oneOf) {
     oneOfRenderInfos = createCombinatorRenderInfos(
       schema.oneOf,
@@ -81,8 +85,15 @@ const SpectrumOneOfRenderer = ({
       uischema,
       path,
       uischemas
-    );
-  }
+      );
+    }
+    
+    if (typeof uischema?.options?.detail === 'object' && oneOfRenderInfos) {
+      oneOfRenderInfos = oneOfRenderInfos.map((item) => {
+        return {...item, uischema: uischema?.options?.detail}
+      })
+    }
+
   let indexFromDiscriminator: number | undefined = undefined;
   const discriminatingProperty: string = (schema as any).discriminator?.propertyName;
   if (discriminatingProperty) {
@@ -220,8 +231,8 @@ const SpectrumOneOfRenderer = ({
                 ))}
               </TabList>
               <TabPanels>
-                {oneOfRenderInfos.map((oneOfRenderInfo, oneOfIndex) => (
-                  <Item key={oneOfIndex} title={oneOfRenderInfo.label}>
+                {oneOfRenderInfos.map((oneOfRenderInfo, oneOfIndex) => {
+                  return <Item key={oneOfIndex} title={oneOfRenderInfo.label}>
                     <Content margin='size-160'>
                       <JsonFormsDispatch
                         cells={cells}
@@ -234,7 +245,7 @@ const SpectrumOneOfRenderer = ({
                       />
                     </Content>
                   </Item>
-                ))}
+                })}
               </TabPanels>
             </Tabs>
           </>
