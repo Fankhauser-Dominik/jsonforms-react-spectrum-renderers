@@ -10,6 +10,7 @@ import Superscript from '@tiptap/extension-superscript';
 import Subscript from '@tiptap/extension-subscript';
 import ProjectCreateContentToolbar from './Toolbar';
 import { nodeWithClass } from './addClass/nodeWithClass';
+import { nodeWithStyle } from './addClass/nodeWithStyle';
 import { Blockquote } from '@tiptap/extension-blockquote';
 import { Paragraph } from '@tiptap/extension-paragraph';
 import { Heading } from '@tiptap/extension-heading';
@@ -30,9 +31,9 @@ import Text from '@tiptap/extension-text';
 import { Flex } from '@adobe/react-spectrum';
 import TableRow from '@tiptap/extension-table-row';
 import TableCell from '@tiptap/extension-table-cell';
-import TableHeader from '@tiptap/extension-table-header'
-import Table from '@tiptap/extension-table'
-import Image from '@tiptap/extension-image'
+import TableHeader from '@tiptap/extension-table-header';
+import Table from '@tiptap/extension-table';
+import Image from '@tiptap/extension-image';
 
 interface TipTapProps {
   EditorJSONCallback: any;
@@ -58,11 +59,20 @@ export default function EditorComponent({
         class: {
           default: null,
           // Customize the HTML parsing (for example, to load the initial content)
-          parseHTML: (element:any) => element.getAttribute('class'),
+          parseHTML: (element: any) => element.getAttribute('class'),
           // … and customize the HTML rendering.
-          renderHTML: (attributes:any) => {
+          renderHTML: (attributes: any) => {
             return {
               class: attributes.class,
+            };
+          },
+        },
+        style: {
+          default: null,
+          parseHTML: (element: any) => element.getAttribute('style'),
+          renderHTML: (attributes: any) => {
+            return {
+              style: attributes.style,
             };
           },
         },
@@ -74,21 +84,28 @@ export default function EditorComponent({
       return {
         class: {
           default: null,
-          // Customize the HTML parsing (for example, to load the initial content)
-          parseHTML: (element:any) => element.getAttribute('class'),
-          // … and customize the HTML rendering.
-          renderHTML: (attributes:any) => {
+          parseHTML: (element: any) => element.getAttribute('class'),
+          renderHTML: (attributes: any) => {
             return {
               class: attributes.class,
+            };
+          },
+        },
+        style: {
+          default: null,
+          parseHTML: (element: any) => element.getAttribute('style'),
+          renderHTML: (attributes: any) => {
+            return {
+              style: attributes.style,
             };
           },
         },
         level: {
           default: 6,
           // Customize the HTML parsing (for example, to load the initial content)
-          parseHTML: (element:any) => element.getAttribute('level'),
+          parseHTML: (element: any) => element.getAttribute('level'),
           // … and customize the HTML rendering.
-          renderHTML: (attributes:any) => {
+          renderHTML: (attributes: any) => {
             return {
               level: attributes.level,
             };
@@ -125,13 +142,14 @@ export default function EditorComponent({
       TypographyExtension,
       UnderlineExtension,
       nodeWithClass,
+      nodeWithStyle,
       Image.configure({
         inline: true,
         HTMLAttributes: {
           // AEM editor forces this size
           width: 240,
           height: 140,
-        }
+        },
       }),
       Table,
       TableHeader,
@@ -145,7 +163,7 @@ export default function EditorComponent({
         mode: 'all',
       }),
     ],
-    content: returnMode === 'markdown' ? content.replace(/\n/g, "<br />") : content
+    content: returnMode === 'markdown' ? content.replace(/\n/g, '<br />') : content,
   });
 
   const firstRender = React.useRef(true);
@@ -155,7 +173,7 @@ export default function EditorComponent({
       return;
     }
     const delayDebounceFn = setTimeout(() => {
-        EditorJSONCallback(editor?.getHTML());
+      EditorJSONCallback(editor?.getHTML());
     }, 500);
 
     return () => clearTimeout(delayDebounceFn);

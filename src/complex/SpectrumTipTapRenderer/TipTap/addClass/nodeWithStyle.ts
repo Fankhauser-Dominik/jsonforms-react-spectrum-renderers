@@ -4,7 +4,7 @@ import { getNodeName, getTag, removeWhiteSpace } from './utils';
 declare type Level = 1 | 2 | 3 | 4 | 5 | 6;
 export interface NodeOptions {
   HTMLAttributes: Record<string, any>;
-  classes: Array<string>;
+  styles: Array<string>;
   excludes: string;
   level?: Level;
   nodeName?: string | undefined;
@@ -13,12 +13,12 @@ export interface NodeOptions {
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
-    nodeWithClass: {
+    nodeWithStyle: {
       /**
-       * Toggle a nodeWithClass
+       * Toggle a nodeWithStyle
        */
-      toggleNodeWithClass: (attributes: {
-        class: string | unknown;
+      toggleNodeWithStyle: (attributes: {
+        style: string | unknown;
         tag?: string;
         nodeName?: string | undefined;
         level?: Level;
@@ -27,16 +27,16 @@ declare module '@tiptap/core' {
   }
 }
 
-export const nodeWithClass = Node.create<NodeOptions>({
-  name: 'nodeWithClass',
+export const nodeWithStyle = Node.create<NodeOptions>({
+  name: 'nodeWithStyle',
 
   addOptions() {
     return {
       tag: 'p',
       nodeName: 'paragraph',
-      classes: [''],
+      styles: [''],
       level: 6,
-      excludes: 'nodeWithClass',
+      excludes: 'nodeWithStyle',
       HTMLAttributes: {},
       shortcuts: [],
     };
@@ -62,15 +62,15 @@ export const nodeWithClass = Node.create<NodeOptions>({
           };
         },
       },
-      class: {
-        default: this.options.classes[0],
-        parseHTML: (element) => element.getAttribute('class'),
+      style: {
+        default: this.options.styles[0],
+        parseHTML: (element) => element.getAttribute('style'),
         renderHTML: (attributes) => {
-          if (!attributes.class) {
+          if (!attributes.style) {
             return {};
           }
           return {
-            class: attributes.class,
+            style: attributes.style,
           };
         },
       },
@@ -94,9 +94,9 @@ export const nodeWithClass = Node.create<NodeOptions>({
       {
         tag: this.options.tag,
         getAttrs: (element) => {
-          const hasClass = (element as HTMLElement).hasAttribute('class');
+          const hasStyle = (element as HTMLElement).hasAttribute('style');
 
-          if (!hasClass) {
+          if (!hasStyle) {
             return false;
           }
 
@@ -114,38 +114,38 @@ export const nodeWithClass = Node.create<NodeOptions>({
 
   addCommands() {
     return {
-      toggleNodeWithClass:
+      toggleNodeWithStyle:
         (attributes) =>
         ({ chain, editor }) => {
           const nodeName: string = getNodeName(editor, attributes?.tag ?? getTag(editor));
-          const currentClass: string | undefined = removeWhiteSpace(
-            editor.getAttributes(nodeName).class ?? ''
+          const currentStyle: string | undefined = removeWhiteSpace(
+            editor.getAttributes(nodeName).style ?? ''
           );
-          const currClass: string = ` ${currentClass} `;
-          const regex = new RegExp(`\\b${attributes.class}\\b`, 'g');
-          const newClass: string | undefined = currentClass
-            ? removeWhiteSpace(currClass.replace(regex, ''))
-            : undefined;
+          const currStyle: string = ` ${currentStyle} `;
+          let newStyle: string | undefined;
+          if (typeof attributes.style === 'string') {
+            const regex = new RegExp(attributes.style.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
+            newStyle = currentStyle ? removeWhiteSpace(currStyle.replace(regex, '')) : undefined;
+          } else {
+            newStyle = currentStyle ? removeWhiteSpace(currStyle) : undefined;
+          }
 
-          let nodeClass: string | undefined | unknown = undefined;
+          let nodeStyle: string | undefined | unknown = undefined;
           const isNewTag = attributes.tag && getTag(editor) !== attributes.tag;
 
-          if (newClass !== currentClass && !isNewTag) {
-            console.log('if');
-            nodeClass = newClass ?? attributes.class;
+          if (newStyle !== currentStyle && !isNewTag) {
+            nodeStyle = newStyle ?? attributes.style;
           } else {
-            console.log('else');
             if (isNewTag) {
-              nodeClass = attributes.class;
+              nodeStyle = attributes.style;
             } else {
-              nodeClass = removeWhiteSpace(
-                `${currentClass ?? undefined} ${attributes.class ?? undefined}`
+              nodeStyle = removeWhiteSpace(
+                `${currentStyle ?? undefined} ${attributes.style ?? undefined}`
               );
-              console.log(currClass, '|', regex, '|', newClass, '|', currentClass, '|', nodeClass);
             }
           }
-          if (nodeClass === '') {
-            nodeClass = undefined;
+          if (nodeStyle === '') {
+            nodeStyle = undefined;
           }
 
           if (nodeName === 'heading') {
@@ -154,7 +154,7 @@ export const nodeWithClass = Node.create<NodeOptions>({
             return chain()
               .setHeading({ level: level })
               .updateAttributes(nodeName, {
-                class: nodeClass,
+                style: nodeStyle,
                 level: level,
               })
               .unsetBlockquote()
@@ -164,14 +164,14 @@ export const nodeWithClass = Node.create<NodeOptions>({
               .setParagraph()
               .setBlockquote()
               .updateAttributes(nodeName, {
-                class: nodeClass,
+                style: nodeStyle,
               })
               .run();
           } else {
             return chain()
               .setParagraph()
               .updateAttributes(nodeName, {
-                class: nodeClass,
+                style: nodeStyle,
               })
               .unsetBlockquote()
               .run();

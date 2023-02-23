@@ -38,6 +38,9 @@ const ProjectCreateContentToolbar = ({
   let nodeOptions = uischema?.options?.nodeClasses?.map((nodeClass: any) => {
     return { id: nodeClass.class, name: nodeClass.name ?? nodeClass.class };
   });
+  let nodeOptions2 = uischema?.options?.nodeStyles?.map((nodeStyle: any) => {
+    return { id: nodeStyle.style, name: nodeStyle.name ?? nodeStyle.style };
+  });
 
   const activeNodeOption = (selected: Key) => {
     editor
@@ -45,6 +48,15 @@ const ProjectCreateContentToolbar = ({
       .focus()
       .toggleNodeWithClass({
         class: selected.toString(),
+      })
+      .run();
+  };
+  const activeNodeOption2 = (selected: Key) => {
+    editor
+      .chain()
+      .focus()
+      .toggleNodeWithStyle({
+        style: selected.toString(),
       })
       .run();
   };
@@ -94,6 +106,21 @@ const ProjectCreateContentToolbar = ({
             >
               {(item: any) => <Item>{item.name}</Item>}
             </Picker>
+            <Tooltip>Toggle a class</Tooltip>
+          </TooltipTrigger>
+        )}
+        {nodeOptions2 && (
+          <TooltipTrigger delay={settings.toolTipDelay}>
+            {
+              <Picker
+                aria-label='Toggle a class'
+                items={nodeOptions2}
+                onSelectionChange={(selected) => activeNodeOption2(selected)}
+                selectedKey={null}
+              >
+                {(item: any) => <Item>{item.name}</Item>}
+              </Picker>
+            }
             <Tooltip>Toggle a class</Tooltip>
           </TooltipTrigger>
         )}
