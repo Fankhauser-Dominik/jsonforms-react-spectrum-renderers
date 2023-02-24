@@ -54,9 +54,10 @@ const FragmentReference = React.memo(
   }: FragmentReferenceProps & HandleChangeProps) => {
     label =
       label ||
-      data?._metadata.stringMetadata.find((item: any) => item.name === 'title').value ||
-      data?._model.title ||
-      (uischema as any)?.label;
+      data?._metadata?.stringMetadata.find((item: any) => item.name === 'title').value ||
+      data?._model?.title ||
+      (uischema as any)?.label ||
+      'No Title found';
     const [expanded, setExpanded] = React.useState(false);
     const [isAnimating, setIsAnimating] = React.useState(false);
     const { breadcrumbs, addBreadcrumb, deleteBreadcrumb } = useBreadcrumbs();
