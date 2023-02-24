@@ -74,9 +74,20 @@ export default function ModalItemHeader({
 
   childLabel = childLabel || layout?.label;
 
+  const showItemNumber = uischema?.options?.showItemNumber ?? false;
+
   return (
-    <View aria-selected={expanded} UNSAFE_className='array-item-header'>
+    <View
+      aria-selected={expanded}
+      UNSAFE_className='array-item-header'
+      UNSAFE_style={expanded ? { zIndex: 50 } : {}}
+    >
       <Flex direction='row' margin='size-50' justifyContent='space-between' alignItems='center'>
+        {showItemNumber && (
+          <View UNSAFE_className='spectrum-array-item-number'>
+            <Text>{index + 1}</Text>
+          </View>
+        )}
         <ActionButton
           flex={'1 1 auto'}
           isQuiet
