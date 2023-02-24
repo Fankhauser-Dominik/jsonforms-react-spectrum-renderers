@@ -52,6 +52,10 @@ const FragmentReference = React.memo(
     handleChange,
     enabled,
   }: FragmentReferenceProps & HandleChangeProps) => {
+    label =
+      data?._metadata.stringMetadata.find((item: any) => item.name === 'title').value ||
+      data?._model.title ||
+      (uischema as any)?.label;
     const [expanded, setExpanded] = React.useState(false);
     const [isAnimating, setIsAnimating] = React.useState(false);
     const { breadcrumbs, addBreadcrumb, deleteBreadcrumb } = useBreadcrumbs();
@@ -64,7 +68,7 @@ const FragmentReference = React.memo(
         if (desiredState) {
           addBreadcrumb({
             path: path,
-            name: label || (uischema as any)?.label,
+            name: label,
           });
         } else {
           deleteBreadcrumb(path);
