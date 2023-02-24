@@ -22,7 +22,7 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React from 'react';
+import React, { useContext } from 'react';
 import { CellProps } from '@jsonforms/core';
 import merge from 'lodash/merge';
 import {
@@ -41,6 +41,7 @@ import { useDebouncedChange } from '../util';
 import FolderOpen from '@spectrum-icons/workflow/FolderOpen';
 import Link from '@spectrum-icons/workflow/Link';
 import Asset from '@spectrum-icons/workflow/Asset';
+import { RenderersConfigContext } from '../context';
 
 export const InputText = React.memo(
   ({
@@ -58,6 +59,7 @@ export const InputText = React.memo(
   }: CellProps & SpectrumInputProps) => {
     const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
+    const { externalizePath } = useContext(RenderersConfigContext);
     const width: DimensionValue | undefined = appliedUiSchemaOptions.trim ? undefined : '100%';
 
     const [inputText, onChange] = useDebouncedChange(
@@ -136,8 +138,7 @@ export const InputText = React.memo(
 
     const contextualHelp = appliedUiSchemaOptions?.contextualHelp ?? schema?.fieldDescription;
     const previewMedia: boolean = appliedUiSchemaOptions?.previewMedia ?? false;
-    const previewMediaPrefix: string | boolean =
-      appliedUiSchemaOptions?.previewMediaPrefix ?? false;
+    const externalizeAsset: boolean = appliedUiSchemaOptions?.externalizeAsset ?? false;
     const previewMediaSuffix: string | boolean =
       typeof data === 'string' ? data?.substring(data?.lastIndexOf('.') + 1) : false;
 
@@ -205,7 +206,7 @@ export const InputText = React.memo(
           previewMediaSuffix === 'webm' ? (
             <video
               controls
-              src={previewMediaPrefix ? `${previewMediaPrefix}${data}` : data}
+              src={externalizeAsset ? externalizePath(data) : data}
               width={200}
               style={{ marginTop: 10 }}
             >
@@ -213,7 +214,7 @@ export const InputText = React.memo(
             </video>
           ) : (
             <img
-              src={previewMediaPrefix ? `${previewMediaPrefix}${data}` : data}
+              src={externalizeAsset ? externalizePath(data) : data}
               alt={`Preview of ${data}`}
               width={200}
               style={{ marginTop: 10 }}
