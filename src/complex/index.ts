@@ -44,6 +44,8 @@ import SpectrumArrayControlGrid, {
   SpectrumArrayControlGridTester,
 } from './SpectrumArrayControlGrid';
 
+import SpectrumContentReferenceControl, {SpectrumContentReferenceControlTester} from './SpectrumContentReference';
+
 export {
   ArrayControl,
   arrayControlTester,
@@ -69,4 +71,6 @@ export {
   SpectrumOneOfRendererTester,
   SpectrumArrayControlGrid,
   SpectrumArrayControlGridTester,
+  SpectrumContentReferenceControl,
+  SpectrumContentReferenceControlTester,
 };

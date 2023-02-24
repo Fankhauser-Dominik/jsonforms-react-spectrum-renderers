@@ -72,11 +72,7 @@ const SpectrumOneOfRenderer = ({
   uischemas,
   visible,
 }: CombinatorRendererProps) => {
-  console.log("\x1b[31m ~ SpectrumOneOfRenderer:", data, path, uischema)
   let oneOfRenderInfos;
-  if (path.includes('multiContentReference')) {
-    // debugger
-  }
   if (schema.oneOf) {
     oneOfRenderInfos = createCombinatorRenderInfos(
       schema.oneOf,
@@ -86,12 +82,6 @@ const SpectrumOneOfRenderer = ({
       path,
       uischemas
       );
-    }
-    
-    if (typeof uischema?.options?.detail === 'object' && oneOfRenderInfos) {
-      oneOfRenderInfos = oneOfRenderInfos.map((item) => {
-        return {...item, uischema: uischema?.options?.detail}
-      })
     }
 
   let indexFromDiscriminator: number | undefined = undefined;
