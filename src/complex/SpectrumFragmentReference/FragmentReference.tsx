@@ -53,6 +53,7 @@ const FragmentReference = React.memo(
     enabled,
   }: FragmentReferenceProps & HandleChangeProps) => {
     label =
+      label ||
       data?._metadata.stringMetadata.find((item: any) => item.name === 'title').value ||
       data?._model.title ||
       (uischema as any)?.label;
