@@ -23,17 +23,13 @@
 import React from 'react';
 import {
   Flex,
-  Heading,
   View,
   ActionButton,
-  // DimensionValue,
-  // TextField,
 } from '@adobe/react-spectrum';
 import {
   CombinatorRendererProps,
   JsonFormsUISchemaRegistryEntry,
   JsonSchema,
-  //OwnPropsOfControl,
   RendererProps,
 } from '@jsonforms/core';
 import { withJsonFormsOneOfProps, } from '@jsonforms/react';
@@ -146,18 +142,13 @@ export const SpectrumContentReferenceControl = React.memo(
 
     return (
       <View>
-        {!uischema?.options?.noLabel && (
-          <Flex direction='row' justifyContent='space-between'>
-            <Heading level={4}>{label}</Heading>
-          </Flex>
-        )}
         <Flex direction='column' gap='size-100'>
           <Flex direction='row' alignItems='stretch' flex='auto inherit'>
             <InputText
               data={data}
               handleChange={handleChange}
               isValid={isValid !== undefined ? isValid : true}
-              label={undefined}
+              label={!uischema?.options?.noLabel ? label : undefined}
               path={path}
               required={required}
               schema={schema}
@@ -174,8 +165,8 @@ export const SpectrumContentReferenceControl = React.memo(
               UNSAFE_className='assetPickerButton'
               UNSAFE_style={
                 assetPickerOptions?.icon === false || assetPickerOptions?.buttonText === false
-                  ? {}
-                  : { paddingRight: 8 }
+                  ? { marginTop: uischema?.options?.noLabel ? 0 : 25,}
+                  : { paddingRight: 8, marginTop: uischema?.options?.noLabel ? 0 : 25, }
               }
             >
               {assetPickerOptions?.icon === false ? undefined : uischema.options?.assetPickerOptions

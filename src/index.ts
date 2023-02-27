@@ -125,7 +125,7 @@ import {
   SpectrumArrayControlGrid,
   SpectrumArrayControlGridTester,
   SpectrumFragmentReferenceControl,
-  SpectrumFragmentReferenceControlTester 
+  SpectrumFragmentReferenceControlTester,
   SpectrumContentReferenceControl,
   SpectrumContentReferenceControlTester,
 } from './complex';

@@ -73,7 +73,7 @@ export {
   SpectrumArrayControlGrid,
   SpectrumArrayControlGridTester,
   SpectrumFragmentReferenceControl,
-  SpectrumFragmentReferenceControlTester
+  SpectrumFragmentReferenceControlTester,
   SpectrumContentReferenceControl,
   SpectrumContentReferenceControlTester,
 };
