@@ -28,6 +28,11 @@ import { Strike } from '@tiptap/extension-strike';
 import Document from '@tiptap/extension-document';
 import Text from '@tiptap/extension-text';
 import { Flex } from '@adobe/react-spectrum';
+import TableRow from '@tiptap/extension-table-row';
+import TableCell from '@tiptap/extension-table-cell';
+import TableHeader from '@tiptap/extension-table-header'
+import Table from '@tiptap/extension-table'
+import Image from '@tiptap/extension-image'
 
 interface TipTapProps {
   EditorJSONCallback: any;
@@ -53,9 +58,9 @@ export default function EditorComponent({
         class: {
           default: null,
           // Customize the HTML parsing (for example, to load the initial content)
-          parseHTML: (element) => element.getAttribute('class'),
+          parseHTML: (element:any) => element.getAttribute('class'),
           // … and customize the HTML rendering.
-          renderHTML: (attributes) => {
+          renderHTML: (attributes:any) => {
             return {
               class: attributes.class,
             };
@@ -70,9 +75,9 @@ export default function EditorComponent({
         class: {
           default: null,
           // Customize the HTML parsing (for example, to load the initial content)
-          parseHTML: (element) => element.getAttribute('class'),
+          parseHTML: (element:any) => element.getAttribute('class'),
           // … and customize the HTML rendering.
-          renderHTML: (attributes) => {
+          renderHTML: (attributes:any) => {
             return {
               class: attributes.class,
             };
@@ -81,9 +86,9 @@ export default function EditorComponent({
         level: {
           default: 6,
           // Customize the HTML parsing (for example, to load the initial content)
-          parseHTML: (element) => element.getAttribute('level'),
+          parseHTML: (element:any) => element.getAttribute('level'),
           // … and customize the HTML rendering.
-          renderHTML: (attributes) => {
+          renderHTML: (attributes:any) => {
             return {
               level: attributes.level,
             };
@@ -120,6 +125,18 @@ export default function EditorComponent({
       TypographyExtension,
       UnderlineExtension,
       nodeWithClass,
+      Image.configure({
+        inline: true,
+        HTMLAttributes: {
+          // AEM editor forces this size
+          width: 240,
+          height: 140,
+        }
+      }),
+      Table,
+      TableHeader,
+      TableRow,
+      TableCell,
       TextAlign.configure({
         types: ['heading', 'paragraph'],
       }),
@@ -128,7 +145,7 @@ export default function EditorComponent({
         mode: 'all',
       }),
     ],
-    content: content,
+    content: returnMode === 'markdown' ? content.replace(/\n/g, "<br />") : content
   });
 
   const firstRender = React.useRef(true);
@@ -138,13 +155,7 @@ export default function EditorComponent({
       return;
     }
     const delayDebounceFn = setTimeout(() => {
-      if (returnMode === 'json') {
-        EditorJSONCallback(editor?.getJSON());
-      } else if (returnMode === 'text') {
-        EditorJSONCallback(editor?.getText());
-      } else {
         EditorJSONCallback(editor?.getHTML());
-      }
     }, 500);
 
     return () => clearTimeout(delayDebounceFn);

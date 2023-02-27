@@ -51,15 +51,21 @@ const SpectrumArrayItem = React.memo(
     schema,
     uischema,
     uischemas = [],
+    customLabel,
   }: OwnPropsOfSpectrumArrayItem) => {
     const [isAnimating, setIsAnimating] = React.useState(false);
-    const foundUISchema = findUISchema(uischemas, schema, uischema.scope, path);
+    const foundUISchema =
+      typeof uischema?.options?.detail === 'object'
+        ? uischema?.options?.detail
+        : findUISchema(uischemas, schema, uischema.scope, path);
     const childPath = composePaths(path, `${index}`);
     const [expanded, setExpanded] = React.useState(
       JSON.stringify(childData) === '{}' ? true : openIndex === index ? true : false
     );
 
-    childLabel = childLabel ?? `Item ${index + 1}`;
+    if (!childLabel || childLabel === '<p></p>') {
+      childLabel = `Item ${index + 1}`;
+    }
 
     const enableDetailedView = uischema?.options?.enableDetailedView ?? false;
 
@@ -161,7 +167,7 @@ const SpectrumArrayItem = React.memo(
         DNDHandle={DNDHandle}
         JsonFormsDispatch={JsonFormsDispatchComponent}
         childData={childData}
-        childLabel={childLabel}
+        childLabel={customLabel || childLabel}
         duplicateItem={duplicateItem}
         enableDetailedView={enableDetailedView}
         expanded={expanded}

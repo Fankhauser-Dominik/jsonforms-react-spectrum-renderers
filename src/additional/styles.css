@@ -612,7 +612,7 @@ div[class^='spectrum-Textfield'] {
 /* InputText */
 .assetPickerButton {
   min-width: min-content !important;
-  margin-top: 25px !important;
+  /* margin-top: 25px !important; */
   margin-left: 5px !important;
 }
 

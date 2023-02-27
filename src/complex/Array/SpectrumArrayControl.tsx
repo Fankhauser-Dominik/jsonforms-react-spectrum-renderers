@@ -87,6 +87,23 @@ const SpectrumArrayControl = ({
 
   const sortMode: string | boolean = uischema?.options?.sortMode ?? 'DragAndDrop';
 
+  const textAreaLabel = (textAreaObject: any) => {
+    if (typeof uischema?.options?.detail !== 'object') {
+      return null
+    }
+
+    // create a temporary element to hold the HTML string
+    const tempEl = document.createElement('div');
+    tempEl.innerHTML = textAreaObject?.html;
+
+    // get the first element and its first child text node
+    const firstElement = tempEl.firstChild;
+    const firstText = firstElement?.firstChild;
+
+    // extract the text content
+    return firstText?.textContent;
+  }
+
   const ArrayItem = (index: number) => (
     <SpectrumArrayItem
       data={data[index]}
@@ -99,6 +116,7 @@ const SpectrumArrayControl = ({
       uischema={uischema}
       uischemas={uischemas}
       renderers={renderers}
+      customLabel={textAreaLabel(data[index])}
       key={index + (expanded === index ? 9999 : 0)}
     ></SpectrumArrayItem>
   );
