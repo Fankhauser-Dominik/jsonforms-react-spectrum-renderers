@@ -22,26 +22,14 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React, { useContext } from 'react';
+import React from 'react';
 import { CellProps } from '@jsonforms/core';
 import merge from 'lodash/merge';
-import {
-  TextField,
-  ActionButton,
-  Flex,
-  ContextualHelp,
-  Heading,
-  Content,
-  Text,
-} from '@adobe/react-spectrum';
+import { TextField, Flex, ContextualHelp, Heading, Content, Text } from '@adobe/react-spectrum';
 import { DimensionValue } from '@react-types/shared';
 import { SpectrumInputProps } from './index';
 import SpectrumProvider from '../additional/SpectrumProvider';
 import { useDebouncedChange } from '../util';
-import FolderOpen from '@spectrum-icons/workflow/FolderOpen';
-import Link from '@spectrum-icons/workflow/Link';
-import Asset from '@spectrum-icons/workflow/Asset';
-import { RenderersConfigContext } from '../context';
 
 export const InputText = React.memo(
   ({
@@ -59,7 +47,6 @@ export const InputText = React.memo(
   }: CellProps & SpectrumInputProps) => {
     const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
-    const { externalizePath } = useContext(RenderersConfigContext);
     const width: DimensionValue | undefined = appliedUiSchemaOptions.trim ? undefined : '100%';
 
     const [inputText, onChange] = useDebouncedChange(
@@ -95,9 +82,7 @@ export const InputText = React.memo(
       }
     };
 
-    const assetPicker = uischema.options?.assetPicker;
     const idlePostMessage = uischema.options?.idlePostMessage;
-    const assetPickerOptions = uischema.options?.assetPicker;
 
     const sendMessage = () => {
       const message: object = {
@@ -137,10 +122,6 @@ export const InputText = React.memo(
     }, [data]);
 
     const contextualHelp = appliedUiSchemaOptions?.contextualHelp ?? schema?.fieldDescription;
-    const previewMedia: boolean = appliedUiSchemaOptions?.previewMedia ?? false;
-    const externalizeAsset: boolean = appliedUiSchemaOptions?.externalizeAsset ?? false;
-    const previewMediaSuffix: string | boolean =
-      typeof data === 'string' ? data?.substring(data?.lastIndexOf('.') + 1) : false;
 
     return (
       <SpectrumProvider width={width}>
@@ -169,28 +150,6 @@ export const InputText = React.memo(
             value={inputText}
             width={width}
           />
-          {assetPicker && (
-            <ActionButton
-              onPress={() => sendMessage()}
-              aria-label={assetPickerOptions?.buttonText ?? `Asset Picker`}
-              UNSAFE_className='assetPickerButton'
-              UNSAFE_style={
-                assetPickerOptions?.icon === false || assetPickerOptions?.buttonText === false
-                  ? undefined
-                  : { paddingRight: 8 }
-              }
-            >
-              {assetPickerOptions?.icon === false ? undefined : uischema.options?.assetPickerOptions
-                  ?.icon === 'url' ? (
-                <Link size='S' />
-              ) : assetPickerOptions?.icon === 'asset' ? (
-                <Asset size='S' />
-              ) : (
-                <FolderOpen size='S' />
-              )}
-              {assetPickerOptions?.buttonText}
-            </ActionButton>
-          )}
           {contextualHelp ? (
             <ContextualHelp variant={contextualHelp?.variant === 'help' ? 'help' : 'info'}>
               {contextualHelp?.title && <Heading>{contextualHelp?.title}</Heading>}
@@ -200,31 +159,6 @@ export const InputText = React.memo(
             </ContextualHelp>
           ) : null}
         </Flex>
-        {previewMedia ? (
-          previewMediaSuffix === 'mp4' ||
-          previewMediaSuffix === 'ogg' ||
-          previewMediaSuffix === 'webm' ? (
-            <video
-              controls
-              src={externalizeAsset ? externalizePath(data) : data}
-              width={200}
-              style={{ marginTop: 10 }}
-            >
-              Sorry, but the Media "{data}" couldn't be displayed.
-            </video>
-          ) : (
-            <img
-              src={externalizeAsset ? externalizePath(data) : data}
-              alt={`Preview of ${data}`}
-              width={200}
-              style={{ marginTop: 10 }}
-              onError={(e) => {
-                e.currentTarget.src =
-                  'https://jenkinselite.com/wp-content/uploads/2018/11/no_media.png';
-              }}
-            />
-          )
-        ) : null}
       </SpectrumProvider>
     );
   }

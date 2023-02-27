@@ -30,6 +30,7 @@ export interface OwnPropsOfSpectrumArrayItem {
   schema: JsonSchema;
   uischema: ControlElement;
   uischemas?: { tester: UISchemaTester; uischema: UISchemaElement }[];
+  customLabel?: string;
 }
 
 /**

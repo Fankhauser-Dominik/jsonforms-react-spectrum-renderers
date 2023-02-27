@@ -125,7 +125,9 @@ import {
   SpectrumArrayControlGrid,
   SpectrumArrayControlGridTester,
   SpectrumFragmentReferenceControl,
-  SpectrumFragmentReferenceControlTester 
+  SpectrumFragmentReferenceControlTester,
+  SpectrumContentReferenceControl,
+  SpectrumContentReferenceControlTester,
 } from './complex';
 
 import {
@@ -259,6 +261,10 @@ export const SpectrumRenderers: { tester: RankedTester; renderer: any }[] = [
   {
     tester: SpectrumHorizontalLayoutTester,
     renderer: SpectrumHorizontalLayout,
+  },
+  {
+    tester: SpectrumContentReferenceControlTester,
+    renderer: SpectrumContentReferenceControl,
   },
 ];
 
