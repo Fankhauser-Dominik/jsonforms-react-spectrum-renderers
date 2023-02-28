@@ -1,42 +1,42 @@
-import { Node, mergeAttributes } from '@tiptap/core';
-import { getNodeName, getTag, removeWhiteSpace } from './utils';
+import { Mark, mergeAttributes } from '@tiptap/core';
+import { getMarkName, getTag, removeWhiteSpace } from './utils';
 
 declare type Level = 1 | 2 | 3 | 4 | 5 | 6;
-export interface NodeOptions {
+export interface MarkOptions {
   HTMLAttributes: Record<string, any>;
   classes: Array<string>;
   excludes: string;
   level?: Level;
-  nodeName?: string | undefined;
+  markName?: string | undefined;
   tag: string;
 }
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
-    nodeWithClass: {
+    markWithClass: {
       /**
-       * Toggle a nodeWithClass
+       * Toggle a markWithClass
        */
-      toggleNodeWithClass: (attributes: {
+      toggleMarkWithClass: (attributes: {
         class: string | unknown;
         tag?: string;
-        nodeName?: string | undefined;
+        markName?: string | undefined;
         level?: Level;
       }) => ReturnType;
     };
   }
 }
 
-export const nodeWithClass = Node.create<NodeOptions>({
-  name: 'nodeWithClass',
+export const markWithClass = Mark.create<MarkOptions>({
+  name: 'markWithClass',
 
   addOptions() {
     return {
       tag: 'p',
-      nodeName: 'paragraph',
+      markName: 'paragraph',
       classes: [''],
       level: 6,
-      excludes: 'nodeWithClass',
+      excludes: 'markWithClass',
       HTMLAttributes: {},
       shortcuts: [],
     };
@@ -52,6 +52,7 @@ export const nodeWithClass = Node.create<NodeOptions>({
     return {
       level: {
         default: this.options.level,
+        rendered: false,
         parseHTML: (element) => element.getAttribute('level'),
         renderHTML: (attributes) => {
           if (!attributes.level) {
@@ -114,12 +115,12 @@ export const nodeWithClass = Node.create<NodeOptions>({
 
   addCommands() {
     return {
-      toggleNodeWithClass:
+      toggleMarkWithClass:
         (attributes) =>
         ({ chain, editor }) => {
-          const nodeName: string = getNodeName(editor, attributes?.tag ?? getTag(editor));
+          const markName: string = getMarkName(editor, attributes?.tag ?? getTag(editor));
           const currentClass: string | undefined = removeWhiteSpace(
-            editor.getAttributes(nodeName).class ?? ''
+            editor.getAttributes(markName).class ?? ''
           );
           const currClass: string = ` ${currentClass} `;
           const regex = new RegExp(`\\b${attributes.class}\\b`, 'g');
@@ -127,48 +128,48 @@ export const nodeWithClass = Node.create<NodeOptions>({
             ? removeWhiteSpace(currClass.replace(regex, ''))
             : undefined;
 
-          let nodeClass: string | undefined | unknown = undefined;
+          let markClass: string | undefined | unknown = undefined;
           const isNewTag = attributes.tag && getTag(editor) !== attributes.tag;
 
           if (newClass !== currentClass && !isNewTag) {
-            nodeClass = newClass ?? attributes.class;
+            markClass = newClass ?? attributes.class;
           } else {
             if (isNewTag) {
-              nodeClass = attributes.class;
+              markClass = attributes.class;
             } else {
-              nodeClass = removeWhiteSpace(
+              markClass = removeWhiteSpace(
                 `${currentClass ?? undefined} ${attributes.class ?? undefined}`
               );
             }
           }
-          if (nodeClass === '') {
-            nodeClass = undefined;
+          if (markClass === '') {
+            markClass = undefined;
           }
 
-          if (nodeName === 'heading') {
+          if (markName === 'heading') {
             const level: Level =
-              attributes.level || editor.getAttributes(nodeName).level || this.options.level;
+              attributes.level || editor.getAttributes(markName).level || this.options.level;
             return chain()
               .setHeading({ level: level })
-              .updateAttributes(nodeName, {
-                class: nodeClass,
+              .updateAttributes(markName, {
+                class: markClass,
                 level: level,
               })
               .unsetBlockquote()
               .run();
-          } else if (nodeName === 'blockquote') {
+          } else if (markName === 'blockquote') {
             return chain()
               .setParagraph()
               .setBlockquote()
-              .updateAttributes(nodeName, {
-                class: nodeClass,
+              .updateAttributes(markName, {
+                class: markClass,
               })
               .run();
           } else {
             return chain()
               .setParagraph()
-              .updateAttributes(nodeName, {
-                class: nodeClass,
+              .updateAttributes(markName, {
+                class: markClass,
               })
               .unsetBlockquote()
               .run();

@@ -9,10 +9,17 @@ import Focus from '@tiptap/extension-focus';
 import Superscript from '@tiptap/extension-superscript';
 import Subscript from '@tiptap/extension-subscript';
 import ProjectCreateContentToolbar from './Toolbar';
-import { nodeWithClass } from './addClass/nodeWithClass';
+import {
+  nodeWithClass,
+  markWithClass,
+  markWithStyle,
+  nodeWithStyle,
+  markToggleClass,
+  CustomSpan,
+  CustomHeading,
+  CustomParagraph,
+} from './customExtensions';
 import { Blockquote } from '@tiptap/extension-blockquote';
-import { Paragraph } from '@tiptap/extension-paragraph';
-import { Heading } from '@tiptap/extension-heading';
 import { Bold } from '@tiptap/extension-bold';
 import { BulletList } from '@tiptap/extension-bullet-list';
 import { Code } from '@tiptap/extension-code';
@@ -30,9 +37,9 @@ import Text from '@tiptap/extension-text';
 import { Flex } from '@adobe/react-spectrum';
 import TableRow from '@tiptap/extension-table-row';
 import TableCell from '@tiptap/extension-table-cell';
-import TableHeader from '@tiptap/extension-table-header'
-import Table from '@tiptap/extension-table'
-import Image from '@tiptap/extension-image'
+import TableHeader from '@tiptap/extension-table-header';
+import Table from '@tiptap/extension-table';
+import Image from '@tiptap/extension-image';
 
 interface TipTapProps {
   EditorJSONCallback: any;
@@ -52,51 +59,6 @@ export default function EditorComponent({
 }: TipTapProps & {
   content: string;
 }) {
-  const CustomParagraph = Paragraph.extend({
-    addAttributes() {
-      return {
-        class: {
-          default: null,
-          // Customize the HTML parsing (for example, to load the initial content)
-          parseHTML: (element:any) => element.getAttribute('class'),
-          // … and customize the HTML rendering.
-          renderHTML: (attributes:any) => {
-            return {
-              class: attributes.class,
-            };
-          },
-        },
-      };
-    },
-  });
-  const CustomHeading = Heading.extend({
-    addAttributes() {
-      return {
-        class: {
-          default: null,
-          // Customize the HTML parsing (for example, to load the initial content)
-          parseHTML: (element:any) => element.getAttribute('class'),
-          // … and customize the HTML rendering.
-          renderHTML: (attributes:any) => {
-            return {
-              class: attributes.class,
-            };
-          },
-        },
-        level: {
-          default: 6,
-          // Customize the HTML parsing (for example, to load the initial content)
-          parseHTML: (element:any) => element.getAttribute('level'),
-          // … and customize the HTML rendering.
-          renderHTML: (attributes:any) => {
-            return {
-              level: attributes.level,
-            };
-          },
-        },
-      };
-    },
-  });
   const editor = useEditor({
     editable: !readOnly,
     extensions: [
@@ -125,13 +87,18 @@ export default function EditorComponent({
       TypographyExtension,
       UnderlineExtension,
       nodeWithClass,
+      markWithClass,
+      markWithStyle,
+      markToggleClass,
+      nodeWithStyle,
+      CustomSpan,
       Image.configure({
         inline: true,
         HTMLAttributes: {
           // AEM editor forces this size
           width: 240,
           height: 140,
-        }
+        },
       }),
       Table,
       TableHeader,
@@ -145,7 +112,10 @@ export default function EditorComponent({
         mode: 'all',
       }),
     ],
-    content: (returnMode === 'text' || returnMode === 'markdown') ? content.replace(/\n/g, "<br />") : content
+    content:
+      returnMode === 'text' || returnMode === 'markdown'
+        ? content.replace(/\n/g, '<br />')
+        : content,
   });
 
   const firstRender = React.useRef(true);

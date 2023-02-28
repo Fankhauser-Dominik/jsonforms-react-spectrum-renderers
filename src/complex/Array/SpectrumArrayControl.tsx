@@ -89,7 +89,7 @@ const SpectrumArrayControl = ({
 
   const textAreaLabel = (textAreaObject: any) => {
     if (typeof uischema?.options?.detail !== 'object') {
-      return null
+      return null;
     }
 
     // create a temporary element to hold the HTML string
@@ -102,10 +102,10 @@ const SpectrumArrayControl = ({
 
     // extract the text content
     return firstText?.textContent;
-  }
+  };
 
-  const ArrayItem = (index: number) => {
-    return <SpectrumArrayItem
+  const ArrayItem = (index: number) => (
+    <SpectrumArrayItem
       data={data[index]}
       index={index}
       path={path}
@@ -118,8 +118,8 @@ const SpectrumArrayControl = ({
       renderers={renderers}
       customLabel={textAreaLabel(data[index])}
       key={index + (expanded === index ? 9999 : 0)}
-      ></SpectrumArrayItem>
-      };
+    ></SpectrumArrayItem>
+  );
 
   return (
     <View id='json-form-array-wrapper'>

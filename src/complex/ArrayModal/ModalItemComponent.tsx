@@ -92,6 +92,12 @@ const SpectrumArrayModalItem = React.memo(
       (desiredState?: boolean) => {
         if (desiredState === undefined) {
           desiredState = !expanded;
+          if (enableDetailedView === false) {
+            callbackOpenedIndex(index);
+            setTimeout(() => {
+              callbackOpenedIndex(undefined);
+            }, 100);
+          }
         }
         if (desiredState) {
           addBreadcrumb({
@@ -135,8 +141,10 @@ const SpectrumArrayModalItem = React.memo(
               },
               '*'
             );
+            callbackOpenedIndex(undefined);
+          } else {
+            callbackOpenedIndex(index);
           }
-          callbackOpenedIndex(undefined);
         }
       },
       [
