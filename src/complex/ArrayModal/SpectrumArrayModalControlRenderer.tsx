@@ -50,7 +50,7 @@ const SpectrumArrayModalControlRenderer = React.memo(
     const controlElement = uischema as ControlElement;
     const labelDescription = Helpers.createLabelDescriptionFrom(controlElement, schema);
     const label = labelDescription.show ? labelDescription.text : undefined;
-    
+
     return visible ? (
       <SpectrumArrayModalControl
         addItem={addItem}

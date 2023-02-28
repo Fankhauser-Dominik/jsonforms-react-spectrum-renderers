@@ -81,8 +81,8 @@ const SpectrumOneOfRenderer = ({
       uischema,
       path,
       uischemas
-      );
-    }
+    );
+  }
 
   let indexFromDiscriminator: number | undefined = undefined;
   const discriminatingProperty: string = (schema as any).discriminator?.propertyName;
@@ -222,19 +222,21 @@ const SpectrumOneOfRenderer = ({
               </TabList>
               <TabPanels>
                 {oneOfRenderInfos.map((oneOfRenderInfo, oneOfIndex) => {
-                  return <Item key={oneOfIndex} title={oneOfRenderInfo.label}>
-                    <Content margin='size-160'>
-                      <JsonFormsDispatch
-                        cells={cells}
-                        enabled={enabled}
-                        key={oneOfIndex}
-                        path={path}
-                        renderers={renderers}
-                        schema={oneOfRenderInfo.schema}
-                        uischema={oneOfRenderInfo.uischema}
-                      />
-                    </Content>
-                  </Item>
+                  return (
+                    <Item key={oneOfIndex} title={oneOfRenderInfo.label}>
+                      <Content margin='size-160'>
+                        <JsonFormsDispatch
+                          cells={cells}
+                          enabled={enabled}
+                          key={oneOfIndex}
+                          path={path}
+                          renderers={renderers}
+                          schema={oneOfRenderInfo.schema}
+                          uischema={oneOfRenderInfo.uischema}
+                        />
+                      </Content>
+                    </Item>
+                  );
                 })}
               </TabPanels>
             </Tabs>

@@ -1,7 +1,6 @@
 import ArrayKeyedMap from 'array-keyed-map';
 import { NamedBreadcrumb } from './BreadcrumbContext';
 
-
 const arrayExtendsPrefix = <T>(prefix: Array<T>, array: Array<T>): boolean => {
   if (array.length <= prefix.length) return false;
   for (let i = 0; i < prefix.length; ++i) {
@@ -10,12 +9,11 @@ const arrayExtendsPrefix = <T>(prefix: Array<T>, array: Array<T>): boolean => {
     }
   }
   return true;
-}
-
+};
 
 export class Breadcrumbs {
   #breadcrumbs: ArrayKeyedMap<string[], string> = new ArrayKeyedMap();
-  
+
   constructor(data: NamedBreadcrumb[] = []) {
     for (const { path, name } of data) {
       this.#breadcrumbs.set(path.split('.'), name!);
@@ -25,19 +23,19 @@ export class Breadcrumbs {
   #copy(): Breadcrumbs {
     const result = new Breadcrumbs();
     result.#breadcrumbs = this.#breadcrumbs;
-    return result
+    return result;
   }
 
   get(path: string): string | undefined {
-    return this.#breadcrumbs.get(path.split("."));
+    return this.#breadcrumbs.get(path.split('.'));
   }
 
   addBreadcrumb({ path, name }: { path: string; name?: string }): Breadcrumbs {
-    const explodedPath = path.split('.')
+    const explodedPath = path.split('.');
     const existingName = this.#breadcrumbs.get(explodedPath);
     if (name !== existingName) {
       const result = this.#copy();
-      result.#breadcrumbs.set(explodedPath, name!)
+      result.#breadcrumbs.set(explodedPath, name!);
       return result;
     } else {
       return this;
@@ -45,25 +43,28 @@ export class Breadcrumbs {
   }
 
   deleteBreadcrumb(path: string): Breadcrumbs {
-    const explodedPath = path.split('.')
+    const explodedPath = path.split('.');
     if (this.#breadcrumbs.get(explodedPath)) {
       const result = this.#copy();
       result.#breadcrumbs.delete(explodedPath);
-      return result
+      return result;
     } else {
       return this;
     }
   }
 
   truncateBreadcrumbs(path: string): Breadcrumbs {
-    const explodedPath = path.split('.')
-    const keysLongerThanPath = 
-      [...this.#breadcrumbs.keys()].filter((breadcrumbPath) => arrayExtendsPrefix(explodedPath, breadcrumbPath))
+    const explodedPath = path.split('.');
+    const keysLongerThanPath = [...this.#breadcrumbs.keys()].filter((breadcrumbPath) =>
+      arrayExtendsPrefix(explodedPath, breadcrumbPath)
+    );
     if (keysLongerThanPath) {
       const result = new Breadcrumbs();
-      const entriesLeft = [...this.#breadcrumbs.entries()].filter(([breadcrumbPath, _]) => !arrayExtendsPrefix(explodedPath, breadcrumbPath))
+      const entriesLeft = [...this.#breadcrumbs.entries()].filter(
+        ([breadcrumbPath, _]) => !arrayExtendsPrefix(explodedPath, breadcrumbPath)
+      );
       for (const [key, value] of entriesLeft) {
-        result.#breadcrumbs.set(key, value)
+        result.#breadcrumbs.set(key, value);
       }
       return result;
     } else {
@@ -84,10 +85,13 @@ export class Breadcrumbs {
   }
 
   keys(): string[] {
-    return [...this.#breadcrumbs.keys()].map(pathSegements => pathSegements.join('.'));
+    return [...this.#breadcrumbs.keys()].map((pathSegements) => pathSegements.join('.'));
   }
 
   entries(): [string, string][] {
-    return [...this.#breadcrumbs.entries()].map(([pathSegments, name]) => [pathSegments.join('.'), name]);
+    return [...this.#breadcrumbs.entries()].map(([pathSegments, name]) => [
+      pathSegments.join('.'),
+      name,
+    ]);
   }
 }
