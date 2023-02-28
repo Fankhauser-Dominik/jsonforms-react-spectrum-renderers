@@ -104,8 +104,8 @@ const SpectrumArrayControl = ({
     return firstText?.textContent;
   }
 
-  const ArrayItem = (index: number) => (
-    <SpectrumArrayItem
+  const ArrayItem = (index: number) => {
+    return <SpectrumArrayItem
       data={data[index]}
       index={index}
       path={path}
@@ -118,8 +118,8 @@ const SpectrumArrayControl = ({
       renderers={renderers}
       customLabel={textAreaLabel(data[index])}
       key={index + (expanded === index ? 9999 : 0)}
-    ></SpectrumArrayItem>
-  );
+      ></SpectrumArrayItem>
+      };
 
   return (
     <View id='json-form-array-wrapper'>
