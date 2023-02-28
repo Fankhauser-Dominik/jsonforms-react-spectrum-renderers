@@ -57,6 +57,7 @@ export const DragAndDrop = ({
   const [grabbedIndex, setGrabbedIndex] = React.useState<number | null>(null);
   const [hoveredIndex, setHoveredIndex] = React.useState<number | null>(null);
   const [touchMovement, setTouchMovement] = React.useState<boolean>(false);
+  const [openedIndexArray, setOpenedIndexArray] = React.useState<number[]>([]);
   const order: any = React.useRef<number[]>(data?.map((_: any, index: any) => index));
   const COMPONENT_HEIGHT: number = 70;
   const fn =
@@ -179,6 +180,19 @@ export const DragAndDrop = ({
     if (openedIndex === undefined) {
       order.current = data?.map((_: any, index: any) => index);
       setSprings.start(fn(order.current, false));
+    } else {
+      const index = openedIndexArray.indexOf(openedIndex);
+      if (index === -1) {
+        setOpenedIndexArray([...openedIndexArray, openedIndex]);
+      } else {
+        const newArray = [...openedIndexArray];
+        newArray.splice(index, 1);
+        setOpenedIndexArray(newArray);
+        if (openedIndexArray.length === 0) {
+          order.current = data?.map((_: any, index: any) => index);
+          setSprings.start(fn(order.current, false));
+        }
+      }
     }
   }, [openedIndex]);
 
@@ -234,11 +248,11 @@ export const DragAndDrop = ({
     navigator.userAgent.toLowerCase()
   );
 
-  const expanded = openedIndex !== undefined;
+  const expanded = openedIndexArray.length || openedIndex !== undefined;
 
   const textAreaLabel = (textAreaObject: any) => {
     if (typeof uischema?.options?.detail !== 'object') {
-      return null
+      return null;
     }
 
     // create a temporary element to hold the HTML string
@@ -251,7 +265,7 @@ export const DragAndDrop = ({
 
     // extract the text content
     return firstText?.textContent;
-  }
+  };
 
   const modalItem = (index: number, disabled: boolean = false) => (
     <SpectrumArrayModalItem
