@@ -60,9 +60,7 @@ const SpectrumArrayModalItem = React.memo(
     uischemas = [],
   }: OwnPropsOfSpectrumArrayItem & NonEmptyRowProps) => {
     let foundUISchema = findUISchema(uischemas, schema, uischema.scope, path);
-    
-    
-    
+
     // ContentFragmentReferenceWithDetail needs to be stripped
     // or we open a double panel (picker already provided by array).
     if (foundUISchema.type === 'ContentFragmentReferenceWithDetail') {
@@ -71,11 +69,11 @@ const SpectrumArrayModalItem = React.memo(
     if (typeof uischema?.options?.detail === 'object') {
       foundUISchema = uischema.options.detail;
     }
-    
+
     if (!childLabel || childLabel === '<p></p>') {
       childLabel = `Item ${index + 1}`;
     }
-    
+
     const childPath = composePaths(path, `${index}`);
     /* If The Component has an empty Object, open it (true for a newly added Component) */
     const [expanded, setExpanded] = React.useState(openIndex === index ? true : false);
@@ -195,7 +193,6 @@ const SpectrumArrayModalItem = React.memo(
     };
 
     if (childPath.includes('multiContentReference')) {
-
     }
     const JsonFormsDispatchComponent = (
       <div className='array-item-content'>

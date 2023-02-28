@@ -31,7 +31,7 @@ import { InputTextArea } from './InputTipTap';
 import { SpectrumInputControl } from '../../controls/SpectrumInputControl';
 
 export const SpectrumTipTapRenderer = (props: ControlProps) => {
-  return <SpectrumInputControl {...props} input={InputTextArea} />
+  return <SpectrumInputControl {...props} input={InputTextArea} />;
 };
 
 // export const SpectrumTipTapRendererTester: RankedTester = rankWith(8, optionIs('richText', true));

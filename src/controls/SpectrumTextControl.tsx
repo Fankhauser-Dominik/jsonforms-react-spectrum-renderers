@@ -28,7 +28,7 @@ import { InputText } from '../spectrum-control';
 import { SpectrumInputControl } from './SpectrumInputControl';
 
 export const SpectrumTextControl = (props: ControlProps) => {
-  return <SpectrumInputControl {...props} input={InputText} />
+  return <SpectrumInputControl {...props} input={InputText} />;
 };
 
 export const SpectrumTextControlTester: RankedTester = rankWith(4, isStringControl);
