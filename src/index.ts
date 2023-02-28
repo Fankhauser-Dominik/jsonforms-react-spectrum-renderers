@@ -124,6 +124,10 @@ import {
   SpectrumOneOfRendererTester,
   SpectrumArrayControlGrid,
   SpectrumArrayControlGridTester,
+  SpectrumFragmentReferenceControl,
+  SpectrumFragmentReferenceControlTester,
+  SpectrumContentReferenceControl,
+  SpectrumContentReferenceControlTester,
 } from './complex';
 
 import {
@@ -246,6 +250,10 @@ export const SpectrumRenderers: { tester: RankedTester; renderer: any }[] = [
     renderer: ContentFragmentReferenceWithDetailLayout,
   },
   {
+    tester: SpectrumFragmentReferenceControlTester,
+    renderer: SpectrumFragmentReferenceControl,
+  },
+  {
     tester: MediaPreviewLayoutTester,
     renderer: MediaPreviewLayout,
   },
@@ -253,6 +261,10 @@ export const SpectrumRenderers: { tester: RankedTester; renderer: any }[] = [
   {
     tester: SpectrumHorizontalLayoutTester,
     renderer: SpectrumHorizontalLayout,
+  },
+  {
+    tester: SpectrumContentReferenceControlTester,
+    renderer: SpectrumContentReferenceControl,
   },
 ];
 
