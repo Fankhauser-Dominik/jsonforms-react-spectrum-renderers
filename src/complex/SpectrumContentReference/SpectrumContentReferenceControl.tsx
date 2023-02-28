@@ -20,25 +20,22 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
 */
-import React from 'react';
-import {
-  Flex,
-  View,
-  ActionButton,
-} from '@adobe/react-spectrum';
+import React, { useContext } from 'react';
+import { Flex, View, ActionButton } from '@adobe/react-spectrum';
 import {
   CombinatorRendererProps,
   JsonFormsUISchemaRegistryEntry,
   JsonSchema,
   RendererProps,
 } from '@jsonforms/core';
-import { withJsonFormsOneOfProps, } from '@jsonforms/react';
+import { withJsonFormsOneOfProps } from '@jsonforms/react';
 import { useDebouncedChange } from '../../util';
 import Link from '@spectrum-icons/workflow/Link';
 import Asset from '@spectrum-icons/workflow/Asset';
 import FolderOpen from '@spectrum-icons/workflow/FolderOpen';
 import { merge } from 'lodash';
 import { InputText } from '../../spectrum-control/InputText';
+import { RenderersConfigContext } from '../../context';
 interface FragmentReferenceProps extends RendererProps {
   data?: any;
   enabled: boolean;
@@ -69,18 +66,7 @@ export const SpectrumContentReferenceControl = React.memo(
     errors,
     visible,
   }: FragmentReferenceProps & CombinatorRendererProps & { schema: any }) => {
-    console.log(
-      '\x1b[31m ~ SpectrumContentReferenceControl:',
-      data,
-      '\n',
-      path,
-      '\n',
-      schema,
-      '\n',
-      uischema,
-      '\n',
-      label
-    );
+    // console.log('\x1b[31m ~ SpectrumContentReferenceControl:', data, '\n', path, '\n', schema, '\n', uischema, '\n', label);
     const appliedUiSchemaOptions = merge({}, config, uischema.options);
 
     const [inputText, onChange] = useDebouncedChange(
@@ -90,15 +76,13 @@ export const SpectrumContentReferenceControl = React.memo(
       path
     );
 
-
-
     const idlePostMessage = uischema.options?.idlePostMessage;
     const assetPickerOptions = uischema.options?.assetPicker;
+    const { externalizePath } = useContext(RenderersConfigContext);
     // const width: DimensionValue | undefined = appliedUiSchemaOptions.trim ? undefined : '100%';
 
     const previewMedia: boolean = appliedUiSchemaOptions?.previewMedia ?? false;
-    const previewMediaPrefix: string | boolean =
-      appliedUiSchemaOptions?.previewMediaPrefix ?? false;
+    const externalizeAsset: boolean = appliedUiSchemaOptions?.externalizeAsset ?? false;
     const previewMediaSuffix: string | boolean =
       typeof data === 'string' ? data?.substring(data?.lastIndexOf('.') + 1) : false;
 
@@ -139,7 +123,6 @@ export const SpectrumContentReferenceControl = React.memo(
       onChange(data);
     }, [data]);
 
-
     return (
       <View>
         <Flex direction='column' gap='size-100'>
@@ -165,8 +148,8 @@ export const SpectrumContentReferenceControl = React.memo(
               UNSAFE_className='assetPickerButton'
               UNSAFE_style={
                 assetPickerOptions?.icon === false || assetPickerOptions?.buttonText === false
-                  ? { marginTop: uischema?.options?.noLabel ? 0 : 25,}
-                  : { paddingRight: 8, marginTop: uischema?.options?.noLabel ? 0 : 25, }
+                  ? { marginTop: uischema?.options?.noLabel ? 0 : 25 }
+                  : { paddingRight: 8, marginTop: uischema?.options?.noLabel ? 0 : 25 }
               }
             >
               {assetPickerOptions?.icon === false ? undefined : uischema.options?.assetPickerOptions
@@ -180,31 +163,31 @@ export const SpectrumContentReferenceControl = React.memo(
               {assetPickerOptions?.buttonText}
             </ActionButton>
           </Flex>
-            {previewMedia ? (
-              previewMediaSuffix === 'mp4' ||
-              previewMediaSuffix === 'ogg' ||
-              previewMediaSuffix === 'webm' ? (
-                <video
-                  controls
-                  src={previewMediaPrefix ? `${previewMediaPrefix}${data}` : data}
-                  width={200}
-                  style={{ marginTop: 10 }}
-                >
-                  Sorry, but the Media "{data}" couldn't be displayed.
-                </video>
-              ) : (
-                <img
-                  src={previewMediaPrefix ? `${previewMediaPrefix}${data}` : data}
-                  alt={`Preview of ${data}`}
-                  width={200}
-                  style={{ marginTop: 10 }}
-                  onError={(e) => {
-                    e.currentTarget.src =
-                      'https://jenkinselite.com/wp-content/uploads/2018/11/no_media.png';
-                  }}
-                />
-              )
-            ) : null}
+          {previewMedia ? (
+            previewMediaSuffix === 'mp4' ||
+            previewMediaSuffix === 'ogg' ||
+            previewMediaSuffix === 'webm' ? (
+              <video
+                controls
+                src={externalizeAsset ? externalizePath(data) : data}
+                width={200}
+                style={{ marginTop: 10 }}
+              >
+                Sorry, but the Media "{data}" couldn't be displayed.
+              </video>
+            ) : (
+              <img
+                src={externalizeAsset ? externalizePath(data) : data}
+                alt={`Preview of ${data}`}
+                width={200}
+                style={{ marginTop: 10 }}
+                onError={(e) => {
+                  e.currentTarget.src =
+                    'https://jenkinselite.com/wp-content/uploads/2018/11/no_media.png';
+                }}
+              />
+            )
+          ) : null}
         </Flex>
       </View>
     );
