@@ -75,7 +75,6 @@ const SpectrumArrayModalItem = React.memo(
     if (!childLabel || childLabel === '<p></p>') {
       childLabel = `Item ${index + 1}`;
     }
-    // console.log("\x1b[31m ~ ArrayModalItem:", schema, childData, childLabel, customLabel, path, foundUISchema)
     
     const childPath = composePaths(path, `${index}`);
     /* If The Component has an empty Object, open it (true for a newly added Component) */
@@ -103,7 +102,7 @@ const SpectrumArrayModalItem = React.memo(
         if (desiredState) {
           addBreadcrumb({
             path: childPath,
-            name: childLabel,
+            name: customLabel || childLabel,
           });
         } else {
           deleteBreadcrumb(childPath);
@@ -123,7 +122,7 @@ const SpectrumArrayModalItem = React.memo(
                 index,
                 path,
                 crxPath: childData?._path,
-                breadCrumbLabel: childLabel,
+                breadCrumbLabel: customLabel || childLabel,
                 addToQuery: true,
               },
               '*'
@@ -137,7 +136,7 @@ const SpectrumArrayModalItem = React.memo(
                 type: 'expanded-item',
                 index,
                 path,
-                breadCrumbLabel: childLabel,
+                breadCrumbLabel: customLabel || childLabel,
                 addToQuery: false,
               },
               '*'
@@ -151,6 +150,7 @@ const SpectrumArrayModalItem = React.memo(
       [
         expanded,
         setExpanded,
+        customLabel,
         childLabel,
         enableDetailedView,
         breadcrumbs,

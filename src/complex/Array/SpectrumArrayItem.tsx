@@ -96,7 +96,7 @@ const SpectrumArrayItem = React.memo(
         if (desiredState) {
           addBreadcrumb({
             path: childPath,
-            name: childLabel,
+            name: customLabel || childLabel,
           });
         } else {
           deleteBreadcrumb(childPath);
@@ -116,7 +116,7 @@ const SpectrumArrayItem = React.memo(
                 index,
                 path,
                 crxPath: childData?._path,
-                breadCrumbLabel: childLabel,
+                breadCrumbLabel: customLabel || childLabel,
                 addToQuery: true,
               },
               '*'
@@ -129,7 +129,7 @@ const SpectrumArrayItem = React.memo(
                 type: 'expanded-item',
                 index,
                 path,
-                breadCrumbLabel: childLabel,
+                breadCrumbLabel: customLabel || childLabel,
                 addToQuery: false,
               },
               '*'
@@ -140,6 +140,7 @@ const SpectrumArrayItem = React.memo(
       [
         expanded,
         setExpanded,
+        customLabel,
         childLabel,
         enableDetailedView,
         breadcrumbs,

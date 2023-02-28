@@ -89,7 +89,7 @@ const SpectrumArrayControl = ({
 
   const textAreaLabel = (textAreaObject: any) => {
     if (typeof uischema?.options?.detail !== 'object') {
-      return null
+      return null;
     }
 
     // create a temporary element to hold the HTML string
@@ -102,7 +102,7 @@ const SpectrumArrayControl = ({
 
     // extract the text content
     return firstText?.textContent;
-  }
+  };
 
   const ArrayItem = (index: number) => (
     <SpectrumArrayItem

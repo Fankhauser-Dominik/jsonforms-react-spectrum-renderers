@@ -112,7 +112,10 @@ export default function EditorComponent({
         mode: 'all',
       }),
     ],
-    content: returnMode === 'markdown' ? content.replace(/\n/g, '<br />') : content,
+    content:
+      returnMode === 'text' || returnMode === 'markdown'
+        ? content.replace(/\n/g, '<br />')
+        : content,
   });
 
   const firstRender = React.useRef(true);
@@ -122,7 +125,11 @@ export default function EditorComponent({
       return;
     }
     const delayDebounceFn = setTimeout(() => {
-      EditorJSONCallback(editor?.getHTML());
+      if (returnMode === 'text' || returnMode === 'markdown') {
+        EditorJSONCallback(editor?.getText());
+      } else {
+        EditorJSONCallback(editor?.getHTML());
+      }
     }, 500);
 
     return () => clearTimeout(delayDebounceFn);
