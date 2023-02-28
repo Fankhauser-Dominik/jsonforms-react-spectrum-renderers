@@ -25,14 +25,7 @@
 import React from 'react';
 import { CellProps } from '@jsonforms/core';
 import merge from 'lodash/merge';
-import {
-  TextField,
-  Flex,
-  ContextualHelp,
-  Heading,
-  Content,
-  Text,
-} from '@adobe/react-spectrum';
+import { TextField, Flex, ContextualHelp, Heading, Content, Text } from '@adobe/react-spectrum';
 import { DimensionValue } from '@react-types/shared';
 import { SpectrumInputProps } from './index';
 import SpectrumProvider from '../additional/SpectrumProvider';
