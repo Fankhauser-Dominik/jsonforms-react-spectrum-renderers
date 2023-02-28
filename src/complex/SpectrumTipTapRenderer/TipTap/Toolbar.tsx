@@ -38,6 +38,12 @@ const ProjectCreateContentToolbar = ({
   let nodeOptions = uischema?.options?.nodeClasses?.map((nodeClass: any) => {
     return { id: nodeClass.class, name: nodeClass.name ?? nodeClass.class };
   });
+  /* let markOptions = uischema?.options?.markClasses?.map((markClass: any) => {
+    return { id: markClass.class, name: markClass.name ?? markClass.class };
+  }); */
+  let markOptions = uischema?.options?.nodeStyles?.map((nodeStyle: any) => {
+    return { id: nodeStyle.style, name: nodeStyle.name ?? nodeStyle.style };
+  });
   let nodeOptions2 = uischema?.options?.nodeStyles?.map((nodeStyle: any) => {
     return { id: nodeStyle.style, name: nodeStyle.name ?? nodeStyle.style };
   });
@@ -51,11 +57,21 @@ const ProjectCreateContentToolbar = ({
       })
       .run();
   };
+  const activeMarkOption = (selected: Key) => {
+    editor
+      .chain()
+      .focus()
+      .toggleMarkWithStyle({
+        style: selected.toString(),
+      })
+      .run();
+  };
   const activeNodeOption2 = (selected: Key) => {
     editor
       .chain()
       .focus()
       .toggleNodeWithStyle({
+        // Funktioniert noch nicht, mark muss noch komplett reviewed werden
         style: selected.toString(),
       })
       .run();
@@ -109,6 +125,19 @@ const ProjectCreateContentToolbar = ({
             <Tooltip>Toggle a class</Tooltip>
           </TooltipTrigger>
         )}
+        {/* {markOptions && (
+          <TooltipTrigger delay={settings.toolTipDelay}>
+            <Picker
+              aria-label='Toggle a class'
+              items={markOptions}
+              onSelectionChange={(selected) => activeMarkOption(selected)}
+              selectedKey={null}
+            >
+              {(item: any) => <Item>{item.name}</Item>}
+            </Picker>
+            <Tooltip>Toggle a class</Tooltip>
+          </TooltipTrigger>
+        )} */}
         {nodeOptions2 && (
           <TooltipTrigger delay={settings.toolTipDelay}>
             {

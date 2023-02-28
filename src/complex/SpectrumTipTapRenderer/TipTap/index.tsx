@@ -9,11 +9,17 @@ import Focus from '@tiptap/extension-focus';
 import Superscript from '@tiptap/extension-superscript';
 import Subscript from '@tiptap/extension-subscript';
 import ProjectCreateContentToolbar from './Toolbar';
-import { nodeWithClass } from './addClass/nodeWithClass';
-import { nodeWithStyle } from './addClass/nodeWithStyle';
+import {
+  nodeWithClass,
+  markWithClass,
+  markWithStyle,
+  nodeWithStyle,
+  markToggleClass,
+  CustomSpan,
+  CustomHeading,
+  CustomParagraph,
+} from './customExtensions';
 import { Blockquote } from '@tiptap/extension-blockquote';
-import { Paragraph } from '@tiptap/extension-paragraph';
-import { Heading } from '@tiptap/extension-heading';
 import { Bold } from '@tiptap/extension-bold';
 import { BulletList } from '@tiptap/extension-bullet-list';
 import { Code } from '@tiptap/extension-code';
@@ -53,67 +59,6 @@ export default function EditorComponent({
 }: TipTapProps & {
   content: string;
 }) {
-  const CustomParagraph = Paragraph.extend({
-    addAttributes() {
-      return {
-        class: {
-          default: null,
-          // Customize the HTML parsing (for example, to load the initial content)
-          parseHTML: (element: any) => element.getAttribute('class'),
-          // … and customize the HTML rendering.
-          renderHTML: (attributes: any) => {
-            return {
-              class: attributes.class,
-            };
-          },
-        },
-        style: {
-          default: null,
-          parseHTML: (element: any) => element.getAttribute('style'),
-          renderHTML: (attributes: any) => {
-            return {
-              style: attributes.style,
-            };
-          },
-        },
-      };
-    },
-  });
-  const CustomHeading = Heading.extend({
-    addAttributes() {
-      return {
-        class: {
-          default: null,
-          parseHTML: (element: any) => element.getAttribute('class'),
-          renderHTML: (attributes: any) => {
-            return {
-              class: attributes.class,
-            };
-          },
-        },
-        style: {
-          default: null,
-          parseHTML: (element: any) => element.getAttribute('style'),
-          renderHTML: (attributes: any) => {
-            return {
-              style: attributes.style,
-            };
-          },
-        },
-        level: {
-          default: 6,
-          // Customize the HTML parsing (for example, to load the initial content)
-          parseHTML: (element: any) => element.getAttribute('level'),
-          // … and customize the HTML rendering.
-          renderHTML: (attributes: any) => {
-            return {
-              level: attributes.level,
-            };
-          },
-        },
-      };
-    },
-  });
   const editor = useEditor({
     editable: !readOnly,
     extensions: [
@@ -142,7 +87,11 @@ export default function EditorComponent({
       TypographyExtension,
       UnderlineExtension,
       nodeWithClass,
+      markWithClass,
+      markWithStyle,
+      markToggleClass,
       nodeWithStyle,
+      CustomSpan,
       Image.configure({
         inline: true,
         HTMLAttributes: {

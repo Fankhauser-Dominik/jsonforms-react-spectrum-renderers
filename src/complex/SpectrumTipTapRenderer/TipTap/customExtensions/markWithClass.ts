@@ -1,42 +1,42 @@
-import { Node, mergeAttributes } from '@tiptap/core';
-import { getNodeName, getTag, removeWhiteSpace } from './utils';
+import { Mark, mergeAttributes } from '@tiptap/core';
+import { getMarkName, getTag, removeWhiteSpace } from './utils';
 
 declare type Level = 1 | 2 | 3 | 4 | 5 | 6;
-export interface NodeOptions {
+export interface MarkOptions {
   HTMLAttributes: Record<string, any>;
-  styles: Array<string>;
+  classes: Array<string>;
   excludes: string;
   level?: Level;
-  nodeName?: string | undefined;
+  markName?: string | undefined;
   tag: string;
 }
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
-    nodeWithStyle: {
+    markWithClass: {
       /**
-       * Toggle a nodeWithStyle
+       * Toggle a markWithClass
        */
-      toggleNodeWithStyle: (attributes: {
-        style: string | unknown;
+      toggleMarkWithClass: (attributes: {
+        class: string | unknown;
         tag?: string;
-        nodeName?: string | undefined;
+        markName?: string | undefined;
         level?: Level;
       }) => ReturnType;
     };
   }
 }
 
-export const nodeWithStyle = Node.create<NodeOptions>({
-  name: 'nodeWithStyle',
+export const markWithClass = Mark.create<MarkOptions>({
+  name: 'markWithClass',
 
   addOptions() {
     return {
       tag: 'p',
-      nodeName: 'paragraph',
-      styles: [''],
+      markName: 'paragraph',
+      classes: [''],
       level: 6,
-      excludes: 'nodeWithStyle',
+      excludes: 'markWithClass',
       HTMLAttributes: {},
       shortcuts: [],
     };
@@ -52,6 +52,7 @@ export const nodeWithStyle = Node.create<NodeOptions>({
     return {
       level: {
         default: this.options.level,
+        rendered: false,
         parseHTML: (element) => element.getAttribute('level'),
         renderHTML: (attributes) => {
           if (!attributes.level) {
@@ -62,15 +63,15 @@ export const nodeWithStyle = Node.create<NodeOptions>({
           };
         },
       },
-      style: {
-        default: this.options.styles[0],
-        parseHTML: (element) => element.getAttribute('style'),
+      class: {
+        default: this.options.classes[0],
+        parseHTML: (element) => element.getAttribute('class'),
         renderHTML: (attributes) => {
-          if (!attributes.style) {
+          if (!attributes.class) {
             return {};
           }
           return {
-            style: attributes.style,
+            class: attributes.class,
           };
         },
       },
@@ -94,9 +95,9 @@ export const nodeWithStyle = Node.create<NodeOptions>({
       {
         tag: this.options.tag,
         getAttrs: (element) => {
-          const hasStyle = (element as HTMLElement).hasAttribute('style');
+          const hasClass = (element as HTMLElement).hasAttribute('class');
 
-          if (!hasStyle) {
+          if (!hasClass) {
             return false;
           }
 
@@ -114,64 +115,61 @@ export const nodeWithStyle = Node.create<NodeOptions>({
 
   addCommands() {
     return {
-      toggleNodeWithStyle:
+      toggleMarkWithClass:
         (attributes) =>
         ({ chain, editor }) => {
-          const nodeName: string = getNodeName(editor, attributes?.tag ?? getTag(editor));
-          const currentStyle: string | undefined = removeWhiteSpace(
-            editor.getAttributes(nodeName).style ?? ''
+          const markName: string = getMarkName(editor, attributes?.tag ?? getTag(editor));
+          const currentClass: string | undefined = removeWhiteSpace(
+            editor.getAttributes(markName).class ?? ''
           );
-          const currStyle: string = ` ${currentStyle} `;
-          let newStyle: string | undefined;
-          if (typeof attributes.style === 'string') {
-            const regex = new RegExp(attributes.style.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
-            newStyle = currentStyle ? removeWhiteSpace(currStyle.replace(regex, '')) : undefined;
-          } else {
-            newStyle = currentStyle ? removeWhiteSpace(currStyle) : undefined;
-          }
+          const currClass: string = ` ${currentClass} `;
+          const regex = new RegExp(`\\b${attributes.class}\\b`, 'g');
+          const newClass: string | undefined = currentClass
+            ? removeWhiteSpace(currClass.replace(regex, ''))
+            : undefined;
 
-          let nodeStyle: string | undefined | unknown = undefined;
+          let markClass: string | undefined | unknown = undefined;
           const isNewTag = attributes.tag && getTag(editor) !== attributes.tag;
 
-          if (newStyle !== currentStyle && !isNewTag) {
-            nodeStyle = newStyle ?? attributes.style;
+          if (newClass !== currentClass && !isNewTag) {
+            markClass = newClass ?? attributes.class;
           } else {
             if (isNewTag) {
-              nodeStyle = attributes.style;
+              markClass = attributes.class;
             } else {
-              nodeStyle = removeWhiteSpace(
-                `${currentStyle ?? undefined} ${attributes.style ?? undefined}`
+              markClass = removeWhiteSpace(
+                `${currentClass ?? undefined} ${attributes.class ?? undefined}`
               );
             }
           }
-          if (nodeStyle === '') {
-            nodeStyle = undefined;
+          if (markClass === '') {
+            markClass = undefined;
           }
 
-          if (nodeName === 'heading') {
+          if (markName === 'heading') {
             const level: Level =
-              attributes.level || editor.getAttributes(nodeName).level || this.options.level;
+              attributes.level || editor.getAttributes(markName).level || this.options.level;
             return chain()
               .setHeading({ level: level })
-              .updateAttributes(nodeName, {
-                style: nodeStyle,
+              .updateAttributes(markName, {
+                class: markClass,
                 level: level,
               })
               .unsetBlockquote()
               .run();
-          } else if (nodeName === 'blockquote') {
+          } else if (markName === 'blockquote') {
             return chain()
               .setParagraph()
               .setBlockquote()
-              .updateAttributes(nodeName, {
-                style: nodeStyle,
+              .updateAttributes(markName, {
+                class: markClass,
               })
               .run();
           } else {
             return chain()
               .setParagraph()
-              .updateAttributes(nodeName, {
-                style: nodeStyle,
+              .updateAttributes(markName, {
+                class: markClass,
               })
               .unsetBlockquote()
               .run();
