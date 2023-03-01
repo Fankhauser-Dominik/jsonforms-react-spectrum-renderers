@@ -169,7 +169,7 @@ export const SpectrumContentReferenceControl = React.memo(
             previewMediaSuffix === 'webm' ? (
               <video
                 controls
-                src={externalizeAsset ? externalizePath(data) : data}
+                src={(externalizeAsset && externalizePath?.(data)) ?? data}
                 width={200}
                 style={{ marginTop: 10 }}
               >
@@ -177,7 +177,7 @@ export const SpectrumContentReferenceControl = React.memo(
               </video>
             ) : (
               <img
-                src={externalizeAsset ? externalizePath(data) : data}
+                src={(externalizeAsset && externalizePath?.(data)) ?? data}
                 alt={`Preview of ${data}`}
                 width={200}
                 style={{ marginTop: 10 }}
